@@ -1,0 +1,80 @@
+        /* body {
+            text-align: center;
+        } */
+
+        .field-container {
+            margin: 20px 0;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .input-wrapper {
+            position: relative;
+            flex-grow: 1;
+            text-align: center;
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 5px;
+            /* 固定高度 */
+            height: 100px;
+        }
+
+        .add-input-btn {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-size: contain;
+            border: none;
+            cursor: pointer;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .add-input-btn img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            /* 確保圖片適合容器 */
+        }
+
+
+        textarea {
+            display: none;
+            width: 100%;
+            height: 100px;
+            border: none;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            text-align: center;
+            width: 100%;
+            border: none;
+            outline: none;
+        }
+
+        .text-color {
+            color: #000;
+        }
+
+        .fixed-image {
+            width: 100px;
+            /* 寬度固定為 100 像素 */
+            height: 100px;
+            /* 高度固定為 100 像素 */
+            object-fit: cover;
+            /* 確保圖片的長寬比保持不變，超出部分將被裁剪 */
+        }
+
+        .table-centered td {
+            text-align: center;
+        }

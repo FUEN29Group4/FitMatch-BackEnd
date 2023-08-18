@@ -1,0 +1,481 @@
+/********** Template CSS **********/
+:root {
+    --primary: #fff;
+    --secondary: #191C24;
+    --light: #cccc;
+    --dark: #000000;
+    /*--primary: #ee0d0d;
+    --secondary: #202741;
+    --light: #fafafa;
+    --dark: #202741;*/
+}
+
+/* content裡的東西 */
+.content .bg-secondary {
+    background-color: #fff !important;
+}
+
+/* 文字顏色 */
+.text-primary {
+    color: var(--dark) !important;
+}
+
+.text-pink {
+    color: #F24B88;
+}
+
+
+
+/* input顏色 */
+.form-check-input:checked {
+    background-color: #2BC17B;
+    border-color: #2BC17B !important;
+}
+
+.form-check-input {
+    background-color: #fff;
+    border-color: #6666;
+}
+
+/* 按鈕顏色 */
+.btn-primary {
+    color: #fff;
+    background-color: #2BC17B;
+    border: none !important;
+}
+
+.btn-primary:focus,
+.btn-primary:active,
+.btn-check:active,
+.btn-primary:hover {
+    background-color: #1a744a;
+    border-color: #1a744a;
+}
+
+.form-check-input:focus {
+    box-shadow: none;
+    border-color: #1a744a;
+}
+
+/* 移除按鈕和鏈接的焦點光暈 */
+.btn:focus,
+.page-link:focus,
+.form-check-input:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: #6666
+}
+
+
+.btn-check:focus,
+.btn-primary:focus {
+    background-color: #1a744a;
+    border-color: #1a744a;
+    box-shadow: 0 0 0 0.25rem rgba(26, 116, 74, 0.5);
+}
+
+
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6,
+.content .navbar,
+.content .navbar-nav,
+.content .nav-link {
+    color: #696969 !important;
+}
+
+.content .navbar .sidebar-toggler,
+.content .navbar .navbar-nav .nav-link i {
+    background: var(--light) !important;
+}
+
+.content .dropdown-menu a:focus {
+    background-color: #fff;
+}
+
+.back-to-top {
+    position: fixed;
+    display: none;
+    right: 45px;
+    bottom: 45px;
+    z-index: 99;
+}
+
+/* 換頁效果的按鈕 */
+/* 使非活动状态的分页按钮具有特定的背景和边框颜色 */
+.pagination .page-link {
+    color: #2BC17B;
+    /* 文字顏色 */
+    border-color: #2BC17B;
+    /* 邊框顏色 */
+}
+
+/* 当鼠标悬停在分页按钮上时更改背景颜色 */
+.pagination .page-link:hover {
+    background-color: #2BC17B;
+    /* 背景顏色 */
+    color: white;
+    /* 文字顏色 */
+}
+
+/* 为活动的分页按钮设置特定的背景和文字颜色 */
+.pagination .active .page-link {
+    background-color: #2BC17B;
+    border-color: #2BC17B;
+    color: white;
+}
+
+/* 如果某個按鈕被禁用（例如在第一頁時的「上一頁」），可以進一步修改它的顏色 */
+.pagination .disabled .page-link {
+    color: #b3e6cc;
+    /* 這是淡化的 #2BC17B */
+    pointer-events: none;
+    /* 禁止點擊 */
+    cursor: not-allowed;
+    /* 更改鼠标图标以指示禁用状态 */
+    background-color: #f5f5f5;
+    /* 預設的禁用背景顏色 */
+    border-color: #dee2e6;
+    /* 預設的禁用邊框顏色 */
+}
+
+/*** Spinner ***/
+#spinner {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .5s ease-out, visibility 0s linear .5s;
+    z-index: 99999;
+}
+
+#spinner.show {
+    transition: opacity .5s ease-out, visibility 0s linear 0s;
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/*** Button ***/
+.btn {
+    transition: .5s;
+}
+
+.btn-square {
+    width: 38px;
+    height: 38px;
+}
+
+.btn-sm-square {
+    width: 32px;
+    height: 32px;
+}
+
+.btn-lg-square {
+    width: 48px;
+    height: 48px;
+}
+
+.btn-square,
+.btn-sm-square,
+.btn-lg-square {
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: normal;
+    border-radius: 50px;
+}
+
+
+/*** Layout ***/
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--secondary);
+    transition: 0.5s;
+    z-index: 999;
+}
+
+.content {
+    margin-left: 250px;
+    min-height: 100vh;
+    background: #D9D9D9;
+    transition: 0.5s;
+}
+
+@media (min-width: 992px) {
+    .sidebar {
+        margin-left: 0;
+    }
+
+    .sidebar.open {
+        margin-left: -250px;
+    }
+
+    .content {
+        width: calc(100% - 250px);
+    }
+
+    .content.open {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .sidebar {
+        margin-left: -250px;
+    }
+
+    .sidebar.open {
+        margin-left: 0;
+    }
+
+    .content {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+
+/*** Navbar ***/
+.sidebar .navbar .navbar-nav .nav-link {
+    padding: 7px 20px;
+    color: var(--light);
+    font-weight: 500;
+    border-left: 3px solid var(--secondary);
+    border-radius: 0 30px 30px 0;
+    outline: none;
+}
+
+.sidebar .navbar .navbar-nav .nav-link:hover,
+.sidebar .navbar .navbar-nav .nav-link.active {
+    color: var(--primary);
+    background: var(--dark);
+    border-color: var(--primary);
+}
+
+.sidebar .navbar .navbar-nav .nav-link i {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--dark);
+    border-radius: 40px;
+}
+
+.sidebar .navbar .navbar-nav .nav-link:hover i,
+.sidebar .navbar .navbar-nav .nav-link.active i {
+    background: var(--secondary);
+}
+
+.sidebar .navbar .dropdown-toggle::after {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border: none;
+    content: "\f107";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    transition: .5s;
+}
+
+.sidebar .navbar .dropdown-toggle[aria-expanded=true]::after {
+    transform: rotate(-180deg);
+}
+
+.sidebar .navbar .dropdown-item {
+    padding-left: 30%;
+    border-radius: 0 30px 30px 0;
+    color: var(--light);
+}
+
+.sidebar .navbar .dropdown-item:hover,
+.sidebar .navbar .dropdown-item.active {
+    background: var(--dark);
+}
+
+.content .navbar .navbar-nav .nav-link {
+    margin-left: 25px;
+    padding: 12px 0;
+    color: var(--light);
+    outline: none;
+}
+
+.content .navbar .navbar-nav .nav-link:hover,
+.content .navbar .navbar-nav .nav-link.active {
+    color: var(--primary);
+}
+
+.content .navbar .sidebar-toggler,
+.content .navbar .navbar-nav .nav-link i {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--dark);
+    border-radius: 40px;
+}
+
+.content .navbar .dropdown-item {
+    color: var(--light);
+}
+
+.content .navbar .dropdown-item:hover,
+.content .navbar .dropdown-item.active {
+    background: var(--dark);
+}
+
+.content .navbar .dropdown-toggle::after {
+    margin-left: 6px;
+    vertical-align: middle;
+    border: none;
+    content: "\f107";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    transition: .5s;
+}
+
+.content .navbar .dropdown-toggle[aria-expanded=true]::after {
+    transform: rotate(-180deg);
+}
+
+@media (max-width: 575.98px) {
+    .content .navbar .navbar-nav .nav-link {
+        margin-left: 15px;
+    }
+}
+
+
+/*** Date Picker ***/
+.table {
+    border-color: #808080;
+}
+
+.bootstrap-datetimepicker-widget.bottom {
+    top: auto !important;
+}
+
+.bootstrap-datetimepicker-widget .table * {
+    border-bottom-width: 0px;
+}
+
+.bootstrap-datetimepicker-widget .table th {
+    font-weight: 500;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+    padding: 10px;
+    border-radius: 2px;
+}
+
+.bootstrap-datetimepicker-widget table td.active,
+.bootstrap-datetimepicker-widget table td.active:hover {
+    background: var(--primary);
+}
+
+.bootstrap-datetimepicker-widget table td.today::before {
+    border-bottom-color: var(--primary);
+}
+
+
+/*** Testimonial ***/
+.progress .progress-bar {
+    width: 0px;
+    transition: 2s;
+}
+
+
+/*** Testimonial ***/
+.testimonial-carousel .owl-dots {
+    margin-top: 24px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.testimonial-carousel .owl-dot {
+    position: relative;
+    display: inline-block;
+    margin: 0 5px;
+    width: 15px;
+    height: 15px;
+    border: 5px solid var(--primary);
+    border-radius: 15px;
+    transition: .5s;
+}
+
+.testimonial-carousel .owl-dot.active {
+    background: var(--dark);
+    border-color: var(--primary);
+}
+
+a {
+    color: #696969;
+    text-decoration: none;
+}
+
+    a:hover {
+        color: var(--primary);
+        text-decoration: none;
+    }
+
+.form-control:focus {
+    outline: none;
+    /* 移除預設的聚焦輪廓 */
+    /* 添加欄位邊線 */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    /* 添加陰影效果 */
+}
+
+.form-control,
+.form-select {
+    background-color: transparent;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: transparent;
+    border-color: #808080;
+
+    outline: none;
+    /* 移除外部輪廓 */
+    box-shadow: none;
+    /* 移除光暈效果 */
+}
+
+
+/*
+.navbar {
+    background-color: #202741;
+}
+
+.testimonial-carousel .owl-dot.active {
+    background: var(--dark);
+    border-color: var(--primary);
+}
+
+.text-primary {
+    margin: 0;
+    padding: 0;
+    font-size: 40px;
+}
+
+.text-primary span {
+    margin: 0;
+    padding: 0;
+}
+
+.form-select {
+    color: #fafafa;
+}
+*/

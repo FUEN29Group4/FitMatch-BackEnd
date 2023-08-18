@@ -1,0 +1,53 @@
+.form-select-custom {
+    /* 自定义字体颜色 */
+    color: #333333;
+
+    /* 自定义边框 */
+    border: 2px solid #B8C4D1;
+
+    /* 自定义边框圆角 */
+    border-radius: 8px;
+
+    /* 自定义背景颜色 */
+    background-color: white;
+
+    /* 自定义内边距 */
+    padding: 10px;
+
+
+    width: 50%;
+    /* 设置宽度 */
+
+}
+
+.form-control-select {
+    width: 30%;
+
+}
+
+.custom-color {
+    color: #333333;
+}
+.custom-form-check {
+    display: flex;
+    align-items: start;
+}
+.containerstate .invalid-feedback {
+    text-align: left;
+}
+.invalid-feedback {
+    text-align: left;
+}
+.custom-purple {
+    /* 自定义紫色背景 */
+    color: #2BC17B !important;
+    border: 1px solid #2BC17B !important;
+  
+    /* 使用十六进制值 */
+    /* 白色文字颜色 */
+    /* 你可以添加其他样式，如边框、阴影等 */
+  }
+  .form-control-Introduction{
+    width: 500px;
+    height: 150px;
+  }

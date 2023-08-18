@@ -1,0 +1,475 @@
+﻿@model IEnumerable<FitMatch_BackEnd.Models.Trainer>
+
+@{
+    ViewData["Title"] = "Trainer";
+}
+
+@*<h1>Trainer</h1>*@
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>
+*@
+
+<!-- Content Start -->
+<div class="content">
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+        <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+            <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+        </a>
+        <a href="#" class="sidebar-toggler flex-shrink-0">
+            <i class="fa fa-bars"></i>
+        </a>
+        <form class="d-none d-md-flex ms-4">
+            <h4 class="m-auto">教練管理</h4>
+        </form>
+        <div class="navbar-nav align-items-center ms-auto">
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fa fa-envelope me-lg-2"></i>
+                    <span class="d-none d-lg-inline-flex">Message</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                    <a href="#" class="dropdown-item">
+                        <div class="d-flex align-items-center">
+                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                 style="width: 40px; height: 40px;">
+                            <div class="ms-2">
+                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                <small>15 minutes ago</small>
+                            </div>
+                        </div>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item">
+                        <div class="d-flex align-items-center">
+                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                 style="width: 40px; height: 40px;">
+                            <div class="ms-2">
+                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                <small>15 minutes ago</small>
+                            </div>
+                        </div>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item">
+                        <div class="d-flex align-items-center">
+                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                 style="width: 40px; height: 40px;">
+                            <div class="ms-2">
+                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                <small>15 minutes ago</small>
+                            </div>
+                        </div>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item text-center">See all message</a>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fa fa-bell me-lg-2"></i>
+                    <span class="d-none d-lg-inline-flex">通知</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">Profile updated</h6>
+                        <small>15 minutes ago</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">New user added</h6>
+                        <small>15 minutes ago</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">Password changed</h6>
+                        <small>15 minutes ago</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item text-center">See all notifications</a>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
+                         style="width: 40px; height: 40px;">
+                    <span class="d-none d-lg-inline-flex">John Doe</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                    <a href="#" class="dropdown-item">My Profile</a>
+                    <a href="#" class="dropdown-item">Settings</a>
+                    <a href="#" class="dropdown-item">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+    <!-- system adminstractor Navbar start-->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+
+            <div class="col">
+                <div class="bg-secondary rounded h-100 p-4">
+
+                    <form id="searchForm">
+                        <div class="row pr-1">
+                            <!-- 第一區塊 -->
+                            <div class="col-3 d-flex align-items-center">
+                                列表區域:
+                                <div class="mx-1 flex-grow-1">
+                                    <select class="form-select" id="citySelect"
+                                            aria-label="Floating label select example">
+                                        <option selected disabled>請選擇類別</option>
+                                        <option value="1">教練姓名</option>
+                                        <option value="1">所在城市</option>
+                                        <option value="2">希望待遇</option>
+                                        <option value="2">性別</option>
+                                        <option value="2">電子信箱</option>
+                                        <option value="2">員工狀態</option>
+                                        <option value="2">入職時間</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- 第二區塊 -->
+                            <div class="col-3 d-flex align-items-center">
+                                審核狀態:
+                                <div class="mx-1 flex-grow-1">
+                                    <select class="form-select" id="statusSelect"
+                                            aria-label="Floating label select example">
+                                        <option selected disabled>請選擇</option>
+                                        <option value="2">審核通過</option>
+                                        <option value="1">審核中</option>
+                                        <option value="2">已退回</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- 第三區塊 -->
+                            <div class="col-3 d-flex align-items-center">
+
+                                履歷狀態:
+                                <div class="mx-1 flex-grow-1">
+                                    <select class="form-select" id="statusSelect"
+                                            aria-label="Floating label select example">
+                                        <option selected disabled>請選擇</option>
+                                        <option value="1">公開</option>
+                                        <option value="2">隱藏</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- 第四區塊 -->
+                            <div class="col-3 d-flex">
+                                <div class="row align-items-center">
+                                    <div class="col-2 p-0 me-1 text-md-end">
+                                        搜尋:
+                                    </div>
+                                    <div class="col-7 p-0">
+                                        <div class="mx-1 flex-grow-1">
+                                            <input class=" form-control" type="text" placeholder="請輸入關鍵字"
+                                                   aria-label="請輸入關鍵字" id="searchInput">
+                                        </div>
+                                    </div>
+                                    <div class="col-1 d-flex align-items-center me-2 p-0">
+                                        <a href="">
+                                            <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-1 d-flex align-items-center p-0">
+                                        <button class="btn btn-sm btn-outline-success" type="submit">清空</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-white text-center  rounded p-4">
+
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h5 class="mb-0 text-dark">教練履歷審核</h5>
+                <a class="btn btn-primary  custom-purple" href="index_Add_Coach_peraonal.html">新增教練</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table text-start align-middle table-bordered table-hover mb-0 text-center">
+                    <thead style="background-color: #74ffba;">
+                        <tr class="text-dark">
+                            <th scope="col">
+                            </th>
+                            <th scope="col">教練姓名</th>
+                            <th scope="col">所在城市</th>
+                            <th scope="col">希望待遇</th>
+                            <th scope="col">審核狀態</th>
+                            <th scope="col">履歷狀態</th>
+                            <th scope="col">申請時間</th>
+                            <th scope="col">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input class="form-check-input" type="checkbox"></td>
+                            <td>陳大大</td>
+                            <td>屏東縣</td>
+                            <td>1,200</td>
+                            <td>審核中</td>
+                            <td>隱藏</td>
+                            <td>2021-07-01 15:00</td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-light">
+                                    <a href="index_Coach_peraonal_information.html" class="text-white">查看履歷</a>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-primary">審核通過</button>
+                                <button type="button" class="btn btn-sm btn-danger">返回申請</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
+                    <!-- 全選區塊開始 -->
+                    <div class="d-flex justify-content-between">
+                        <div class="form-check d-flex align-items-center">
+                            <input class="form-check-input me-2" type="checkbox" id="selectAll">
+                            <label class="form-check-label" for="selectAll">全選</label>
+                            <button type="button" class="btn btn-primary mx-lg-2">刪除</button>
+                        </div>
+                        <!-- Pagination goes here -->
+                    </div>
+                    <!-- 全選區塊END-->
+                    <!-- 換頁區塊開始 -->
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link previous-page" data-page-type="previous" href="#">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item active">
+                                <a class="page-link" id="page-1" data-page="1" data-page-type="number" href="#">
+                                    1
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" id="page-2" data-page="2" data-page-type="number" href="#">
+                                    2
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link next-page" data-page-type="next" href="#">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- 換頁區塊END -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- Content END -->
+
+@*
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TrainerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrainerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Birth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Photo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Certificate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Expertise)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Experience)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseFee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Approved)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrainerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrainerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Birth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Photo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Certificate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Expertise)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Experience)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseFee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Approved)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>*@
+
+
+<script>
+    // 全選功能
+    document.addEventListener("DOMContentLoaded", function () {
+        const selectAllCheckbox = document.getElementById("selectAll");
+        const restaurantCheckboxes = document.querySelectorAll(".form-check-input");
+
+        selectAllCheckbox.addEventListener("change", function () {
+            const isChecked = selectAllCheckbox.checked;
+            restaurantCheckboxes.forEach(checkbox => {
+                checkbox.checked = isChecked;
+            });
+        });
+
+        restaurantCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener("change", function () {
+                selectAllCheckbox.checked = Array.from(restaurantCheckboxes).every(cb => cb.checked);
+            });
+        });
+    });
+
+    // 以下是分頁功能
+    document.addEventListener("DOMContentLoaded", function () {
+        const table = document.querySelector(".table");
+        const pageLinks = document.querySelectorAll(".page-link[data-page-type='number']");
+        const prevPageLink = document.querySelector(".previous-page");
+        const nextPageLink = document.querySelector(".next-page");
+
+        pageLinks.forEach(link => {
+            link.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                // 獲取點擊的頁碼
+                const page = parseInt(link.textContent);
+
+                // 移除所有活躍狀態
+                pageLinks.forEach(link => link.parentElement.classList.remove("active"));
+
+                // 添加活跃状态到当前页码链接
+                link.parentElement.classList.add("active");
+
+                // 更新表格内容
+                updateTableContent(page);
+            });
+        });
+
+        prevPageLink.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            const activeLink = document.querySelector(".page-item.active .page-link");
+            if (activeLink) {
+                const currentPage = parseInt(activeLink.textContent);
+                if (currentPage > 1) {
+                    pageLinks[currentPage - 2].click();
+                }
+            }
+        });
+
+        nextPageLink.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            const activeLink = document.querySelector(".page-item.active .page-link");
+            if (activeLink) {
+                const currentPage = parseInt(activeLink.textContent);
+                if (currentPage < pageLinks.length) {
+                    pageLinks[currentPage].click();
+                }
+            }
+        });
+
+        function updateTableContent(page) {
+            const perPage = 5;
+            const startIndex = (page - 1) * perPage;
+            const endIndex = startIndex + perPage;
+
+            const rows = table.querySelectorAll("tbody tr");
+            rows.forEach((row, index) => {
+                if (index >= startIndex && index < endIndex) {
+                    row.style.display = "table-row";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+    });
+</script>

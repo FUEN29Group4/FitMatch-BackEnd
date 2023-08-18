@@ -1,0 +1,135 @@
+.custom-input {
+  width: 100%;
+  /* 设置输入框的宽度为100% */
+  padding: 15px;
+  /* 调整内边距 */
+  background-color: #ffffff;
+  /* 自定义背景颜色 */
+  border: 1px solid #333;
+  /* 添加边框 */
+  color: rgb(0, 0, 0);
+  /* 文字颜色 */
+  font-size: 16px;
+  /* 字体大小 */
+  border-radius: 8px;
+  /* 圆角边框 */
+}
+
+.custom-border-btn {
+  border: 2px solid black;
+  /* 自定义边框样式 */
+  color: black;
+  /* 文字颜色也设为红色 */
+}
+
+.custom-purple {
+  /* 自定义紫色背景 */
+  color: #2BC17B !important;
+  border: 1px solid #2BC17B !important;
+
+  /* 使用十六进制值 */
+  /* 白色文字颜色 */
+  /* 你可以添加其他样式，如边框、阴影等 */
+}
+
+.fixed-image {
+  width: 40px;
+  /* 设置宽度 */
+  height: 40px;
+  /* 设置高度 */
+}
+
+.bg-secondary {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  background-color: var(--secondary);
+  text-align: center;
+}
+
+.bg-secondary a {
+  font-size: 14px;
+  color: #999;
+}
+
+.buttonfoot {
+  justify-content: end;
+}
+
+.custom-checkbox .form-check-input {
+  /* 设置您想要的样式属性 */
+  font-size: 18px !important;
+  background-color: white;
+  /* 调整字体大小 */
+  /* 其他样式属性 */
+}
+
+.custom-btn {
+  width: 50px;
+  border: none;
+
+}
+
+.custom-btn:active,
+.custom-btn:focus {
+  background-color: rgb(4, 182, 4);
+
+
+
+}
+
+.custom-search {
+  border: 2px solid black;
+
+  transition: border-color 0.3s ease-in-out;
+}
+
+.custom-search:focus {
+  border-color: transparent;
+  outline: none;
+}
+
+.custom-search-container {
+  border: 2px solid transparent;
+  border-radius: 8px;
+  /* 调整圆角大小 */
+  transition: border-color 0.3s ease-in-out;
+  display: inline-block;
+}
+
+.custom-search-container:focus-within {
+  border-color: cadetblue;
+  /* 替换为您希望的颜色 */
+}
+
+.custom-search-container input {
+  border: 2px solid black;
+  border-radius: 6px;
+  /* 调整圆角大小 */
+  outline: none;
+  width: 70px;
+  /* 调整输入框宽度 */
+  height: 40px;
+  /* 调整输入框高度 */
+  padding: 10px;
+  /* 调整内边距 */
+}
+.custom-align {
+  display: flex;
+  align-items: center;
+}
+
+
+.search-label {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  margin-right: 10px; /* 调整此值以控制间距 */
+}
+
+.search-word {
+  display: inline-block;
+  margin: 0;
+}
