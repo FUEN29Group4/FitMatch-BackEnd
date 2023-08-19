@@ -1,7 +1,14 @@
+using FitMatch_BackEnd.Models;
+using Microsoft.EntityFrameworkCore;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+// 新增連接
+builder.Services.AddDbContext<FitMatch_BackEnd.Models.FitMatchDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

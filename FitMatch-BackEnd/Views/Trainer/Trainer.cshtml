@@ -3,14 +3,8 @@
 @{
     ViewData["Title"] = "Trainer";
 }
-
-
-@*<h1>Trainer</h1>*@
-
-@*<p>
-        <a asp-action="Create">Create New</a>
-    </p>
-*@
+@*換頁要確認*@
+@*全選刪除還沒做*@
 
 <!-- Content Start -->
 <div class="content">
@@ -195,8 +189,8 @@
 
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <h5 class="mb-0 text-dark">教練履歷審核</h5>
-                <a class="btn btn-primary  custom-purple" href="index_Add_Coach_peraonal.html">新增教練</a>
-            </div>
+@*                <a class="btn btn-primary  custom-purple" href="index_Add_Coach_peraonal.html">新增教練</a>
+*@            </div>
             <div class="table-responsive">
                 <table class="table text-start align-middle table-bordered table-hover mb-0 text-center">
                     <thead style="background-color: #74ffba;">
@@ -247,9 +241,11 @@
                                 </td>
                                 <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
                                 <td>
-                                    <a href="index_Coach_peraonal_information.html" class="btn btn-sm btn-light text-white">查看履歷</a>
-                                    <button type="button" class="btn btn-sm btn-primary">審核通過</button>
-                                    <button type="button" class="btn btn-sm btn-danger">回申請</button>
+                                    <a href="@Url.Action("Details", "Trainer", new { id = item.TrainerId })" class="btn btn-sm btn-light text-white">
+                                        查看履歷
+                                    </a>
+                                    <a href="@Url.Action("Approve", "Trainer", new { id = item.TrainerId })" class="btn btn-sm btn-primary">審核通過</a>
+                                    <a href="@Url.Action("Reject", "Trainer", new { id = item.TrainerId })" class="btn btn-sm btn-danger">退回審核</a>
                                 </td>
                             </tr>
                         }
@@ -302,116 +298,7 @@
     </div>
 
 </div>
-<!-- Content END -->
-@*
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TrainerId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrainerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Birth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Photo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Certificate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Expertise)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Experience)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CourseFee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Approved)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrainerId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrainerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Birth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Photo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Certificate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Expertise)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Experience)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CourseFee)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Approved)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>*@
+
 
 
 <script>// 全選功能
