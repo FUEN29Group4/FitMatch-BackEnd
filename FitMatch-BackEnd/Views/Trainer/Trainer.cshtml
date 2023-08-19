@@ -4,6 +4,7 @@
     ViewData["Title"] = "Trainer";
 }
 
+
 @*<h1>Trainer</h1>*@
 
 @*<p>
@@ -206,29 +207,55 @@
                             <th scope="col">所在城市</th>
                             <th scope="col">希望待遇</th>
                             <th scope="col">審核狀態</th>
-                            <th scope="col">履歷狀態</th>
                             <th scope="col">申請時間</th>
                             <th scope="col">操作</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>陳大大</td>
-                            <td>屏東縣</td>
-                            <td>1,200</td>
-                            <td>審核中</td>
-                            <td>隱藏</td>
-                            <td>2021-07-01 15:00</td>
-                            <td>
-                                <button type="button" class="btn btn-sm btn-light">
-                                    <a href="index_Coach_peraonal_information.html" class="text-white">查看履歷</a>
-                                </button>
-                                <button type="button" class="btn btn-sm btn-primary">審核通過</button>
-                                <button type="button" class="btn btn-sm btn-danger">返回申請</button>
-                            </td>
-                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><input class="form-check-input" type="checkbox"></td>
+                                <td>@Html.DisplayFor(modelItem => item.TrainerName)</td>
+                                <td>
+                                        @if (item.Address != null && item.Address.Length >= 3)
+                                    {
+                                        @item.Address.Substring(0, 3)
+                                    }
+                                    else
+                                    {
+                                            @item.Address
+                                    }
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.CourseFee)</td>
+                                <td>
+                                    @switch (item.Approved)
+                                    {
+                                        case CApprovalStatus.UnderReview:
+                                            <text>審核中</text>
+                                            break;
+                                        case CApprovalStatus.Approved:
+                                            <text>審核通過</text>
+                                            break;
+                                        case CApprovalStatus.Rejected:
+                                            <text>退回審核</text>
+                                            break;
+                                        default:
+                                            <text>未知</text>
+                                            break;
+                                    }
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+                                <td>
+                                    <a href="index_Coach_peraonal_information.html" class="btn btn-sm btn-light text-white">查看履歷</a>
+                                    <button type="button" class="btn btn-sm btn-primary">審核通過</button>
+                                    <button type="button" class="btn btn-sm btn-danger">回申請</button>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
+
+
                 </table>
 
 
@@ -277,57 +304,6 @@
 </div>
 <!-- Content END -->
 @*
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TrainerId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrainerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Birth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Photo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Certificate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Expertise)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Experience)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CourseFee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Approved)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
