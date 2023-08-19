@@ -7,6 +7,8 @@
     <RootNamespace>FitMatch_BackEnd</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
     <Compile Remove="Views\Personal\**" />
     <Content Remove="Views\Personal\**" />
@@ -24,4 +26,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Views\Member\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Member\" />
+  </ItemGroup>
 </Project>
