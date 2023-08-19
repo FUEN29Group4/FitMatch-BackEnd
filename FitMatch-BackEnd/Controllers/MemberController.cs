@@ -11,22 +11,49 @@ namespace FitMatch_BackEnd.Controllers
 {
     public class MemberController : Controller
     {
-        // GET: /<controller>/
+        // GET: /<controller>/  預設先註解掉
         public IActionResult Index()
         {
             return View();
         }
 
-
-        //欣彤試連 
-        //跟會員資料連結 testtttt
+        //--------- M-0:欣彤試連，會員DB資料連結test （SQL 要修修）
         public IActionResult Member()
         {
-            //資料庫連接
+            //資料庫連接 =>實體化DB
             FitMatchDbContext db = new FitMatchDbContext();
-            IEnumerable<Member> datas = from p in db.Members select p;
+
+            //資料定義與處理
+            //- Member Model(定義資料類型):Member class 
+            //- FitMAtchDBContext(操作資料表):public virtual DbSet<Member> Members { get; set; } //Members 集合實體
+            IEnumerable<Member> datas = from d in db.Members select d; //
+            
             return View(datas);
         }
+
+
+        //--------- M-1:會員管理列表（檢視list）=> 前端畫面 index_Backage_member_management.html
+
+
+
+
+        //--------- M-2:會員新增（Create）
+
+
+
+
+
+
+        //--------- M-3:會員修改（Update）
+
+
+
+
+
+
+
+        //--------- M-4:會員刪除（Delete）
+
     }
 }
 
