@@ -1,0 +1,401 @@
+﻿@model FitMatch_BackEnd.Models.Employee
+
+@{
+    ViewData["Title"] = "Create";
+    //Layout = "~/Views/Employee/Employee.cshtml";
+}
+@*還沒做完ㄦ*@
+<!-- css/personnel參考 -->
+<link rel="stylesheet" href="css/personnel/revise.css">
+<style>
+    .upload-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* 上傳照片 */
+    .upload-container {
+        width: 300px;
+        height: 300px;
+        border: 1px solid #000;
+        position: relative;
+        overflow: hidden;
+        border-radius: 50%;
+        background-color: #E0E0E0;
+    }
+
+    .label-upload {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        cursor: pointer;
+    }
+
+    .icon {
+        font-size: 2em;
+    }
+
+    .upload-input {
+        display: none;
+    }
+
+    #preview {
+        max-width: 100%;
+        max-height: 100%;
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+<!-- Content Start -->
+<div class="content">
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+        <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+            <h1 class="pt-2" style="color: #F24B88!important;">M</h1>
+        </a>
+        <a href="#" class="sidebar-toggler flex-shrink-0">
+            <i class="fa fa-bars"></i>
+        </a>
+        <form class="d-none d-md-flex ms-4">
+            <h4 class="m-auto">員工管理/新增員工</h4>
+        </form>
+        <div class="navbar-nav align-items-center ms-auto">
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fa-solid fa-gear"></i>
+                    <span class="d-none d-lg-inline-flex">設定</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                    <a href="#" class="dropdown-item">
+                        <div class="d-flex align-items-center">
+                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                 style="width: 40px; height: 40px;">
+                            <div class="ms-2">
+                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                <small>15 minutes ago</small>
+                            </div>
+                        </div>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item">
+                        <div class="d-flex align-items-center">
+                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                 style="width: 40px; height: 40px;">
+                            <div class="ms-2">
+                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                <small>15 minutes ago</small>
+                            </div>
+                        </div>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item">
+                        <div class="d-flex align-items-center">
+                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                 style="width: 40px; height: 40px;">
+                            <div class="ms-2">
+                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                <small>15 minutes ago</small>
+                            </div>
+                        </div>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item text-center">See all message</a>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fa fa-bell me-lg-2"></i>
+                    <span class="d-none d-lg-inline-flex">通知</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">Profile updated</h6>
+                        <small>15 minutes ago</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">New user added</h6>
+                        <small>15 minutes ago</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">Password changed</h6>
+                        <small>15 minutes ago</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item text-center">See all notifications</a>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
+                         style="width: 40px; height: 40px;">
+                    <span class="d-none d-lg-inline-flex">John Doe</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                    <a href="#" class="dropdown-item">My Profile</a>
+                    <a href="#" class="dropdown-item">Settings</a>
+                    <a href="#" class="dropdown-item">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+    <!-- Form Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-secondary rounded pt-5 px-5 pb-2">
+            <form asp-action="Create">
+            <div class="row d-flex">
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col">
+                            
+                                <!-- 權限 -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex">
+                                    <div class="col-2">
+                                        <label for="inputname" class="col-form-label">權限</label>
+                                    </div>
+                                    <div class="col-8 ps-3 mb-2">
+                                        <select class="form-select" aria-label="權限" name="add1" size="1">
+                                            <option value="1" selected>系統管理員</option>
+                                            <option value="2">商城管理員</option>
+                                            <option value="3">課程管理員</option>
+                                            <option value="4">客服管理員</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- 姓名 -->
+                                <div class="row-sm-12 row-lg-6 mb-2 d-flex">
+                                    <div class="col-2">
+                                        <label for="inputname" class="col-form-label">姓名</label>
+                                    </div>
+                                    <div class="col-8 ps-3">
+                                        <input class="form-control mb-2" type="text" placeholder="請輸入姓名"
+                                               aria-label="請輸入姓名" id="inputname">
+                                    </div>
+                                </div>
+                                <!-- 性別 -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex">
+                                    <div class="col-2">
+                                        <label for="inputname" class="col-form-label">性別</label>
+                                    </div>
+
+                                    <div class="col-8 d-flex ps-3 justify-content-start pt-2">
+                                        <div class="form-check me-3 mb-2">
+                                            <input class="form-check-input" type="radio" name="stateRadios"
+                                                   id="gridRadios5" value="option5" checked>
+                                            <label class="form-check-label" for="gridRadios5">
+                                                男
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="stateRadios"
+                                                   id="gridRadios6" value="option6">
+                                            <label class="form-check-label" for="gridRadios6">
+                                                女
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 生日 -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex">
+                                    <div class="col-2">
+                                        <label for="inputname" class="col-form-label">生日</label>
+                                    </div>
+                                    <div class="col-8 ps-3 mb-2">
+                                        <input class="form-select" style="background-color:#fff;" type="date"
+                                               name="birth" id="" value="出生年月日">
+                                    </div>
+                                </div>
+                                <!-- 帳號 -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex">
+                                    <div class="col-2">
+                                        <label for="inputname" class="col-form-label">電話號碼</label>
+                                    </div>
+                                    <div class="col-8 ps-3">
+                                        <input class="form-control mb-2" type="text" placeholder="請輸入帳號"
+                                               aria-label="請輸入電話號碼" id="inputname">
+                                    </div>
+                                </div>
+                                <!-- 地址 -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex">
+                                    <div class="col-2">
+                                        <label for="inputname" class="col-form-label">地址</label>
+                                    </div>
+                                    <div class="col-8 ps-3">
+                                        <input class="form-control mb-2" type="text" placeholder="請輸入帳號"
+                                               aria-label="請輸入地址" id="inputname">
+                                    </div>
+                                </div>
+
+                                <!-- 密碼 -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex">
+                                    <div class="col-2">
+                                        <label for="inputname" class="col-form-label">密碼</label>
+                                    </div>
+                                    <div class="col-8 ps-3">
+                                        <input class="form-control mb-2" type="text" placeholder="請輸入密碼"
+                                               aria-label="請輸入密碼" id="inputname">
+                                    </div>
+                                </div>
+
+
+
+                                <!-- 電子信箱 -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex">
+                                    <div class="col-2">
+                                        <label for="inputname" class="col-form-label">電子信箱</label>
+                                    </div>
+                                    <div class="col-8 ps-3">
+                                        <input class="form-control mb-3" type="text" placeholder="請輸入電子信箱"
+                                               aria-label="請輸入電子信箱" id="inputemail">
+                                    </div>
+                                </div>
+                                sss
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row-sm-12 row-lg-6 mb-3 d-flex justify-content-center">
+                                <div class="upload-container">
+                                    <label for="upload" class="label-upload">
+                                        <div class="icon">+</div>
+                                        <input type="file" id="upload" class="upload-input" accept="image/*">
+                                    </label>
+                                    <img id="preview" src="" alt="Image Preview">
+                                </div>
+                            </div>
+                            <div class="row d-flex justify-content-center">
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- 按鈕 -->
+                    <div class=" d-flex  justify-content-center pt-2">
+                        <button type="submit" class="btn btn-primary me-5">新增</button>
+                        <a href="index_System_administractor_management.html"
+                           class="btn btn-outline-success ">取消</a>
+                    </div>
+                    </div>
+            </form>
+            </div>
+        </div>
+        <!-- Form End -->
+    </div>
+</div>
+<!-- Content End -->
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EmployeeId" class="control-label"></label>
+                <input asp-for="EmployeeId" class="form-control" />
+                <span asp-validation-for="EmployeeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmployeeName" class="control-label"></label>
+                <input asp-for="EmployeeName" class="form-control" />
+                <span asp-validation-for="EmployeeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <input asp-for="Gender" class="form-control" />
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Birth" class="control-label"></label>
+                <input asp-for="Birth" class="form-control" />
+                <span asp-validation-for="Birth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Photo" class="control-label"></label>
+                <input asp-for="Photo" class="form-control" />
+                <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Position" class="control-label"></label>
+                <input asp-for="Position" class="form-control" />
+                <span asp-validation-for="Position" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedAt" class="control-label"></label>
+                <input asp-for="CreatedAt" class="form-control" />
+                <span asp-validation-for="CreatedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<script>
+    const uploadInput = document.getElementById('upload');
+    const preview = document.getElementById('preview');
+    const icon = document.querySelector('.icon');
+
+    uploadInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.addEventListener('load', function () {
+                preview.src = this.result;
+                preview.style.display = 'block';
+                icon.style.display = 'none';
+            });
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+</script>

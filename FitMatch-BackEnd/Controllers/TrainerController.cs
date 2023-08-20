@@ -6,6 +6,10 @@ namespace FitMatch_BackEnd.Controllers
 {
     public class TrainerController : Controller
     {
+        //TODO: 換頁要確認
+        //TODO: 全選刪除還沒做
+        //TODO: 照片、合作場館未完成
+
         //注入DB 可以在很多方法用他來連結資料庫
         private readonly FitMatchDbContext _context;
 
@@ -17,11 +21,11 @@ namespace FitMatch_BackEnd.Controllers
         //跟教練資料連結然後呈現出views
         public IActionResult Trainer()
         {
-            
+
             IEnumerable<Trainer> datas = from p in _context.Trainers select p;
             return View(datas);
         }
-        
+
         //審核通過
         public IActionResult Approve(int id)
         {
