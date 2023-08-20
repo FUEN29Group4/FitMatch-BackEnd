@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FitMatch_BackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,7 +18,20 @@ namespace FitMatch_BackEnd.Controllers
         //    return View();
         //}
 
-        //--------- M-0:欣彤試連，會員DB資料連結test （SQL 連線要修修）
+
+        private readonly FitMatchDbContext _context;
+
+        //連結DB
+        public MemberController(FitMatchDbContext context)
+        {
+            _context = context;
+        }
+
+
+
+        //@@@@ ---- 進入Member Menagement View 1---- @@@@@@
+
+        //--------- M-0:欣彤試連，純出現會員DB資料連結
         public IActionResult Member()
         {
             //資料庫連接 =>實體化DB
@@ -32,8 +46,8 @@ namespace FitMatch_BackEnd.Controllers
         }
 
 
-        //--------- M-1:會員管理列表（檢視list）=> 前端畫面 index_Backage_member_management.html
-        //public IActionResult MemberList(CKeywordViewModel vm)
+        //--------- M-1:會員管理列表（檢視搜尋KeyWord List）
+        //public IActionResult List(CKeywordViewModel vm)
         //{
 
         //    FitMatchDbContext db = new FitMatchDbContext();
@@ -49,24 +63,43 @@ namespace FitMatch_BackEnd.Controllers
         //    return View(datas);
         //}
 
-
         //--------- M-2:會員新增（Create）
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //public IActionResult Create(TCustomer p)
-        //{
-        //    DbDemoContext db = new DbDemoContext();
-        //    db.TCustomers.Add(p);
-        //    db.SaveChanges();
-        //    return RedirectToAction("List");
-        //}
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Member m)
+        {
+            FitMatchDbContext db = new FitMatchDbContext();
+            db.Members.Add(m);
+            db.SaveChanges();
+            return RedirectToAction("List");
+        }
 
 
 
-        //--------- M-3:會員修改（Update）
+        //@@@@ ---- 進入Memberdetails View 2---- @@@@@@
+
+
+        //Member details 顯示會員詳細資料
+        public IActionResult MemberDetails(int id)
+        {
+            var member = _context.Members.FirstOrDefault(t => t.MemberId == id);
+            //if (member == null)
+            //{
+            //    return View("Error");
+            //}
+            return View(member);
+        }
+
+
+        
+
+
+
+        ////--------- M-3:會員修改（Update）
         //public IActionResult Edit(int? id)
         //{
         //    if (id == null)
@@ -98,7 +131,7 @@ namespace FitMatch_BackEnd.Controllers
 
 
 
-        //--------- M-4:會員刪除（Delete）
+        ////--------- M-4:會員刪除（Delete）
         //public IActionResult Delete(int? id)
         //{
         //    if (id == null)
@@ -116,6 +149,43 @@ namespace FitMatch_BackEnd.Controllers
 
 
 
+        //-----參考彥儀Trianer-----
+
+
+        ////審核通過
+        //public IActionResult Approve(int id)
+        //{
+        //    var trainer = _context.Trainers.Find(id);
+        //    //檢查教練是否存在
+        //    if (trainer == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    //有教練就審核通過
+        //    trainer.Approved = CApprovalStatus.Approved;
+        //    //保存到資料庫
+        //    _context.SaveChanges();
+        //    //返回教練列表
+        //    return RedirectToAction("Trainer");
+        //}
+        //////退回申請
+        //public IActionResult Reject(int id)
+        //{
+        //    var trainer = _context.Trainers.Find(id);
+        //    //檢查教練是否存在
+        //    if (trainer == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    //教練的申請拒絕
+        //    trainer.Approved = CApprovalStatus.Rejected;
+        //    _context.SaveChanges();
+
+        //    return RedirectToAction("Trainer");
+        //}
+        ////代辦事項: 要做確認按鈕!!!!!!!!!!!!!!!
+
+        
 
 
     }

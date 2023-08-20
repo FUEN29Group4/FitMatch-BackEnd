@@ -224,7 +224,7 @@
                         <th scope="col">生日</th>
                         <th scope="col">性別</th>
                         <th scope="col">電子信箱</th>
-                        <th scope="col">會員狀態</th>
+                        @*<th scope="col">會員狀態</th>*@
                         <th scope="col">註冊時間</th>
                         <th scope="col">操作</th>
                         </tr>
@@ -262,40 +262,60 @@
                                     <td>@Html.DisplayFor(modelItem => item.Birth)</td> @*生日*@
                                     <td>@Html.DisplayFor(modelItem => item.Gender)</td> @**性別*@
                                     <td>@Html.DisplayFor(modleItem => item.Email)</td> @**信箱*@
+
                                     @*（SQL table 要修修）<td>
-                                            @switch (item.Approved)
-                                            {
-                                                case CApprovalStatus.UnderReview:
-                                                    <text>審核中</text>
-                                                    break;
-                                                case CApprovalStatus.Approved:
-                                                    <text>審核通過</text>
-                                                    break;
-                                                case CApprovalStatus.Rejected:
-                                                    <text>退回審核</text>
-                                                    break;
-                                                default:
-                                                    <text>未知</text>
-                                                    break;
-                                            }
-                                        </td>  *會員狀態  *@
+            @switch (item.Approved)
+            {
+                case CApprovalStatus.UnderReview:
+                    <text>審核中</text>
+                    break;
+                case CApprovalStatus.Approved:
+                    <text>審核通過</text>
+                    break;
+                case CApprovalStatus.Rejected:
+                    <text>退回審核</text>
+                    break;
+                default:
+                    <text>未知</text>
+                    break;
+            }
+        </td>  *會員狀態  *@
+
                                     <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td> @*註冊時間*@
 
+
+
                                     @*操作*@
-                                    <td>
-                                        <a href="@Html.ActionLink("修改", "Edit", new { id = item.MemberId }) |
+
+
+
+
+                                    @*<td>
+                                        <a href="@Url.ActionLink("修改", "Edit", new { id = item.MemberId }) 
                                         @Html.ActionLink("刪除", "Delete", "Customer", new { id = item.MemberId },
-                                        new { onclick = "return confirm('確定要刪除嗎?')" })" class="btn btn-sm btn-light text-white"> 
+                                       new { onclick = "return confirm('確定要刪除嗎?')" })"
                                         </a>
+                                    </td>*@
+
+
+
+                                    <td>
+                                        <a href="@Url.Action("MemberDetails", "Member", new { id = item.MemberId })" class="btn btn-sm btn-light text-white">
+                                            查看履歷
+                                        </a>
+                                        <a href="@Url.Action("Approve", "Trainer", new { id = item.MemberId })" class="btn btn-sm btn-primary">審核通過</a>
+                                        <a href="@Url.Action("Reject", "Trainer", new { id = item.MemberId })" class="btn btn-sm btn-danger">退回審核</a>
                                     </td>
 
+
+
                                     @*
-                                        ---老師的參考---
-                                        <td>
-                                        @Html.ActionLink("修改", "Edit", new { id = item.FId }) |
-                                        @Html.ActionLink("刪除", "Delete", "Customer", new { id = item.FId },
-                                        new { onclick = "return confirm('確定要刪除嗎?')" })
-                                       </td>*@
+         ---老師的參考---
+         <td>
+         @Html.ActionLink("修改", "Edit", new { id = item.FId }) |
+         @Html.ActionLink("刪除", "Delete", "Customer", new { id = item.FId },
+         new { onclick = "return confirm('確定要刪除嗎?')" })
+        </td>*@
 
                                 </tr>
                             }
