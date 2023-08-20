@@ -28,7 +28,6 @@ namespace FitMatch_BackEnd.Controllers
         }
 
 
-
         //@@@@ ---- 進入Member Menagement View 1---- @@@@@@
 
         //--------- M-0:欣彤試連，純出現會員DB資料連結
@@ -75,70 +74,66 @@ namespace FitMatch_BackEnd.Controllers
             FitMatchDbContext db = new FitMatchDbContext();
             db.Members.Add(m);
             db.SaveChanges();
-            return RedirectToAction("List");
-        }
-
-        //判斷性別布林值
-        public IActionResult GenderType(bool? gendertype)
-        {
-            
-            FitMatchDbContext db = new FitMatchDbContext();
-            Member g = db.Members.FirstOrDefault(t => t.Gender == gendertype);
-
-            ViewBag.g = (bool)gendertype ? "男生" : "女生";
-            return View(g);
+            return RedirectToAction("Member");
 
         }
+
+        //判斷性別布林值 （要修修）
+        //public IActionResult GenderType(bool? gendertype)
+        //{
+
+        //    FitMatchDbContext db = new FitMatchDbContext();
+        //    Member g = db.Members.FirstOrDefault(t => t.Gender == gendertype);
+
+        //    ViewBag.g = (bool)gendertype ? "男生" : "女生";
+        //    return View(g);
+
+        //}
+
 
 
         //@@@@ ---- 進入Memberdetails View 2---- @@@@@@
 
 
-        //Member details 顯示會員詳細資料
-        public IActionResult MemberDetails(int id)
+        ////--------- M-3:會員修改（Update）& 顯示
+        public IActionResult Edit(int? id)
         {
-            var member = _context.Members.FirstOrDefault(t => t.MemberId == id);
-            //if (member == null)
-            //{
-            //    return View("Error");
-            //}
-            return View(member);
+            if (id == null)
+                return RedirectToAction("Member");
+            FitMatchDbContext db = new FitMatchDbContext();
+            Member cust = db.Members.FirstOrDefault(t => t.MemberId == id);
+            if (cust == null)
+                return RedirectToAction("Member");
+            return View(cust);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Member custIn)
+        {
+            FitMatchDbContext db = new FitMatchDbContext();
+            Member custDb = db.Members.FirstOrDefault(t => t.MemberId== custIn.MemberId);
+
+            if (custDb != null)
+            {
+                custDb.MemberName = custIn.MemberName;
+                custDb.Phone = custIn.Phone;
+                custDb.Email = custIn.Email;
+                custDb.Address = custIn.Address;
+                custDb.Password = custIn.Password;
+                custDb.Gender = custIn.Gender;
+                custDb.CreatedAt = custIn.CreatedAt;
+                custDb.Photo = custIn.Photo;
+                custDb.Birth = custIn.Birth;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Edit");
         }
 
 
-        
-
-
-
-        ////--------- M-3:會員修改（Update）
-        //public IActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //        return RedirectToAction("List");
-        //    DbDemoContext db = new DbDemoContext();
-        //    TCustomer cust = db.TCustomers.FirstOrDefault(t => t.FId == id);
-        //    if (cust == null)
-        //        return RedirectToAction("List");
-        //    return View(cust);
-        //}
-        //[HttpPost]
-        //public IActionResult Edit(TCustomer custIn)
-        //{
-        //    DbDemoContext db = new DbDemoContext();
-        //    TCustomer custDb = db.TCustomers.FirstOrDefault(t => t.FId == custIn.FId);
-
-        //    if (custDb != null)
-        //    {
-        //        custDb.FName = custIn.FName;
-        //        custDb.FPhone = custIn.FPhone;
-        //        custDb.FEmail = custIn.FEmail;
-        //        custDb.FAddress = custIn.FAddress;
-        //        custDb.FPassword = custIn.FPassword;
-        //        db.SaveChanges();
-        //    }
-        //    return RedirectToAction("List");
-        //}
-
+        public IActionResult Cancle()
+        {
+            return View("Member");
+        }
 
 
 
@@ -196,7 +191,7 @@ namespace FitMatch_BackEnd.Controllers
         //}
         ////代辦事項: 要做確認按鈕!!!!!!!!!!!!!!!
 
-        
+
 
 
     }

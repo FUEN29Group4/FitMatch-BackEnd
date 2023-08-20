@@ -281,7 +281,7 @@
             }
         </td>  *會員狀態  *@
 
-                                    <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td> @*註冊時間*@
+                     <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td> @*註冊時間*@
 
 
 
@@ -300,11 +300,11 @@
 
 
                                     <td>
-                                        <a href="@Url.Action("MemberDetails", "Member", new { id = item.MemberId })" class="btn btn-sm btn-light text-white">
+                                        <a href="@Url.Action("Edit", "Member", new { id = item.MemberId })" class="btn btn-sm btn-light text-white">
                                             查看履歷
                                         </a>
-                                        <a href="@Url.Action("Approve", "Trainer", new { id = item.MemberId })" class="btn btn-sm btn-primary">審核通過</a>
-                                        <a href="@Url.Action("Reject", "Trainer", new { id = item.MemberId })" class="btn btn-sm btn-danger">退回審核</a>
+                                        
+                                        <a href="@Url.Action("Delete", "Member", new { id = item.MemberId })" class="btn btn-sm btn-danger">刪除</a>
                                     </td>
 
 
