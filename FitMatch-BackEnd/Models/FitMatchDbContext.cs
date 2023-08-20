@@ -27,7 +27,7 @@ public partial class FitMatchDbContext : DbContext
 
     public virtual DbSet<Gym> Gyms { get; set; }
 
-    public virtual DbSet<Member> Members { get; set; }
+    public virtual DbSet<Member> Members { get; set; }  
 
     public virtual DbSet<MemberFavorite> MemberFavorites { get; set; }
 

@@ -9,7 +9,7 @@ public partial class Member
 
     public string? MemberName { get; set; }
 
-    public bool? Gender { get; set; }
+    public bool Gender { get; set; }
 
     public DateTime? Birth { get; set; }
 
@@ -28,4 +28,14 @@ public partial class Member
     public virtual ICollection<MemberFavorite> MemberFavorites { get; set; } = new List<MemberFavorite>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+
+    //public GenderType MGender { get; set; }
+
 }
+
+//public enum GenderType
+//{
+//    Male,
+//    Female
+//}
