@@ -78,6 +78,17 @@ namespace FitMatch_BackEnd.Controllers
             return RedirectToAction("List");
         }
 
+        //判斷性別布林值
+        public IActionResult GenderType(bool? gendertype)
+        {
+            
+            FitMatchDbContext db = new FitMatchDbContext();
+            Member g = db.Members.FirstOrDefault(t => t.Gender == gendertype);
+
+            ViewBag.g = (bool)gendertype ? "男生" : "女生";
+            return View(g);
+
+        }
 
 
         //@@@@ ---- 進入Memberdetails View 2---- @@@@@@
