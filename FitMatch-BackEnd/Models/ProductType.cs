@@ -12,4 +12,9 @@ public partial class ProductType
     public string? TypeName { get; set; }
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+
+    internal List<Product> queryAll()
+    {
+        throw new NotImplementedException();
+    }
 }

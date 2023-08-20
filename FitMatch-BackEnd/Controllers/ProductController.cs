@@ -12,9 +12,11 @@ namespace FitMatch_BackEnd.Controllers
         {
             _context = context;
         }
-        public IActionResult Create()
+        //GET:ProductType
+        public IActionResult ProductTypeList()
         {
-            return View();
+            List<Product> datas = (new ProductType()).queryAll();
+                return View(datas);
         }
         //商品管理資料連結然後呈現出views
         public IActionResult ProductType()
