@@ -1,15 +1,12 @@
 ﻿@model IEnumerable<FitMatch_BackEnd.Models.Member>
 
 @{
-    ViewData["Member"] = "Member";
+    ViewData["Title"] = "Member";
 }
 
 @*<h1>Member</h1>*@
 
-@*<p>
-        <a asp-action="Create">Create New</a>
-    </p>
-*@
+
 
 <!-- Content Start -->
 <div class="content">
@@ -22,7 +19,7 @@
             <i class="fa fa-bars"></i>
         </a>
         <form class="d-none d-md-flex ms-4">
-            <h4 class="m-auto">教練管理</h4>
+            <h4 class="m-auto">會員管理</h4>
         </form>
         <div class="navbar-nav align-items-center ms-auto">
             <div class="nav-item dropdown">
@@ -106,7 +103,8 @@
         </div>
     </nav>
     <!-- Navbar End -->
-    <!-- system adminstractor Navbar start-->
+
+    <!-- system Member Navbar start-->
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
 
@@ -114,54 +112,64 @@
                 <div class="bg-secondary rounded h-100 p-4">
 
                     <form id="searchForm">
+
+
                         <div class="row pr-1">
-                            <!-- 第一區塊 -->
+
+                            <!--第ㄧ區塊：註冊時間選擇-->
+                            @*col-3 d-flex align-items-center // me-4// margin-right: 0px*@
+
+                            <div class="col-4 d-flex align-items-center " style="">
+                                <span style="margin-left: -20px; text-align: center;">註冊日期:</span>
+                                <input class="form-select" style="background-color:#fff;" type="date" name="start" id=""
+                                       value="開始時間">
+                            </div>
+
+                            <div class=" col-4 d-flex align-items-center ">
+
+                                <span style="margin-left: -20px; text-align: center;">至</span>
+                                <input class="form-select" style="background-color:#fff; margin-left: 10px;" type="date"
+                                       name="end" id="" value="結束時間">
+                            </div>
+
+
+
+                            <!-- 第二區塊：會員狀態 -->
                             <div class="col-3 d-flex align-items-center">
-                                列表區域:
+                                會員狀態:
+                                <div class="mx-1 flex-grow-1">
+                                    <select class="form-select" id="statusSelect"
+                                            aria-label="Floating label select example">
+                                        <option selected disabled>請選擇</option>
+                                        <option value="2">有效</option>
+                                        <option value="1">無效</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row pr-1">
+
+                            <!-- 第三區塊：關鍵字選項 -->
+                            <div class="col-3 d-flex align-items-center">
+                                搜尋選項:
                                 <div class="mx-1 flex-grow-1">
                                     <select class="form-select" id="citySelect"
                                             aria-label="Floating label select example">
                                         <option selected disabled>請選擇類別</option>
-                                        <option value="1">教練姓名</option>
-                                        <option value="1">所在城市</option>
-                                        <option value="2">希望待遇</option>
+                                        <option value="1">會員姓名</option>
+                                        <option value="2">生日</option>
                                         <option value="2">性別</option>
                                         <option value="2">電子信箱</option>
-                                        <option value="2">員工狀態</option>
-                                        <option value="2">入職時間</option>
+
                                     </select>
                                 </div>
                             </div>
 
-                            <!-- 第二區塊 -->
-                            <div class="col-3 d-flex align-items-center">
-                                審核狀態:
-                                <div class="mx-1 flex-grow-1">
-                                    <select class="form-select" id="statusSelect"
-                                            aria-label="Floating label select example">
-                                        <option selected disabled>請選擇</option>
-                                        <option value="2">審核通過</option>
-                                        <option value="1">審核中</option>
-                                        <option value="2">已退回</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <!-- 第三區塊 -->
-                            <div class="col-3 d-flex align-items-center">
-
-                                履歷狀態:
-                                <div class="mx-1 flex-grow-1">
-                                    <select class="form-select" id="statusSelect"
-                                            aria-label="Floating label select example">
-                                        <option selected disabled>請選擇</option>
-                                        <option value="1">公開</option>
-                                        <option value="2">隱藏</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- 第四區塊 -->
-                            <div class="col-3 d-flex">
+                            <!-- 第四區塊：關鍵字搜尋 -->
+                            <div class="col-4 d-flex">
                                 <div class="row align-items-center">
                                     <div class="col-2 p-0 me-1 text-md-end">
                                         搜尋:
@@ -186,95 +194,232 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>        
         </div>
-    </div>
-    <div class="container-fluid pt-4 px-4">
-        <div class="bg-white text-center  rounded p-4">
+        
+        </div>
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-white text-center  rounded p-4">
 
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <h5 class="mb-0 text-dark">教練履歷審核</h5>
-                <a class="btn btn-primary  custom-purple" href="index_Add_Coach_peraonal.html">新增教練</a>
-            </div>
-            <div class="table-responsive">
-                <table class="table text-start align-middle table-bordered table-hover mb-0 text-center">
-                    <thead style="background-color: #74ffba;">
-                        <tr class="text-dark">
-                            <th scope="col">
-                            </th>
-                            <th scope="col">教練姓名</th>
-                            <th scope="col">所在城市</th>
-                            <th scope="col">希望待遇</th>
-                            <th scope="col">審核狀態</th>
-                            <th scope="col">履歷狀態</th>
-                            <th scope="col">申請時間</th>
-                            <th scope="col">操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>陳大大</td>
-                            <td>屏東縣</td>
-                            <td>1,200</td>
-                            <td>審核中</td>
-                            <td>隱藏</td>
-                            <td>2021-07-01 15:00</td>
-                            <td>
-                                <button type="button" class="btn btn-sm btn-light">
-                                    <a href="index_Coach_peraonal_information.html" class="text-white">查看履歷</a>
-                                </button>
-                                <button type="button" class="btn btn-sm btn-primary">審核通過</button>
-                                <button type="button" class="btn btn-sm btn-danger">返回申請</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h5 class="mb-0 text-dark">會員列表</h5>
+                    <a class="btn btn-primary  custom-purple" href="index_Add_Coach_peraonal.html">新增會員</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0 text-center">
+                        <thead style="background-color: #74ffba;">
+                            <tr class="text-dark">
+                                <th scope="col">
+                                </th>
+                                <th scope="col">會員姓名</th>
+                                <th scope="col">生日</th>
+                                <th scope="col">性別</th>
+                                <th scope="col">電子信箱</th>
+                                <th scope="col">會員狀態</th>
+                                <th scope="col">註冊時間</th>
+                                <th scope="col">操作</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr class="data-row">
+                                <td><input class="form-check-input" type="checkbox"></td>
+                                <td>吳庭山</td>
+                                <td>1980-08-20</td>
+                                <td>女</td>
+                                <td>ssssft@gmail.com</td>
+                                <td>有效會員</td>
+                                <td>2021-07-01 15:00</td>
+                                <td>
+                                    <a class="btn btn-sm btn-secondary" href="index_Member_information.html"
+                                       style="background-color: aliceblue; color: black;">
+                                        <i class="fa-regular fa-pen-to-square">編輯</i>
+                                    </a>
+                                    <a class="btn btn-sm btn-primary" href="">
+                                        <i class="fa-solid fa-trash-can">刪除</i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="data-row">
+                                <td><input class="form-check-input" type="checkbox"></td>
+
+                                <td>吳庭山</td>
+                                <td>1980-08-20</td>
+                                <td>女</td>
+                                <td>ssssft@gmail.com</td>
+                                <td>有效會員</td>
+                                <td>2021-07-01 15:00</td>
+                                <td>
+                                    <a class="btn btn-sm btn-secondary" href="index_Member_information.html"
+                                       style="background-color: aliceblue; color: black;">
+                                        <i class="fa-regular fa-pen-to-square">編輯</i>
+                                    </a>
+                                    <a class="btn btn-sm btn-primary" href="">
+                                        <i class="fa-solid fa-trash-can">刪除</i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="data-row">
+                                <td><input class="form-check-input" type="checkbox"></td>
+
+                                <td>吳庭山</td>
+                                <td>1980-08-20</td>
+                                <td>女</td>
+                                <td>ssssft@gmail.com</td>
+                                <td>有效會員</td>
+                                <td>2021-07-01 15:00</td>
+                                <td>
+                                    <a class="btn btn-sm btn-secondary" href="index_Member_information.html"
+                                       style="background-color: aliceblue; color: black;">
+                                        <i class="fa-regular fa-pen-to-square">編輯</i>
+                                    </a>
+                                    <a class="btn btn-sm btn-primary" href="">
+                                        <i class="fa-solid fa-trash-can">刪除</i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="data-row">
+                                <td><input class="form-check-input" type="checkbox"></td>
+
+                                <td>吳庭山</td>
+                                <td>1980-08-20</td>
+                                <td>女</td>
+                                <td>ssssft@gmail.com</td>
+                                <td>有效會員</td>
+                                <td>2021-07-01 15:00</td>
+                                <td>
+                                    <a class="btn btn-sm btn-secondary" href="index_Member_information.html"
+                                       style="background-color: aliceblue; color: black;">
+                                        <i class="fa-regular fa-pen-to-square">編輯</i>
+                                    </a>
+                                    <a class="btn btn-sm btn-primary" href="">
+                                        <i class="fa-solid fa-trash-can">刪除</i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="data-row">
+                                <td><input class="form-check-input" type="checkbox"></td>
+
+                                <td>吳庭山</td>
+                                <td>1980-08-20</td>
+                                <td>女</td>
+                                <td>ssssft@gmail.com</td>
+                                <td>有效會員</td>
+                                <td>2021-07-01 15:00</td>
+                                <td>
+                                    <a class="btn btn-sm btn-secondary" href="index_Member_information.html"
+                                       style="background-color: aliceblue; color: black;">
+                                        <i class="fa-regular fa-pen-to-square">編輯</i>
+                                    </a>
+                                    <a class="btn btn-sm btn-primary" href="">
+                                        <i class="fa-solid fa-trash-can">刪除</i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="data-row">
+                                <td><input class="form-check-input" type="checkbox"></td>
+
+                                <td>吳庭山</td>
+                                <td>1980-08-20</td>
+                                <td>女</td>
+                                <td>ssssft@gmail.com</td>
+                                <td>有效會員</td>
+                                <td>2021-07-01 15:00</td>
+                                <td>
+                                    <a class="btn btn-sm btn-secondary" href="index_Member_information.html"
+                                       style="background-color: aliceblue; color: black;">
+                                        <i class="fa-regular fa-pen-to-square">編輯</i>
+                                    </a>
+                                    <a class="btn btn-sm btn-primary" href="">
+                                        <i class="fa-solid fa-trash-can">刪除</i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="data-row">
+                                <td><input class="form-check-input" type="checkbox"></td>
+
+                                <td>吳庭山</td>
+                                <td>1980-08-20</td>
+                                <td>女</td>
+                                <td>ssssft@gmail.com</td>
+                                <td>有效會員</td>
+                                <td>2021-07-01 15:00</td>
+                                <td>
+                                    <a class="btn btn-sm btn-secondary" href="index_Member_information.html"
+                                       style="background-color: aliceblue; color: black;">
+                                        <i class="fa-regular fa-pen-to-square">編輯</i>
+                                    </a>
+                                    <a class="btn btn-sm btn-primary" href="">
+                                        <i class="fa-solid fa-trash-can">刪除</i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="data-row">
+                                <td><input class="form-check-input" type="checkbox"></td>
+
+                                <td>吳庭山</td>
+                                <td>1980-08-20</td>
+                                <td>女</td>
+                                <td>ssssft@gmail.com</td>
+                                <td>有效會員</td>
+                                <td>2021-07-01 15:00</td>
+                                <td>
+                                    <a class="btn btn-sm btn-secondary" href="index_Member_information.html"
+                                       style="background-color: aliceblue; color: black;">
+                                        <i class="fa-regular fa-pen-to-square">編輯</i>
+                                    </a>
+                                    <a class="btn btn-sm btn-primary" href="">
+                                        <i class="fa-solid fa-trash-can">刪除</i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
 
 
-                <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
-                    <!-- 全選區塊開始 -->
-                    <div class="d-flex justify-content-between">
-                        <div class="form-check d-flex align-items-center">
-                            <input class="form-check-input me-2" type="checkbox" id="selectAll">
-                            <label class="form-check-label" for="selectAll">全選</label>
-                            <button type="button" class="btn btn-primary mx-lg-2">刪除</button>
+                    <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
+                        <!-- 全選區塊開始 -->
+                        <div class="d-flex justify-content-between">
+                            <div class="form-check d-flex align-items-center">
+                                <input class="form-check-input me-2" type="checkbox" id="selectAll">
+                                <label class="form-check-label" for="selectAll">全選</label>
+                                <button type="button" class="btn btn-primary mx-lg-2">刪除</button>
+                            </div>
+                            <!-- Pagination goes here -->
                         </div>
-                        <!-- Pagination goes here -->
+                        <!-- 全選區塊END-->
+                        <!-- 換頁區塊開始 -->
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link previous-page" data-page-type="previous" href="#">
+                                        <i class="fa-solid fa-chevron-left"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item active">
+                                    <a class="page-link" id="page-1" data-page="1" data-page-type="number" href="#">
+                                        1
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" id="page-2" data-page="2" data-page-type="number" href="#">
+                                        2
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link next-page" data-page-type="next" href="#">
+                                        <i class="fa-solid fa-chevron-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <!-- 換頁區塊END -->
                     </div>
-                    <!-- 全選區塊END-->
-                    <!-- 換頁區塊開始 -->
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link previous-page" data-page-type="previous" href="#">
-                                    <i class="fa-solid fa-chevron-left"></i>
-                                </a>
-                            </li>
-                            <li class="page-item active">
-                                <a class="page-link" id="page-1" data-page="1" data-page-type="number" href="#">
-                                    1
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" id="page-2" data-page="2" data-page-type="number" href="#">
-                                    2
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link next-page" data-page-type="next" href="#">
-                                    <i class="fa-solid fa-chevron-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <!-- 換頁區塊END -->
                 </div>
             </div>
         </div>
-    </div>
 
-</div>
+    </div>
 <!-- Content END -->
 @*
     <table class="table">
