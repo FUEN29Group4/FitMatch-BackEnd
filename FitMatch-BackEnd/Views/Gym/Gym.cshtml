@@ -1,6 +1,404 @@
-﻿namespace FitMatch_BackEnd.Views.Gym
-{
-    public class Gym
-    {
-    }
+﻿@model IEnumerable<FitMatch_BackEnd.Models.Gym>
+
+@{
+    ViewData["Title"] = "Gym";
 }
+<!-- Content Start -->
+<div class="content">
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+        <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+            <h1 class="pt-2" style="color: #F24B88!important;">M</h1>
+        </a>
+        <a href="#" class="sidebar-toggler flex-shrink-0">
+            <i class="fa fa-bars"></i>
+        </a>
+        <form class="d-none d-md-flex ms-4">
+            <h4 class="m-auto">場館管理</h4>
+        </form>
+        <div class="navbar-nav align-items-center ms-auto">
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fa-solid fa-gear"></i>
+                    <span class="d-none d-lg-inline-flex">設定</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                    <a href="#" class="dropdown-item">
+                        <div class="d-flex align-items-center">
+                            <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <div class="ms-2">
+                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                <small>15 minutes ago</small>
+                            </div>
+                        </div>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item">
+                        <div class="d-flex align-items-center">
+                            <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <div class="ms-2">
+                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                <small>15 minutes ago</small>
+                            </div>
+                        </div>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item">
+                        <div class="d-flex align-items-center">
+                            <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <div class="ms-2">
+                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                <small>15 minutes ago</small>
+                            </div>
+                        </div>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item text-center">See all message</a>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fa fa-bell me-lg-2"></i>
+                    <span class="d-none d-lg-inline-flex">通知</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">Profile updated</h6>
+                        <small>15 minutes ago</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">New user added</h6>
+                        <small>15 minutes ago</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">Password changed</h6>
+                        <small>15 minutes ago</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item text-center">See all notifications</a>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                    <span class="d-none d-lg-inline-flex">John Doe</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                    <a href="#" class="dropdown-item">My Profile</a>
+                    <a href="#" class="dropdown-item">Settings</a>
+                    <a href="#" class="dropdown-item">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+    <!-- 篩選列開始 -->
+    <div class="container-fluid pt-4 px-4">
+        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0 rounded">
+            <div class=" container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                    <form class="container-fluid" style="margin-left: -20px;">
+                        <div class="row align-items-center">
+                            <label for="statusType" class="col-auto">區域:</label>
+                            <div class="col-4">
+                                <select id="statusType" class="form-select" style="background-color: #fff;"
+                                        aria-label="區域">
+                                    <option value="" selected disabled hidden>所有城市</option>
+                                    <option value="t1">台北</option>
+                                    <option value="t2">台中</option>
+                                    <option value="t2">台南</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form class="container-fluid" style="margin-left: -500px;">
+                        <div class="row align-items-center">
+                            <label for="statusType" class="col-auto">上架狀態:</label>
+                            <div class="col-4">
+                                <select id="statusType" class="form-select" style="background-color: #fff;"
+                                        aria-label="上架狀態">
+                                    <option value="" selected disabled hidden>請選擇</option>
+                                    <option value="t1">上架</option>
+                                    <option value="t2">下架</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="col-3 d-flex align-items-center ms-4" style="margin-right: -5px;">
+                        搜尋:
+                        <div class=" ms-2 me-2 flex-grow-1">
+                            <input class=" form-control" type="text" placeholder="請輸入關鍵字" aria-label="請輸入關鍵字"
+                                   id="searchInput">
+                        </div>
+                        <a href="">
+                            <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                        </a>
+                        <button class="btn btn-outline-success " style="margin-top: 0px; margin-left: 10px;"
+                                type="submit">
+                            清空
+                        </button>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- 篩選列結束 -->
+    <!-- 管理列表開始 -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-white text-center rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h6 class="mb-0 text-dark">場館列表</h6>
+                @* <a class="btn btn-primary  custom-purple" href="match_creategym.html">新增場館</a> *@
+            </div>
+            <div class="table-responsive">
+                <table class="table text-center align-middle table-bordered table-hover mb-0">
+                    <thead style="background-color: #74ffba;">
+                        <tr class="text-dark">
+                            <th scope="col"></th>
+                            <th scope="col">場館編號</th>
+                            <th scope="col">場館名稱</th>
+                            <th scope="col">封面</th>
+                            <th scope="col">地區</th>
+                            <th scope="col">狀態</th>
+                            <th scope="col">建立時間</th>
+                            <th scope="col">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="data-row">
+                            <td><input class="form-check-input" type="checkbox"></td>
+                            <td>CODE001</td>
+                            <td>五股國民運動中心</td>
+                            <td>
+                                <img class="fixed-image" src="./img/gym/五股運動中心.jpg" alt="" style="max-width: 200px;">
+                            </td>
+                            <td>新北市五股區</td>
+                            <td>上架</td>
+                            <td>2023-08-07 10:10</td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary" href="match_editgym.html"
+                                   style="background-color: aliceblue; color: black;">
+                                    <i class="fa-regular fa-pen-to-square">編輯</i>
+                                </a>
+                                <a class="btn btn-sm btn-primary" href=""><i class="fa-solid fa-trash-can">刪除</i></a>
+                            </td>
+                        </tr>
+                        <tr class="data-row">
+                            <td><input class="form-check-input" type="checkbox"></td>
+                            <td>CODE002</td>
+                            <td>新莊運動中心</td>
+                            <td>
+                                <img class="fixed-image" src="./img/gym/新莊運動中心.jpg" alt="" style="max-width: 200px;">
+                            </td>
+                            <td>新北市新莊區</td>
+                            <td>上架</td>
+                            <td>2023-08-07 10:10</td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary" href="match_editgym.html"
+                                   style="background-color: aliceblue; color: black;">
+                                    <i class="fa-regular fa-pen-to-square">編輯</i>
+                                </a>
+                                <a class="btn btn-sm btn-primary" href=""><i class="fa-solid fa-trash-can">刪除</i></a>
+                            </td>
+                        </tr>
+                        <tr class="data-row">
+                            <td><input class="form-check-input" type="checkbox"></td>
+                            <td>CODE003</td>
+                            <td>屏東運動中心</td>
+                            <td>
+                                <img class="fixed-image" src="./img/gym/屏東運動中心.jpg" alt="" style="max-width: 200px;">
+                            </td>
+                            <td>屏東縣屏東市</td>
+                            <td>上架</td>
+                            <td>2023-08-07 10:10</td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary" href="match_editgym.html"
+                                   style="background-color: aliceblue; color: black;">
+                                    <i class="fa-regular fa-pen-to-square">編輯</i>
+                                </a>
+                                <a class="btn btn-sm btn-primary" href=""><i class="fa-solid fa-trash-can">刪除</i></a>
+                            </td>
+                        </tr>
+                        <tr class="data-row">
+                            <td><input class="form-check-input" type="checkbox"></td>
+                            <td>CODE004</td>
+                            <td>樹林運動中心</td>
+                            <td>
+                                <img class="fixed-image" src="./img/gym/樹林運動中心.jpg" alt="" style="max-width: 200px;">
+                            </td>
+                            <td>新北市樹林區</td>
+                            <td>上架</td>
+                            <td>2023-08-07 10:10</td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary" href="match_editgym.html"
+                                   style="background-color: aliceblue; color: black;">
+                                    <i class="fa-regular fa-pen-to-square">編輯</i>
+                                </a>
+                                <a class="btn btn-sm btn-primary" href=""><i class="fa-solid fa-trash-can">刪除</i></a>
+                            </td>
+                        </tr>
+                        <tr class="data-row">
+                            <td><input class="form-check-input" type="checkbox"></td>
+                            <td>CODE005</td>
+                            <td>南屯運動中心</td>
+                            <td>
+                                <img class="fixed-image" src="./img/gym/南屯運動中心.jpg" alt="" style="max-width: 200px;">
+                            </td>
+                            <td>台中市南屯區</td>
+                            <td>下架</td>
+                            <td>2023-08-07 10:10</td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary" href="match_editgym.html"
+                                   style="background-color: aliceblue; color: black;">
+                                    <i class="fa-regular fa-pen-to-square">編輯</i>
+                                </a>
+                                <a class="btn btn-sm btn-primary" href=""><i class="fa-solid fa-trash-can">刪除</i></a>
+                            </td>
+                        </tr>
+                        <tr class="data-row">
+                            <td><input class="form-check-input" type="checkbox"></td>
+                            <td>CODE005</td>
+                            <td>臺南運動中心</td>
+                            <td>
+                                <img class="fixed-image" src="./img/gym/臺南運動中心.jpg" alt="" style="max-width: 200px;">
+                            </td>
+                            <td>台南市中西區</td>
+                            <td>下架</td>
+                            <td>2023-08-07 10:10</td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary" href="match_editgym.html"
+                                   style="background-color: aliceblue; color: black;">
+                                    <i class="fa-regular fa-pen-to-square">編輯</i>
+                                </a>
+                                <a class="btn btn-sm btn-primary" href=""><i class="fa-solid fa-trash-can">刪除</i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
+                <!-- 全選區塊開始 -->
+                <div class="d-flex justify-content-between">
+                    <div class="form-check custom-checkbox">
+                        <input class="form-check-input my-lg-2" type="checkbox" id="selectAll">
+                        <label class="form-check-label" for="selectAll">
+                            <span class="align-middle">全選</span>
+                        </label>
+                        <button type="button" class="btn btn-primary mx-lg-2">下架</button>
+                    </div>
+                    <!-- Pagination goes here -->
+                </div>
+                <!-- 全選區塊END-->
+                <!-- 換頁區塊開始 -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link previous-page" data-page-type="previous" href="#">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </a>
+                        </li>
+                        <li class="page-item active">
+                            <a class="page-link" id="page-1" data-page="1" data-page-type="number" href="#">
+                                1
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" id="page-2" data-page="2" data-page-type="number" href="#">
+                                2
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link next-page" data-page-type="next" href="#">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- 換頁區塊END -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // 全選功能
+    document.addEventListener("DOMContentLoaded", function () {
+        const selectAllCheckbox = document.getElementById("selectAll");
+        const restaurantCheckboxes = document.querySelectorAll(".form-check-input");
+        selectAllCheckbox.addEventListener("change", function () {
+            const isChecked = selectAllCheckbox.checked;
+            restaurantCheckboxes.forEach(checkbox => {
+                checkbox.checked = isChecked;
+            });
+        });
+        restaurantCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener("change", function () {
+                selectAllCheckbox.checked = Array.from(restaurantCheckboxes).every(cb => cb.checked);
+            });
+        });
+    });
+    // 以下是分頁功能
+    document.addEventListener("DOMContentLoaded", function () {
+        const table = document.querySelector(".table");
+        const pageLinks = document.querySelectorAll(".page-link[data-page-type='number']");
+        const prevPageLink = document.querySelector(".previous-page");
+        const nextPageLink = document.querySelector(".next-page");
+        pageLinks.forEach(link => {
+            link.addEventListener("click", function (event) {
+                event.preventDefault();
+                // 獲取點擊的頁碼
+                const page = parseInt(link.textContent);
+                // 移除所有活躍狀態
+                pageLinks.forEach(link => link.parentElement.classList.remove("active"));
+                // 添加活跃状态到当前页码链接
+                link.parentElement.classList.add("active");
+                // 更新表格内容
+                updateTableContent(page);
+            });
+        });
+        prevPageLink.addEventListener("click", function (event) {
+            event.preventDefault();
+            const activeLink = document.querySelector(".page-item.active .page-link");
+            if (activeLink) {
+                const currentPage = parseInt(activeLink.textContent);
+                if (currentPage > 1) {
+                    pageLinks[currentPage - 2].click();
+                }
+            }
+        });
+        nextPageLink.addEventListener("click", function (event) {
+            event.preventDefault();
+            const activeLink = document.querySelector(".page-item.active .page-link");
+            if (activeLink) {
+                const currentPage = parseInt(activeLink.textContent);
+                if (currentPage < pageLinks.length) {
+                    pageLinks[currentPage].click();
+                }
+            }
+        });
+        function updateTableContent(page) {
+            const perPage = 5;
+            const startIndex = (page - 1) * perPage;
+            const endIndex = startIndex + perPage;
+            const rows = table.querySelectorAll("tbody tr");
+            rows.forEach((row, index) => {
+                if (index >= startIndex && index < endIndex) {
+                    row.style.display = "table-row";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+    });</script>
