@@ -196,6 +196,9 @@
                 </div>
             </div>        
         </div>
+
+
+       <!--會員管理list開始-->
         
         </div>
         <div class="container-fluid pt-4 px-4">
@@ -206,174 +209,100 @@
                     <a class="btn btn-primary  custom-purple" href="index_Add_Coach_peraonal.html">新增會員</a>
                 </div>
                 <div class="table-responsive">
+
+                    @*table 開始*@
                     <table class="table text-start align-middle table-bordered table-hover mb-0 text-center">
+                                @*head樣式 開始@
                         <thead style="background-color: #74ffba;">
+
                             <tr class="text-dark">
-                                <th scope="col">
-                                </th>
-                                <th scope="col">會員姓名</th>
-                                <th scope="col">生日</th>
-                                <th scope="col">性別</th>
-                                <th scope="col">電子信箱</th>
-                                <th scope="col">會員狀態</th>
-                                <th scope="col">註冊時間</th>
-                                <th scope="col">操作</th>
-                            </tr>
+
+                                @*上方固定樣式row*@
+                        <th scope="col">
+                        </th>
+                        <th scope="col">會員姓名</th>
+                        <th scope="col">生日</th>
+                        <th scope="col">性別</th>
+                        <th scope="col">電子信箱</th>
+                        <th scope="col">會員狀態</th>
+                        <th scope="col">註冊時間</th>
+                        <th scope="col">操作</th>
+                        </tr>
                         </thead>
 
+                        @*tbody 原先模擬資料樣式 *@
+                        @*<tbody>
+                                <tr class="data-row">
+                                    <td><input class="form-check-input" type="checkbox"></td>
+                                    <td>吳庭山</td>
+                                    <td>1980-08-20</td>
+                                    <td>女</td>
+                                    <td>ssssft@gmail.com</td>
+                                    <td>有效會員</td>
+                                    <td>2021-07-01 15:00</td>
+                                    <td>
+                                        <a class="btn btn-sm btn-secondary" href="index_Member_information.html"
+                                           style="background-color: aliceblue; color: black;">
+                                            <i class="fa-regular fa-pen-to-square">編輯</i>
+                                        </a>
+                                        <a class="btn btn-sm btn-primary" href="">
+                                            <i class="fa-solid fa-trash-can">刪除</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>*@
+
+                        @**tbody 正式抓資料庫資料樣式*@
                         <tbody>
-                            <tr class="data-row">
-                                <td><input class="form-check-input" type="checkbox"></td>
-                                <td>吳庭山</td>
-                                <td>1980-08-20</td>
-                                <td>女</td>
-                                <td>ssssft@gmail.com</td>
-                                <td>有效會員</td>
-                                <td>2021-07-01 15:00</td>
-                                <td>
-                                    <a class="btn btn-sm btn-secondary" href="index_Member_information.html"
-                                       style="background-color: aliceblue; color: black;">
-                                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                                    </a>
-                                    <a class="btn btn-sm btn-primary" href="">
-                                        <i class="fa-solid fa-trash-can">刪除</i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="data-row">
-                                <td><input class="form-check-input" type="checkbox"></td>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td><input class="form-check-input" type="checkbox"></td> @**勾選box*@
+                                    <td>@Html.DisplayFor(modelItem => item.MemberName)</td> @**姓名*@
+                                    <td>@Html.DisplayFor(modelItem => item.Birth)</td> @*生日*@
+                                    <td>@Html.DisplayFor(modelItem => item.Gender)</td> @**性別*@
+                                    <td>@Html.DisplayFor(modleItem => item.Email)</td> @**信箱*@
+                                    @*（SQL table 要修修）<td>
+                                            @switch (item.Approved)
+                                            {
+                                                case CApprovalStatus.UnderReview:
+                                                    <text>審核中</text>
+                                                    break;
+                                                case CApprovalStatus.Approved:
+                                                    <text>審核通過</text>
+                                                    break;
+                                                case CApprovalStatus.Rejected:
+                                                    <text>退回審核</text>
+                                                    break;
+                                                default:
+                                                    <text>未知</text>
+                                                    break;
+                                            }
+                                        </td>  *會員狀態  *@
+                                    <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td> @*註冊時間*@
 
-                                <td>吳庭山</td>
-                                <td>1980-08-20</td>
-                                <td>女</td>
-                                <td>ssssft@gmail.com</td>
-                                <td>有效會員</td>
-                                <td>2021-07-01 15:00</td>
-                                <td>
-                                    <a class="btn btn-sm btn-secondary" href="index_Member_information.html"
-                                       style="background-color: aliceblue; color: black;">
-                                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                                    </a>
-                                    <a class="btn btn-sm btn-primary" href="">
-                                        <i class="fa-solid fa-trash-can">刪除</i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="data-row">
-                                <td><input class="form-check-input" type="checkbox"></td>
+                                    @*操作*@
+                                    <td>
+                                        <a href="@Html.ActionLink("修改", "Edit", new { id = item.MemberId }) |
+                                        @Html.ActionLink("刪除", "Delete", "Customer", new { id = item.MemberId },
+                                        new { onclick = "return confirm('確定要刪除嗎?')" })" class="btn btn-sm btn-light text-white"> 
+                                        </a>
+                                    </td>
 
-                                <td>吳庭山</td>
-                                <td>1980-08-20</td>
-                                <td>女</td>
-                                <td>ssssft@gmail.com</td>
-                                <td>有效會員</td>
-                                <td>2021-07-01 15:00</td>
-                                <td>
-                                    <a class="btn btn-sm btn-secondary" href="index_Member_information.html"
-                                       style="background-color: aliceblue; color: black;">
-                                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                                    </a>
-                                    <a class="btn btn-sm btn-primary" href="">
-                                        <i class="fa-solid fa-trash-can">刪除</i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="data-row">
-                                <td><input class="form-check-input" type="checkbox"></td>
+                                    @*
+                                        ---老師的參考---
+                                        <td>
+                                        @Html.ActionLink("修改", "Edit", new { id = item.FId }) |
+                                        @Html.ActionLink("刪除", "Delete", "Customer", new { id = item.FId },
+                                        new { onclick = "return confirm('確定要刪除嗎?')" })
+                                       </td>*@
 
-                                <td>吳庭山</td>
-                                <td>1980-08-20</td>
-                                <td>女</td>
-                                <td>ssssft@gmail.com</td>
-                                <td>有效會員</td>
-                                <td>2021-07-01 15:00</td>
-                                <td>
-                                    <a class="btn btn-sm btn-secondary" href="index_Member_information.html"
-                                       style="background-color: aliceblue; color: black;">
-                                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                                    </a>
-                                    <a class="btn btn-sm btn-primary" href="">
-                                        <i class="fa-solid fa-trash-can">刪除</i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="data-row">
-                                <td><input class="form-check-input" type="checkbox"></td>
-
-                                <td>吳庭山</td>
-                                <td>1980-08-20</td>
-                                <td>女</td>
-                                <td>ssssft@gmail.com</td>
-                                <td>有效會員</td>
-                                <td>2021-07-01 15:00</td>
-                                <td>
-                                    <a class="btn btn-sm btn-secondary" href="index_Member_information.html"
-                                       style="background-color: aliceblue; color: black;">
-                                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                                    </a>
-                                    <a class="btn btn-sm btn-primary" href="">
-                                        <i class="fa-solid fa-trash-can">刪除</i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="data-row">
-                                <td><input class="form-check-input" type="checkbox"></td>
-
-                                <td>吳庭山</td>
-                                <td>1980-08-20</td>
-                                <td>女</td>
-                                <td>ssssft@gmail.com</td>
-                                <td>有效會員</td>
-                                <td>2021-07-01 15:00</td>
-                                <td>
-                                    <a class="btn btn-sm btn-secondary" href="index_Member_information.html"
-                                       style="background-color: aliceblue; color: black;">
-                                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                                    </a>
-                                    <a class="btn btn-sm btn-primary" href="">
-                                        <i class="fa-solid fa-trash-can">刪除</i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="data-row">
-                                <td><input class="form-check-input" type="checkbox"></td>
-
-                                <td>吳庭山</td>
-                                <td>1980-08-20</td>
-                                <td>女</td>
-                                <td>ssssft@gmail.com</td>
-                                <td>有效會員</td>
-                                <td>2021-07-01 15:00</td>
-                                <td>
-                                    <a class="btn btn-sm btn-secondary" href="index_Member_information.html"
-                                       style="background-color: aliceblue; color: black;">
-                                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                                    </a>
-                                    <a class="btn btn-sm btn-primary" href="">
-                                        <i class="fa-solid fa-trash-can">刪除</i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="data-row">
-                                <td><input class="form-check-input" type="checkbox"></td>
-
-                                <td>吳庭山</td>
-                                <td>1980-08-20</td>
-                                <td>女</td>
-                                <td>ssssft@gmail.com</td>
-                                <td>有效會員</td>
-                                <td>2021-07-01 15:00</td>
-                                <td>
-                                    <a class="btn btn-sm btn-secondary" href="index_Member_information.html"
-                                       style="background-color: aliceblue; color: black;">
-                                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                                    </a>
-                                    <a class="btn btn-sm btn-primary" href="">
-                                        <i class="fa-solid fa-trash-can">刪除</i>
-                                    </a>
-                                </td>
-                            </tr>
+                                </tr>
+                            }
                         </tbody>
+
+
+
                     </table>
 
 
@@ -421,115 +350,7 @@
 
     </div>
 <!-- Content END -->
-@*
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.TrainerId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TrainerName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Gender)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Birth)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Phone)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Address)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Email)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Photo)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Certificate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Expertise)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Experience)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CourseFee)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Password)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Approved)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CreatedAt)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-    @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TrainerId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TrainerName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Gender)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Birth)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Photo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Certificate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Expertise)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Experience)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CourseFee)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Password)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Approved)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
-            </tr>
-    }
-        </tbody>
-    </table>*@
+
 
 
 <script>// 全選功能
