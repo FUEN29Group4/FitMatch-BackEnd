@@ -4,14 +4,28 @@
     ViewData["Title"] = "List";
 }
 
-<h1>課程一覽表</h1>
+@*<h1>課程一覽表</h1>
 @using (Html.BeginForm())
 {
     @:關鍵字
     @Html.TextBox("txtKeyword")
     <input type="submit" value="查詢" />
-}
+}*@
+<style>
+    .fixed-image {
+        width: 100px;
+        /* 寬度固定為 100 像素 */
+        height: 100px;
+        /* 高度固定為 100 像素 */
+        object-fit: cover;
+        /* 確保圖片的長寬比保持不變，超出部分將被裁剪 */
+    }
 
+    span {
+        display: inline-block;
+        white-space: nowrap;
+    }
+</style>
 <div class="container-fluid position-relative d-flex p-0">
     <!-- Content Start -->
     <div class="content">
@@ -147,8 +161,8 @@
                         @using (Html.BeginForm())
                         {
                             @Html.TextBox("txtKeyword")
-                            <input class=" form-control" type="text" placeholder="請輸入關鍵字" aria-label="請輸入關鍵字"
-                               id="searchInput">
+                            <input class=" form-control" type="submit" placeholder="請輸入關鍵字" aria-label="請輸入關鍵字"
+                                   id="searchInput">
                         }
                     </div>
                     <a href="">
@@ -172,7 +186,10 @@
             <div class="bg-white text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h5 class="mb-0 text-dark">課程列表</h5>
-                    <a class="btn btn-primary  custom-purple" href="match_createcourses.html">新增課程</a>
+          
+                    <a class="btn btn-primary  custom-purple" asp-action="Create">新增課程</a>
+                   
+
                 </div>
                 <div class="table-responsive">
                     <table class="table text-center align-middle table-bordered table-hover mb-0">
@@ -188,129 +205,141 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="data-row">
-                                <td><input class="form-check-input" type="checkbox"></td>
-                                <td>CODE001</td>
-                                <td>重量訓練</td>
-                                <td>
-                                    <img class="fixed-image" src="./img/gallery/重量訓練.jpg" alt=""
-                                         style="max-width: 200px;">
-                                </td>
-                                <td>上架</td>
-                                <td>2023-08-07 10:10</td>
-                                <td>
-                                    <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
-                                       style="background-color: aliceblue; color: black;">
-                                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                                    </a>
-                                    <a class="btn btn-sm btn-primary" href="">
-                                        <i class="fa-solid fa-trash-can">刪除</i>
-                                    </a>
-                                </td>
-                            </tr>
+
+                            @{
+                                int count = 0;
+                                foreach (var item in Model)
+                                {
+                                    count++;
+
+                                    <tr class="data-row">
+                                        <td><input class="form-check-input" type="checkbox"></td>
+                                        <td>@Html.DisplayFor(modelItem => item.ClassTypeId)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.ClassName)</td>
+                                        <td>
+                                            <img class="fixed-image" src="./img/gallery/重量訓練.jpg" alt=""
+                                                 style="max-width: 200px;">
+                                        </td>
+                                        <td>上架</td>
+                                        <td>2023-08-07 10:10</td>
+                                        <td>
+                                            <a class="btn btn-sm btn-secondary" href="@Url.Action("Edit", "ClassType", new { id = item.ClassTypeId })"
+                                               style="background-color: aliceblue; color: black;">
+                                                <i class="fa-regular fa-pen-to-square">編輯</i>
+                                            </a>
+                                            <a class="btn btn-sm btn-primary" href="@Url.Action("Delete","ClassType", new { id = item.ClassTypeId })">
+                                                <i class="fa-solid fa-trash-can">刪除</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+
+
+                                }
+                            }
 
 
 
-                            <tr class="data-row">
-                                <td><input class="form-check-input" type="checkbox"></td>
-                                <td>CODE002</td>
-                                <td>格鬥</td>
-                                <td>
-                                    <img class="fixed-image" src="./img/gallery/格鬥.jpg" alt=""
-                                         style="max-width: 200px;">
-                                </td>
-                                <td>上架</td>
-                                <td>2023-08-07 10:10</td>
-                                <td>
-                                    <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
-                                       style="background-color: aliceblue; color: black;">
-                                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                                    </a>
-                                    <a class="btn btn-sm btn-primary" href="">
-                                        <i class="fa-solid fa-trash-can">刪除</i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="data-row">
-                                <td><input class="form-check-input" type="checkbox"></td>
-                                <td>CODE003</td>
-                                <td>戰繩</td>
-                                <td>
-                                    <img class="fixed-image" src="./img/gallery/戰繩.jpg" alt=""
-                                         style="max-width: 200px;">
-                                </td>
-                                <td>上架</td>
-                                <td>2023-08-07 10:10</td>
-                                <td>
-                                    <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
-                                       style="background-color: aliceblue; color: black;">
-                                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                                    </a>
-                                    <a class="btn btn-sm btn-primary" href="">
-                                        <i class="fa-solid fa-trash-can">刪除</i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="data-row">
-                                <td><input class="form-check-input" type="checkbox"></td>
-                                <td>CODE004</td>
-                                <td>有氧</td>
-                                <td>
-                                    <img class="fixed-image" src="./img/gallery/有氧.jpg" alt=""
-                                         style="max-width: 200px;">
-                                </td>
-                                <td>上架</td>
-                                <td>2023-08-07 10:10</td>
-                                <td>
-                                    <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
-                                       style="background-color: aliceblue; color: black;">
-                                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                                    </a>
-                                    <a class="btn btn-sm btn-primary" href="">
-                                        <i class="fa-solid fa-trash-can">刪除</i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="data-row">
-                                <td><input class="form-check-input" type="checkbox"></td>
-                                <td>CODE005</td>
-                                <td>核心訓練</td>
-                                <td>
-                                    <img class="fixed-image" src="./img/gallery/核心訓練.jpg" alt=""
-                                         style="max-width: 200px;">
-                                </td>
-                                <td>下架</td>
-                                <td>2023-08-07 10:10</td>
-                                <td>
-                                    <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
-                                       style="background-color: aliceblue; color: black;">
-                                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                                    </a>
-                                    <a class="btn btn-sm btn-primary" href="">
-                                        <i class="fa-solid fa-trash-can">刪除</i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="data-row">
-                                <td><input class="form-check-input" type="checkbox"></td>
-                                <td>CODE005</td>
-                                <td>核心訓練</td>
-                                <td>
-                                    <img class="fixed-image" src="./img/gallery/核心訓練.jpg" alt=""
-                                         style="max-width: 200px;">
-                                </td>
-                                <td>下架</td>
-                                <td>2023-08-07 10:10</td>
-                                <td>
-                                    <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
-                                       style="background-color: aliceblue; color: black;">
-                                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                                    </a>
-                                    <a class="btn btn-sm btn-primary" href="">
-                                        <i class="fa-solid fa-trash-can">刪除</i>
-                                    </a>
-                                </td>
-                            </tr>
+@*
+                        <tr class="data-row">
+                            <td><input class="form-check-input" type="checkbox"></td>
+                            <td>CODE002</td>
+                            <td>格鬥</td>
+                            <td>
+                                <img class="fixed-image" src="./img/gallery/格鬥.jpg" alt=""
+                                     style="max-width: 200px;">
+                            </td>
+                            <td>上架</td>
+                            <td>2023-08-07 10:10</td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
+                                   style="background-color: aliceblue; color: black;">
+                                    <i class="fa-regular fa-pen-to-square">編輯</i>
+                                </a>
+                                <a class="btn btn-sm btn-primary" href="">
+                                    <i class="fa-solid fa-trash-can">刪除</i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="data-row">
+                            <td><input class="form-check-input" type="checkbox"></td>
+                            <td>CODE003</td>
+                            <td>戰繩</td>
+                            <td>
+                                <img class="fixed-image" src="./img/gallery/戰繩.jpg" alt=""
+                                     style="max-width: 200px;">
+                            </td>
+                            <td>上架</td>
+                            <td>2023-08-07 10:10</td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
+                                   style="background-color: aliceblue; color: black;">
+                                    <i class="fa-regular fa-pen-to-square">編輯</i>
+                                </a>
+                                <a class="btn btn-sm btn-primary" href="">
+                                    <i class="fa-solid fa-trash-can">刪除</i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="data-row">
+                            <td><input class="form-check-input" type="checkbox"></td>
+                            <td>CODE004</td>
+                            <td>有氧</td>
+                            <td>
+                                <img class="fixed-image" src="./img/gallery/有氧.jpg" alt=""
+                                     style="max-width: 200px;">
+                            </td>
+                            <td>上架</td>
+                            <td>2023-08-07 10:10</td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
+                                   style="background-color: aliceblue; color: black;">
+                                    <i class="fa-regular fa-pen-to-square">編輯</i>
+                                </a>
+                                <a class="btn btn-sm btn-primary" href="">
+                                    <i class="fa-solid fa-trash-can">刪除</i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="data-row">
+                            <td><input class="form-check-input" type="checkbox"></td>
+                            <td>CODE005</td>
+                            <td>核心訓練</td>
+                            <td>
+                                <img class="fixed-image" src="./img/gallery/核心訓練.jpg" alt=""
+                                     style="max-width: 200px;">
+                            </td>
+                            <td>下架</td>
+                            <td>2023-08-07 10:10</td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
+                                   style="background-color: aliceblue; color: black;">
+                                    <i class="fa-regular fa-pen-to-square">編輯</i>
+                                </a>
+                                <a class="btn btn-sm btn-primary" href="">
+                                    <i class="fa-solid fa-trash-can">刪除</i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="data-row">
+                            <td><input class="form-check-input" type="checkbox"></td>
+                            <td>CODE005</td>
+                            <td>核心訓練</td>
+                            <td>
+                                <img class="fixed-image" src="./img/gallery/核心訓練.jpg" alt=""
+                                     style="max-width: 200px;">
+                            </td>
+                            <td>下架</td>
+                            <td>2023-08-07 10:10</td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
+                                   style="background-color: aliceblue; color: black;">
+                                    <i class="fa-regular fa-pen-to-square">編輯</i>
+                                </a>
+                                <a class="btn btn-sm btn-primary" href="">
+                                    <i class="fa-solid fa-trash-can">刪除</i>
+                                </a>
+                            </td>
+                        </tr>*@
                         </tbody>
                     </table>
                 </div>
@@ -365,3 +394,90 @@
 
 </div>
 
+
+
+<script>
+    // 全選功能
+    document.addEventListener("DOMContentLoaded", function () {
+        const selectAllCheckbox = document.getElementById("selectAll");
+        const restaurantCheckboxes = document.querySelectorAll(".form-check-input");
+
+        selectAllCheckbox.addEventListener("change", function () {
+            const isChecked = selectAllCheckbox.checked;
+            restaurantCheckboxes.forEach(checkbox => {
+                checkbox.checked = isChecked;
+            });
+        });
+
+        restaurantCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener("change", function () {
+                selectAllCheckbox.checked = Array.from(restaurantCheckboxes).every(cb => cb.checked);
+            });
+        });
+    });
+
+    // 以下是分頁功能
+    document.addEventListener("DOMContentLoaded", function () {
+        const table = document.querySelector(".table");
+        const pageLinks = document.querySelectorAll(".page-link[data-page-type='number']");
+        const prevPageLink = document.querySelector(".previous-page");
+        const nextPageLink = document.querySelector(".next-page");
+
+        pageLinks.forEach(link => {
+            link.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                // 獲取點擊的頁碼
+                const page = parseInt(link.textContent);
+
+                // 移除所有活躍狀態
+                pageLinks.forEach(link => link.parentElement.classList.remove("active"));
+
+                // 添加活跃状态到当前页码链接
+                link.parentElement.classList.add("active");
+
+                // 更新表格内容
+                updateTableContent(page);
+            });
+        });
+
+        prevPageLink.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            const activeLink = document.querySelector(".page-item.active .page-link");
+            if (activeLink) {
+                const currentPage = parseInt(activeLink.textContent);
+                if (currentPage > 1) {
+                    pageLinks[currentPage - 2].click();
+                }
+            }
+        });
+
+        nextPageLink.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            const activeLink = document.querySelector(".page-item.active .page-link");
+            if (activeLink) {
+                const currentPage = parseInt(activeLink.textContent);
+                if (currentPage < pageLinks.length) {
+                    pageLinks[currentPage].click();
+                }
+            }
+        });
+
+        function updateTableContent(page) {
+            const perPage = 5;
+            const startIndex = (page - 1) * perPage;
+            const endIndex = startIndex + perPage;
+
+            const rows = table.querySelectorAll("tbody tr");
+            rows.forEach((row, index) => {
+                if (index >= startIndex && index < endIndex) {
+                    row.style.display = "table-row";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+    });
+</script>
