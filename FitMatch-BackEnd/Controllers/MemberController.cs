@@ -12,12 +12,12 @@ namespace FitMatch_BackEnd.Controllers
     public class MemberController : Controller
     {
         // GET: /<controller>/  預設先註解掉
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
 
-        //--------- M-0:欣彤試連，會員DB資料連結test （SQL 要修修）
+        //--------- M-0:欣彤試連，會員DB資料連結test （SQL 連線要修修）
         public IActionResult Member()
         {
             //資料庫連接 =>實體化DB
@@ -33,7 +33,7 @@ namespace FitMatch_BackEnd.Controllers
 
 
         //--------- M-1:會員管理列表（檢視list）=> 前端畫面 index_Backage_member_management.html
-        //public IActionResult List(CKeywordViewModel vm)
+        //public IActionResult MemberList(CKeywordViewModel vm)
         //{
 
         //    FitMatchDbContext db = new FitMatchDbContext();
