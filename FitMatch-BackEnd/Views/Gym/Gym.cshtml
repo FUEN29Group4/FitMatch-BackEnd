@@ -167,123 +167,43 @@
                             <th scope="col"></th>
                             <th scope="col">場館編號</th>
                             <th scope="col">場館名稱</th>
-                            <th scope="col">封面</th>
+                            <th scope="col">電話</th>
                             <th scope="col">地區</th>
-                            <th scope="col">狀態</th>
-                            <th scope="col">建立時間</th>
+                            <th scope="col">營業時間</th>
+                            <th scope="col">結束時間</th>
                             <th scope="col">操作</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="data-row">
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>CODE001</td>
-                            <td>五股國民運動中心</td>
-                            <td>
-                                <img class="fixed-image" src="./img/gym/五股運動中心.jpg" alt="" style="max-width: 200px;">
-                            </td>
-                            <td>新北市五股區</td>
-                            <td>上架</td>
-                            <td>2023-08-07 10:10</td>
-                            <td>
-                                <a class="btn btn-sm btn-secondary" href="match_editgym.html"
-                                   style="background-color: aliceblue; color: black;">
-                                    <i class="fa-regular fa-pen-to-square">編輯</i>
-                                </a>
-                                <a class="btn btn-sm btn-primary" href=""><i class="fa-solid fa-trash-can">刪除</i></a>
-                            </td>
-                        </tr>
-                        <tr class="data-row">
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>CODE002</td>
-                            <td>新莊運動中心</td>
-                            <td>
-                                <img class="fixed-image" src="./img/gym/新莊運動中心.jpg" alt="" style="max-width: 200px;">
-                            </td>
-                            <td>新北市新莊區</td>
-                            <td>上架</td>
-                            <td>2023-08-07 10:10</td>
-                            <td>
-                                <a class="btn btn-sm btn-secondary" href="match_editgym.html"
-                                   style="background-color: aliceblue; color: black;">
-                                    <i class="fa-regular fa-pen-to-square">編輯</i>
-                                </a>
-                                <a class="btn btn-sm btn-primary" href=""><i class="fa-solid fa-trash-can">刪除</i></a>
-                            </td>
-                        </tr>
-                        <tr class="data-row">
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>CODE003</td>
-                            <td>屏東運動中心</td>
-                            <td>
-                                <img class="fixed-image" src="./img/gym/屏東運動中心.jpg" alt="" style="max-width: 200px;">
-                            </td>
-                            <td>屏東縣屏東市</td>
-                            <td>上架</td>
-                            <td>2023-08-07 10:10</td>
-                            <td>
-                                <a class="btn btn-sm btn-secondary" href="match_editgym.html"
-                                   style="background-color: aliceblue; color: black;">
-                                    <i class="fa-regular fa-pen-to-square">編輯</i>
-                                </a>
-                                <a class="btn btn-sm btn-primary" href=""><i class="fa-solid fa-trash-can">刪除</i></a>
-                            </td>
-                        </tr>
-                        <tr class="data-row">
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>CODE004</td>
-                            <td>樹林運動中心</td>
-                            <td>
-                                <img class="fixed-image" src="./img/gym/樹林運動中心.jpg" alt="" style="max-width: 200px;">
-                            </td>
-                            <td>新北市樹林區</td>
-                            <td>上架</td>
-                            <td>2023-08-07 10:10</td>
-                            <td>
-                                <a class="btn btn-sm btn-secondary" href="match_editgym.html"
-                                   style="background-color: aliceblue; color: black;">
-                                    <i class="fa-regular fa-pen-to-square">編輯</i>
-                                </a>
-                                <a class="btn btn-sm btn-primary" href=""><i class="fa-solid fa-trash-can">刪除</i></a>
-                            </td>
-                        </tr>
-                        <tr class="data-row">
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>CODE005</td>
-                            <td>南屯運動中心</td>
-                            <td>
-                                <img class="fixed-image" src="./img/gym/南屯運動中心.jpg" alt="" style="max-width: 200px;">
-                            </td>
-                            <td>台中市南屯區</td>
-                            <td>下架</td>
-                            <td>2023-08-07 10:10</td>
-                            <td>
-                                <a class="btn btn-sm btn-secondary" href="match_editgym.html"
-                                   style="background-color: aliceblue; color: black;">
-                                    <i class="fa-regular fa-pen-to-square">編輯</i>
-                                </a>
-                                <a class="btn btn-sm btn-primary" href=""><i class="fa-solid fa-trash-can">刪除</i></a>
-                            </td>
-                        </tr>
-                        <tr class="data-row">
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>CODE005</td>
-                            <td>臺南運動中心</td>
-                            <td>
-                                <img class="fixed-image" src="./img/gym/臺南運動中心.jpg" alt="" style="max-width: 200px;">
-                            </td>
-                            <td>台南市中西區</td>
-                            <td>下架</td>
-                            <td>2023-08-07 10:10</td>
-                            <td>
-                                <a class="btn btn-sm btn-secondary" href="match_editgym.html"
-                                   style="background-color: aliceblue; color: black;">
-                                    <i class="fa-regular fa-pen-to-square">編輯</i>
-                                </a>
-                                <a class="btn btn-sm btn-primary" href=""><i class="fa-solid fa-trash-can">刪除</i></a>
-                            </td>
-                        </tr>
+                        @{
+                            int count = 0;
+                            foreach (var item in Model)
+                            {
+                                count++;
+
+                                <tr class="data-row">
+                                    <td><input class="form-check-input" type="checkbox"></td>
+                                    <td>@Html.DisplayFor(modelItem => item.GymId)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.GymName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.OpentimeStart)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.OpentimeEnd)</td>
+                                    <!-- 如果有 Gym 的圖片欄位，你可以在此插入 -->
+                                    <td>
+                                        <a class="btn btn-sm btn-secondary" href="@Url.Action("GymEdit", "Gym", new { id = item.GymId })"
+                                           style="background-color: aliceblue; color: black;">
+                                            <i class="fa-regular fa-pen-to-square">編輯</i>
+                                        </a>
+                                        <a class="btn btn-sm btn-primary" href="@Url.Action("Delete", "Gym", new { id = item.GymId })">
+                                            <i class="fa-solid fa-trash-can">刪除</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
                     </tbody>
+
                 </table>
             </div>
 
