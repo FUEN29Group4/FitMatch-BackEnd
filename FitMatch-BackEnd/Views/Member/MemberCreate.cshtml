@@ -295,10 +295,18 @@
                                         <label asp-for="CreatedAt"
                                                class="col-form-label min-width-label">入會時間</label>
                                     </div>
-                                    <div class="col-8">
+                                    @* <div class="col-8">
                                         <input asp-for="CreatedAt" class="form-select" style="background-color:#fff;" type="date"
                                                name="birth" id="">
-                                    </div>
+                                    </div> *@
+
+
+
+
+                                    <input asp-for="CreatedAt" class="form-control" style="background-color:#fff;" />
+                                        <span asp-validation-for="CreatedAt" class="text-danger"></span>
+                                    
+
                                 </div>
 
 
