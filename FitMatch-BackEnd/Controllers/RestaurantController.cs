@@ -6,6 +6,13 @@ namespace FitMatch_BackEnd.Controllers
 {
     public class RestaurantController : Controller
     {
+        public IWebHostEnvironment _enviro = null;
+        public RestaurantController(IWebHostEnvironment p)
+        {
+            _enviro = p;
+        }
+
+
         public IActionResult List(CKeywordViewModel vm)
         {
 
@@ -43,6 +50,7 @@ namespace FitMatch_BackEnd.Controllers
             }
             return RedirectToAction("List");
         }
+
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -51,6 +59,7 @@ namespace FitMatch_BackEnd.Controllers
             Restaurant prod = db.Restaurants.FirstOrDefault(t => t.RestaurantsId == id);
             if (prod == null)
                 return RedirectToAction("List");
+
             CRestaurantWrap prodWp = new CRestaurantWrap();
             prodWp.restaurant = prod;
             return View(prodWp);
@@ -61,13 +70,27 @@ namespace FitMatch_BackEnd.Controllers
             FitMatchDbContext db = new FitMatchDbContext();
             Restaurant custDb = db.Restaurants.FirstOrDefault(t => t.RestaurantsId == custIn.FId);
 
-            if (custDb != null)
+            if (custIn != null)
             {
+                if (custIn.FPhoto != null)
+                {
+                    string photoName = Guid.NewGuid().ToString() + ".jpg";
+
+                    string path = Path.Combine(_enviro.WebRootPath , "/images/" , photoName);
+                    using (var stream = new FileStream(path, mode: FileMode.Create))
+                    {
+                        custIn.FPhoto = photoName;
+                    }
+                    //string path = _enviro.WebRootPath + "/images/" + photoName;
+                    //custIn.FPhoto.CopyTo(new FileStream(path, mode: FileMode.Create));
+                    custDb.Photo = photoName;
+                }
                 custDb.RestaurantsName = custIn.FName;
                 custDb.Phone = custIn.FPhone;
                 custDb.Address = custIn.FAddress;
                 custDb.RestaurantsDescription = custIn.FRestaurantsDescription;
-                custDb.Approved = custIn.FApproved;
+                custDb.CreatedAt = custIn.FCreateAt;
+                custDb.Status = custIn.FStatus;
 
                 db.SaveChanges();
             }
