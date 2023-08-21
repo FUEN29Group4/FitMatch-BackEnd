@@ -17,10 +17,6 @@ namespace FitMatch_BackEnd.Controllers
         }
 
         public IWebHostEnvironment _enviro = null;
-        //public ProductController(IWebHostEnvironment p)
-        //{
-        //    _enviro = p;
-        //}
 
 
         //取得商品管理頁面  ***上架狀態要修***圖片未抓取*** ???商品描述???
@@ -36,7 +32,7 @@ namespace FitMatch_BackEnd.Controllers
             return View(datas);
         }
 
-        //新增商品  ***資料庫未寫入****
+        //新增商品  ***資料庫未寫入，選圖片就會中斷連線****
         public IActionResult Create()
         {
             return View();
@@ -65,7 +61,7 @@ namespace FitMatch_BackEnd.Controllers
             return RedirectToAction("List");
         }
 
-        //修改
+        //修改  ***資料庫未寫入，選圖片就會中斷連線****
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -91,7 +87,7 @@ namespace FitMatch_BackEnd.Controllers
                 {
                     string photoName = Guid.NewGuid().ToString() + ".jpg";
 
-                    string path = _enviro.WebRootPath + "~/img/商城/" + photoName;
+                    string path = _enviro.WebRootPath + "/img/商城/" + photoName;
                     prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
                     custDb.Photo = photoName;
                 }
