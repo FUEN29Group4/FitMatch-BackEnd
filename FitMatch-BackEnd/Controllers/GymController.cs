@@ -21,5 +21,12 @@ namespace FitMatch_BackEnd.Controllers
             IEnumerable<Gym> datas = from p in _context.Gyms select p;
             return View(datas);
         }
+
+        public IActionResult GymEdit()
+        {
+
+            IEnumerable<Gym> datas = from p in _context.Gyms select p;
+            return View(datas);
+        }
     }
 }
