@@ -185,7 +185,7 @@
                             <th scope="col" style="min-width: 80px;">產品類別</th>
                             <th scope="col" style="min-width: 80px;">產品名稱</th>
                             <th scope="col">封面</th>
-                            <th scope="col" style="min-width: 80px;">庫存</th>
+                            
                             <th scope="col" style="min-width: 80px;">價格</th>
                             <th scope="col" style="min-width: 80px;">商品庫存</th>
                             <th scope="col" style="min-width: 80px;">狀態</th>
@@ -194,29 +194,35 @@
                         </tr>
                     </thead>
                     <tbody>
+                          @{
+                            int count = 0;
+                            foreach (var item in Model)
+                            {
+                                count++;
+
                         <tr class="data-row">
                             <td><input class="form-check-input" type="checkbox"></td>
-                            <td>P001</td>
-                            <td>保健品</td>
-                            <td>BCAA</td>
+                                    <td>@count</td>
+                                    <td>@Html.DisplayFor(modelItem => item.TypeId)</td>
+                                    <td> @Html.DisplayFor(modelItem => item.ProductName)</td>
                             <td>
-                                <img class="fixed-image" src="img/mall/bcaa.jpg" alt=""
-                                     style="max-width: 200px;">
+                                        @Html.DisplayFor(modelItem => item.Photo)
                             </td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>上架</td>
-                            <td>2023-08-07 10:10</td>
+
+                                    <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.ProductInventory)</td>
+                                    <td> @Html.DisplayFor(modelItem => item.Approved)</td>
+                           
                             <td>
-                                <a class="btn btn-sm btn-secondary" href="AddProduct.html"
-                                   style="background-color: aliceblue; color: black;">
-                                    <i class="fa-regular fa-pen-to-square">編輯</i>
-                                </a>
-                                <a class="btn btn-sm btn-primary" href="">
-                                    <i class="fa-solid fa-trash-can">刪除</i>
-                                </a>
+                                        <a class="btn btn-sm btn-secondary" href="@Url.Action("Edit", "Product", new { id = item.ProductId })"
+                                           style="background-color: aliceblue; color: black;">
+                                            <i class="fa-regular fa-pen-to-square">編輯</i>
+                                        </a>
+                                        <a class="btn btn-sm btn-primary" href="@Url.Action("Delete", "Product", new { id = item.ProductId })">
+                                            <i class="fa-solid fa-trash-can">刪除</i>
+                                        </a>
                             </td>
-                        </tr>
+                        </tr>}}
                         @* <tr class="data-row">
                             <td><input class="form-check-input" type="checkbox"></td>
                             <td>P002</td>
