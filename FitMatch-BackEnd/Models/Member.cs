@@ -25,6 +25,8 @@ public partial class Member
 
     public DateTime? CreatedAt { get; set; }
 
+    public bool Status { get; set; }
+
     public virtual ICollection<MemberFavorite> MemberFavorites { get; set; } = new List<MemberFavorite>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();

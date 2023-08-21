@@ -147,8 +147,6 @@
         </div>
     </nav>
     <!-- Navbar End -->
-
-
     <!-- Form Start -->
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
@@ -163,13 +161,13 @@
 
 
                                 @*<div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
-            <div class="col-2">
-                <label asp-for="MemberId" type="hidden" class="col-form-label  t1">會員ID</label>
-            </div>
-            <div class="col-8">
-                <label asp-for="MemberId" type="hidden" class="col-form-label  t1" value="MemberId"> @Model.MemberId</label>
-            </div>
-        </div>*@
+                                <div class="col-2">
+                                <label asp-for="MemberId" type="hidden" class="col-form-label  t1">會員ID</label>
+                                </div>
+                                <div class="col-8">
+                                <label asp-for="MemberId" type="hidden" class="col-form-label  t1" value="MemberId"> @Model.MemberId</label>
+                                </div>
+                                </div>*@
 
                                 <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                                     <div class="col-2">
@@ -272,21 +270,21 @@
 
 
 
-                                @*？？？會員物狀態要去SQL 修修欄位*@
-                                @*<div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
-            <div class="col-2">
-                <label for="inputname" class="col-form-label t1">
-                    會員狀態
-                </label>
-            </div>
-            <div class="col-8">
-                <select class="form-select" style="background-color: #fff;"
-                        aria-label="權限" name="add1" size="1">
-                    <option value="2">有效會員</option>
-                    <option value="2">無效會員</option>
-                </select>
-            </div>
-        </div>*@
+                                @* ？？？會員物狀態要去SQL 修修欄位 *@
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
+                                    <div class="col-2">
+                                        <label asp-for="Status" class="col-form-label t1">
+                                            會員狀態
+                                        </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <select asp-for="Status" class="form-select" style="background-color: #fff;"
+                                                aria-label="權限" name="add1" size="1">
+                                            <option value="true">有效會員</option>
+                                            <option value="false">無效會員</option>
+                                        </select>
+                                    </div>
+                                </div>
 
 
 
@@ -313,33 +311,33 @@
 
                                 </div>
                             </div>
-                             
-     
 
 
-                    <div class="col">
-                        <div>
-                            <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
-                                <div class="col-2">
-                                    <label for="inputname" class="col-form-label  t1">大頭貼</label>
-                                </div>
-                                <div class="col-8">
-                                    <div  class="upload-container">
-                                        <label asp-for="Photo" for="upload" class="label-upload">
-                                            <div class="icon">+</div>
-                                            <input type="file" id="upload" class="upload-input"
-                                                   accept="image/*">
-                                        </label>
-                                        <img id="preview" src="" alt="Image Preview">
+
+
+                            <div class="col">
+                                <div>
+                                    <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
+                                        <div class="col-2">
+                                            <label for="inputname" class="col-form-label  t1">大頭貼</label>
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="upload-container">
+                                                <label asp-for="Photo" for="upload" class="label-upload">
+                                                    <div class="icon">+</div>
+                                                    <input type="file" id="upload" class="upload-input"
+                                                           accept="image/*">
+                                                </label>
+                                                <img id="preview" src="" alt="Image Preview">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-8" style="margin-left:150px">
+                                        只能上傳jpg/png文件，且不超過500kb
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-8" style="margin-left:150px">
-                                只能上傳jpg/png文件，且不超過500kb
-                            </div>
                         </div>
-                    </div>
-                    </div>
                     </form>
 
 
@@ -360,7 +358,8 @@
 
 
 @*JS區*@
-<script>const uploadInput = document.getElementById('upload');
+<script>
+    const uploadInput = document.getElementById('upload');
     const preview = document.getElementById('preview');
     const icon = document.querySelector('.icon');
 
