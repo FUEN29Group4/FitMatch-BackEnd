@@ -18,7 +18,7 @@ public partial class Product
     public int? TypeId { get; set; }
 
     public bool? Approved { get; set; }
-    public bool? ProductInventory { get; set; }
+    public int? ProductInventory { get; set; }
     
     public virtual ICollection<MemberFavorite> MemberFavorites { get; set; } = new List<MemberFavorite>();
 
