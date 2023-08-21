@@ -170,17 +170,23 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-center me-4" style="margin-left: 25px;">
-                        <span style="margin-right: 10px; text-align: center;">課程日期:</span>
-                        <input class="form-select" style="background-color:#fff;" type="date" name="start" id=""
-                               value="課程日期">
-                    </div>
+                    <form method="get" action="@Url.Action("List", "Match")">
+                        <!-- Other search fields -->
 
-                    <div class="d-flex align-items-center me-4">
-                        <span style="margin-left: -20px; text-align: center;">至</span>
-                        <input class="form-select" style="background-color:#fff; margin-left: 10px;" type="date"
-                               name="end" id="" value="結束時間">
-                    </div>
+                        <div class="d-flex align-items-center me-4" style="margin-left: 25px;">
+                            <span style="margin-right: 10px; text-align: center;">課程日期:</span>
+                            <input class="form-select" style="background-color:#fff;" type="date" name="start" id="start"
+                                   value="@ViewBag.StartDate"> <!-- Use ViewBag to populate the value -->
+                        </div>
+
+                        <div class="d-flex align-items-center me-4">
+                            <span style="margin-left: -20px; text-align: center;">至</span>
+                            <input class="form-select" style="background-color:#fff; margin-left: 10px;" type="date"
+                                   name="end" id="end" value="@ViewBag.EndDate"> <!-- Use ViewBag to populate the value -->
+                        </div>
+
+                        <button type="submit">搜索</button>
+                    </form>
 
                     <div class="col-4 d-flex align-items-center ms-4">
                         <span style="margin-right: 10px; text-align: center;">課程狀態:</span>

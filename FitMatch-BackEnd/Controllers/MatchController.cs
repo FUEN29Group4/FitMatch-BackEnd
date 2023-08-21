@@ -15,7 +15,7 @@ namespace FitMatch_BackEnd.Controllers
             _db = db;
         }
 
-        public IActionResult List(string searchField, string searchKeyword)
+        public IActionResult List(string searchField, string searchKeyword, DateTime? start, DateTime? end)
         {
             
             
@@ -39,6 +39,10 @@ namespace FitMatch_BackEnd.Controllers
                                      CourseStatus=c.CourseStatus,
                                      TrainerID =t.TrainerId
                                  }).ToList();
+            if (start.HasValue && end.HasValue)
+            {
+                viewModelList = viewModelList.Where(vm => vm.StartTime >= start.Value && vm.StartTime <= end.Value).ToList();
+            }
             if (!string.IsNullOrEmpty(searchField) && !string.IsNullOrEmpty(searchKeyword))
             {
                 switch (searchField)
