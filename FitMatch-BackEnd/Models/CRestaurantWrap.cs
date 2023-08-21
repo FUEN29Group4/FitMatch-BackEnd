@@ -34,15 +34,25 @@
             get { return _restaurant.Address; }
             set { _restaurant.Address = value; }
         }
+        public string? FPhoto
+        {
+            get { return _restaurant.Photo; }
+            set { _restaurant.Photo = value; }
+        }
         public string? FRestaurantsDescription
         {
             get { return _restaurant.RestaurantsDescription; }
             set { _restaurant.RestaurantsDescription = value; }
         }
-        public bool? FApproved
+        public DateTime? FCreateAt
         {
-            get { return _restaurant.Approved; }
-            set { _restaurant.Approved = value; }
+            get { return _restaurant.CreatedAt; }
+            set { _restaurant.CreatedAt = value; }
+        }
+        public bool? FStatus
+        {
+            get { return _restaurant.Status; }
+            set { _restaurant.Status = value; }
         }
     }
 }

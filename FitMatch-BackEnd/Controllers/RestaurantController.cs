@@ -6,6 +6,13 @@ namespace FitMatch_BackEnd.Controllers
 {
     public class RestaurantController : Controller
     {
+        public IWebHostEnvironment _enviro = null;
+        public RestaurantController(IWebHostEnvironment p)
+        {
+            _enviro = p;
+        }
+
+
         public IActionResult List(CKeywordViewModel vm)
         {
 
@@ -52,21 +59,38 @@ namespace FitMatch_BackEnd.Controllers
             Restaurant prod = db.Restaurants.FirstOrDefault(t => t.RestaurantsId == id);
             if (prod == null)
                 return RedirectToAction("List");
-            return View(prod);
+
+            CRestaurantWrap prodWp = new CRestaurantWrap();
+            prodWp.restaurant = prod;
+            return View(prodWp);
         }
         [HttpPost]
-        public IActionResult Edit(Restaurant custIn)
+        public IActionResult Edit(CRestaurantWrap custIn)
         {
             FitMatchDbContext db = new FitMatchDbContext();
-            Restaurant custDb = db.Restaurants.FirstOrDefault(t => t.RestaurantsId == custIn.RestaurantsId);
+            Restaurant custDb = db.Restaurants.FirstOrDefault(t => t.RestaurantsId == custIn.FId);
 
-            if (custDb != null)
+            if (custIn != null)
             {
-                custDb.RestaurantsName = custIn.RestaurantsName;
-                custDb.Phone = custIn.Phone;
-                custDb.Address = custIn.Address;
-                custDb.RestaurantsDescription = custIn.RestaurantsDescription;
+                if (custIn.FPhoto != null)
+                {
+                    string photoName = Guid.NewGuid().ToString() + ".jpg";
 
+                    string path = Path.Combine(_enviro.WebRootPath , "/images/" , photoName);
+                    using (var stream = new FileStream(path, mode: FileMode.Create))
+                    {
+                        custIn.FPhoto = photoName;
+                    }
+                    //string path = _enviro.WebRootPath + "/images/" + photoName;
+                    //custIn.FPhoto.CopyTo(new FileStream(path, mode: FileMode.Create));
+                    custDb.Photo = photoName;
+                }
+                custDb.RestaurantsName = custIn.FName;
+                custDb.Phone = custIn.FPhone;
+                custDb.Address = custIn.FAddress;
+                custDb.RestaurantsDescription = custIn.FRestaurantsDescription;
+                custDb.CreatedAt = custIn.FCreateAt;
+                custDb.Status = custIn.FStatus;
 
                 db.SaveChanges();
             }
