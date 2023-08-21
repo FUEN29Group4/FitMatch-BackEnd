@@ -124,6 +124,7 @@ namespace FitMatch_BackEnd.Controllers
                 custDb.CreatedAt = custIn.CreatedAt;
                 custDb.Photo = custIn.Photo;
                 custDb.Birth = custIn.Birth;
+                custDb.Status = custIn.Status;
                 db.SaveChanges();
             }
             return RedirectToAction("Edit");

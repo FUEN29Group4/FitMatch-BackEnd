@@ -321,13 +321,15 @@
                             
      
                             
-
+                       @*      圖片上傳功能錯誤 *@
                     <div class="col">
                         <div>
                             <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                                 <div class="col-2">
-                                    <label for="inputname" class="col-form-label  t1">大頭貼</label>
+                                            <label asp-for="Photo" class="col-form-label  t1">大頭貼</label>
                                 </div>
+                               
+                                
                                 <div class="col-8">
                                     <div class="upload-container">
                                         <label for="upload" class="label-upload">
@@ -335,9 +337,21 @@
                                             <input type="file" id="upload" class="upload-input"
                                                    accept="image/*">
                                         </label>
-                                        <img id="preview" src="" alt="Image Preview">
+                                                <img asp-for="Photo" src="~/img/Members/@Model.Photo" width="110" height="70" />
                                     </div>
+
+
+                                            <div class="rounded-circle ms-5" style="height: 200px;width: 200px; overflow:hidden;">
+                                              
+                                               
+                                            </div>
+
+
                                 </div>
+
+                                        
+
+
                             </div>
                             <div class="col-8" style="margin-left:230px">
                                 只能上傳jpg/png文件，且不超過500kb
