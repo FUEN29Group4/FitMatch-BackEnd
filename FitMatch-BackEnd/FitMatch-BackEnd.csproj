@@ -29,7 +29,4 @@
   <ItemGroup>
     <None Remove="Views\Member\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Member\" />
-  </ItemGroup>
 </Project>

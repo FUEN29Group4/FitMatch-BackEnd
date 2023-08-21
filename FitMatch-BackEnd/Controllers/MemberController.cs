@@ -130,6 +130,39 @@ namespace FitMatch_BackEnd.Controllers
         }
 
 
+        public IActionResult MemberEditTest(int? id)
+        {
+            if (id == null)
+                return RedirectToAction("Member");
+            FitMatchDbContext db = new FitMatchDbContext();
+            Member cust = db.Members.FirstOrDefault(t => t.MemberId == id);
+            if (cust == null)
+                return RedirectToAction("Member");
+            return View(cust);
+        }
+        [HttpPost]
+        public IActionResult MemberEditTest(Member custIn)
+        {
+            FitMatchDbContext db = new FitMatchDbContext();
+            Member custDb = db.Members.FirstOrDefault(t => t.MemberId == custIn.MemberId);
+
+            if (custDb != null)
+            {
+                custDb.MemberName = custIn.MemberName;
+                custDb.Phone = custIn.Phone;
+                custDb.Email = custIn.Email;
+                custDb.Address = custIn.Address;
+                custDb.Password = custIn.Password;
+                custDb.Gender = custIn.Gender;
+                custDb.CreatedAt = custIn.CreatedAt;
+                custDb.Photo = custIn.Photo;
+                custDb.Birth = custIn.Birth;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Member");
+        }
+
+
         //public IActionResult MemberCancel()
         //{
         //    return View("Member");
