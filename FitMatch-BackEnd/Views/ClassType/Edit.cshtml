@@ -152,19 +152,20 @@
 
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
                             <div class="col-2">
-                                <label asp-for="ClassName" for="inputname" class="col-form-label">課程編號</label>
+                                <label asp-for="ClassTypeId" for="inputname" class="col-form-label">課程編號</label>
                             </div>
                             <div class="col-10">
-                                <input asp-for="ClassName" class="form-control mb-3" type="text" aria-label="課程編號" id="inputname">
-                                <span asp-validation-for="ClassName" class="text-danger"></span>
+                                <input asp-for="ClassTypeId" class="form-control mb-3" type="text" aria-label="課程編號" id="inputname">
+                                <span asp-validation-for="ClassTypeId" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
                             <div class="col-2">
-                                <label for="inputname" class="col-form-label">課程名稱</label>
+                                <label asp-for="ClassName" for="inputname" class="col-form-label">課程名稱</label>
                             </div>
                             <div class="col-10">
-                                <input class="form-control mb-3" type="text" aria-label="重量訓練" id="inputname">
+                                <input asp-for="ClassName" class="form-control mb-3" type="text" aria-label="重量訓練" id="inputname">
+                                <span asp-validation-for="ClassTypeId" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
