@@ -43,6 +43,7 @@ namespace FitMatch_BackEnd.Controllers
             }
             return RedirectToAction("List");
         }
+
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -51,23 +52,21 @@ namespace FitMatch_BackEnd.Controllers
             Restaurant prod = db.Restaurants.FirstOrDefault(t => t.RestaurantsId == id);
             if (prod == null)
                 return RedirectToAction("List");
-            CRestaurantWrap prodWp = new CRestaurantWrap();
-            prodWp.restaurant = prod;
-            return View(prodWp);
+            return View(prod);
         }
         [HttpPost]
-        public IActionResult Edit(CRestaurantWrap custIn)
+        public IActionResult Edit(Restaurant custIn)
         {
             FitMatchDbContext db = new FitMatchDbContext();
-            Restaurant custDb = db.Restaurants.FirstOrDefault(t => t.RestaurantsId == custIn.FId);
+            Restaurant custDb = db.Restaurants.FirstOrDefault(t => t.RestaurantsId == custIn.RestaurantsId);
 
             if (custDb != null)
             {
-                custDb.RestaurantsName = custIn.FName;
-                custDb.Phone = custIn.FPhone;
-                custDb.Address = custIn.FAddress;
-                custDb.RestaurantsDescription = custIn.FRestaurantsDescription;
-                custDb.Approved = custIn.FApproved;
+                custDb.RestaurantsName = custIn.RestaurantsName;
+                custDb.Phone = custIn.Phone;
+                custDb.Address = custIn.Address;
+                custDb.RestaurantsDescription = custIn.RestaurantsDescription;
+
 
                 db.SaveChanges();
             }

@@ -43,6 +43,7 @@ namespace FitMatch_BackEnd.Controllers
             }
             return RedirectToAction("List");
         }
+
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -51,20 +52,18 @@ namespace FitMatch_BackEnd.Controllers
             ClassType prod = db.ClassTypes.FirstOrDefault(t => t.ClassTypeId == id);
             if (prod == null)
                 return RedirectToAction("List");
-            CClassTypeWrap prodWp = new CClassTypeWrap();
-            prodWp.classtype = prod;
-            return View(prodWp);
+            return View(prod);
         }
         [HttpPost]
-        public IActionResult Edit(CClassTypeWrap custIn)
+        public IActionResult Edit(ClassType custIn)
         {
             FitMatchDbContext db = new FitMatchDbContext();
-            ClassType custDb = db.ClassTypes.FirstOrDefault(t => t.ClassTypeId == custIn.FId);
+            ClassType custDb = db.ClassTypes.FirstOrDefault(t => t.ClassTypeId == custIn.ClassTypeId);
 
             if (custDb != null)
             {
-                custDb.ClassName = custIn.FName;
-                custDb.Introduction = custIn.FIntroduction;
+                custDb.ClassName = custIn.ClassName;
+                custDb.Introduction = custIn.Introduction;
 
                 db.SaveChanges();
             }
