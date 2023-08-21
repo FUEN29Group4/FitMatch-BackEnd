@@ -44,11 +44,7 @@
             get { return _restaurant.RestaurantsDescription; }
             set { _restaurant.RestaurantsDescription = value; }
         }
-        public DateTime? FCreateAt
-        {
-            get { return _restaurant.CreatedAt; }
-            set { _restaurant.CreatedAt = value; }
-        }
+
         public bool? FStatus
         {
             get { return _restaurant.Status; }

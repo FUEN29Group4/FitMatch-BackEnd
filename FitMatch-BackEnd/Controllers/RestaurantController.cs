@@ -89,7 +89,6 @@ namespace FitMatch_BackEnd.Controllers
                 custDb.Phone = custIn.FPhone;
                 custDb.Address = custIn.FAddress;
                 custDb.RestaurantsDescription = custIn.FRestaurantsDescription;
-                custDb.CreatedAt = custIn.FCreateAt;
                 custDb.Status = custIn.FStatus;
 
                 db.SaveChanges();
