@@ -173,7 +173,7 @@
         <div class="bg-white text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <h5 class="mb-0 text-dark">產品列表</h5>
-                <a class="btn btn-primary  custom-purple" href="AddProduct.html">新增產品</a>
+                <a class="btn btn-primary  custom-purple" asp-action="Create">新增產品</a>
             </div>
             <div class="table-responsive">
                 <table class="table text-center align-middle table-bordered table-hover mb-0">
@@ -185,35 +185,31 @@
                             <th scope="col" style="min-width: 80px;">產品類別</th>
                             <th scope="col" style="min-width: 80px;">產品名稱</th>
                             <th scope="col">封面</th>
-                            
+
                             <th scope="col" style="min-width: 80px;">價格</th>
                             <th scope="col" style="min-width: 80px;">商品庫存</th>
                             <th scope="col" style="min-width: 80px;">狀態</th>
-                            <th scope="col">建立時間</th>
-                            <th scope="col" style="min-width: 80px;">操作</th>
+                            <th scope="col" style="min-width: 80px;">操作</th>                            
                         </tr>
                     </thead>
                     <tbody>
-                          @{
+                        @{
                             int count = 0;
                             foreach (var item in Model)
                             {
                                 count++;
 
-                        <tr class="data-row">
-                            <td><input class="form-check-input" type="checkbox"></td>
+                                <tr class="data-row">
+                                    <td><input class="form-check-input" type="checkbox"></td>
                                     <td>@count</td>
                                     <td>@Html.DisplayFor(modelItem => item.TypeId)</td>
-                                    <td> @Html.DisplayFor(modelItem => item.ProductName)</td>
-                            <td>
-                                        @Html.DisplayFor(modelItem => item.Photo)
-                            </td>
-
+                                    <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+                                    <td><img src="~/img/商城/@item.Photo" width="110" height="70" /></td>
                                     <td>@Html.DisplayFor(modelItem => item.Price)</td>
                                     <td>@Html.DisplayFor(modelItem => item.ProductInventory)</td>
-                                    <td> @Html.DisplayFor(modelItem => item.Approved)</td>
-                           
-                            <td>
+                                    <td>@Html.DisplayFor(modelItem => item.Approved)</td>
+
+                                    <td>
                                         <a class="btn btn-sm btn-secondary" href="@Url.Action("Edit", "Product", new { id = item.ProductId })"
                                            style="background-color: aliceblue; color: black;">
                                             <i class="fa-regular fa-pen-to-square">編輯</i>
@@ -221,123 +217,11 @@
                                         <a class="btn btn-sm btn-primary" href="@Url.Action("Delete", "Product", new { id = item.ProductId })">
                                             <i class="fa-solid fa-trash-can">刪除</i>
                                         </a>
-                            </td>
-                        </tr>}}
-                        @* <tr class="data-row">
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>P002</td>
-                            <td>乳清蛋白</td>
-                            <td>ON乳清蛋白</td>
-                            <td>
-                                <img class="fixed-image" src="img/mall/牛奶巧克力 1.jpg" alt=""
-                                     style="max-width: 200px;">
-                            </td>
-                            <td>1</td>
-                            <td>123</td>
-                            <td>上架</td>
-                            <td>2023-08-07 10:10</td>
-                            <td>
-                                <a class="btn btn-sm btn-secondary" href="AddProduct.html"
-                                   style="background-color: aliceblue; color: black;">
-                                    <i class="fa-regular fa-pen-to-square">編輯</i>
-                                </a>
-                                <a class="btn btn-sm btn-primary" href="">
-                                    <i class="fa-solid fa-trash-can">刪除</i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr class="data-row">
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>P003</td>
-                            <td>雞胸肉</td>
-                            <td>黑土雞雞胸肉</td>
-                            <td>
-                                <img class="fixed-image" src="img/mall/chicken.jpg" alt=""
-                                     style="max-width: 200px;">
-                            </td>
-                            <td>1</td>
-                            <td>123</td>
-                            <td>上架</td>
-                            <td>2023-08-07 10:10</td>
-                            <td>
-                                <a class="btn btn-sm btn-secondary" href="AddProduct.html"
-                                   style="background-color: aliceblue; color: black;">
-                                    <i class="fa-regular fa-pen-to-square">編輯</i>
-                                </a>
-                                <a class="btn btn-sm btn-primary" href="">
-                                    <i class="fa-solid fa-trash-can">刪除</i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr class="data-row">
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>P004</td>
-                            <td>乳清蛋白</td>
-                            <td>乳清蛋白餅乾</td>
-                            <td>
-                                <img class="fixed-image" src="img/mall/cookie.jpg" alt=""
-                                     style="max-width: 200px;">
-                            </td>
-                            <td>1</td>
-                            <td>123</td>
-                            <td>上架</td>
-                            <td>2023-08-07 10:10</td>
-                            <td>
-                                <a class="btn btn-sm btn-secondary" href="AddProduct.html"
-                                   style="background-color: aliceblue; color: black;">
-                                    <i class="fa-regular fa-pen-to-square">編輯</i>
-                                </a>
-                                <a class="btn btn-sm btn-primary" href="">
-                                    <i class="fa-solid fa-trash-can">刪除</i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr class="data-row">
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>P005</td>
-                            <td>乳清蛋白</td>
-                            <td>MASS乳清蛋白</td>
-                            <td>
-                                <img class="fixed-image" src="img/mall/mass.jpg" alt=""
-                                     style="max-width: 200px;">
-                            </td>
-                            <td>1</td>
-                            <td>123</td>
-                            <td>上架</td>
-                            <td>2023-08-07 10:10</td>
-                            <td>
-                                <a class="btn btn-sm btn-secondary" href="AddProduct.html"
-                                   style="background-color: aliceblue; color: black;">
-                                    <i class="fa-regular fa-pen-to-square">編輯</i>
-                                </a>
-                                <a class="btn btn-sm btn-primary" href="">
-                                    <i class="fa-solid fa-trash-can">刪除</i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr class="data-row">
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>P006</td>
-                            <td>乳清蛋白</td>
-                            <td>TRYALL乳清蛋白</td>
-                            <td>
-                                <img class="fixed-image" src="img/mall/tryall.jpg" alt=""
-                                     style="max-width: 200px;">
-                            </td>
-                            <td>1</td>
-                            <td>123</td>
-                            <td>上架</td>
-                            <td>2023-08-07 10:10</td>
-                            <td>
-                                <a class="btn btn-sm btn-secondary" href="AddProduct.html"
-                                   style="background-color: aliceblue; color: black;">
-                                    <i class="fa-regular fa-pen-to-square">編輯</i>
-                                </a>
-                                <a class="btn btn-sm btn-primary" href="">
-                                    <i class="fa-solid fa-trash-can">刪除</i>
-                                </a>
-                            </td>
-                        </tr> *@
+                                    </td>
+                                </tr>
+                            }
+                        }
+                       
                     </tbody>
                 </table>
             </div>
