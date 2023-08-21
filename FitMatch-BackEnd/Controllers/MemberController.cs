@@ -63,13 +63,13 @@ namespace FitMatch_BackEnd.Controllers
         //}
 
         //--------- M-2:會員新增（Create）
-        public IActionResult Create()
+        public IActionResult MemberCreate()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(Member m)
+        public IActionResult MemberCreate(Member m)
         {
             FitMatchDbContext db = new FitMatchDbContext();
             db.Members.Add(m);
@@ -96,7 +96,7 @@ namespace FitMatch_BackEnd.Controllers
 
 
         ////--------- M-3:會員修改（Update）& 顯示
-        public IActionResult Edit(int? id)
+        public IActionResult MemberEdit(int? id)
         {
             if (id == null)
                 return RedirectToAction("Member");
@@ -108,7 +108,7 @@ namespace FitMatch_BackEnd.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Member custIn)
+        public IActionResult MemberEdit(Member custIn)
         {
             FitMatchDbContext db = new FitMatchDbContext();
             Member custDb = db.Members.FirstOrDefault(t => t.MemberId== custIn.MemberId);
@@ -130,27 +130,27 @@ namespace FitMatch_BackEnd.Controllers
         }
 
 
-        public IActionResult Cancle()
-        {
-            return View("Member");
-        }
+        //public IActionResult MemberCancel()
+        //{
+        //    return View("Member");
+        //}
 
 
 
         ////--------- M-4:會員刪除（Delete）
-        //public IActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //        return RedirectToAction("List");
-        //    DbDemoContext db = new DbDemoContext();
-        //    TCustomer cust = db.TCustomers.FirstOrDefault(t => t.FId == id);
-        //    if (cust != null)
-        //    {
-        //        db.TCustomers.Remove(cust);
-        //        db.SaveChanges();
-        //    }
-        //    return RedirectToAction("List");
-        //}
+        public IActionResult MemberDelete(int? id)
+        {
+            if (id == null)
+                return RedirectToAction("Member");
+            FitMatchDbContext db = new FitMatchDbContext();
+            Member cust = db.Members.FirstOrDefault(t => t.MemberId == id);
+            if (cust != null)
+            {
+                db.Members.Remove(cust);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Member");
+        }
 
 
 
