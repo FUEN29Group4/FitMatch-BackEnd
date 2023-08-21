@@ -1,8 +1,14 @@
-﻿@model IEnumerable<FitMatch_BackEnd.Models.Gym>
+﻿@model IEnumerable<FitMatch_BackEnd.Models.Article>
 
 @{
-    ViewData["Title"] = "Gym";
+    ViewData["Title"] = "Article";
 }
+<style>
+    span {
+        display: inline-block;
+        white-space: nowrap;
+    }
+    </style>
 <!-- Content Start -->
 <div class="content">
     <!-- Navbar Start -->
@@ -14,7 +20,7 @@
             <i class="fa fa-bars"></i>
         </a>
         <form class="d-none d-md-flex ms-4">
-            <h4 class="m-auto">場館管理</h4>
+            <h4 class="m-auto">文章管理</h4>
         </form>
         <div class="navbar-nav align-items-center ms-auto">
             <div class="nav-item dropdown">
@@ -25,7 +31,8 @@
                 <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                     <a href="#" class="dropdown-item">
                         <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                 style="width: 40px; height: 40px;">
                             <div class="ms-2">
                                 <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                 <small>15 minutes ago</small>
@@ -35,7 +42,8 @@
                     <hr class="dropdown-divider">
                     <a href="#" class="dropdown-item">
                         <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                 style="width: 40px; height: 40px;">
                             <div class="ms-2">
                                 <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                 <small>15 minutes ago</small>
@@ -45,7 +53,8 @@
                     <hr class="dropdown-divider">
                     <a href="#" class="dropdown-item">
                         <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                 style="width: 40px; height: 40px;">
                             <div class="ms-2">
                                 <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                 <small>15 minutes ago</small>
@@ -82,7 +91,8 @@
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                    <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
+                         style="width: 40px; height: 40px;">
                     <span class="d-none d-lg-inline-flex">John Doe</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
@@ -96,191 +106,192 @@
     <!-- Navbar End -->
     <!-- 篩選列開始 -->
     <div class="container-fluid pt-4 px-4">
-        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0 rounded">
-            <div class=" container-fluid">
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <nav class="navbar navbar-expand-lg bg-white rounded">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+            </button>
 
-                    <form class="container-fluid" style="margin-left: -20px;">
-                        <div class="row align-items-center">
-                            <label for="statusType" class="col-auto">區域:</label>
-                            <div class="col-4">
-                                <select id="statusType" class="form-select" style="background-color: #fff;"
-                                        aria-label="區域">
-                                    <option value="" selected disabled hidden>所有城市</option>
-                                    <option value="t1">台北</option>
-                                    <option value="t2">台中</option>
-                                    <option value="t2">台南</option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-
-                    <form class="container-fluid" style="margin-left: -500px;">
-                        <div class="row align-items-center">
-                            <label for="statusType" class="col-auto">上架狀態:</label>
-                            <div class="col-4">
-                                <select id="statusType" class="form-select" style="background-color: #fff;"
-                                        aria-label="上架狀態">
-                                    <option value="" selected disabled hidden>請選擇</option>
-                                    <option value="t1">上架</option>
-                                    <option value="t2">下架</option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-
-                    <div class="col-3 d-flex align-items-center ms-4" style="margin-right: -5px;">
-                        搜尋:
-                        <div class=" ms-2 me-2 flex-grow-1">
-                            <input class=" form-control" type="text" placeholder="請輸入關鍵字" aria-label="請輸入關鍵字"
-                                   id="searchInput">
-                        </div>
-                        <a href="">
-                            <i class="fa-solid fa-magnifying-glass fa-xl"></i>
-                        </a>
-                        <button class="btn btn-outline-success " style="margin-top: 0px; margin-left: 10px;"
-                                type="submit">
-                            清空
-                        </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center me-4" style="margin-left: 25px;">
+                        <span style="margin-right: 10px; text-align: center;">上架時間:</span>
+                        <input class="form-select" style="background-color:#fff;" type="date" name="start" id=""
+                               value="開始時間">
                     </div>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
+
+                    <div class="d-flex align-items-center me-4">
+                        <span style="margin-left: -20px; text-align: center;">至</span>
+                        <input class="form-select" style="background-color:#fff; margin-left: 10px;" type="date"
+                               name="end" id="" value="結束時間">
+                    </div>
+
+                    <div class="col-4 d-flex align-items-center me-auto">
+                        <span style="margin-right: 10px; text-align: center;">上架狀態:</span>
+                        <select class="form-select" style="background-color: #fff;" aria-label="上架狀態">
+                            <option selected disabled hidden>請選擇</option>
+                            <option value="t1">上架</option>
+                            <option value="t2">下架</option>
+                        </select>
+                    </div>
+
+
+                    <div class="col-4 d-flex align-items-center ms-4 me-auto">
+                        <span style="margin-right: 10px; text-align: center;">文章分類:</span>
+                        <select class="form-select" style="background-color: #fff;" aria-label="文章分類">
+                            <option selected disabled hidden>請選擇</option>
+                            <option value="t1">專欄</option>
+                            <option value="t2">新聞</option>
+                        </select>
+                    </div>
                 </div>
             </div>
+
+            <div class="col-3 d-flex align-items-center ms-4" style="margin-right: 25px;">
+                搜尋:
+                <div class=" ms-2 me-2 flex-grow-1">
+                    <input class=" form-control" type="text" placeholder="請輸入關鍵字" aria-label="請輸入關鍵字"
+                           id="searchInput">
+                </div>
+                <a href="">
+                    <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                </a>
+                <button class="btn btn-outline-success " style="margin-top: 0px; margin-left: 10px;"
+                        type="submit">
+                    清空
+                </button>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
         </nav>
     </div>
-
     <!-- 篩選列結束 -->
+
     <!-- 管理列表開始 -->
     <div class="container-fluid pt-4 px-4">
         <div class="bg-white text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
-                <h5 class="mb-0 text-dark">場館列表</h5>
-                @* <a class="btn btn-primary  custom-purple" href="match_creategym.html">新增場館</a> *@
+                <h5 class="mb-0 text-dark">文章列表</h5>
+                @*<a class="btn btn-primary  custom-purple" href="blog_upload.html">新增文章</a>*@
             </div>
             <div class="table-responsive">
                 <table class="table text-center align-middle table-bordered table-hover mb-0">
                     <thead style="background-color: #74ffba;">
                         <tr class="text-dark">
                             <th scope="col"></th>
-                            <th scope="col">場館編號</th>
-                            <th scope="col">場館名稱</th>
-                            <th scope="col">封面</th>
-                            <th scope="col">地區</th>
+                            <th scope="col">文章編號</th>
                             <th scope="col">狀態</th>
-                            <th scope="col">建立時間</th>
+                            <th scope="col">標題</th>
+                            <th scope="col">封面</th>
+                            <th scope="col">分類</th>
+                            <th scope="col">上架時間</th>
                             <th scope="col">操作</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="data-row">
+                        <tr>
                             <td><input class="form-check-input" type="checkbox"></td>
-                            <td>CODE001</td>
-                            <td>五股國民運動中心</td>
-                            <td>
-                                <img class="fixed-image" src="./img/gym/五股運動中心.jpg" alt="" style="max-width: 200px;">
-                            </td>
-                            <td>新北市五股區</td>
+                            <td>N0001</td>
                             <td>上架</td>
-                            <td>2023-08-07 10:10</td>
+                            <td>每週該訓練肌肉多少次？</td>
                             <td>
-                                <a class="btn btn-sm btn-secondary" href="match_editgym.html"
+                                <img class="articlesytemimg" src="../FitMatch_Frontend/images/blog/post1.jpg"
+                                     alt="">
+                            </td>
+                            <td>新聞</td>
+                            <td>2023-08-12 10:10</td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary" href="blog_upload.html"
                                    style="background-color: aliceblue; color: black;">
                                     <i class="fa-regular fa-pen-to-square">編輯</i>
                                 </a>
-                                <a class="btn btn-sm btn-primary" href=""><i class="fa-solid fa-trash-can">刪除</i></a>
+                                <a class="btn btn-sm btn-primary" href="">
+                                    <i class="fa-solid fa-trash-can">刪除</i>
+                                </a>
                             </td>
                         </tr>
-                        <tr class="data-row">
+                        <tr>
                             <td><input class="form-check-input" type="checkbox"></td>
-                            <td>CODE002</td>
-                            <td>新莊運動中心</td>
-                            <td>
-                                <img class="fixed-image" src="./img/gym/新莊運動中心.jpg" alt="" style="max-width: 200px;">
-                            </td>
-                            <td>新北市新莊區</td>
+                            <td>A0012</td>
                             <td>上架</td>
-                            <td>2023-08-07 10:10</td>
+                            <td>每天進行一小時的步行運動</td>
                             <td>
-                                <a class="btn btn-sm btn-secondary" href="match_editgym.html"
+                                <img class="articlesytemimg" src="../FitMatch_Frontend/images/blog/post2.jpg"
+                                     alt="">
+                            </td>
+                            <td>專欄</td>
+                            <td>2023-08-30 09:40</td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary" href="blog_upload.html"
                                    style="background-color: aliceblue; color: black;">
                                     <i class="fa-regular fa-pen-to-square">編輯</i>
                                 </a>
-                                <a class="btn btn-sm btn-primary" href=""><i class="fa-solid fa-trash-can">刪除</i></a>
+                                <a class="btn btn-sm btn-primary" href="">
+                                    <i class="fa-solid fa-trash-can">刪除</i>
+                                </a>
                             </td>
-                        </tr>
-                        <tr class="data-row">
+                        <tr>
                             <td><input class="form-check-input" type="checkbox"></td>
-                            <td>CODE003</td>
-                            <td>屏東運動中心</td>
-                            <td>
-                                <img class="fixed-image" src="./img/gym/屏東運動中心.jpg" alt="" style="max-width: 200px;">
-                            </td>
-                            <td>屏東縣屏東市</td>
+                            <td>A0012</td>
                             <td>上架</td>
-                            <td>2023-08-07 10:10</td>
+                            <td>體態雕塑能有多大幫助</td>
                             <td>
-                                <a class="btn btn-sm btn-secondary" href="match_editgym.html"
+                                <img class="articlesytemimg" src="../FitMatch_Frontend/images/blog/post3.jpg"
+                                     alt="">
+                            </td>
+                            <td>專欄</td>
+                            <td>2023-08-30 09:40</td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary" href="blog_upload.html"
                                    style="background-color: aliceblue; color: black;">
                                     <i class="fa-regular fa-pen-to-square">編輯</i>
                                 </a>
-                                <a class="btn btn-sm btn-primary" href=""><i class="fa-solid fa-trash-can">刪除</i></a>
+                                <a class="btn btn-sm btn-primary" href="">
+                                    <i class="fa-solid fa-trash-can">刪除</i>
+                                </a>
                             </td>
                         </tr>
-                        <tr class="data-row">
+                        <tr>
                             <td><input class="form-check-input" type="checkbox"></td>
-                            <td>CODE004</td>
-                            <td>樹林運動中心</td>
-                            <td>
-                                <img class="fixed-image" src="./img/gym/樹林運動中心.jpg" alt="" style="max-width: 200px;">
-                            </td>
-                            <td>新北市樹林區</td>
+                            <td>S0311</td>
                             <td>上架</td>
-                            <td>2023-08-07 10:10</td>
+                            <td>13.14版本更新公告</td>
                             <td>
-                                <a class="btn btn-sm btn-secondary" href="match_editgym.html"
+                                <img class="articlesytemimg"
+                                     src="../FitMatch_Frontend/images/LOGO/systemlogo.png" alt="">
+                            </td>
+                            <td>系統公告</td>
+                            <td>2023-07-11 12:30</td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary" href="blog_upload.html"
                                    style="background-color: aliceblue; color: black;">
                                     <i class="fa-regular fa-pen-to-square">編輯</i>
                                 </a>
-                                <a class="btn btn-sm btn-primary" href=""><i class="fa-solid fa-trash-can">刪除</i></a>
+                                <a class="btn btn-sm btn-primary" href="">
+                                    <i class="fa-solid fa-trash-can">刪除</i>
+                                </a>
                             </td>
-                        </tr>
-                        <tr class="data-row">
+                        <tr>
                             <td><input class="form-check-input" type="checkbox"></td>
-                            <td>CODE005</td>
-                            <td>南屯運動中心</td>
-                            <td>
-                                <img class="fixed-image" src="./img/gym/南屯運動中心.jpg" alt="" style="max-width: 200px;">
-                            </td>
-                            <td>台中市南屯區</td>
+                            <td>A0039</td>
                             <td>下架</td>
-                            <td>2023-08-07 10:10</td>
+                            <td>2023全民體適能健身比賽</td>
                             <td>
-                                <a class="btn btn-sm btn-secondary" href="match_editgym.html"
+                                <img class="articlesytemimg" src="../FitMatch_Frontend/images/blog/post4.jpg"
+                                     alt="">
+                            </td>
+                            <td>活動</td>
+                            <td>2023-01-27 08:33</td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary" href="blog_upload.html"
                                    style="background-color: aliceblue; color: black;">
                                     <i class="fa-regular fa-pen-to-square">編輯</i>
                                 </a>
-                                <a class="btn btn-sm btn-primary" href=""><i class="fa-solid fa-trash-can">刪除</i></a>
-                            </td>
-                        </tr>
-                        <tr class="data-row">
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>CODE005</td>
-                            <td>臺南運動中心</td>
-                            <td>
-                                <img class="fixed-image" src="./img/gym/臺南運動中心.jpg" alt="" style="max-width: 200px;">
-                            </td>
-                            <td>台南市中西區</td>
-                            <td>下架</td>
-                            <td>2023-08-07 10:10</td>
-                            <td>
-                                <a class="btn btn-sm btn-secondary" href="match_editgym.html"
-                                   style="background-color: aliceblue; color: black;">
-                                    <i class="fa-regular fa-pen-to-square">編輯</i>
+                                <a class="btn btn-sm btn-primary" href="">
+                                    <i class="fa-solid fa-trash-can">刪除</i>
                                 </a>
-                                <a class="btn btn-sm btn-primary" href=""><i class="fa-solid fa-trash-can">刪除</i></a>
                             </td>
                         </tr>
                     </tbody>
@@ -330,7 +341,6 @@
         </div>
     </div>
 </div>
-
 
 <script>
     // 全選功能
