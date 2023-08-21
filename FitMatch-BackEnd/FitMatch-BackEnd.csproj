@@ -10,13 +10,9 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
-    <Compile Remove="Views\NewFolder\**" />
     <Compile Remove="Views\Personal\**" />
-    <Content Remove="Views\NewFolder\**" />
     <Content Remove="Views\Personal\**" />
-    <EmbeddedResource Remove="Views\NewFolder\**" />
     <EmbeddedResource Remove="Views\Personal\**" />
-    <None Remove="Views\NewFolder\**" />
     <None Remove="Views\Personal\**" />
   </ItemGroup>
 

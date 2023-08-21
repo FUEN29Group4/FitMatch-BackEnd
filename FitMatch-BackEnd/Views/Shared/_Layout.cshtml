@@ -61,7 +61,7 @@
                                 <i class="fa-solid fa-user-group me-2"></i>人員管理
                             </a>
                             <div class="dropdown-menu bg-transparent border-0">
-                                <a href="index_System_administractor_management.html" class="dropdown-item">系統管理員管理</a>
+                            <a asp-controller="Employee" asp-action="Employee" class="dropdown-item">員工管理</a>
                                 <a href="index_Backage_member_management.html" class="dropdown-item">會員管理</a>
                                 <a class="dropdown-item" asp-controller="Trainer" asp-action="Trainer">教練管理</a>
                             </div>
@@ -83,8 +83,8 @@
                                 <i class="fa fa-laptop me-2"></i>專欄管理
                             </a>
                             <div class="dropdown-menu bg-transparent border-0">
-                                <a href="blog system.html" class="dropdown-item">相關新聞管理</a>
-                                <a href="blog system.html" class="dropdown-item">系統公告管理</a>
+                            <a class="dropdown-item" asp-controller="Article" asp-action="Article">相關新聞管理</a>
+                            <a class="dropdown-item" asp-controller="Article" asp-action="Article">系統公告管理</a>
                             </div>
                         </div>
 
@@ -93,8 +93,10 @@
                                 <i class="fa-solid fa-store me-2"></i>商城管理
                             </a>
                             <div class="dropdown-menu bg-transparent border-0">
-                                <a href="OrderManagement.html" class="dropdown-item">訂單管理</a>
-                                <a href="productmanagement.html" class="dropdown-item">商品管理</a>
+                            <a class="dropdown-item" asp-controller="Order" asp-action="Order">訂單管理</a>
+                        
+                            <a class="dropdown-item" asp-controller="Product" asp-action="ProductType">商品管理</a>
+                               
                             </div>
                         </div>
 
