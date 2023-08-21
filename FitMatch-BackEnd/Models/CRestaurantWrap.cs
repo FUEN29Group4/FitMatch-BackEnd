@@ -12,47 +12,49 @@
         {
             _restaurant = new Restaurant();
         }
-        public int FId
+        public int RestaurantsId
         {
             get { return _restaurant.RestaurantsId; }
             set { _restaurant.RestaurantsId = value; }
         }
 
-        public string? FName
+        public string? RestaurantsName
         {
             get { return _restaurant.RestaurantsName; }
             set { _restaurant.RestaurantsName = value; }
         }
 
-        public string? FPhone
+        public string? Phone
         {
             get { return _restaurant.Phone; }
             set { _restaurant.Phone = value; }
         }
-        public string? FAddress
+        public string? Address
         {
             get { return _restaurant.Address; }
             set { _restaurant.Address = value; }
         }
-        public string? FPhoto
+        public string? Photo
         {
             get { return _restaurant.Photo; }
             set { _restaurant.Photo = value; }
         }
-        public string? FRestaurantsDescription
+        public string? RestaurantsDescription
         {
             get { return _restaurant.RestaurantsDescription; }
             set { _restaurant.RestaurantsDescription = value; }
         }
-        public DateTime? FCreateAt
+        public DateTime? CreateAt
         {
-            get { return _restaurant.CreatedAt; }
-            set { _restaurant.CreatedAt = value; }
+            get { return _restaurant.CreateAt; }
+            set { _restaurant.CreateAt = value; }
         }
-        public bool? FStatus
+        public bool? Status
         {
             get { return _restaurant.Status; }
             set { _restaurant.Status = value; }
         }
+
+        public IFormFile photo { get; set; }
     }
 }

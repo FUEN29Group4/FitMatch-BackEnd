@@ -62,35 +62,35 @@ namespace FitMatch_BackEnd.Controllers
 
             CRestaurantWrap prodWp = new CRestaurantWrap();
             prodWp.restaurant = prod;
-            return View(prodWp);
+            return View(prodWp.restaurant);
         }
         [HttpPost]
-        public IActionResult Edit(CRestaurantWrap custIn)
+        public IActionResult Edit(CRestaurantWrap prodIn)
         {
             FitMatchDbContext db = new FitMatchDbContext();
-            Restaurant custDb = db.Restaurants.FirstOrDefault(t => t.RestaurantsId == custIn.FId);
+            Restaurant custDb = db.Restaurants.FirstOrDefault(t => t.RestaurantsId == prodIn.RestaurantsId);
 
-            if (custIn != null)
+            if (prodIn != null)
             {
-                if (custIn.FPhoto != null)
+                if (prodIn.photo != null)
                 {
                     string photoName = Guid.NewGuid().ToString() + ".jpg";
 
-                    string path = Path.Combine(_enviro.WebRootPath , "/images/" , photoName);
-                    using (var stream = new FileStream(path, mode: FileMode.Create))
-                    {
-                        custIn.FPhoto = photoName;
-                    }
-                    //string path = _enviro.WebRootPath + "/images/" + photoName;
-                    //custIn.FPhoto.CopyTo(new FileStream(path, mode: FileMode.Create));
+                    //string path = Path.Combine(_enviro.WebRootPath , "/images/" , photoName);
+                    //using (var stream = new FileStream(path, mode: FileMode.Create))
+                    //{
+                    //    custIn.photo = photoName;
+                    //}
+                    string path = _enviro.WebRootPath + "/img/健康餐/" + photoName;
+                    prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
                     custDb.Photo = photoName;
                 }
-                custDb.RestaurantsName = custIn.FName;
-                custDb.Phone = custIn.FPhone;
-                custDb.Address = custIn.FAddress;
-                custDb.RestaurantsDescription = custIn.FRestaurantsDescription;
-                custDb.CreatedAt = custIn.FCreateAt;
-                custDb.Status = custIn.FStatus;
+                custDb.RestaurantsName = prodIn.RestaurantsName;
+                custDb.Phone = prodIn.Phone;
+                custDb.Address = prodIn.Address;
+                custDb.RestaurantsDescription = prodIn.RestaurantsDescription;
+                custDb.CreateAt = prodIn.CreateAt;
+                custDb.Status = prodIn.Status;
 
                 db.SaveChanges();
             }

@@ -226,9 +226,9 @@
                                     <td>@Html.DisplayFor(modelItem => item.RestaurantsId)</td>
                                     <td>@Html.DisplayFor(modelItem => item.RestaurantsName)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Address)</td>
-                                    <td><img class="fixed-image" src="./img/mall/小心肝低卡健康餐盒.jpg" alt=""></td>
-                                    <td>上架</td>
-                                    <td>2023-08-07 10:10</td>
+                                    <td><img src="~/img/健康餐/@item.Photo" width="110" height="70" /></td>
+                                    <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.CreateAt)</td>
                                     <td>
                                         <a class="btn btn-sm btn-secondary" href="@Url.Action("Edit", "Restaurant", new { id = item.RestaurantsId })"
                                            style="background-color: aliceblue; color: black;">
