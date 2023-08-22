@@ -33,9 +33,7 @@ namespace FitMatch_BackEnd.Controllers
         }
 
         //新增商品  ***圖片未寫入，商品類別無法寫入***
-        //修改  ***資料庫無法改寫***
-        //***SqlException: Cannot insert explicit value for identity column in table 'Product' when IDENTITY_INSERT is set to OFF.***
-        //***SqlException：當 IDENTITY_INSERT 設置為 OFF 時，無法在表“Product”中插入標識列的顯式值。***
+        
         public IActionResult Create()
         {
             return View();
@@ -67,7 +65,6 @@ namespace FitMatch_BackEnd.Controllers
         //修改  ***資料庫無法改寫***
         //***SqlException: Cannot insert explicit value for identity column in table 'Product' when IDENTITY_INSERT is set to OFF.***
         //***SqlException：當 IDENTITY_INSERT 設置為 OFF 時，無法在表“Product”中插入標識列的顯式值。***
-
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -78,32 +75,25 @@ namespace FitMatch_BackEnd.Controllers
                 return RedirectToAction("List");
 
             CProductWrap prodWp = new CProductWrap();
-            prodWp.Product = prod;
-            return View(prodWp.Product);
+            prodWp.product = prod;
+            return View(prodWp);
+            //return View(prod);
         }
         [HttpPost]
         public IActionResult Edit(CProductWrap prodIn)
         {
             FitMatchDbContext db = new FitMatchDbContext();
-            Product custDb = db.Products.FirstOrDefault(t => t.ProductId == prodIn.ProductId);
+            Product prodDb = db.Products.FirstOrDefault(t => t.ProductId == prodIn.ProductId);
 
-            if (prodIn != null)
+            if (prodDb != null)
             {
-                //custDb.TypeId = prodIn.TypeId; ***無法寫入商品類別***
-                custDb.ProductName = prodIn.ProductName;
-                //custDb.Photo = prodIn.Photo;
-                if (prodIn.photo != null)
-                {
-                    string photoName = Guid.NewGuid().ToString() + ".jpg";
-
-                    string path = _enviro.WebRootPath + "/img/商城/" + photoName;
-                    prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
-                    custDb.Photo = photoName;
-                }
-                custDb.ProductDescription = prodIn.ProductDescription;
-                custDb.Price = prodIn.Price;
-                custDb.ProductInventory = prodIn.ProductInventory;
-                custDb.Approved = prodIn.Approved;
+                // 更新其他屬性
+                prodDb.ProductName = prodIn.ProductName;
+                prodDb.Photo = prodIn.Photo;
+                prodDb.ProductDescription = prodIn.ProductDescription;
+                prodDb.Price = prodIn.Price;
+                prodDb.ProductInventory = prodIn.ProductInventory;
+                prodDb.Approved = prodIn.Approved;
 
                 db.SaveChanges();
             }
