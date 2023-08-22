@@ -17,6 +17,12 @@
         object-fit: cover;
         /* 確保圖片的長寬比保持不變，超出部分將被裁剪 */
     }
+
+    .box {
+        width: 500px;
+        height: 70px;
+        overflow: hidden;
+    }
 </style>
 
 <!-- Content Start -->
@@ -185,7 +191,7 @@
                             <th scope="col" style="min-width: 80px;">產品類別</th>
                             <th scope="col" style="min-width: 80px;">產品名稱</th>
                             <th scope="col">封面</th>
-
+                            <th scope="col" style="min-width: 80px;">商品描述</th>
                             <th scope="col" style="min-width: 80px;">價格</th>
                             <th scope="col" style="min-width: 80px;">商品庫存</th>
                             <th scope="col" style="min-width: 80px;">狀態</th>
@@ -205,6 +211,7 @@
                                     <td>@Html.DisplayFor(modelItem => item.TypeId)</td>
                                     <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
                                     <td><img src="~/img/商城/@item.Photo" width="110" height="70" /></td>
+                                    <td class="box">@Html.DisplayFor(modelItem => item.ProductDescription)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Price)</td>
                                     <td>@Html.DisplayFor(modelItem => item.ProductInventory)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Approved)</td>

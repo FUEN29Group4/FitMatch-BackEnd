@@ -19,7 +19,7 @@ namespace FitMatch_BackEnd.Controllers
         public IWebHostEnvironment _enviro = null;
 
 
-        //取得商品管理頁面  ***上架狀態要修***圖片未抓取*** ???商品描述???
+        //取得商品管理頁面  ***上架狀態要修***圖片未抓取***商品類別TypeId未出現***
         public IActionResult List(CKeywordViewModel vm)
         {
             FitMatchDbContext db = new FitMatchDbContext();
@@ -32,7 +32,7 @@ namespace FitMatch_BackEnd.Controllers
             return View(datas);
         }
 
-        //新增商品  ***資料庫未寫入，選圖片就會中斷連線****
+        //新增商品  ***圖片未寫入***
         public IActionResult Create()
         {
             return View();
@@ -61,7 +61,7 @@ namespace FitMatch_BackEnd.Controllers
             return RedirectToAction("List");
         }
 
-        //修改  ***資料庫未寫入，選圖片就會中斷連線****
+        //修改  ***資料庫無法寫入***
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -83,6 +83,9 @@ namespace FitMatch_BackEnd.Controllers
 
             if (prodIn != null)
             {
+                custDb.TypeId = prodIn.TypeId;
+                custDb.ProductName = prodIn.ProductName;
+
                 if (prodIn.photo != null)
                 {
                     string photoName = Guid.NewGuid().ToString() + ".jpg";
@@ -91,9 +94,6 @@ namespace FitMatch_BackEnd.Controllers
                     prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
                     custDb.Photo = photoName;
                 }
-
-                custDb.TypeId = prodIn.TypeId;
-                custDb.ProductName = prodIn.ProductName;
                 custDb.ProductDescription = prodIn.ProductDescription;
                 custDb.Price = prodIn.Price;
                 custDb.ProductInventory = prodIn.ProductInventory;

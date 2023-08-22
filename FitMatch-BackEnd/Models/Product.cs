@@ -17,6 +17,8 @@ public partial class Product
 
     public int? TypeId { get; set; }
 
+    public int? ProductInventory { get; set; }
+    
     public bool? Approved { get; set; }
 
 
