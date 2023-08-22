@@ -12,11 +12,11 @@
         {
             _Product = new Product();
         }
-        public int ProductId
-        {
-            get { return _Product.ProductId; }
-            set { _Product.ProductId = value; }
-        }
+        //public int ProductId
+        //{
+        //    get { return _Product.ProductId; }
+        //    set { _Product.ProductId = value; }
+        //}
 
         public string? ProductName
         {
@@ -56,5 +56,6 @@
             set { _Product.ProductInventory = value; }
         }
         public IFormFile photo { get; set; }
+        public int ProductId { get; internal set; }
     }
 }

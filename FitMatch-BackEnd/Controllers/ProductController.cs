@@ -19,7 +19,7 @@ namespace FitMatch_BackEnd.Controllers
         public IWebHostEnvironment _enviro = null;
 
 
-        //取得商品管理頁面  ***上架狀態要修***圖片未抓取***商品類別TypeId未出現***
+        //取得商品管理頁面  ***上架狀態要修***圖片未抓取***全部的商品類別TypeId皆未出現，要修改***
         public IActionResult List(CKeywordViewModel vm)
         {
             FitMatchDbContext db = new FitMatchDbContext();
@@ -32,7 +32,10 @@ namespace FitMatch_BackEnd.Controllers
             return View(datas);
         }
 
-        //新增商品  ***圖片未寫入***
+        //新增商品  ***圖片未寫入，商品類別無法寫入***
+        //修改  ***資料庫無法改寫***
+        //***SqlException: Cannot insert explicit value for identity column in table 'Product' when IDENTITY_INSERT is set to OFF.***
+        //***SqlException：當 IDENTITY_INSERT 設置為 OFF 時，無法在表“Product”中插入標識列的顯式值。***
         public IActionResult Create()
         {
             return View();
@@ -61,7 +64,7 @@ namespace FitMatch_BackEnd.Controllers
             return RedirectToAction("List");
         }
 
-        //修改  ***資料庫無法寫入***
+        //修改  ***資料庫無法改寫***
         //***SqlException: Cannot insert explicit value for identity column in table 'Product' when IDENTITY_INSERT is set to OFF.***
         //***SqlException：當 IDENTITY_INSERT 設置為 OFF 時，無法在表“Product”中插入標識列的顯式值。***
 
@@ -73,7 +76,10 @@ namespace FitMatch_BackEnd.Controllers
             Product prod = db.Products.FirstOrDefault(t => t.ProductId == id);
             if (prod == null)
                 return RedirectToAction("List");
-            return View(prod);
+
+            CProductWrap prodWp = new CProductWrap();
+            prodWp.Product = prod;
+            return View(prodWp.Product);
         }
         [HttpPost]
         public IActionResult Edit(CProductWrap prodIn)
@@ -83,21 +89,22 @@ namespace FitMatch_BackEnd.Controllers
 
             if (prodIn != null)
             {
-                custDb.TypeId = prodIn.TypeId;
+                //custDb.TypeId = prodIn.TypeId; ***無法寫入商品類別***
                 custDb.ProductName = prodIn.ProductName;
-                custDb.Photo = prodIn.Photo;
-                //if (prodIn.photo != null)
-                //{
-                //    string photoName = Guid.NewGuid().ToString() + ".jpg";
+                //custDb.Photo = prodIn.Photo;
+                if (prodIn.photo != null)
+                {
+                    string photoName = Guid.NewGuid().ToString() + ".jpg";
 
-                //    string path = _enviro.WebRootPath + "/img/商城/" + photoName;
-                //    prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
-                //    custDb.Photo = photoName;
-                //}
+                    string path = _enviro.WebRootPath + "/img/商城/" + photoName;
+                    prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
+                    custDb.Photo = photoName;
+                }
                 custDb.ProductDescription = prodIn.ProductDescription;
                 custDb.Price = prodIn.Price;
                 custDb.ProductInventory = prodIn.ProductInventory;
                 custDb.Approved = prodIn.Approved;
+
                 db.SaveChanges();
             }
             return RedirectToAction("List");

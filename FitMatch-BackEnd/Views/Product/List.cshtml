@@ -188,7 +188,7 @@
                         <tr class="text-dark">
                             <th scope="col"></th>
                             <th scope="col" style="min-width: 80px;">產品編號</th>
-                            <th scope="col" style="min-width: 80px;">產品類別</th>
+                            @* <th scope="col" style="min-width: 80px;">產品類別</th> *@
                             <th scope="col" style="min-width: 80px;">產品名稱</th>
                             <th scope="col">封面</th>
                             <th scope="col" style="min-width: 80px;">商品描述</th>
@@ -208,7 +208,9 @@
                                 <tr class="data-row">
                                     <td><input class="form-check-input" type="checkbox"></td>
                                     <td>@count</td>
-                                    <td>@Html.DisplayFor(modelItem => item.TypeId)</td>
+                                    @*
+                                    <td>@Html.DisplayFor(/* modelItem => item.TypeId */)</td>
+                                    *@
                                     <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
                                     <td><img src="~/img/商城/@item.Photo" width="110" height="70" /></td>
                                     <td class="box">@Html.DisplayFor(modelItem => item.ProductDescription)</td>
