@@ -19,13 +19,30 @@ namespace FitMatch_BackEnd.Controllers
         }
 
         //跟場館資料連結然後呈現出views
-        public IActionResult Gym()
+        public IActionResult Gym(CKeywordViewModel vm)
         {
-            FitMatchDbContext db = new FitMatchDbContext();
-            IEnumerable<Gym> datas = from d in db.Gyms select d; //
+            IQueryable<Gym> gyms = _context.Gyms;
 
-            return View(datas);
+            if (!string.IsNullOrEmpty(vm?.txtKeyword))
+            {
+                gyms = gyms.Where(t => t.GymName.Contains(vm.txtKeyword));
+            }
+
+            if (!string.IsNullOrEmpty(vm?.RegionFilter))
+            {
+                gyms = gyms.Where(t => t.Address.Contains(vm.RegionFilter));
+            }
+
+            if (vm.StatusFilter.HasValue)
+            {
+                gyms = gyms.Where(t => t.Approved == vm.StatusFilter.Value);
+            }
+
+            return View(gyms.ToList());
         }
+
+
+
 
         //public IActionResult GymEdit()
         //{
@@ -90,6 +107,14 @@ namespace FitMatch_BackEnd.Controllers
             }
             return RedirectToAction("Gym");
         }
+
+        public class CKeywordViewModel
+        {
+            public string txtKeyword { get; set; }
+            public string RegionFilter { get; set; }
+            public bool? StatusFilter { get; set; }  // 這裡是 nullable bool
+        }
+
 
 
 
