@@ -18,6 +18,7 @@ namespace FitMatch_BackEnd.Controllers
 
         public IWebHostEnvironment _enviro = null;
 
+        //***篩選功能***
 
         //取得商品管理頁面  ***上架狀態要修***圖片未抓取***全部的商品類別TypeId皆未出現，要修改***
         public IActionResult List(CKeywordViewModel vm)
@@ -33,7 +34,7 @@ namespace FitMatch_BackEnd.Controllers
         }
 
         //新增商品  ***圖片未寫入，商品類別無法寫入***
-        
+
         public IActionResult Create()
         {
             return View();
@@ -47,7 +48,7 @@ namespace FitMatch_BackEnd.Controllers
             return RedirectToAction("List");
         }
 
-        //刪除商品
+        //刪除商品 
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -62,9 +63,7 @@ namespace FitMatch_BackEnd.Controllers
             return RedirectToAction("List");
         }
 
-        //修改  ***資料庫無法改寫***
-        //***SqlException: Cannot insert explicit value for identity column in table 'Product' when IDENTITY_INSERT is set to OFF.***
-        //***SqlException：當 IDENTITY_INSERT 設置為 OFF 時，無法在表“Product”中插入標識列的顯式值。***
+        //修改   ***圖片未寫入，商品類別無法寫入***
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -73,14 +72,12 @@ namespace FitMatch_BackEnd.Controllers
             Product prod = db.Products.FirstOrDefault(t => t.ProductId == id);
             if (prod == null)
                 return RedirectToAction("List");
-
-            CProductWrap prodWp = new CProductWrap();
-            prodWp.product = prod;
-            return View(prodWp);
-            //return View(prod);
+            
+            return View(prod);
+          
         }
         [HttpPost]
-        public IActionResult Edit(CProductWrap prodIn)
+        public IActionResult Edit(Product prodIn)
         {
             FitMatchDbContext db = new FitMatchDbContext();
             Product prodDb = db.Products.FirstOrDefault(t => t.ProductId == prodIn.ProductId);
