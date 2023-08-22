@@ -174,7 +174,7 @@
         <div class="bg-white text-center  rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <h5 class="mb-0 text-dark">系統管理員列表</h5>
-                <a class="btn btn-primary custom-purple" href="@Url.Action("Create", "Employee")}">新增管理員</a>
+                <a class="btn btn-primary custom-purple" href="@Url.Action("Create", "Employee")">新增管理員</a>
             </div>
             <div class="table-responsive">
                 <table class="table text-start align-middle table-bordered table-hover mb-0 text-center">
@@ -205,13 +205,13 @@
                                 <td>@Html.DisplayFor(modelItem => item.Status)</td>
                                 <td>@item.CreatedAt?.ToString("yyyy-MM-dd")</td>
                                 <td>
-                                    <a class="btn btn-sm btn-secondary"
+                                    <a class="btn  btn-secondary"
                                        href="@Url.Action("Edit", "Employee", new { id=item.EmployeeId })"
                                        style="background-color: aliceblue; color: black;">
                                         <i class="fa-regular fa-pen-to-square">編輯</i>
                                     </a>
 
-                                    <a class="btn btn-sm btn-primary"
+                                    <a class="btn  btn-primary"
                                        href="@Url.Action("Delete", "Employee", new { id=item.EmployeeId })">
                                         <i class="fa-solid fa-trash-can">刪除</i>
                                     </a>

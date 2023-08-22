@@ -162,30 +162,29 @@
                             </div>*@
 
                             <!-- 第四區塊 -->
-                            <div class="col-4 d-flex justify-content-center">
-                                <div class="row align-items-center">
-                                    <div class="col-3 p-0 text-md-end">
+                            <div class="col-4 d-flex align-items-center justify-content-center">
+                                
+                                    <div class="col-1 p-0">
                                         搜尋:
                                     </div>
                                     <div class="col-8 ps-2">
-                                        <div class="mx-1 flex-grow-1">
+                                        <div class="mx-10 flex-grow-1">
                                             <input class=" form-control" type="text" placeholder="請輸入關鍵字"
                                                    aria-label="請輸入關鍵字" id="searchInput">
                                         </div>
                                     </div>
-                                    <div class="col-1 d-flex align-items-center p-0">
+                                <div class="col-2 d-flex align-items-center p-0 ps-2">
                                         <a href="">
                                             <i class="fa-solid fa-magnifying-glass fa-xl"></i>
                                         </a>
                                     </div>
 
-                                </div>
                             </div>
                             <!-- 第四區塊 -->
                             <div class="col-1">
 
 
-                                <button class="btn btn-sm btn-outline-success" type="submit">清空</button>
+                                <button class="btn  btn-outline-success" type="submit">清空</button>
 
                             </div>
                         </div>
@@ -256,11 +255,11 @@
                             </td>
                             <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
                             <td>
-                                <a href="@Url.Action("Details", "Trainer", new { id = item.TrainerId })" class="btn btn-sm btn-light text-white">
+                                <a href="@Url.Action("Details", "Trainer", new { id = item.TrainerId })" class="btn  btn-light text-white">
                                     查看履歷
                                 </a>
-                                <a href="@Url.Action("Approve", "Trainer", new { id = item.TrainerId })" class="btn btn-sm btn-primary">審核通過</a>
-                                <a href="@Url.Action("Reject", "Trainer", new { id = item.TrainerId })" class="btn btn-sm btn-danger">退回審核</a>
+                                <a href="@Url.Action("Approve", "Trainer", new { id = item.TrainerId })" class="btn  btn-primary">審核通過</a>
+                                <a href="@Url.Action("Reject", "Trainer", new { id = item.TrainerId })" class="btn  btn-danger">退回審核</a>
                             </td>
                         </tr>
                     }

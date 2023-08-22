@@ -18,7 +18,15 @@ namespace FitMatch_BackEnd.Controllers
         //跟會員資料連結然後呈現出views
         public IActionResult Employee()
         {
+            //資料庫連接 =>實體化DB
+            //FitMatchDbContext db = new FitMatchDbContext();
 
+            //資料定義與處理
+            //- Member Model(定義資料類型):Member class 
+            //- FitMAtchDBContext(操作資料表):public virtual DbSet<Member> Members { get; set; } //Members 集合實體
+            //IEnumerable<Employee> datas = from d in db.Employees select d; //
+
+            //return View(datas);
             IEnumerable<Employee> datas = from p in _context.Employees select p;
             return View(datas);
         }
