@@ -27,5 +27,9 @@ public partial class Class
 
     public virtual ICollection<MemberFavorite> MemberFavorites { get; set; } = new List<MemberFavorite>();
 
-    public virtual Trainer? TrainerID { get; set; }
+    public Member Member { get; set; }
+
+    public Trainer Trainer { get; set; }
+
+    public Gym Gym { get; set; }
 }

@@ -3,7 +3,7 @@
     public class MatchViewModel
     {
         public int ClassId { get; set; }
-        public int TrainerID { get; set; }
+        public int TrainerId { get; set; }
         public string ClassName { get; set; }
         public DateTime BuildTime { get; set; }
         public DateTime StartTime { get; set; }

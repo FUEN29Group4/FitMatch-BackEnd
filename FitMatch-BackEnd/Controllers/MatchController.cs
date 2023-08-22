@@ -37,7 +37,7 @@ namespace FitMatch_BackEnd.Controllers
                                      TrainerName = t.TrainerName,
                                      GymName = g.GymName,
                                      CourseStatus=c.CourseStatus,
-                                     TrainerID =t.TrainerId,
+                                     TrainerId = t.TrainerId,
                                      ClassTypeId= h.ClassTypeId
                                  }).ToList();
             if (start.HasValue && end.HasValue)
@@ -76,19 +76,35 @@ namespace FitMatch_BackEnd.Controllers
                 return RedirectToAction("List");
             }
 
-            Class viewModel = _db.Classes.FirstOrDefault(c => c.ClassId == id);
+            var viewModel = (from c in _db.Classes
+                             join ct in _db.ClassTypes on c.ClassTypeId equals ct.ClassTypeId
+                             join m in _db.Members on c.MemberId equals m.MemberId
+                             join t in _db.Trainers on c.TrainerId equals t.TrainerId
+                             join g in _db.Gyms on c.GymId equals g.GymId
+                             where c.ClassId == id
+                             select new MatchViewModel
+                             {
+                                 ClassId = c.ClassId,
+                                 ClassName = ct.ClassName,
+                                 BuildTime = (DateTime)c.BuildTime,
+                                 StartTime = (DateTime)c.StartTime,
+                                 EndTime = (DateTime)c.EndTime,
+                                 MemberName = m.MemberName,
+                                 TrainerName = t.TrainerName,
+                                 GymName = g.GymName,
+                                 CourseStatus = c.CourseStatus,
+                                 TrainerId = (int)c.TrainerId,
+                                 MemberId = m.MemberId,
+                                 GymId = g.GymId,
+                                 ClassTypeId = (int)c.ClassTypeId
+                             }).FirstOrDefault();
+
             if (viewModel == null)
             {
                 return RedirectToAction("List");
             }
 
-            MatchViewModel matchViewModel = new MatchViewModel
-            {
-                ClassId = viewModel.ClassId,
-                // Assign other properties from viewModel to matchViewModel
-            };
-
-            return View(matchViewModel);
+            return View(viewModel);
         }
 
 
@@ -97,30 +113,46 @@ namespace FitMatch_BackEnd.Controllers
         {
             if (ModelState.IsValid)
             {
-                Class ClassData = _db.Classes.FirstOrDefault(c => c.ClassId == editedViewModel.ClassId);
-                ClassType ClassTypeData = _db.ClassTypes.FirstOrDefault(c => c.ClassTypeId == editedViewModel.ClassTypeId); ;
-                Member MemberData = _db.Members.FirstOrDefault(c => c.MemberId == editedViewModel.MemberId);
-                Gym GymData = _db.Gyms.FirstOrDefault(c => c.GymId == editedViewModel.GymId);
-                if (ClassData != null)
+                // 获取要编辑的 Class 实体对象
+                Class classData = _db.Classes.FirstOrDefault(c => c.ClassId == editedViewModel.ClassId);
+
+                if (classData != null)
                 {
-                    // Update the existing data with the edited values
+                    // 根据编辑视图模型中的 ClassName 查询数据库，查找对应的 ClassType 实体对象
+                    ClassType classTypeData = _db.ClassTypes.FirstOrDefault(ct => ct.ClassName == editedViewModel.ClassName);
+                    Gym gymData = _db.Gyms.FirstOrDefault(g => g.GymId == editedViewModel.GymId);
+                    Member member = _db.Members.FirstOrDefault(m=>m.MemberId == editedViewModel.MemberId);
+                    Trainer trainer = _db.Trainers.FirstOrDefault(t=>t.TrainerId == editedViewModel.TrainerId);
+                    if (classTypeData != null)
+                    {
+                        // 更新 Class 实体对象的 ClassTypeId 为选定的 ClassType 的 ClassTypeId
+                        classData.ClassTypeId = classTypeData.ClassTypeId;
+                        classData.GymId = gymData.GymId;
+                        classData.MemberId = member.MemberId;
+                        classData.TrainerId = trainer.TrainerId;
+                        // 更新其他属性的修改
+                        classData.StartTime = editedViewModel.StartTime;
+                        classData.EndTime = editedViewModel.EndTime;
+                        classData.BuildTime = editedViewModel.BuildTime;
+                        // ... 根据需要应用其他属性的修改
 
-                    ClassTypeData.ClassName = editedViewModel.ClassName;
-                    MemberData.MemberName = editedViewModel.MemberName;
-                    GymData.GymName = editedViewModel.GymName;
-                    ClassData.StartTime = editedViewModel.StartTime;
-                    ClassData.EndTime = editedViewModel.EndTime;
-                    ClassData.BuildTime = editedViewModel.BuildTime;
+                        // 保存更改到数据库
+                        _db.SaveChanges();
 
-                    // Update other properties
-
-                    _db.SaveChanges(); // Save changes to the database
-
-                    return RedirectToAction("List"); // Redirect back to the list view
+                        return RedirectToAction("List"); // 重定向到列表视图
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "无法找到匹配的 ClassType，请选择有效的 ClassName。");
+                        // 返回编辑视图，显示错误消息
+                        return View(editedViewModel);
+                    }
                 }
             }
 
-            return View(editedViewModel); // If ModelState is not valid or editing fails, show the edit view again
+            return View(editedViewModel); // 如果 ModelState 无效或编辑失败，显示编辑视图
         }
+
     }
 }
+

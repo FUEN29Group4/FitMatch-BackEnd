@@ -88,7 +88,7 @@ public partial class FitMatchDbContext : DbContext
                 .HasForeignKey(d => d.ClassTypeId)
                 .HasConstraintName("FK_Class_ClassTypes");
 
-            entity.HasOne(d => d.TrainerID).WithMany(p => p.Classes)
+            entity.HasOne(d => d.Trainer).WithMany(p => p.Classes)
                 .HasForeignKey(d => d.TrainerId)
                 .HasConstraintName("FK_Course_Information_Trainers");
         });
