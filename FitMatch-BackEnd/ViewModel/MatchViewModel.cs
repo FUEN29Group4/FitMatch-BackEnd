@@ -14,5 +14,9 @@
         public string TrainerName { get; set; }
         public string GymName { get; set; }
         public string CourseStatus {get; set; }
+        public int GymId { get; set; }
+
+        public int ClassTypeId { get; set; }
+
     }
 }

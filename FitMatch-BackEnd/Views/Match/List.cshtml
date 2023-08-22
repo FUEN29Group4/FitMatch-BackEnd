@@ -175,17 +175,14 @@
 
                         <div class="d-flex align-items-center me-4" style="margin-left: 25px;">
                             <span style="margin-right: 10px; text-align: center;">課程日期:</span>
-                            <input class="form-select" style="background-color:#fff;" type="date" name="start" id="start"
-                                   value="@ViewBag.StartDate"> <!-- Use ViewBag to populate the value -->
-                        </div>
-
-                        <div class="d-flex align-items-center me-4">
-                            <span style="margin-left: -20px; text-align: center;">至</span>
+                            <input class="form-select" style="background-color:#fff;" type="date" name="start" id=""
+                                   value="課程日期">
+                            <span style="text-align: center;">至</span>
                             <input class="form-select" style="background-color:#fff; margin-left: 10px;" type="date"
-                                   name="end" id="end" value="@ViewBag.EndDate"> <!-- Use ViewBag to populate the value -->
+                                   name="end" id="" value="結束時間">
+                            <button type="submit" style="height: 35px; width: 150px; margin-left: 7px">搜索</button>
                         </div>
 
-                        <button type="submit">搜索</button>
                     </form>
 
                     <div class="col-4 d-flex align-items-center ms-4">
@@ -202,10 +199,10 @@
             <div class="col-3 d-flex align-items-center ms-4" style="margin-right: 25px;">
                 <form method="get" action="List">
                     <select name="searchField">
-                        <option value="ClassName">Class Name</option>
-                        <option value="MemberName">Member Name</option>
-                        <option value="TrainerName">Trainer Name</option>
-                        <option value="GymName">Gym Name</option>
+                        <option value="ClassName">課程名稱</option>
+                        <option value="MemberName">會員名稱</option>
+                        <option value="TrainerName">教練名稱</option>
+                        <option value="GymName">健身房名稱</option>
                     </select>
                     <input type="text" name="searchKeyword">
                     <button type="submit">Search</button>
@@ -317,9 +314,8 @@
                                 <td>@item.EndTime</td>
                                 <td>
                                     <div class="d-flex justify-content-center">
-                                        <a class="btn btn-sm btn-secondary me-2" onclick="showModal()"
-                                           style="background-color: aliceblue; color: black;">
-                                            <i class="fa-regular fa-pen-to-square">編輯</i>
+                                        <a asp-action="Edit" asp-route-id="@item.ClassId" class="btn btn-sm btn-secondary me-2y" style="background-color: aliceblue; color: black;">
+                                            <i class="fa-regular fa-pen-to-square"> 編輯</i>
                                         </a>
 
                                         <a class="btn btn-sm btn-primary" href="">
