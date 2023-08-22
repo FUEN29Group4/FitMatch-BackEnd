@@ -63,38 +63,38 @@ namespace FitMatch_BackEnd.Controllers
             if (id == null)
                 return RedirectToAction("List");
             FitMatchDbContext db = new FitMatchDbContext();
-           Robot Rob = db.Robots.FirstOrDefault(t => t.RobotId == id);
-            if (Rob == null)
+           Robot RoDb = db.Robots.FirstOrDefault(t => t.RobotId == id);
+            if (RoDb == null)
                 return RedirectToAction("List");
             RobotWrap RWp = new RobotWrap();
-            RWp.Robot = Rob;
+            RWp.Robot = RoDb;
             return View(RWp);
         }
 
-        //[HttpPost]
-        //public IActionResult RobotEdit(CProductWrap prodIn)
-        //{
-        //    FitMatchDbContext db = new FitMatchDbContext();
-        //    Robot prodDb = db.Robots.FirstOrDefault(t => t.RobotId == prodIn.);
+        [HttpPost]
+        public IActionResult RobotEdit(RobotWrap RoIn)
+        {
+            FitMatchDbContext db = new FitMatchDbContext();
+            Robot RoDb = db.Robots.FirstOrDefault(t => t.RobotId == RoIn.RobotId);
 
-        //    if (prodDb != null)
-        //    {
-        //        if (prodIn.photo != null)
-        //        {
-        //            string photoName = Guid.NewGuid().ToString() + ".jpg";
-        //            string path = _enviro.WebRootPath + "/images/" + photoName;
-        //            prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
-        //            prodDb.FImagePath = photoName;
-        //        }
+            if (RoDb != null)
+            {
+                //if (RoIn.RobotId != null)
+                //{
+                //    string photoName = Guid.NewGuid().ToString() + ".jpg";
+                //    string path = _enviro.WebRootPath + "/images/" + photoName;
+                //    prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
+                //    prodDb.FImagePath = photoName;
+                //}
 
-        //        prodDb.FName = prodIn.FName;
-        //        prodDb.FQty = prodIn.FQty;
-        //        prodDb.FCost = prodIn.FCost;
-        //        prodDb.FPrice = prodIn.FPrice;
+                RoDb.RobotId = RoIn.FName;
+                RoDb.DefaultResponse = RoIn.FQty;
+                RoDb.DefaultResponse = RoIn.FCost;
+                RoDb.FPrice = RoIn.FPrice;
 
-        //        db.SaveChanges();
-        //    }
-        //    return RedirectToAction("List");
-        //}
+                db.SaveChanges();
+            }
+            return RedirectToAction("Robot");
+        }
     }
 }
