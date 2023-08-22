@@ -71,11 +71,38 @@ namespace FitMatch_BackEnd.Controllers
         [HttpPost]
         public IActionResult GymCreate(Gym p)
         {
-            FitMatchDbContext db = new FitMatchDbContext();
-            db.Gyms.Add(p);
-            db.SaveChanges();
-            return RedirectToAction("Gym");
+            if (ModelState.IsValid)
+            {
+                if (string.IsNullOrEmpty(Request.Form["Approved"].ToString()))
+                {
+                    p.Approved = null;
+                }
+                else
+                {
+                    switch (Request.Form["Approved"].ToString())
+                    {
+                        case "true":
+                            p.Approved = true;
+                            break;
+                        case "false":
+                            p.Approved = false;
+                            break;
+                        default:
+                            // 你可以在此处处理不符合预期的值或错误。
+                            break;
+                    }
+                }
+
+                _context.Gyms.Add(p);
+                _context.SaveChanges();
+                return RedirectToAction("Gym");
+            }
+            return View(p);
         }
+
+
+
+
 
 
         //刪除功能
