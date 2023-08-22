@@ -136,8 +136,8 @@ public partial class FitMatchDbContext : DbContext
         modelBuilder.Entity<Gym>(entity =>
         {
             entity.Property(e => e.GymId)
-                .ValueGeneratedNever()
-                .HasColumnName("GymID");
+                  .ValueGeneratedOnAdd()  // 這裡是關鍵的改動
+                  .HasColumnName("GymID");
             entity.Property(e => e.Address).HasMaxLength(100);
             entity.Property(e => e.GymName).HasMaxLength(50);
             entity.Property(e => e.OpentimeEnd).HasColumnType("datetime");

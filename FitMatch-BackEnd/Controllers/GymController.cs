@@ -39,6 +39,15 @@ namespace FitMatch_BackEnd.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult GymCreate(Gym p)
+        {
+            FitMatchDbContext db = new FitMatchDbContext();
+            db.Gyms.Add(p);
+            db.SaveChanges();
+            return RedirectToAction("Gym");
+        }
+
 
         //刪除功能
         public IActionResult GymDelete(int? id)
@@ -64,6 +73,22 @@ namespace FitMatch_BackEnd.Controllers
             if (cust == null)
                 return RedirectToAction("Gym");
             return View(cust);
+        }
+
+        [HttpPost]
+        public IActionResult GymEdit(Gym custIn)
+        {
+            FitMatchDbContext db = new FitMatchDbContext();
+            Gym custDb = db.Gyms.FirstOrDefault(t => t.GymId == custIn.GymId);
+
+            if (custDb != null)
+            {
+                custDb.GymName = custIn.GymName;
+                custDb.Phone = custIn.Phone;
+                custDb.Address = custIn.Address;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Gym");
         }
 
 

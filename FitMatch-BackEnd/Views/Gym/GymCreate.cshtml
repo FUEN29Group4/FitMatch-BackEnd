@@ -145,8 +145,8 @@
         <div class="row g-4">
             <div class="col-sm-12">
                 <div class="bg-secondary rounded h-100 p-4">
-                    <form style="padding: 50px;">
-                        <div class="col-sm-12  col-xl-6 mb-3 d-flex ps">
+                    <form asp-action="GymCreate" class="" style="padding: 50px;">
+ @*                       <div class="col-sm-12  col-xl-6 mb-3 d-flex ps">
                             <div class="col-2">
                                 <label for="inputname" class="col-form-label">地區</label>
                             </div>
@@ -164,36 +164,41 @@
                                     <option value="3">南區</option>
                                 </select>
                             </div>
-                        </div>
+                        </div>*@
 
 
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
                             <div class="col-2">
-                                <label for="inputname" class="col-form-label">場館名稱</label>
+                                <label asp-for="GymName" for="inputname"  class="col-form-label">場館名稱</label>
                             </div>
                             <div class="col-10">
-                                <input class="form-control mb-3" type="text" placeholder="請輸入場館名稱"
+                                <input asp-for="GymName" class="form-control mb-3" type="text" placeholder="請輸入場館名稱"
                                        aria-label="請輸入場館名稱" id="inputname">
+                                <span asp-validation-for="GymName" class="text-danger"></span>
                             </div>
                         </div>
 
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
                             <div class="col-2">
-                                <label for="inputname" class="col-form-label">電話</label>
+                                <label asp-for="Phone" for="inputname" class="col-form-label">場館電話</label>
+
                             </div>
                             <div class="col-10">
-                                <input class="form-control mb-3" type="text" placeholder="請輸入電話"
-                                       aria-label="請輸入電話" id="inputname">
+                                <input asp-for="Phone" class="form-control mb-3" type="text" placeholder="請輸入場館電話"
+                                       aria-label="請輸入場館電話" id="inputname">
+                                <span asp-validation-for="Phone" class="text-danger"></span>
                             </div>
                         </div>
 
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
                             <div class="col-2">
-                                <label for="inputname" class="col-form-label">地址</label>
+                                <label asp-for="Address" for="inputname" class="col-form-label">場館地址</label>
+
                             </div>
                             <div class="col-10">
-                                <input class="form-control mb-3" type="text" placeholder="請輸入地址"
-                                       aria-label="請輸入地址" id="inputname">
+                                <input asp-for="Address" class="form-control mb-3" type="text" placeholder="請輸入場館地址"
+                                       aria-label="請輸入場館地址" id="inputname">
+                                <span asp-validation-for="Address" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -292,10 +297,10 @@
                         </div>
                         <div class="col-sm-12 col-xl-6 pt-5 d-flex" style="margin-left: 55px;">
                             <div class="col-4 text-center">
-                                <button type="submit" class="btn btn-primary ">修改</button>
+                                <button type="submit" class="btn btn-primary ">新增</button>
                             </div>
                             <div class="col-4 text-start">
-                                <a href="match_gym.html" class="btn btn-outline-success ">取消</a>
+                                <a asp-action="Gym" class="btn btn-outline-success ">取消</a>
                             </div>
                         </div>
                     </form>
