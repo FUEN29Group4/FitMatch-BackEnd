@@ -162,18 +162,18 @@
                             </div>*@
 
                             <!-- 第四區塊 -->
-                            <div class="col-4 d-flex align-items-center justify-content-center">
+                            <div class="col-4 d-flex align-items-center justify-content-end">
                                 
                                     <div class="col-1 p-0">
                                         搜尋:
                                     </div>
-                                    <div class="col-8 ps-2">
+                                    <div class="col-9 ps-2">
                                         <div class="mx-10 flex-grow-1">
                                             <input class=" form-control" type="text" placeholder="請輸入關鍵字"
                                                    aria-label="請輸入關鍵字" id="searchInput">
                                         </div>
                                     </div>
-                                <div class="col-2 d-flex align-items-center p-0 ps-2">
+                                <div class="col-1 d-flex align-items-center p-0 ps-2">
                                         <a href="">
                                             <i class="fa-solid fa-magnifying-glass fa-xl"></i>
                                         </a>
@@ -288,7 +288,16 @@
                                 <i class="fa-solid fa-chevron-left"></i>
                             </a>
                         </li>
-                        <li class="page-item active">
+                            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                            {
+                                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                    <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("Trainer", new { currentPage = i })">
+                                        @i
+                                    </a>
+                                </li>
+                            }
+
+                       @* <li class="page-item active">
                             <a class="page-link" id="page-1" data-page="1" data-page-type="number" href="#">
                                 1
                             </a>
@@ -297,7 +306,7 @@
                             <a class="page-link" id="page-2" data-page="2" data-page-type="number" href="#">
                                 2
                             </a>
-                        </li>
+                        </li>*@
                         <li class="page-item">
                             <a class="page-link next-page" data-page-type="next" href="#">
                                 <i class="fa-solid fa-chevron-right"></i>
@@ -336,66 +345,66 @@
     });
 
     // 以下是分頁功能
-    document.addEventListener("DOMContentLoaded", function () {
-        const table = document.querySelector(".table");
-        const pageLinks = document.querySelectorAll(".page-link[data-page-type='number']");
-        const prevPageLink = document.querySelector(".previous-page");
-        const nextPageLink = document.querySelector(".next-page");
+    //document.addEventListener("DOMContentLoaded", function () {
+    //    const table = document.querySelector(".table");
+    //    const pageLinks = document.querySelectorAll(".page-link[data-page-type='number']");
+    //    const prevPageLink = document.querySelector(".previous-page");
+    //    const nextPageLink = document.querySelector(".next-page");
 
-        pageLinks.forEach(link => {
-            link.addEventListener("click", function (event) {
-                event.preventDefault();
+    //    pageLinks.forEach(link => {
+    //        link.addEventListener("click", function (event) {
+    //            event.preventDefault();
 
-                // 獲取點擊的頁碼
-                const page = parseInt(link.textContent);
+    //            // 獲取點擊的頁碼
+    //            const page = parseInt(link.textContent);
 
-                // 移除所有活躍狀態
-                pageLinks.forEach(link => link.parentElement.classList.remove("active"));
+    //            // 移除所有活躍狀態
+    //            pageLinks.forEach(link => link.parentElement.classList.remove("active"));
 
-                // 添加活跃状态到当前页码链接
-                link.parentElement.classList.add("active");
+    //            // 添加活跃状态到当前页码链接
+    //            link.parentElement.classList.add("active");
 
-                // 更新表格内容
-                updateTableContent(page);
-            });
-        });
+    //            // 更新表格内容
+    //            updateTableContent(page);
+    //        });
+    //    });
 
-        prevPageLink.addEventListener("click", function (event) {
-            event.preventDefault();
+    //    prevPageLink.addEventListener("click", function (event) {
+    //        event.preventDefault();
 
-            const activeLink = document.querySelector(".page-item.active .page-link");
-            if (activeLink) {
-                const currentPage = parseInt(activeLink.textContent);
-                if (currentPage > 1) {
-                    pageLinks[currentPage - 2].click();
-                }
-            }
-        });
+    //        const activeLink = document.querySelector(".page-item.active .page-link");
+    //        if (activeLink) {
+    //            const currentPage = parseInt(activeLink.textContent);
+    //            if (currentPage > 1) {
+    //                pageLinks[currentPage - 2].click();
+    //            }
+    //        }
+    //    });
 
-        nextPageLink.addEventListener("click", function (event) {
-            event.preventDefault();
+    //    nextPageLink.addEventListener("click", function (event) {
+    //        event.preventDefault();
 
-            const activeLink = document.querySelector(".page-item.active .page-link");
-            if (activeLink) {
-                const currentPage = parseInt(activeLink.textContent);
-                if (currentPage < pageLinks.length) {
-                    pageLinks[currentPage].click();
-                }
-            }
-        });
+    //        const activeLink = document.querySelector(".page-item.active .page-link");
+    //        if (activeLink) {
+    //            const currentPage = parseInt(activeLink.textContent);
+    //            if (currentPage < pageLinks.length) {
+    //                pageLinks[currentPage].click();
+    //            }
+    //        }
+    //    });
 
-        function updateTableContent(page) {
-            const perPage = 5;
-            const startIndex = (page - 1) * perPage;
-            const endIndex = startIndex + perPage;
+    //    function updateTableContent(page) {
+    //        const perPage = 5;
+    //        const startIndex = (page - 1) * perPage;
+    //        const endIndex = startIndex + perPage;
 
-            const rows = table.querySelectorAll("tbody tr");
-            rows.forEach((row, index) => {
-                if (index >= startIndex && index < endIndex) {
-                    row.style.display = "table-row";
-                } else {
-                    row.style.display = "none";
-                }
-            });
-        }
+    //        const rows = table.querySelectorAll("tbody tr");
+    //        rows.forEach((row, index) => {
+    //            if (index >= startIndex && index < endIndex) {
+    //                row.style.display = "table-row";
+    //            } else {
+    //                row.style.display = "none";
+    //            }
+    //        });
+    //    }
     });</script>

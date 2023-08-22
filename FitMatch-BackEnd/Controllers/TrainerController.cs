@@ -1,6 +1,7 @@
 ﻿using FitMatch_BackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FitMatch_BackEnd.Controllers
 {
@@ -19,11 +20,28 @@ namespace FitMatch_BackEnd.Controllers
             _context = context;
         }
         //跟教練資料連結然後呈現出views
-        public IActionResult Trainer()
+        public IActionResult Trainer(int currentPage = 1)
         {
-
+            int itemsPerPage = 5;
             IEnumerable<Trainer> datas = from p in _context.Trainers select p;
+
+            // 根據當下頁碼獲取數據
+            datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+            int totalDataCount = _context.Trainers.Count();
+            int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = currentPage;
             return View(datas);
+            //IEnumerable<Trainer> datas = from p in _context.Trainers select p;
+            //int itemsPerPage = 5;
+            //int totalDataCount = datas.Count();
+            //int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+
+            //// 頁數
+            //ViewBag.TotalPages = totalPages;
+            //return View(datas);
         }
 
         //審核通過

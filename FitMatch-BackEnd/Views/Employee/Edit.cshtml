@@ -1,7 +1,7 @@
 ﻿@model FitMatch_BackEnd.Models.Employee
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
     //Layout = "~/Views/Employee/Employee.cshtml";
 }
 <!-- css/personnel參考 -->
@@ -151,12 +151,23 @@
     <!-- Form Start -->
     <div class="container-fluid pt-4 px-4">
         <div class="bg-secondary rounded pt-5 px-5 pb-2">
-            <form asp-action="Create">
+            <form asp-action="Edit">
                 <div class="row d-flex">
                     <div class="col-6">
                         <div class="row">
                             <div class="col">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <!-- ID(不給編輯) -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex">
+                                    <div class="col-2">
+                                        <label asp-for="EmployeeId" class="col-form-label">ID</label>
+                                    </div>
+                                    <div class="col-8 ps-3">
+                                        <input asp-for="EmployeeId" class="form-control" readonly />
+                                        <span asp-validation-for="EmployeeId" class="text-danger"></span>
+                                    </div>
+                                </div>
+
                                 <!-- 權限 -->
                                 <div class="row-sm-12 row-lg-6 mb-3 d-flex">
                                     <div class="col-2">
@@ -258,17 +269,18 @@
 
 
 
-                                
+
                             </div>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="row">
                             <div class="col">
+                                <!-- 照片 -->
                                 <div class="row-sm-12 row-lg-6 mb-3 d-flex justify-content-center">
                                     <div class="upload-container">
                                         <label for="upload" class="label-upload">
-                                            <div class="icon">+</div>
+                                            <div class="icon">編輯</div>
                                             <input asp-for="Photo" class="upload-input" type="file" id="upload" accept="image/*" />
                                             <span asp-validation-for="Photo" class="text-danger"></span>
                                         </label>
@@ -285,7 +297,7 @@
                     <div class="row">
                         <!-- 按鈕 -->
                         <div class=" d-flex justify-content-center pt-2 form-group">
-                            <button type="submit" class="btn btn-primary me-5" value="Create">新增</button>
+                            <button type="submit" class="btn btn-primary me-5" value="Save">確認</button>
                             <a asp-action="Employee"
                                class="btn btn-outline-success">取消</a>
                         </div>
@@ -323,3 +335,8 @@
     });
 
 </script>
+
+
+            
+
+

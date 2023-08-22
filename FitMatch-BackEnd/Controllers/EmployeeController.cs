@@ -5,8 +5,6 @@ namespace FitMatch_BackEnd.Controllers
 {
     public class EmployeeController : Controller
     {
-        //TODO: 員工要做CRUD!!!!
-
         //注入DB 可以在很多方法用他來連結資料庫
         private readonly FitMatchDbContext _context;
 
@@ -16,24 +14,30 @@ namespace FitMatch_BackEnd.Controllers
             _context = context;
         }
         //跟會員資料連結然後呈現出views
-        public IActionResult Employee()
+        public IActionResult Employee(int currentPage = 1)
         {
-            //資料庫連接 =>實體化DB
-            //FitMatchDbContext db = new FitMatchDbContext();
-
-            //資料定義與處理
-            //- Member Model(定義資料類型):Member class 
-            //- FitMAtchDBContext(操作資料表):public virtual DbSet<Member> Members { get; set; } //Members 集合實體
-            //IEnumerable<Employee> datas = from d in db.Employees select d; //
-
-            //return View(datas);
+            int itemsPerPage = 5;
             IEnumerable<Employee> datas = from p in _context.Employees select p;
+
+            // 根據當下頁碼獲取數據
+            datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+            int totalDataCount = _context.Trainers.Count();
+            int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = currentPage;
             return View(datas);
         }
 
         //員工新增
         public IActionResult Create()
         {
+            var employee = new Employee
+            {
+                Status = true // 預設"在職中"
+            };
+
             return View();
         }
 
@@ -41,39 +45,21 @@ namespace FitMatch_BackEnd.Controllers
         public async Task<IActionResult> CreateAsync(Employee e)
         {
             //使用ajax
-            if (ModelState.IsValid) // 驗證模型
+            if (ModelState.IsValid)
             {
+                e.CreatedAt = DateTime.Now; // 設置當前的日期和時間
+                e.Status = true; // 新增時在職狀況預設為在職中
                 _context.Employees.Add(e);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Employee");
             }
-            return View(e); // 如果模型無效，返回到輸入表單
+            return View(e);
 
         }
 
 
-        //TODO: 員工篩選、全部刪除、性別轉換、在職轉換
-
-        //審核通過
-        //public IActionResult Approve(int id)
-        //{
-        //var Employees = _context.Employees.Find(id);
-        ////檢查教練是否存在
-        //if (Employees == null)
-        //{
-        //    return NotFound();
-        //}
-        ////有教練就審核通過
-        //Employees.Approved = CApprovalStatus.Approved;
-        ////保存到資料庫
-        //_context.SaveChanges();
-        ////返回教練列表
-        //return RedirectToAction("Trainer");
-        //}
-
-        //TODO:  要做確認按鈕!!!!!!!!!!!!!!!
-
-        //教練履歷
+        //TODO: 員工篩選、全部刪除、性別轉換、在職轉換、照片、創建時間
+        
         public IActionResult Details(int id)
         {
             var Employees = _context.Employees.FirstOrDefault(t => t.EmployeeId == id);
@@ -82,6 +68,53 @@ namespace FitMatch_BackEnd.Controllers
                 return View("Error");
             }
             return View(Employees);
+        }
+        //TODO: 跳提醒 已刪除成功
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+                return RedirectToAction("Employee");
+            //var Employees = _context.Employees.FirstOrDefault(t => t.EmployeeId == id);
+            Employee e = _context.Employees.FirstOrDefault(t => t.EmployeeId == id);
+
+            if (e != null)
+            {
+                _context.Employees.Remove(e);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Employee");
+        }
+        //TODO: 要確認編輯
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+                return RedirectToAction("Employee");
+            Employee e = _context.Employees.FirstOrDefault(t => t.EmployeeId == id);
+            if (e == null)
+                return RedirectToAction("Employee");
+            return View(e);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Employee custIn)
+        {
+            Employee e = _context.Employees.FirstOrDefault(t => t.EmployeeId == custIn.EmployeeId);
+
+            if (e != null)
+            {
+                e.EmployeeName = custIn.EmployeeName;
+                e.Phone = custIn.Phone;
+                e.Email = custIn.Email;
+                e.Address = custIn.Address;
+                e.Password = custIn.Password;
+                e.Gender = custIn.Gender;
+                //e.CreatedAt = custIn.CreatedAt;
+                e.Photo = custIn.Photo;
+                e.Birth = custIn.Birth;
+                e.Status = custIn.Status;
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Employee");
         }
     }
 }
