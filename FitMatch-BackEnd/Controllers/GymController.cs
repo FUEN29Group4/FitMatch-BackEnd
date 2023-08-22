@@ -65,14 +65,16 @@ namespace FitMatch_BackEnd.Controllers
 
         public IActionResult GymCreate()
         {
-            return View();
+            return View(new Gym());
         }
+
 
         [HttpPost]
         public IActionResult GymCreate(Gym p)
         {
             if (ModelState.IsValid)
             {
+                // 如果Approved值未在表單中設置，則根據需要設置它
                 if (string.IsNullOrEmpty(Request.Form["Approved"].ToString()))
                 {
                     p.Approved = null;
@@ -88,14 +90,17 @@ namespace FitMatch_BackEnd.Controllers
                             p.Approved = false;
                             break;
                         default:
-                            // 你可以在此处处理不符合预期的值或错误。
+                            // 此處可以處理不符合預期的值或錯誤
                             break;
                     }
                 }
 
                 _context.Gyms.Add(p);
                 _context.SaveChanges();
-                return RedirectToAction("Gym");
+
+                ViewData["FormSubmitted"] = true;
+                // 重新傳遞模型到當前視圖以顯示通知
+                return View(p);
             }
             return View(p);
         }

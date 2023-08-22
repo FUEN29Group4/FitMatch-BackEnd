@@ -43,7 +43,25 @@
         left: 50%;
         transform: translate(-50%, -50%);
     }
+
+    #notification {
+        position: fixed; /* 使用固定定位 */
+        top: 50%; /* 從頂部開始的位置為50% */
+        left: 50%; /* 從左邊開始的位置為50% */
+        transform: translate(-50%, -50%); /* 使用轉換來回彈到正確的中央位置 */
+        z-index: 1000; /* 使用較高的z-index確保它出現在其他元素之上 */
+        padding: 15px; /* 根據需要增加內部間距 */
+        background-color: rgba(0,0,0,0.7); /* 添加背景色 */
+        color: #fff; /* 設置文本顏色為白色 */
+        border-radius: 5px; /* 添加邊界半徑，使其看起來更加圓滑 */
+        display: none; /* 默認情況下隱藏它，因為你只想在某些事件後顯示它 */
+    }
+
+
 </style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 <!-- Content Start -->
 <div class="content">
@@ -234,6 +252,26 @@
                             </div>
                         </fieldset>
 
+                        @if (Model != null)
+                        {
+                            var approvedStatus = Model.Approved;
+                            // ... 其他代码
+
+                            // 如果您想在视图中显示某些内容基于`Approved`的值：
+                            @if (approvedStatus.HasValue)
+                            {
+                                if (approvedStatus.Value)
+                                {
+                                    <span>已上架</span>
+                                }
+                                else
+                                {
+                                    <span>已下架</span>
+                                }
+                            }
+                        }
+
+
 
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
                             <div class="col-2">
@@ -272,10 +310,12 @@
         </div>
     </div>
     <!-- Form End -->
-
+ 
 </div>
 <!-- Content End -->
-
+<div class="notification" id="notification">
+    場館新增成功！目前處於<span id="currentStatus">待審核</span>的狀態。
+</div>
 <script>
     const uploadInput = document.getElementById('upload');
     const preview = document.getElementById('preview');
@@ -295,6 +335,40 @@
             reader.readAsDataURL(file);
         }
     });
+
+
+    $(document).ready(function () {
+        var isFormSubmitted = '@ViewData["FormSubmitted"]'; 
+
+        if (isFormSubmitted !== "True") return; // 如果表單還沒提交，則終止這段腳本
+
+        var approvedStatus = '@Model.Approved'; // Get the 'Approved' value from the Gym model passed to the view
+
+        var statusMessage = ""; // The message you want to display based on the 'Approved' value
+
+        if (approvedStatus === "True") {
+            statusMessage = "上架";
+        } else if (approvedStatus === "False") {
+            statusMessage = "下架";
+        } else if (approvedStatus === "") {
+            statusMessage = "待審核";
+        }
+
+        if (statusMessage) {
+            // Set the status in the notification
+            $('#currentStatus').text(statusMessage);
+
+            // Display the notification
+            $('#notification').fadeIn();
+
+            // Hide the notification after 5 seconds
+            setTimeout(function () {
+                $('#notification').fadeOut();
+            }, 5000);
+        }
+    });
+
+
 
 </script>
 
