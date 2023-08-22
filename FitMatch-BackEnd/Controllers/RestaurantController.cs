@@ -6,6 +6,15 @@ namespace FitMatch_BackEnd.Controllers
 {
     public class RestaurantController : Controller
     {
+        //private readonly FitMatchDbContext _context;
+
+        //連結DB
+        //public RestaurantController(FitMatchDbContext context)
+        //{
+        //    _context = context;
+        //}
+
+
         public IWebHostEnvironment _enviro = null;
         public RestaurantController(IWebHostEnvironment p)
         {
@@ -15,26 +24,118 @@ namespace FitMatch_BackEnd.Controllers
 
         public IActionResult List(CKeywordViewModel vm)
         {
+            //IQueryable<Restaurant> restaurants = _context.Restaurants;
+//IEnumerable
+
+
 
             FitMatchDbContext db = new FitMatchDbContext();
-            IEnumerable<Restaurant> datas = null;
-            if (string.IsNullOrEmpty(vm.txtKeyword))
+            IQueryable<Restaurant> datas = null;
+
+
+            if (vm.txtKeyword != null || vm.StatusFilter != null || vm.RegionFilter != null)
+            {
+                if (!string.IsNullOrEmpty(vm?.StatusFilter))
+                {
+                    switch (vm.StatusFilter)
+                    {
+                        case "上架":
+                            datas = db.Restaurants.Where(t => t.Status == true);
+                            break;
+                        case "下架":
+                            datas = db.Restaurants.Where(t => t.Status == false);
+                            break;
+                        case "待審核":
+                            datas = db.Restaurants.Where(t => t.Status == null);
+                            break;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(vm?.txtKeyword))
+                {
+                    datas = db.Restaurants.Where(t => t.RestaurantsName.Contains(vm.txtKeyword));
+                }
+
+                if (!string.IsNullOrEmpty(vm?.RegionFilter))
+                {
+                    datas = db.Restaurants.Where(t => t.Address.Contains(vm.RegionFilter));
+                }
+            }
+
+            else
+            {
                 datas = from p in db.Restaurants
                         select p;
-            else
-                datas = db.Restaurants.Where(t => t.RestaurantsName.Contains(vm.txtKeyword));
+            }
+
+
             return View(datas);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //FitMatchDbContext db = new FitMatchDbContext();
+            //IEnumerable<Restaurant> datas = null;
+
+            //if (string.IsNullOrEmpty(vm.txtKeyword))
+            //    datas = from p in db.Restaurants
+            //            select p;
+            //else
+            //    datas = db.Restaurants.Where(t => t.RestaurantsName.Contains(vm.txtKeyword));
+            //return View(datas);
         }
         public IActionResult Create()
         {
-            return View();
+            CRestaurantWrap prodWp = new CRestaurantWrap();
+            return View(prodWp.restaurant);
+            //return View();
         }
         [HttpPost]
-        public IActionResult Create(Restaurant p)
+        public IActionResult Create(CRestaurantWrap p)
         {
             FitMatchDbContext db = new FitMatchDbContext();
-            db.Restaurants.Add(p);
-            db.SaveChanges();
+            Restaurant custDb = new Restaurant();
+
+            if (p != null)
+            {
+                if (p.photo != null)
+                {
+                    string photoName = Guid.NewGuid().ToString() + ".jpg";
+
+                    //string path = Path.Combine(_enviro.WebRootPath, "/img/健康餐/", photoName);
+                    //using (var stream = new FileStream(path, mode: FileMode.Create))
+                    //{
+                    //    custDb.Photo = photoName;
+                    //}
+                    string path = _enviro.WebRootPath + "/img/健康餐/" + photoName;
+                    p.photo.CopyTo(new FileStream(path, FileMode.Create));
+                    custDb.Photo = photoName;
+                }
+                custDb.RestaurantsName = p.RestaurantsName;
+                custDb.Phone = p.Phone;
+                custDb.Address = p.Address;
+                custDb.RestaurantsDescription = p.RestaurantsDescription;
+                custDb.CreateAt = p.CreateAt;
+                custDb.Status = p.Status;
+
+                db.Restaurants.Add(custDb);
+                db.SaveChanges();
+            }
+
+            //db.Restaurants.Add(p);
+            //db.SaveChanges();
             return RedirectToAction("List");
         }
         public IActionResult Delete(int? id)
@@ -96,5 +197,22 @@ namespace FitMatch_BackEnd.Controllers
             }
             return RedirectToAction("List");
         }
+
+
+        public class CKeywordViewModel
+        {
+            public string txtKeyword { get; set; }
+            public string RegionFilter { get; set; }
+            public string StatusFilter { get; set; }  // 使用 string
+        }
+
+
+
+
     }
 }
+
+
+
+
+
