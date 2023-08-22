@@ -82,14 +82,14 @@ public partial class FitMatchDbContext : DbContext
             entity.Property(e => e.GymId).HasColumnName("GymID");
             entity.Property(e => e.MemberId).HasColumnName("MemberID");
             entity.Property(e => e.StartTime).HasColumnType("datetime");
-            entity.Property(e => e.TrainerDetailId).HasColumnName("TrainerDetailID");
+            entity.Property(e => e.TrainerId).HasColumnName("TrainerID");
 
             entity.HasOne(d => d.ClassType).WithMany(p => p.Classes)
                 .HasForeignKey(d => d.ClassTypeId)
                 .HasConstraintName("FK_Class_ClassTypes");
 
-            entity.HasOne(d => d.TrainerDetail).WithMany(p => p.Classes)
-                .HasForeignKey(d => d.TrainerDetailId)
+            entity.HasOne(d => d.TrainerID).WithMany(p => p.Classes)
+                .HasForeignKey(d => d.TrainerId)
                 .HasConstraintName("FK_Course_Information_Trainers");
         });
 

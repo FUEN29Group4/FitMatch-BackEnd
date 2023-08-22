@@ -149,7 +149,7 @@
             <div class="col-sm-12">
                 <div class="bg-secondary rounded h-100 p-4">
 
-                    <form asp-action="Edit" class="" style="padding: 50px;">
+                    <form asp-action="Edit" class="" style="padding: 50px;" enctype="multipart/form-data">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" name="RestaurantsId" value="@Model.RestaurantsId" />
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
@@ -193,7 +193,7 @@
                                 <div class="upload-container">
                                     <label for="upload" class="label-upload">
                                         <div class="icon">+</div>
-                                        <input type="file" id="upload" class="upload-input" accept="image/*">
+                                        <input type="file" name="photo" id="upload" class="upload-input">
                                     </label>
                                     <img id="preview" src="" alt="Image Preview">
                                 </div>
@@ -208,19 +208,20 @@
 
                             <div class="col-4 d-flex justify-content-start">
                                 <div class="form-check me-3">
-                                    <input class="form-check-input" type="radio" name="stateRadios"
+                                    <input asp-for="Status" class="form-check-input" type="radio" name="stateRadios"
                                            id="gridRadios5" value="option5" checked>
-                                    <label class="form-check-label" for="gridRadios5">
+                                    <label asp-for="Status" class="form-check-label" for="gridRadios5">
                                         上架
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="stateRadios"
+                                    <input asp-for="Status" class="form-check-input" type="radio" name="stateRadios"
                                            id="gridRadios6" value="option6">
-                                    <label class="form-check-label" for="gridRadios6">
+                                    <label asp-for="Status" class="form-check-label" for="gridRadios6">
                                         下架
                                     </label>
                                 </div>
+                                <span asp-validation-for="Status" class="text-danger"></span>
                             </div>
                         </fieldset>
 
@@ -241,6 +242,7 @@
                             <button type="submit" class="btn btn-primary me-5">修改</button>
                             <a asp-action="List" class="btn btn-outline-success ">取消</a>
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -248,7 +250,6 @@
         </div>
     </div>
     <!-- Form End -->
-
 </div>
 <!-- Content End -->
 
