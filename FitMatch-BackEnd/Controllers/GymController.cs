@@ -33,10 +33,22 @@ namespace FitMatch_BackEnd.Controllers
                 gyms = gyms.Where(t => t.Address.Contains(vm.RegionFilter));
             }
 
-            if (vm.StatusFilter.HasValue)
+            if (!string.IsNullOrEmpty(vm?.StatusFilter))
             {
-                gyms = gyms.Where(t => t.Approved == vm.StatusFilter.Value);
+                switch (vm.StatusFilter)
+                {
+                    case "上架":
+                        gyms = gyms.Where(t => t.Approved == true);
+                        break;
+                    case "下架":
+                        gyms = gyms.Where(t => t.Approved == false);
+                        break;
+                    case "待審核":
+                        gyms = gyms.Where(t => t.Approved == null);
+                        break;
+                }
             }
+
 
             return View(gyms.ToList());
         }
@@ -71,15 +83,15 @@ namespace FitMatch_BackEnd.Controllers
         {
             if (id == null)
                 return RedirectToAction("Gym");
-            FitMatchDbContext db = new FitMatchDbContext();
-            Gym cust = db.Gyms.FirstOrDefault(t => t.GymId == id);
+            Gym cust = _context.Gyms.FirstOrDefault(t => t.GymId == id);
             if (cust != null)
             {
-                db.Gyms.Remove(cust);
-                db.SaveChanges();
+                _context.Gyms.Remove(cust);
+                _context.SaveChanges();
             }
             return RedirectToAction("Gym");
         }
+
 
         public IActionResult GymEdit(int? id)
         {
@@ -112,7 +124,7 @@ namespace FitMatch_BackEnd.Controllers
         {
             public string txtKeyword { get; set; }
             public string RegionFilter { get; set; }
-            public bool? StatusFilter { get; set; }  // 這裡是 nullable bool
+            public string StatusFilter { get; set; }  // 使用 string
         }
 
 
