@@ -1,9 +1,9 @@
 ﻿@model FitMatch_BackEnd.Models.Gym
 
 @{
-    ViewData["Title"] = "GymEdit";
+    ViewData["Title"] = "GymCreate";
 }
-<link rel="stylesheet" href="css/personnel/revise.css">
+
 <style>
     /* 上傳照片 */
     .upload-container {
@@ -56,7 +56,7 @@
             <i class="fa fa-bars"></i>
         </a>
         <form class="d-none d-md-flex ms-4">
-            <h4 class="m-auto">場館管理 / 編輯場館</h4>
+            <h4 class="m-auto">場館管理 / 新增場館</h4>
         </form>
         <div class="navbar-nav align-items-center ms-auto">
             <div class="nav-item dropdown">
@@ -145,44 +145,55 @@
         <div class="row g-4">
             <div class="col-sm-12">
                 <div class="bg-secondary rounded h-100 p-4">
-                    <form asp-action="Edit" style="padding: 50px;">
+                    <form style="padding: 50px;">
+                        <div class="col-sm-12  col-xl-6 mb-3 d-flex ps">
+                            <div class="col-2">
+                                <label for="inputname" class="col-form-label">地區</label>
+                            </div>
+                            <div class="col-10 d-flex">
+                                <select class="form-select mb-3 me-4" aria-label="Default select example">
+                                    <option disabled selected>選擇城市</option>
+                                    <option value="1">台北</option>
+                                    <option value="2">台中</option>
+                                    <option value="3">台南</option>
+                                </select>
+                                <select class="form-select mb-3 ms-4" aria-label="Default select example">
+                                    <option disabled selected>選擇區域</option>
+                                    <option value="1">東區</option>
+                                    <option value="2">北區</option>
+                                    <option value="3">南區</option>
+                                </select>
+                            </div>
+                        </div>
+
 
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
                             <div class="col-2">
-                                <label asp-for="GymId" class="col-form-label" t1>場館編號</label>
+                                <label for="inputname" class="col-form-label">場館名稱</label>
                             </div>
                             <div class="col-10">
-                                <label asp-for="GymId" class="col-form-label  t1" value="MemberId"> @Model.GymId</label>
+                                <input class="form-control mb-3" type="text" placeholder="請輸入場館名稱"
+                                       aria-label="請輸入場館名稱" id="inputname">
                             </div>
                         </div>
 
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
                             <div class="col-2">
-                                <label asp-for="GymName" class="col-form-label" t1>場館名稱</label>
+                                <label for="inputname" class="col-form-label">電話</label>
                             </div>
                             <div class="col-10">
-                                <input asp-for="GymName" class="form-control mb-3" type="text" value="@Model.GymName"
-                                       id="inputname">
+                                <input class="form-control mb-3" type="text" placeholder="請輸入電話"
+                                       aria-label="請輸入電話" id="inputname">
                             </div>
                         </div>
 
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
                             <div class="col-2">
-                                <label asp-for="Phone" class="col-form-label">場館電話</label>
+                                <label for="inputname" class="col-form-label">地址</label>
                             </div>
                             <div class="col-10">
-                                <input asp-for="Phone" class="form-control mb-3" type="text" value="@Model.Phone"
-                                       id="inputname">
-                            </div>
-                        </div>
-
-                        <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
-                            <div class="col-2">
-                                <label asp-for="Address" class="col-form-label">場館地址</label>
-                            </div>
-                            <div class="col-10">
-                                <input asp-for="Address" class="form-control mb-3" type="text" value="@Model.Address"
-                                       id="inputname">
+                                <input class="form-control mb-3" type="text" placeholder="請輸入地址"
+                                       aria-label="請輸入地址" id="inputname">
                             </div>
                         </div>
 
@@ -200,6 +211,7 @@
                                 </div>
                             </div>
                         </div>
+
 
                         <fieldset class="col-sm-12 col-xl-6 mb-3 d-flex">
                             <div class="col-2">
@@ -222,13 +234,13 @@
                                 </div>
                             </div>
                         </fieldset>
+
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
                             <div class="col-2">
                                 <label for="inputname" class="col-form-label">營業時間</label>
                             </div>
                             <div class="col-10 d-flex">
                                 <select class="form-select mb-3 me-4" aria-label="Default select example">
-                                    <option selected value="7">07:00</option>
                                     <option selected value="7">07:00</option>
                                     <option value="8">08:00</option>
                                     <option value="9">09:00</option>
@@ -266,6 +278,8 @@
                                 </select>
                             </div>
                         </div>
+
+
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex">
                             <div class="col-2">
                                 <legend class="col-form-label pt-3 pe-4">場館簡介</legend>
@@ -273,16 +287,15 @@
                             <div class="col-10 form-floating pt-1">
                                 <textarea class="form-control" placeholder="Leave a comment here"
                                           id="floatingTextarea" style="height: 150px;"></textarea>
-                                <label for="floatingTextarea">請輸入課程簡介</label>
+                                <label for="floatingTextarea">請輸入場館簡介</label>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-xl-6 pt-5 d-flex" style="margin-left: 110px;">
-
-                            <div class="col-6 text-center">
+                        <div class="col-sm-12 col-xl-6 pt-5 d-flex" style="margin-left: 55px;">
+                            <div class="col-4 text-center">
                                 <button type="submit" class="btn btn-primary ">修改</button>
                             </div>
-                            <div class="col-6 text-start">
-                                <a asp-action="Gym" class="btn btn-outline-success">取消</a>
+                            <div class="col-4 text-start">
+                                <a href="match_gym.html" class="btn btn-outline-success ">取消</a>
                             </div>
                         </div>
                     </form>
@@ -295,3 +308,25 @@
 
 </div>
 <!-- Content End -->
+
+<script>
+    const uploadInput = document.getElementById('upload');
+    const preview = document.getElementById('preview');
+    const icon = document.querySelector('.icon');
+
+    uploadInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.addEventListener('load', function () {
+                preview.src = this.result;
+                preview.style.display = 'block';
+                icon.style.display = 'none';
+            });
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+</script>

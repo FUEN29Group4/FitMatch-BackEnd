@@ -158,7 +158,7 @@
         <div class="bg-white text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <h5 class="mb-0 text-dark">場館列表</h5>
-                @* <a class="btn btn-primary  custom-purple" href="match_creategym.html">新增場館</a> *@
+                <a class="btn btn-primary  custom-purple" asp-action="GymCreate">新增課程</a>
             </div>
             <div class="table-responsive">
                 <table class="table text-center align-middle table-bordered table-hover mb-0">
@@ -195,7 +195,7 @@
                                            style="background-color: aliceblue; color: black;">
                                             <i class="fa-regular fa-pen-to-square">編輯</i>
                                         </a>
-                                        <a class="btn btn-sm btn-primary" href="@Url.Action("Delete", "Gym", new { id = item.GymId })">
+                                        <a class="btn btn-sm btn-primary" href="@Url.Action("GymDelete", "Gym", new { id = item.GymId })">
                                             <i class="fa-solid fa-trash-can">刪除</i>
                                         </a>
                                     </td>
