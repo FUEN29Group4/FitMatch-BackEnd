@@ -29,4 +29,8 @@
   <ItemGroup>
     <None Remove="Views\Member\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Robot\" />
+  </ItemGroup>
 </Project>

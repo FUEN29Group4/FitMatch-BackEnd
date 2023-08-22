@@ -19,6 +19,7 @@ public partial class Product
 
     public bool? Approved { get; set; }
 
+
     public virtual ICollection<MemberFavorite> MemberFavorites { get; set; } = new List<MemberFavorite>();
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
