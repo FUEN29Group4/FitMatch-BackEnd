@@ -1,4 +1,6 @@
-﻿namespace FitMatch_BackEnd.ViewModel
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace FitMatch_BackEnd.ViewModel
 {
     public class MatchViewModel
     {
@@ -17,6 +19,17 @@
         public int GymId { get; set; }
 
         public int ClassTypeId { get; set; }
+        public List<SelectListItem> AvailableGyms { get; set; } // 新添加的属性
+        public List<SelectListItem> AvailableClassType { get; set; } // 新添加的属性
+        public List<SelectListItem> AvailableMember { get; set; } // 新添加的属性
+        public List<SelectListItem> AvailableTrainer { get; set; } // 新添加的属性
+        public int SelectedGymId { get; set; } // 用户选择的 GymId
+        public int SelectedClassTypeId { get; set;}
+        public int SelectedMemberId { get; set;}
+        public int SelectedTrainerId { get; set; }
+
+
+
 
     }
 }
