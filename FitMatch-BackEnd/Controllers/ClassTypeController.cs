@@ -83,10 +83,11 @@ namespace FitMatch_BackEnd.Controllers
                     p.photo.CopyTo(new FileStream(path, FileMode.Create));
                     custDb.Photo = photoName;
                 }
+                custDb.Status = string.IsNullOrEmpty(Request.Form["Status"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Status"]);
                 custDb.ClassName = p.ClassName;
                 custDb.Introduction = p.Introduction;
                 custDb.CreateAt = p.CreateAt;
-                custDb.Status = p.Status;
+
 
                 db.ClassTypes.Add(custDb);
                 db.SaveChanges();
@@ -145,10 +146,11 @@ namespace FitMatch_BackEnd.Controllers
                     prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
                     custDb.Photo = photoName;
                 }
+                custDb.Status = string.IsNullOrEmpty(Request.Form["Status"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Status"]);
                 custDb.ClassName = prodIn.ClassName;
                 custDb.Introduction = prodIn.Introduction;
                 custDb.CreateAt = prodIn.CreateAt;
-                custDb.Status = prodIn.Status;
+
 
                 db.SaveChanges();
             }

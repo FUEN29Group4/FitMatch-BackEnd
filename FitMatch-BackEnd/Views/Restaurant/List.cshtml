@@ -185,7 +185,6 @@
                             <th scope="col">地區</th>
                             <th scope="col">封面</th>
                             <th scope="col">狀態</th>
-                            <th scope="col">建立時間</th>
                             <th scope="col">操作</th>
                         </tr>
                     </thead>
@@ -203,7 +202,6 @@
                                     <td>@Html.DisplayFor(modelItem => item.Address)</td>
                                     <td><img src="~/img/健康餐/@item.Photo" width="110" height="70" /></td>
                                     <td>@(item.Status == true ? "上架" : (item.Status == false ? "下架" : "待審核"))</td>
-                                    <td>@Html.DisplayFor(modelItem => item.CreateAt)</td>
                                     <td>
                                         <a class="btn btn-sm btn-secondary" href="@Url.Action("Edit", "Restaurant", new { id = item.RestaurantsId })"
                                            style="background-color: aliceblue; color: black;">
