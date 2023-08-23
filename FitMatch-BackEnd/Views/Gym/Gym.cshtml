@@ -179,8 +179,8 @@
                                     <td>@Html.DisplayFor(modelItem => item.GymName)</td>
                                     <td>@(item.Approved == true ? "上架" : (item.Approved == false ? "下架" : "待審核"))</td>
                                     <td>@Html.DisplayFor(modelItem => item.Address)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.OpentimeStart)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.OpentimeEnd)</td>
+                                    <td>@(item.OpentimeStart.HasValue ? item.OpentimeStart.Value.ToString("HH:mm") : "未設定")</td>
+                                    <td>@(item.OpentimeEnd.HasValue ? item.OpentimeEnd.Value.ToString("HH:mm") : "未設定")</td>
                                     <!-- 如果有 Gym 的圖片欄位，你可以在此插入 -->
                                     <td>
                                         <a class="btn btn-sm btn-secondary" href="@Url.Action("GymEdit", "Gym", new { id = item.GymId })"

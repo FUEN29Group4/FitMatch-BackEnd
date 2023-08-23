@@ -136,8 +136,7 @@ namespace FitMatch_BackEnd.Controllers
         {
             if (id == null)
                 return RedirectToAction("Gym");
-            FitMatchDbContext db = new FitMatchDbContext();
-            Gym cust = db.Gyms.FirstOrDefault(t => t.GymId == id);
+            Gym cust = _context.Gyms.FirstOrDefault(t => t.GymId == id);
             if (cust == null)
                 return RedirectToAction("Gym");
             return View(cust);
@@ -154,13 +153,39 @@ namespace FitMatch_BackEnd.Controllers
                 custDb.Phone = custIn.Phone;
                 custDb.Address = custIn.Address;
 
-                // Add this line to update the Approved status
+                // 更新 Approved 狀態
                 custDb.Approved = string.IsNullOrEmpty(Request.Form["Approved"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Approved"]);
+
+                // 更新 OpentimeStart 和 OpentimeEnd
+                if (int.TryParse(Request.Form["OpentimeStart"], out int opentimeStartHour))
+                {
+                    custDb.OpentimeStart = custDb.OpentimeStart.HasValue
+                        ? new DateTime(custDb.OpentimeStart.Value.Year, custDb.OpentimeStart.Value.Month, custDb.OpentimeStart.Value.Day, opentimeStartHour, 0, 0)
+                        : new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, opentimeStartHour, 0, 0);
+                }
+                else
+                {
+                    custDb.OpentimeStart = null;
+                }
+
+                if (int.TryParse(Request.Form["OpentimeEnd"], out int opentimeEndHour))
+                {
+                    custDb.OpentimeEnd = custDb.OpentimeEnd.HasValue
+                        ? new DateTime(custDb.OpentimeEnd.Value.Year, custDb.OpentimeEnd.Value.Month, custDb.OpentimeEnd.Value.Day, opentimeEndHour, 0, 0)
+                        : new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, opentimeEndHour, 0, 0);
+                }
+                else
+                {
+                    custDb.OpentimeEnd = null;
+                }
 
                 _context.SaveChanges();
             }
             return RedirectToAction("Gym");
         }
+
+
+
 
 
         public class CKeywordViewModel

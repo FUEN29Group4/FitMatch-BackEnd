@@ -231,48 +231,38 @@
 
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
                             <div class="col-2">
-                                <label for="inputname" class="col-form-label">營業時間</label>
+                                <label class="col-form-label">營業時間</label>
                             </div>
                             <div class="col-10 d-flex">
-                                <select class="form-select mb-3 me-4" aria-label="Default select example">
-                                    <option selected value="7">07:00</option>
-                                    <option selected value="7">07:00</option>
-                                    <option value="8">08:00</option>
-                                    <option value="9">09:00</option>
-                                    <option value="10">10:00</option>
-                                    <option value="11">11:00</option>
-                                    <option value="12">12:00</option>
-                                    <option value="13">13:00</option>
-                                    <option value="14">14:00</option>
-                                    <option value="15">15:00</option>
-                                    <option value="16">16:00</option>
-                                    <option value="17">17:00</option>
-                                    <option value="18">18:00</option>
-                                    <option value="19">19:00</option>
-                                    <option value="20">20:00</option>
-                                    <option value="21">21:00</option>
+                                <select class="form-select mb-3 me-4" aria-label="Default select example" name="OpentimeStart">
+                                    @for (int i = 0; i <= 23; i++)
+                                    {
+                                        if (Model.OpentimeStart?.Hour == i)
+                                        {
+                                            <option value="@i" selected>@(i.ToString("00") + ":00")</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">@(i.ToString("00") + ":00")</option>
+                                        }
+                                    }
                                 </select>
-                                <select class="form-select mb-3 ms-4" aria-label="Default select example">
-                                    <option value="7">07:00</option>
-                                    <option value="8">08:00</option>
-                                    <option value="9">09:00</option>
-                                    <option value="10">10:00</option>
-                                    <option value="11">11:00</option>
-                                    <option value="12">12:00</option>
-                                    <option value="13">13:00</option>
-                                    <option value="14">14:00</option>
-                                    <option value="15">15:00</option>
-                                    <option value="16">16:00</option>
-                                    <option value="17">17:00</option>
-                                    <option value="18">18:00</option>
-                                    <option value="19">19:00</option>
-                                    <option value="20">20:00</option>
-                                    <option value="21">21:00</option>
-                                    <option value="22">22:00</option>
-                                    <option selected value="23">23:00</option>
+                                <select class="form-select mb-3 ms-4" aria-label="Default select example" name="OpentimeEnd">
+                                    @for (int i = 0; i <= 23; i++)
+                                    {
+                                        if (Model.OpentimeEnd?.Hour == i)
+                                        {
+                                            <option value="@i" selected>@(i.ToString("00") + ":00")</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">@(i.ToString("00") + ":00")</option>
+                                        }
+                                    }
                                 </select>
                             </div>
                         </div>
+
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex">
                             <div class="col-2">
                                 <legend class="col-form-label pt-3 pe-4">場館簡介</legend>
