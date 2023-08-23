@@ -108,7 +108,7 @@ namespace FitMatch_BackEnd.Controllers
                 custDb.Phone = p.Phone;
                 custDb.Address = p.Address;
                 custDb.RestaurantsDescription = p.RestaurantsDescription;
-
+                custDb.CreateAt = p.CreateAt;
 
                 db.Restaurants.Add(custDb);
                 db.SaveChanges();
@@ -174,7 +174,7 @@ namespace FitMatch_BackEnd.Controllers
                 custDb.Phone = prodIn.Phone;
                 custDb.Address = prodIn.Address;
                 custDb.RestaurantsDescription = prodIn.RestaurantsDescription;
-
+                custDb.CreateAt = prodIn.CreateAt;
 
                 db.SaveChanges();
             }
