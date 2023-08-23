@@ -18,7 +18,7 @@ namespace FitMatch_BackEnd.Controllers
         {
             _enviro = p;
         }
-        public IActionResult Robot(CKeywordViewModel vm)
+        public IActionResult Robot()
         {
 
             FitMatchDbContext db = new FitMatchDbContext();
@@ -53,48 +53,81 @@ namespace FitMatch_BackEnd.Controllers
                 db.Robots.Remove(cust);
                 db.SaveChanges();
             }
-            return RedirectToAction("List");
+            return RedirectToAction("Robot");
         }
+
+
+
+        //public IActionResult RobotEdit(int? id)
+        //{
+        //    if (id == null)
+        //        return RedirectToAction("Robot");
+        //    FitMatchDbContext db = new FitMatchDbContext();
+        //   Robot RoDb = db.Robots.FirstOrDefault(t => t.RobotId == id);
+
+
+        //    if (RoDb == null)
+        //        return RedirectToAction("Robot");
+        //    RobotWrap RWp = new RobotWrap();
+        //    RWp.Robot = RoDb;
+        //    return View(RWp);
+        //}
+
+        //[HttpPost]
+        //public IActionResult RobotEdit(RobotWrap RoIn)
+        //{
+        //    FitMatchDbContext db = new FitMatchDbContext();
+        //    Robot RoDb = db.Robots.FirstOrDefault(t => t.RobotId == RoIn.RobotId);
+
+        //    if (RoDb != null)
+        //    {
+        //        //if (RoIn.RobotId != null)
+        //        //{
+        //        //    string photoName = Guid.NewGuid().ToString() + ".jpg";
+        //        //    string path = _enviro.WebRootPath + "/images/" + photoName;
+        //        //    prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
+        //        //    prodDb.FImagePath = photoName;
+        //        //}
+
+
+        //        RoDb.DefaultResponse = RoIn.DefaultResponse;
+        //        RoDb.DefaultQuestion = RoIn.DefaultQuestion;
+        //        RoDb.Type = RoIn.Type;
+
+        //        db.SaveChanges();
+        //    }
+        //    return RedirectToAction("Robot");
+        //}
 
 
 
         public IActionResult RobotEdit(int? id)
         {
             if (id == null)
-                return RedirectToAction("List");
+                return RedirectToAction("Robot");
             FitMatchDbContext db = new FitMatchDbContext();
-           Robot RoDb = db.Robots.FirstOrDefault(t => t.RobotId == id);
-            if (RoDb == null)
-                return RedirectToAction("List");
-            RobotWrap RWp = new RobotWrap();
-            RWp.Robot = RoDb;
-            return View(RWp);
+            Robot cust = db.Robots.FirstOrDefault(t => t.RobotId == id);
+            if (cust == null)
+                return RedirectToAction("Robot");
+            return View(cust);
         }
 
         [HttpPost]
-        public IActionResult RobotEdit(RobotWrap RoIn)
+        public IActionResult RobotEdit(Robot custIn)
         {
             FitMatchDbContext db = new FitMatchDbContext();
-            Robot RoDb = db.Robots.FirstOrDefault(t => t.RobotId == RoIn.RobotId);
+            Robot custDb = db.Robots.FirstOrDefault(t => t.RobotId == custIn.RobotId);
 
-            if (RoDb != null)
+            if (custDb != null)
             {
-                //if (RoIn.RobotId != null)
-                //{
-                //    string photoName = Guid.NewGuid().ToString() + ".jpg";
-                //    string path = _enviro.WebRootPath + "/images/" + photoName;
-                //    prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
-                //    prodDb.FImagePath = photoName;
-                //}
-
-                RoDb.RobotId = RoIn.FName;
-                RoDb.DefaultResponse = RoIn.FQty;
-                RoDb.DefaultResponse = RoIn.FCost;
-                RoDb.FPrice = RoIn.FPrice;
-
+               
+                custDb.Type = custIn.Type;
+                custDb.DefaultQuestion = custIn.DefaultQuestion;
+                custDb.DefaultResponse = custIn.DefaultResponse;
                 db.SaveChanges();
             }
             return RedirectToAction("Robot");
         }
+
     }
 }

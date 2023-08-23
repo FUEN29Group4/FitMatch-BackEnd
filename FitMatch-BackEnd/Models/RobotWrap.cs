@@ -12,13 +12,23 @@
         {
             _Robot = new Robot();
         }
-        //public int ProductId
-        //{
-        //    get { return _Product.ProductId; }
-        //    set { _Product.ProductId = value; }
-        //}
 
-        public int RobotId { get; internal set; }
+
+
+        public int RobotId
+        {
+            get { return _Robot.RobotId; }
+            set { _Robot.RobotId = value; }
+        }
+
+
+
+        public string? Type
+        {
+            get { return _Robot.Type; }
+            set { _Robot.Type = value; }
+        }
+
 
         public string? DefaultQuestion
         {
@@ -31,7 +41,9 @@
             set { _Robot.DefaultResponse = value; }
         }
 
-       
         
+
+
+
     }
 }

@@ -15,6 +15,12 @@
     <EmbeddedResource Remove="Views\Personal\**" />
     <None Remove="Views\Personal\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Models\CApprovalStatus - 複製.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Models\RobotTypes.cshtml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.10" />
@@ -28,9 +34,5 @@
 
   <ItemGroup>
     <None Remove="Views\Member\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Robot\" />
   </ItemGroup>
 </Project>
