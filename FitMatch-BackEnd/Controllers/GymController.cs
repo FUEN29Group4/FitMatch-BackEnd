@@ -74,20 +74,26 @@ namespace FitMatch_BackEnd.Controllers
         {
             if (ModelState.IsValid)
             {
-                // 如果Approved值未在表單中設置，則根據需要設置它
-                if (string.IsNullOrEmpty(Request.Form["Approved"].ToString()))
+                // 讀取表單中的 "Approved" 值
+                string approvedValue = Request.Form["Approved"].ToString();
+
+                // 如果Approved值未在表單中設置，則設置為 null
+                if (string.IsNullOrEmpty(approvedValue))
                 {
                     p.Approved = null;
                 }
                 else
                 {
-                    switch (Request.Form["Approved"].ToString())
+                    switch (approvedValue)
                     {
                         case "true":
                             p.Approved = true;
                             break;
                         case "false":
                             p.Approved = false;
+                            break;
+                        case "":  // 現在這個空字符串代表 "待審核"
+                            p.Approved = null;
                             break;
                         default:
                             // 此處可以處理不符合預期的值或錯誤
@@ -104,6 +110,7 @@ namespace FitMatch_BackEnd.Controllers
             }
             return View(p);
         }
+
 
 
 
@@ -129,8 +136,7 @@ namespace FitMatch_BackEnd.Controllers
         {
             if (id == null)
                 return RedirectToAction("Gym");
-            FitMatchDbContext db = new FitMatchDbContext();
-            Gym cust = db.Gyms.FirstOrDefault(t => t.GymId == id);
+            Gym cust = _context.Gyms.FirstOrDefault(t => t.GymId == id);
             if (cust == null)
                 return RedirectToAction("Gym");
             return View(cust);
@@ -139,18 +145,48 @@ namespace FitMatch_BackEnd.Controllers
         [HttpPost]
         public IActionResult GymEdit(Gym custIn)
         {
-            FitMatchDbContext db = new FitMatchDbContext();
-            Gym custDb = db.Gyms.FirstOrDefault(t => t.GymId == custIn.GymId);
+            Gym custDb = _context.Gyms.FirstOrDefault(t => t.GymId == custIn.GymId);
 
             if (custDb != null)
             {
                 custDb.GymName = custIn.GymName;
                 custDb.Phone = custIn.Phone;
                 custDb.Address = custIn.Address;
-                db.SaveChanges();
+
+                // 更新 Approved 狀態
+                custDb.Approved = string.IsNullOrEmpty(Request.Form["Approved"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Approved"]);
+
+                // 更新 OpentimeStart 和 OpentimeEnd
+                if (int.TryParse(Request.Form["OpentimeStart"], out int opentimeStartHour))
+                {
+                    custDb.OpentimeStart = custDb.OpentimeStart.HasValue
+                        ? new DateTime(custDb.OpentimeStart.Value.Year, custDb.OpentimeStart.Value.Month, custDb.OpentimeStart.Value.Day, opentimeStartHour, 0, 0)
+                        : new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, opentimeStartHour, 0, 0);
+                }
+                else
+                {
+                    custDb.OpentimeStart = null;
+                }
+
+                if (int.TryParse(Request.Form["OpentimeEnd"], out int opentimeEndHour))
+                {
+                    custDb.OpentimeEnd = custDb.OpentimeEnd.HasValue
+                        ? new DateTime(custDb.OpentimeEnd.Value.Year, custDb.OpentimeEnd.Value.Month, custDb.OpentimeEnd.Value.Day, opentimeEndHour, 0, 0)
+                        : new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, opentimeEndHour, 0, 0);
+                }
+                else
+                {
+                    custDb.OpentimeEnd = null;
+                }
+
+                _context.SaveChanges();
             }
             return RedirectToAction("Gym");
         }
+
+
+
+
 
         public class CKeywordViewModel
         {

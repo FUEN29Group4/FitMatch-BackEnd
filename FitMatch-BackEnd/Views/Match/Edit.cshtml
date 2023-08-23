@@ -18,11 +18,6 @@
                 <span asp-validation-for="ClassId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TrainerId" class="control-label"></label>
-                <input asp-for="TrainerId" class="form-control" />
-                <span asp-validation-for="TrainerId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="ClassName" class="control-label"></label>
                 <input asp-for="ClassName" class="form-control" />
                 <span asp-validation-for="ClassName" class="text-danger"></span>
@@ -58,24 +53,35 @@
                 <span asp-validation-for="TrainerName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="GymName" class="control-label"></label>
-                <input asp-for="GymName" class="form-control" />
-                <span asp-validation-for="GymName" class="text-danger"></span>
+                <label asp-for="SelectedGymId" class="control-label"></label>
+                <select asp-for="SelectedGymId" asp-items="Model.AvailableGyms" class="form-control"></select>
+                <span asp-validation-for="SelectedGymId" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="SelectedMemberId" class="control-label"></label>
+                <select asp-for="SelectedMemberId" asp-items="Model.AvailableMember" class="form-control"></select>
+                <span asp-validation-for="SelectedMemberId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SelectedClassTypeId" class="control-label"></label>
+                <select asp-for="SelectedClassTypeId" asp-items="Model.AvailableClassType" class="form-control"></select>
+                <span asp-validation-for="SelectedClassTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedTrainerId" class="control-label"></label>
+                <select asp-for="SelectedTrainerId" asp-items="Model.AvailableTrainer" class="form-control"></select>
+                <span asp-validation-for="SelectedTrainerId" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <label asp-for="CourseStatus" class="control-label"></label>
-                <input asp-for="CourseStatus" class="form-control" />
+                <select asp-for="CourseStatus" class="form-control">
+                    <option value="進行中">進行中</option>
+                    <option value="已完成">已完成</option>
+                    <!-- 添加其他选项 -->
+                </select>
                 <span asp-validation-for="CourseStatus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GymId" class="control-label"></label>
-                <input asp-for="GymId" class="form-control" />
-                <span asp-validation-for="GymId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ClassTypeId" class="control-label"></label>
-                <input asp-for="ClassTypeId" class="form-control" />
-                <span asp-validation-for="ClassTypeId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

@@ -6,7 +6,6 @@
 
 <h1>新增課程</h1>
 
-
 <style>
     /* 上傳照片 */
     .upload-container {
@@ -47,6 +46,8 @@
         transform: translate(-50%, -50%);
     }
 </style>
+
+
 <!-- Content Start -->
 <div class="content">
     <!-- Navbar Start -->
@@ -58,7 +59,7 @@
             <i class="fa fa-bars"></i>
         </a>
         <form class="d-none d-md-flex ms-4">
-            <h4 class="m-auto">課程管理 / 新增課程</h4>
+            <h4 class="m-auto">課程上架</h4>
         </form>
         <div class="navbar-nav align-items-center ms-auto">
             <div class="nav-item dropdown">
@@ -147,7 +148,7 @@
         <div class="row g-4">
             <div class="col-sm-12">
                 <div class="bg-secondary rounded h-100 p-4">
-                    <form asp-action="Create" style="padding: 50px;">
+                    <form method="post" asp-action="Create" style="padding: 50px;" enctype="multipart/form-data">
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
                             <div class="col-2">
                                 <label asp-for="ClassName" for="inputname" class="col-form-label">課程名稱</label>
@@ -166,7 +167,7 @@
                                 <div class="upload-container">
                                     <label for="upload" class="label-upload">
                                         <div class="icon">+</div>
-                                        <input type="file" id="upload" class="upload-input" accept="image/*">
+                                        <input type="file" name="photo" id="upload" class="upload-input">
                                     </label>
                                     <img id="preview" src="" alt="Image Preview">
                                 </div>
@@ -176,19 +177,19 @@
 
                         <fieldset class="col-sm-12 col-xl-6 mb-3 d-flex">
                             <div class="col-2">
-                                <legend class="col-form-label pt-0 pe-4">顯示狀態</legend>
+                                <label asp-for="Status" class="col-form-label pt-0 pe-4">顯示狀態</label>
                             </div>
                             <div class="col-10 d-flex justify-content-start">
                                 <div class="form-check me-3">
-                                    <input class="form-check-input" type="radio" name="gridRadios"
-                                           id="gridRadios1" value="option1" checked>
+                                    <input class="form-check-input" type="radio" name="stateRadios"
+                                           id="gridRadios1" value="true" checked>
                                     <label class="form-check-label" for="gridRadios1">
                                         上架
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gridRadios"
-                                           id="gridRadios2" value="option2">
+                                    <input class="form-check-input" type="radio" name="stateRadios"
+                                           id="gridRadios2" value="false">
                                     <label class="form-check-label" for="gridRadios2">
                                         下架
                                     </label>
@@ -222,7 +223,6 @@
     <!-- Form End -->
 
 </div>
-<!-- Content End -->
 
 <script>
     const uploadInput = document.getElementById('upload');
