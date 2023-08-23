@@ -18,7 +18,6 @@ namespace FitMatch_BackEnd.Controllers
 
         public IActionResult List(string searchField, string searchKeyword, DateTime? start, DateTime? end, string CourseStatus, int page = 1)
         {
-            int itemsPerPage = 5; // 每页显示的项数
 
             var viewModelList = (from c in _db.Classes
                                  join m in _db.Members on c.MemberId equals m.MemberId
@@ -39,14 +38,10 @@ namespace FitMatch_BackEnd.Controllers
                                      GymName = g.GymName,
                                      CourseStatus=c.CourseStatus,
                                      TrainerId = t.TrainerId,
-                                     ClassTypeId= h.ClassTypeId
+                                     ClassTypeId= h.ClassTypeId,
+                                     Approved = (bool)c.Approved
                                  }).ToList();
-            // 在之前的查询逻辑之后，根据分页逻辑获取当前页的数据
-            avar startIndex = (page - 1) * itemsPerPage;
-            var currentPageData = viewModelList.Skip(startIndex).Take(itemsPerPage).ToList();
-            // 生成分页项
-            int totalItems = viewModelList.Count;
-            int totalPages = (int)Math.Ceiling((double)totalItems / itemsPerPage);
+
             if (start.HasValue && end.HasValue)
             {
                 DateTime adjustedEndDate = end.Value.AddDays(1).Date; // 设置为当天的00:00:00
@@ -108,7 +103,8 @@ namespace FitMatch_BackEnd.Controllers
                                  TrainerId = (int)c.TrainerId,
                                  MemberId = m.MemberId,
                                  GymId = g.GymId,
-                                 ClassTypeId = (int)c.ClassTypeId
+                                 ClassTypeId = (int)c.ClassTypeId,
+                                 Approved = (bool)c.Approved
                              }).FirstOrDefault();
 
             if (viewModel == null)
@@ -159,7 +155,8 @@ namespace FitMatch_BackEnd.Controllers
                         classData.GymId = gymData.GymId;
                         classData.MemberId = member.MemberId;
                         classData.TrainerId = trainer.TrainerId;
-                    classData.CourseStatus = editedViewModel.CourseStatus;
+                        classData.CourseStatus = editedViewModel.CourseStatus;
+                        classData.Approved = editedViewModel.Approved;
                         // 更新其他属性的修改
                         classData.StartTime = editedViewModel.StartTime;
                         classData.EndTime = editedViewModel.EndTime;

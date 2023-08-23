@@ -250,6 +250,7 @@
                             <th scope="col">會員</th>
                             <th scope="col">場館</th>
                             <th scope="col">課程狀態</th>
+                            <th scope="col">審核通過與否 </th>
                             <th scope="col">建立時間</th>
                             <th scope="col">開始時間</th>
                             <th scope="col">結束時間</th>
@@ -268,6 +269,16 @@
                                 <td>@item.MemberName</td>
                                 <td>@item.GymName</td>
                                 <td>@item.CourseStatus</td>
+                                <td>
+                                    @if (item.Approved)
+                                    {
+                                        <span>已通過</span>
+                                    }
+                                    else
+                                    {
+                                        <span>未通過</span>
+                                    }
+                                </td>
                                 <td>@item.BuildTime</td>
                                 <td>@item.StartTime</td>
                                 <td>@item.EndTime</td>

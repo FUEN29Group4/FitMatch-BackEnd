@@ -180,7 +180,14 @@
                             <input asp-for="EndTime" class="form-control" />
                             <span asp-validation-for="EndTime" class="text-danger"></span>
                         </div>
-
+                        <div class="form-group">
+                            <label asp-for="Approved" class="control-label"></label>
+                            <select asp-for="Approved" class="form-control">
+                                <option value="true">已通過</option>
+                                <option value="false">未通過</option>
+                            </select>
+                            <span asp-validation-for="Approved" class="text-danger"></span>
+                        </div>
                         <div class="form-group">
                             <label asp-for="CourseStatus" class="control-label"></label>
                             <select asp-for="CourseStatus" class="form-control">
