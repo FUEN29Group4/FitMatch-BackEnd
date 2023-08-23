@@ -16,7 +16,7 @@ namespace FitMatch_BackEnd.Controllers
             _db = db;
         }
 
-        public IActionResult List(string searchField, string searchKeyword, DateTime? start, DateTime? end)
+        public IActionResult List(string searchField, string searchKeyword, DateTime? start, DateTime? end, string CourseStatus)
         {
 
 
@@ -66,6 +66,11 @@ namespace FitMatch_BackEnd.Controllers
                         // 默认处理
                         break;
                 }
+            }
+            // 在篩選過程中，僅當選擇了課程狀態時才進行過濾
+            if (!string.IsNullOrEmpty(CourseStatus))
+            {
+                viewModelList = viewModelList.Where(vm => vm.CourseStatus == CourseStatus).ToList();
             }
 
             return View(viewModelList);
@@ -152,11 +157,11 @@ namespace FitMatch_BackEnd.Controllers
                         // 更新其他属性的修改
                         classData.StartTime = editedViewModel.StartTime;
                         classData.EndTime = editedViewModel.EndTime;
-                        classData.BuildTime = editedViewModel.BuildTime;
-                        // ... 根据需要应用其他属性的修改
+                    classData.BuildTime = DateTime.Now;
+                    // ... 根据需要应用其他属性的修改
 
-                        // 保存更改到数据库
-                        _db.SaveChanges();
+                    // 保存更改到数据库
+                    _db.SaveChanges();
 
                         return RedirectToAction("List"); // 重定向到列表视图
                     }
@@ -170,6 +175,25 @@ namespace FitMatch_BackEnd.Controllers
             }
 
             return View(editedViewModel); // 如果 ModelState 无效或编辑失败，显示编辑视图
+        }
+
+        public IActionResult Delete(int id)
+        {
+            // 在此方法中，您可以查找要刪除的 Class，然後執行刪除操作
+            var classToDelete = _db.Classes.FirstOrDefault(c => c.ClassId == id);
+
+            if (classToDelete != null)
+            {
+                // 執行刪除操作
+                _db.Classes.Remove(classToDelete);
+                _db.SaveChanges();
+
+                return RedirectToAction("List"); // 重定向到列表視圖
+            }
+            else
+            {
+                return RedirectToAction("List"); // 如果找不到要刪除的對象，也可以重定向到列表視圖
+            }
         }
 
     }

@@ -64,6 +64,23 @@
             display: inline-block;
             white-space: nowrap;
         }
+
+    /* 自定义的类选择器 */
+    .custom-select {
+        border-radius: 5px;
+        color: #696969;
+        padding: 5px;
+    }
+
+    .custom-input {
+        border-radius: 5px;
+        color: #696969;
+        padding: 5px;
+    }
+
+    .custom-select option {
+        color: #696969; /* 修改选项的字体颜色 */
+    }
     </style>
 <!-- Content Start -->
 <div class="content">
@@ -180,32 +197,31 @@
                             <span style="text-align: center;">至</span>
                             <input class="form-select" style="background-color:#fff; margin-left: 10px;" type="date"
                                    name="end" id="" value="結束時間">
-                            <button type="submit" style="height: 35px; width: 150px; margin-left: 7px">搜索</button>
+                            <button type="submit" class="btn btn-outline-success " style="height: 35px; width: 150px; margin-left: 7px">搜索</button>
                         </div>
 
                     </form>
 
                     <div class="col-4 d-flex align-items-center ms-4">
                         <span style="margin-right: 10px; text-align: center;">課程狀態:</span>
-                        <select class="form-select" style="background-color: #fff;" aria-label="課程狀態">
+                        <select id="CourseStatusFilter" class="form-select" style="background-color: #fff;" aria-label="課程狀態">
                             <option selected disabled hidden>請選擇</option>
-                            <option value="t1">進行中</option>
-                            <option value="t2">已結束</option>
+                            <option value="進行中">進行中</option>
+                            <option value="已結束">已結束</option>
                         </select>
                     </div>
                 </div>
             </div>
 
             <div class="col-3 d-flex align-items-center ms-4" style="margin-right: 25px;">
-                <form method="get" action="List">
-                    <select name="searchField">
+                <form class="custom-select" id="searchForm" method="get" action="List">
+                    <select name="searchField" style="color:#696969">
                         <option value="ClassName">課程名稱</option>
                         <option value="MemberName">會員名稱</option>
                         <option value="TrainerName">教練名稱</option>
                         <option value="GymName">健身房名稱</option>
                     </select>
-                    <input type="text" name="searchKeyword">
-                    <button type="submit">Search</button>
+                    <input id="searchInput" type="text" name="searchKeyword">
                 </form>
             </div>
             <br>
@@ -215,64 +231,7 @@
     </div>
 
 
-    <!-- 篩選列開始 -->
-    <!-- <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
 
-            <div class="col">
-                <div class="bg-secondary rounded h-100 p-4">
-                    <form id="searchForm">
-                        <div class="row"> -->
-    <!-- 第一區塊 -->
-    <!-- <div class="col-4 d-flex align-items-center">
-                                <div class="row d-flex align-items-center">
-                                    <div class="col-2">
-                                        課程日期:
-                                    </div>
-                                    <div class="col-4">
-                                        <input type="text" class="form-control" id="startDate"
-                                            placeholder="開始時間" autocomplete="off">
-                                    </div>
-                                    <div class="col-1 text-center">
-                                        至
-                                    </div>
-                                    <div class="col-4">
-                                        <input type="text" class="form-control" id="endDate" placeholder="結束時間"
-                                            autocomplete="off">
-                                    </div>
-                                </div>
-                            </div> -->
-    <!-- 第二區塊 -->
-    <!-- <div class="col-3 d-flex align-items-center">
-                                課程狀態:
-                                <div class="ms-2 me-2 flex-grow-1">
-                                    <select class="form-select" id="floatingSelect"
-                                        aria-label="Floating label select example">
-                                        <option selected disabled>請選擇</option>
-                                        <option value="1">進行中</option>
-                                        <option value="2">已結束</option>
-                                    </select>
-                                </div>
-                            </div> -->
-    <!-- 第三區塊 -->
-    <!-- <div class="col-5 d-flex align-items-center">
-                                搜尋
-                                <div class="ms-2 me-2 flex-grow-1">
-                                    <input class="form-control" type="text" placeholder="請輸入關鍵字"
-                                        aria-label="請輸入關鍵字" id="inputname">
-                                </div>
-                                <a href="">
-                                    <i class="fa-solid fa-magnifying-glass fa-xl"></i></a>
-                                <button class="btn btn-outline-light ms-3" type="reset">清空</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- 篩選列結束 -->
-    <!-- 管理列表開始 -->
     <div class="container-fluid pt-4 px-4">
         <div class="bg-white text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
@@ -318,9 +277,11 @@
                                             <i class="fa-regular fa-pen-to-square"> 編輯</i>
                                         </a>
 
-                                        <a class="btn btn-sm btn-primary" href="">
-                                            <i class="fa-solid fa-trash-can">刪除</i>
+                                        <a asp-action="Delete" asp-route-id="@item.ClassId" class="btn btn-sm btn-danger me-2"
+                                           onclick="return confirm('確定要刪除這個項目嗎？');">
+                                            <i class="fa-solid fa-trash-can"></i> 刪除
                                         </a>
+                                        
                                     </div>
                                 </td>
                             </tr>
@@ -370,6 +331,23 @@
 
 
 </div>
+<script>
+    // 在輸入框上監聽 "keydown" 事件
+    document.getElementById("searchInput").addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault(); // 防止預設行為（提交表單）
+
+            // 提交表單
+            document.getElementById("searchForm").submit();
+        }
+    });
+    document.getElementById("CourseStatusFilter").addEventListener("change", function () {
+        var selectedStatus = this.value;
+        // 跳轉到列表頁面，將選擇的課程狀態作為參數傳遞
+        window.location.href = "/Match/List?CourseStatus=" + selectedStatus;
+    });
+
+</script>
 <!-- Content End -->
 <!-- Back to Top -->
 <!-- <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a> -->
