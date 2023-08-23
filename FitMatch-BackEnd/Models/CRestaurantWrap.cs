@@ -44,7 +44,11 @@
             get { return _restaurant.RestaurantsDescription; }
             set { _restaurant.RestaurantsDescription = value; }
         }
-
+        public DateTime? CreateAt
+        {
+            get { return _restaurant.CreateAt; }
+            set { _restaurant.CreateAt = value; }
+        }
         public bool? Status
         {
             get { return _restaurant.Status; }
