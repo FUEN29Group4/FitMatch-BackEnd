@@ -16,9 +16,9 @@ namespace FitMatch_BackEnd.Controllers
             _db = db;
         }
 
-        public IActionResult List(string searchField, string searchKeyword, DateTime? start, DateTime? end, string CourseStatus)
+        public IActionResult List(string searchField, string searchKeyword, DateTime? start, DateTime? end, string CourseStatus, int page = 1)
         {
-
+            int itemsPerPage = 5; // 每页显示的项数
 
             var viewModelList = (from c in _db.Classes
                                  join m in _db.Members on c.MemberId equals m.MemberId
@@ -41,6 +41,12 @@ namespace FitMatch_BackEnd.Controllers
                                      TrainerId = t.TrainerId,
                                      ClassTypeId= h.ClassTypeId
                                  }).ToList();
+            // 在之前的查询逻辑之后，根据分页逻辑获取当前页的数据
+            avar startIndex = (page - 1) * itemsPerPage;
+            var currentPageData = viewModelList.Skip(startIndex).Take(itemsPerPage).ToList();
+            // 生成分页项
+            int totalItems = viewModelList.Count;
+            int totalPages = (int)Math.Ceiling((double)totalItems / itemsPerPage);
             if (start.HasValue && end.HasValue)
             {
                 DateTime adjustedEndDate = end.Value.AddDays(1).Date; // 设置为当天的00:00:00
@@ -157,7 +163,7 @@ namespace FitMatch_BackEnd.Controllers
                         // 更新其他属性的修改
                         classData.StartTime = editedViewModel.StartTime;
                         classData.EndTime = editedViewModel.EndTime;
-                    classData.BuildTime = DateTime.Now;
+                        classData.BuildTime = DateTime.Now;
                     // ... 根据需要应用其他属性的修改
 
                     // 保存更改到数据库

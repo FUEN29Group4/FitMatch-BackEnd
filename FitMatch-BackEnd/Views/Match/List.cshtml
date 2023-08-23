@@ -293,29 +293,14 @@
             <div class="d-flex justify-content-end pt-4">
 
                 <!-- 換頁區塊開始 -->
-                <nav aria-label="Page navigation example">
+                <nav aria-label="Page navigation">
                     <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link previous-page" data-page-type="previous" href="#">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </a>
-                        </li>
-                        <li class="page-item active">
-                            <a class="page-link" id="page-1" data-page="1" data-page-type="number" href="#">
-                                1
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" id="page-2" data-page="2"
-                               data-page-type="number" href="#">
-                                2
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link next-page" data-page-type="next" href="#">
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </a>
-                        </li>
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("List", "Match", new { page = i })">@i</a>
+                            </li>
+                        }
                     </ul>
                 </nav>
 
@@ -345,6 +330,22 @@
         var selectedStatus = this.value;
         // 跳轉到列表頁面，將選擇的課程狀態作為參數傳遞
         window.location.href = "/Match/List?CourseStatus=" + selectedStatus;
+    });
+ document.querySelectorAll('.page-link').forEach(function(link) {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            var page = this.getAttribute('href').split('=')[1];
+            
+            // 使用 AJAX 更新列表內容，類似之前您已經做的
+            // 這裡假設更新的 URL 是 "/Match/List?page=" + page
+            fetch("/Match/List?page=" + page)
+                .then(response => response.text())
+                .then(data => {
+                    var contentContainer = document.querySelector('.table-responsive');
+                    contentContainer.innerHTML = data;
+                });
+        });
     });
 
 </script>
