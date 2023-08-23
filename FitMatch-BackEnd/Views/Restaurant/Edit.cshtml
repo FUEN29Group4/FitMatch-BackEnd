@@ -149,7 +149,7 @@
             <div class="col-sm-12">
                 <div class="bg-secondary rounded h-100 p-4">
 
-                    <form asp-action="Edit" class="" style="padding: 50px;" enctype="multipart/form-data">
+                    <form method="post" asp-action="Edit" class="" style="padding: 50px;" enctype="multipart/form-data">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" name="RestaurantsId" value="@Model.RestaurantsId" />
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
@@ -203,27 +203,26 @@
 
                         <fieldset class="row-sm-12 row-lg-6 mb-3 d-flex">
                             <div class="col-1">
-                                <legend class="col-form-label pt-0 pe-4">上/下架狀態</legend>
+                                <label asp-for="Status" class="col-form-label pt-0 pe-4">上/下架狀態</label>
                             </div>
-
                             <div class="col-4 d-flex justify-content-start">
                                 <div class="form-check me-3">
-                                    <input asp-for="Status" class="form-check-input" type="radio" name="stateRadios"
-                                           id="gridRadios5" value="option5" checked>
-                                    <label asp-for="Status" class="form-check-label" for="gridRadios5">
+                                    <input class="form-check-input" type="radio" name="stateRadios"
+                                           id="gridRadios5" value="true" checked>
+                                    <label class="form-check-label" for="gridRadios5">
                                         上架
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input asp-for="Status" class="form-check-input" type="radio" name="stateRadios"
-                                           id="gridRadios6" value="option6">
-                                    <label asp-for="Status" class="form-check-label" for="gridRadios6">
+                                    <input class="form-check-input" type="radio" name="stateRadios"
+                                           id="gridRadios6" value="false">
+                                    <label class="form-check-label" for="gridRadios6">
                                         下架
                                     </label>
                                 </div>
-                                <span asp-validation-for="Status" class="text-danger"></span>
                             </div>
                         </fieldset>
+
 
 
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex">
@@ -274,6 +273,13 @@
         }
     });
 
+
+    // function submitForm() {
+    //     var radios = document.getElementsByName("stateRadios");
+    //     var selectValue = "";
+    //     selectValue = radios.values;
+       
+    // }
 </script>
 
 @section Scripts {

@@ -87,10 +87,10 @@ namespace FitMatch_BackEnd.Controllers
                 //    prodDb.FImagePath = photoName;
                 //}
 
-                RoDb.RobotId = RoIn.FName;
-                RoDb.DefaultResponse = RoIn.FQty;
-                RoDb.DefaultResponse = RoIn.FCost;
-                RoDb.FPrice = RoIn.FPrice;
+                //RoDb.RobotId = RoIn.FName;
+                //RoDb.DefaultResponse = RoIn.FQty;
+                //RoDb.DefaultResponse = RoIn.FCost;
+                //RoDb.FPrice = RoIn.FPrice;
 
                 db.SaveChanges();
             }

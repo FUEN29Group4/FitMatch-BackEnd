@@ -6,15 +6,6 @@ namespace FitMatch_BackEnd.Controllers
 {
     public class RestaurantController : Controller
     {
-        //private readonly FitMatchDbContext _context;
-
-        //連結DB
-        //public RestaurantController(FitMatchDbContext context)
-        //{
-        //    _context = context;
-        //}
-
-
         public IWebHostEnvironment _enviro = null;
         public RestaurantController(IWebHostEnvironment p)
         {
@@ -24,13 +15,9 @@ namespace FitMatch_BackEnd.Controllers
 
         public IActionResult List(CKeywordViewModel vm)
         {
-            //IQueryable<Restaurant> restaurants = _context.Restaurants;
-//IEnumerable
-
-
 
             FitMatchDbContext db = new FitMatchDbContext();
-            IQueryable<Restaurant> datas = null;
+            IQueryable<Restaurant> datas = db.Restaurants;
 
 
             if (vm.txtKeyword != null || vm.StatusFilter != null || vm.RegionFilter != null)
@@ -49,19 +36,35 @@ namespace FitMatch_BackEnd.Controllers
                             datas = db.Restaurants.Where(t => t.Status == null);
                             break;
                     }
+                    if (!string.IsNullOrEmpty(vm?.RegionFilter))
+                    {
+                        datas = datas.Where(t => t.Address.Contains(vm.RegionFilter));
+                    }
+                    if (!string.IsNullOrEmpty(vm?.txtKeyword))
+                    {
+                        datas = datas.Where(t => t.RestaurantsName.Contains(vm.txtKeyword));
+                    }
                 }
-
-                if (!string.IsNullOrEmpty(vm?.txtKeyword))
+                else
                 {
-                    datas = db.Restaurants.Where(t => t.RestaurantsName.Contains(vm.txtKeyword));
-                }
+                    if (!string.IsNullOrEmpty(vm?.RegionFilter))
+                    {
+                        datas = db.Restaurants.Where(t => t.Address.Contains(vm.RegionFilter));
+                        if (!string.IsNullOrEmpty(vm?.txtKeyword))
+                        {
+                            datas = datas.Where(t => t.RestaurantsName.Contains(vm.txtKeyword));
+                        }
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(vm?.txtKeyword))
+                        {
+                            datas = db.Restaurants.Where(t => t.RestaurantsName.Contains(vm.txtKeyword));
+                        }
+                    }
 
-                if (!string.IsNullOrEmpty(vm?.RegionFilter))
-                {
-                    datas = db.Restaurants.Where(t => t.Address.Contains(vm.RegionFilter));
                 }
             }
-
             else
             {
                 datas = from p in db.Restaurants
@@ -71,30 +74,6 @@ namespace FitMatch_BackEnd.Controllers
 
             return View(datas);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //FitMatchDbContext db = new FitMatchDbContext();
-            //IEnumerable<Restaurant> datas = null;
-
-            //if (string.IsNullOrEmpty(vm.txtKeyword))
-            //    datas = from p in db.Restaurants
-            //            select p;
-            //else
-            //    datas = db.Restaurants.Where(t => t.RestaurantsName.Contains(vm.txtKeyword));
-            //return View(datas);
         }
         public IActionResult Create()
         {
@@ -170,6 +149,7 @@ namespace FitMatch_BackEnd.Controllers
         {
             FitMatchDbContext db = new FitMatchDbContext();
             Restaurant custDb = db.Restaurants.FirstOrDefault(t => t.RestaurantsId == prodIn.RestaurantsId);
+
 
             if (prodIn != null)
             {

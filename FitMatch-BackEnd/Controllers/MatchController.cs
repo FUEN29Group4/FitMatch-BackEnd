@@ -3,6 +3,7 @@ using FitMatch_BackEnd.Models;
 using System.Linq;
 using FitMatch_BackEnd.ViewModel;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FitMatch_BackEnd.Controllers
 {
@@ -103,6 +104,24 @@ namespace FitMatch_BackEnd.Controllers
             {
                 return RedirectToAction("List");
             }
+            //Gym設定
+            var availableGyms = _db.Gyms.ToList();
+            viewModel.AvailableGyms = availableGyms.Select(g => new SelectListItem { Text = g.GymName, Value = g.GymId.ToString() }).ToList();
+            viewModel.SelectedGymId = viewModel.GymId; // 设置默认选择的 GymId
+            //ClassType設定
+            var availableClassType = _db.ClassTypes.ToList();
+            viewModel.AvailableClassType = availableClassType.Select(ct => new SelectListItem {Text = ct.ClassName, Value = ct.ClassTypeId.ToString() }).ToList();
+            viewModel.SelectedClassTypeId = viewModel.ClassTypeId; // 设置默认选择的 classTypeId
+            //Member設定
+            var availableMember = _db.Members.ToList();
+            viewModel.AvailableMember = availableMember.Select(m => new SelectListItem { Text = m.MemberName, Value = m.MemberId.ToString() }).ToList();
+            viewModel.SelectedMemberId = viewModel.MemberId; // 设置默认选择的 MemberId
+            //Trainer設定
+            var availableTrainer = _db.Trainers.ToList();
+            viewModel.AvailableTrainer = availableTrainer.Select(t => new SelectListItem { Text = t.TrainerName, Value = t.TrainerId.ToString() }).ToList();
+            viewModel.SelectedTrainerId = viewModel.TrainerId; // 设置默认选择的 TrainerId
+
+
 
             return View(viewModel);
         }
@@ -111,18 +130,17 @@ namespace FitMatch_BackEnd.Controllers
         [HttpPost]
         public IActionResult Edit(MatchViewModel editedViewModel)
         {
-            if (ModelState.IsValid)
-            {
+
                 // 获取要编辑的 Class 实体对象
                 Class classData = _db.Classes.FirstOrDefault(c => c.ClassId == editedViewModel.ClassId);
 
                 if (classData != null)
                 {
                     // 根据编辑视图模型中的 ClassName 查询数据库，查找对应的 ClassType 实体对象
-                    ClassType classTypeData = _db.ClassTypes.FirstOrDefault(ct => ct.ClassName == editedViewModel.ClassName);
-                    Gym gymData = _db.Gyms.FirstOrDefault(g => g.GymId == editedViewModel.GymId);
-                    Member member = _db.Members.FirstOrDefault(m=>m.MemberId == editedViewModel.MemberId);
-                    Trainer trainer = _db.Trainers.FirstOrDefault(t=>t.TrainerId == editedViewModel.TrainerId);
+                    ClassType classTypeData = _db.ClassTypes.FirstOrDefault(ct => ct.ClassTypeId == editedViewModel.SelectedClassTypeId);
+                    Gym gymData = _db.Gyms.FirstOrDefault(g => g.GymId == editedViewModel.SelectedGymId);
+                    Member member = _db.Members.FirstOrDefault(m=>m.MemberId == editedViewModel.SelectedMemberId);
+                    Trainer trainer = _db.Trainers.FirstOrDefault(t=>t.TrainerId == editedViewModel.SelectedTrainerId);
                     if (classTypeData != null)
                     {
                         // 更新 Class 实体对象的 ClassTypeId 为选定的 ClassType 的 ClassTypeId
@@ -130,6 +148,7 @@ namespace FitMatch_BackEnd.Controllers
                         classData.GymId = gymData.GymId;
                         classData.MemberId = member.MemberId;
                         classData.TrainerId = trainer.TrainerId;
+                    classData.CourseStatus = editedViewModel.CourseStatus;
                         // 更新其他属性的修改
                         classData.StartTime = editedViewModel.StartTime;
                         classData.EndTime = editedViewModel.EndTime;
@@ -147,7 +166,7 @@ namespace FitMatch_BackEnd.Controllers
                         // 返回编辑视图，显示错误消息
                         return View(editedViewModel);
                     }
-                }
+                
             }
 
             return View(editedViewModel); // 如果 ModelState 无效或编辑失败，显示编辑视图
