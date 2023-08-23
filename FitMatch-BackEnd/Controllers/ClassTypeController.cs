@@ -83,10 +83,11 @@ namespace FitMatch_BackEnd.Controllers
                     p.photo.CopyTo(new FileStream(path, FileMode.Create));
                     custDb.Photo = photoName;
                 }
-                custDb.ClassName = p.FName;
-                custDb.Introduction = p.FIntroduction;
+                custDb.Status = string.IsNullOrEmpty(Request.Form["Status"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Status"]);
+                custDb.ClassName = p.ClassName;
+                custDb.Introduction = p.Introduction;
                 custDb.CreateAt = p.CreateAt;
-                custDb.Status = p.Status;
+
 
                 db.ClassTypes.Add(custDb);
                 db.SaveChanges();
@@ -127,7 +128,7 @@ namespace FitMatch_BackEnd.Controllers
         public IActionResult Edit(CClassTypeWrap prodIn)
         {
             FitMatchDbContext db = new FitMatchDbContext();
-            ClassType custDb = db.ClassTypes.FirstOrDefault(t => t.ClassTypeId == prodIn.FId);
+            ClassType custDb = db.ClassTypes.FirstOrDefault(t => t.ClassTypeId == prodIn.ClassTypeId);
 
 
             if (prodIn != null)
@@ -145,10 +146,11 @@ namespace FitMatch_BackEnd.Controllers
                     prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
                     custDb.Photo = photoName;
                 }
-                custDb.ClassName = prodIn.FName;
-                custDb.Introduction = prodIn.FIntroduction;
+                custDb.Status = string.IsNullOrEmpty(Request.Form["Status"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Status"]);
+                custDb.ClassName = prodIn.ClassName;
+                custDb.Introduction = prodIn.Introduction;
                 custDb.CreateAt = prodIn.CreateAt;
-                custDb.Status = prodIn.Status;
+
 
                 db.SaveChanges();
             }

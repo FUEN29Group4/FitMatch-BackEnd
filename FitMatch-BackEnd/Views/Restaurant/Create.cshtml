@@ -1,11 +1,11 @@
 ﻿@model FitMatch_BackEnd.Models.Restaurant
 
-@{
+@* @{
     ViewData["Title"] = "Create";
 }
 
 <h1>新增餐廳</h1>
-
+ *@
 <style>
     /* 上傳照片 */
     .upload-container {
@@ -200,24 +200,27 @@
                         </div>
 
 
-                        <fieldset class="row-sm-12 row-lg-6 mb-3 d-flex">
-                            <div class="col-1">
-                                <legend class="col-form-label pt-0 pe-4">上/下架狀態</legend>
+                        <fieldset class="col-sm-12 col-xl-6 mb-3 d-flex">
+                            <div class="col-2">
+                                <legend class="col-form-label pt-0 pe-4">顯示狀態</legend>
                             </div>
-
-                            <div class="col-4 d-flex justify-content-start">
+                            <div class="col-10 d-flex justify-content-start">
                                 <div class="form-check me-3">
-                                    <input class="form-check-input" type="radio" name="stateRadios"
-                                           id="gridRadios5" value="true" checked>
-                                    <label class="form-check-label" for="gridRadios5">
+                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios1" value="true" @(Model.Status == true ? "checked" : "")>
+                                    <label class="form-check-label" for="gridRadios1">
                                         上架
                                     </label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="stateRadios"
-                                           id="gridRadios6" value="false">
-                                    <label class="form-check-label" for="gridRadios6">
+                                <div class="form-check me-3">
+                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios2" value="false" @(Model.Status == false ? "checked" : "")>
+                                    <label class="form-check-label" for="gridRadios2">
                                         下架
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios3" value="" @(Model.Status == null ? "checked" : "")>
+                                    <label class="form-check-label" for="gridRadios3">
+                                        待審核
                                     </label>
                                 </div>
                             </div>

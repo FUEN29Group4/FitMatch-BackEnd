@@ -102,12 +102,13 @@ namespace FitMatch_BackEnd.Controllers
                     p.photo.CopyTo(new FileStream(path, FileMode.Create));
                     custDb.Photo = photoName;
                 }
+                // 更新 Approved 狀態
+                custDb.Status = string.IsNullOrEmpty(Request.Form["Status"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Status"]);
                 custDb.RestaurantsName = p.RestaurantsName;
                 custDb.Phone = p.Phone;
                 custDb.Address = p.Address;
                 custDb.RestaurantsDescription = p.RestaurantsDescription;
-                custDb.CreateAt = p.CreateAt;
-                custDb.Status = p.Status;
+
 
                 db.Restaurants.Add(custDb);
                 db.SaveChanges();
@@ -166,12 +167,14 @@ namespace FitMatch_BackEnd.Controllers
                     prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
                     custDb.Photo = photoName;
                 }
+
+                // 更新 Approved 狀態
+                custDb.Status = string.IsNullOrEmpty(Request.Form["Status"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Status"]);
                 custDb.RestaurantsName = prodIn.RestaurantsName;
                 custDb.Phone = prodIn.Phone;
                 custDb.Address = prodIn.Address;
                 custDb.RestaurantsDescription = prodIn.RestaurantsDescription;
-                custDb.CreateAt = prodIn.CreateAt;
-                custDb.Status = prodIn.Status;
+
 
                 db.SaveChanges();
             }

@@ -162,7 +162,7 @@
         <div class="bg-white text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <h5 class="mb-0 text-dark">課程列表</h5>
-                <a class="btn btn-primary  custom-purple" href="match_createcourses.html">新增課程</a>
+                <a class="btn btn-primary  custom-purple" asp-action="Create">新增課程</a>
             </div>
             <div class="table-responsive">
                 <table class="table text-center align-middle table-bordered table-hover mb-0">
@@ -193,11 +193,11 @@
                                     <td>@(item.Status == true ? "上架" : (item.Status == false ? "下架" : "待審核"))</td>
                                     <td>@Html.DisplayFor(modelItem => item.CreateAt)</td>
                                     <td>
-                                        <a class="btn btn-sm btn-secondary" href="@Url.Action("Edit", "Restaurant", new { id = item.ClassTypeId })"
+                                        <a class="btn btn-sm btn-secondary" href="@Url.Action("Edit", "ClassType", new { id = item.ClassTypeId })"
                                            style="background-color: aliceblue; color: black;">
                                             <i class="fa-regular fa-pen-to-square">編輯</i>
                                         </a>
-                                        <a class="btn btn-sm btn-primary" href="@Url.Action("Delete", "Restaurant", new { id = item.ClassTypeId })">
+                                        <a class="btn btn-sm btn-primary" href="@Url.Action("Delete", "ClassType", new { id = item.ClassTypeId })">
                                             <i class="fa-solid fa-trash-can">刪除</i>
                                         </a>
                                     </td>
