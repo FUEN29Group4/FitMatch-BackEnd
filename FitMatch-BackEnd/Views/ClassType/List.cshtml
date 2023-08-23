@@ -4,14 +4,13 @@
     ViewData["Title"] = "List";
 }
 
-@*<h1>課程一覽表</h1>
-@using (Html.BeginForm())
-{
-    @:關鍵字
-    @Html.TextBox("txtKeyword")
-    <input type="submit" value="查詢" />
-}*@
+
 <style>
+    span {
+        display: inline-block;
+        white-space: nowrap;
+    }
+
     .fixed-image {
         width: 100px;
         /* 寬度固定為 100 像素 */
@@ -20,382 +19,344 @@
         object-fit: cover;
         /* 確保圖片的長寬比保持不變，超出部分將被裁剪 */
     }
-
-    span {
-        display: inline-block;
-        white-space: nowrap;
-    }
 </style>
-<div class="container-fluid position-relative d-flex p-0">
-    <!-- Content Start -->
-    <div class="content">
-        <!-- Navbar Start -->
-        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
-            <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                <h1 class="pt-2" style="color: #F24B88!important;">M</h1>
-            </a>
-            <a href="#" class="sidebar-toggler flex-shrink-0">
-                <i class="fa fa-bars"></i>
-            </a>
-            <form class="d-none d-md-flex ms-4">
-                <h4 class="m-auto">課程管理</h4>
-            </form>
-            <div class="navbar-nav align-items-center ms-auto">
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <i class="fa-solid fa-gear"></i>
-                        <span class="d-none d-lg-inline-flex">設定</span>
+
+
+
+<!-- Content Start -->
+<div class="content">
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+        <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+            <h1 class="pt-2" style="color: #F24B88!important;">M</h1>
+        </a>
+        <a href="#" class="sidebar-toggler flex-shrink-0">
+            <i class="fa fa-bars"></i>
+        </a>
+        <form class="d-none d-md-flex ms-4 align-items-center">
+            <h4 class="m-auto">課程列表</h4>
+        </form>
+        <div class="navbar-nav align-items-center ms-auto">
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fa-solid fa-gear"></i>
+                    <span class="d-none d-lg-inline-flex">設定</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                    <a href="#" class="dropdown-item">
+                        <div class="d-flex align-items-center">
+                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                 style="width: 40px; height: 40px;">
+                            <div class="ms-2">
+                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                <small>15 minutes ago</small>
+                            </div>
+                        </div>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                        <a href="#" class="dropdown-item">
-                            <div class="d-flex align-items-center">
-                                <img class="rounded-circle" src="img/user.jpg" alt=""
-                                     style="width: 40px; height: 40px;">
-                                <div class="ms-2">
-                                    <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                    <small>15 minutes ago</small>
-                                </div>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item">
+                        <div class="d-flex align-items-center">
+                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                 style="width: 40px; height: 40px;">
+                            <div class="ms-2">
+                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                <small>15 minutes ago</small>
                             </div>
-                        </a>
-                        <hr class="dropdown-divider">
-                        <a href="#" class="dropdown-item">
-                            <div class="d-flex align-items-center">
-                                <img class="rounded-circle" src="img/user.jpg" alt=""
-                                     style="width: 40px; height: 40px;">
-                                <div class="ms-2">
-                                    <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                    <small>15 minutes ago</small>
-                                </div>
+                        </div>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item">
+                        <div class="d-flex align-items-center">
+                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                 style="width: 40px; height: 40px;">
+                            <div class="ms-2">
+                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                <small>15 minutes ago</small>
                             </div>
-                        </a>
-                        <hr class="dropdown-divider">
-                        <a href="#" class="dropdown-item">
-                            <div class="d-flex align-items-center">
-                                <img class="rounded-circle" src="img/user.jpg" alt=""
-                                     style="width: 40px; height: 40px;">
-                                <div class="ms-2">
-                                    <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                    <small>15 minutes ago</small>
-                                </div>
-                            </div>
-                        </a>
-                        <hr class="dropdown-divider">
-                        <a href="#" class="dropdown-item text-center">See all message</a>
-                    </div>
+                        </div>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item text-center">See all message</a>
                 </div>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <i class="fa fa-bell me-lg-2"></i>
-                        <span class="d-none d-lg-inline-flex">通知</span>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fa fa-bell me-lg-2"></i>
+                    <span class="d-none d-lg-inline-flex">通知</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">Profile updated</h6>
+                        <small>15 minutes ago</small>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                        <a href="#" class="dropdown-item">
-                            <h6 class="fw-normal mb-0">Profile updated</h6>
-                            <small>15 minutes ago</small>
-                        </a>
-                        <hr class="dropdown-divider">
-                        <a href="#" class="dropdown-item">
-                            <h6 class="fw-normal mb-0">New user added</h6>
-                            <small>15 minutes ago</small>
-                        </a>
-                        <hr class="dropdown-divider">
-                        <a href="#" class="dropdown-item">
-                            <h6 class="fw-normal mb-0">Password changed</h6>
-                            <small>15 minutes ago</small>
-                        </a>
-                        <hr class="dropdown-divider">
-                        <a href="#" class="dropdown-item text-center">See all notifications</a>
-                    </div>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">New user added</h6>
+                        <small>15 minutes ago</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">Password changed</h6>
+                        <small>15 minutes ago</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                    <a href="#" class="dropdown-item text-center">See all notifications</a>
                 </div>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
-                             style="width: 40px; height: 40px;">
-                        <span class="d-none d-lg-inline-flex">John Doe</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                        <a href="#" class="dropdown-item">My Profile</a>
-                        <a href="#" class="dropdown-item">Settings</a>
-                        <a href="#" class="dropdown-item">Log Out</a>
-                    </div>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
+                         style="width: 40px; height: 40px;">
+                    <span class="d-none d-lg-inline-flex">John Doe</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                    <a href="#" class="dropdown-item">My Profile</a>
+                    <a href="#" class="dropdown-item">Settings</a>
+                    <a href="#" class="dropdown-item">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+    <!-- 篩選列開始 -->
+    <div class="container-fluid pt-4 px-4">
+        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0 rounded">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                    <!-- 將所有的選項和搜索功能都放在同一個form中 -->
+                    <form method="post" asp-action="List" class="container-fluid d-flex flex-wrap justify-content-between align-items-center">
+
+
+                        <!-- 上架狀態選擇 -->
+                        <div class="d-flex align-items-center me-3">
+                            <label for="statusType" class="me-2">上架狀態:</label>
+                            <select id="statusType" name="StatusFilter" class="form-select" style="background-color: #fff;" aria-label="上架狀態">
+                                <option value="" selected disabled hidden>請選擇狀態</option>
+                                <option value="上架">上架</option>
+                                <option value="下架">下架</option>
+                                <option value="待審核">待審核</option>
+                            </select>
+                        </div>
+
+                        <!-- 搜尋部分 -->
+                        <div class="d-flex align-items-center ml-auto">
+                            <div class="me-2">
+                                <input name="txtKeyword" class="form-control" type="text" placeholder="請輸入關鍵字" aria-label="請輸入關鍵字" id="searchInput">
+                            </div>
+                            <button type="submit" class="btn btn-primary me-2">
+                                <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                            </button>
+                            <button type="reset" class="btn btn-outline-success">清空</button>
+                        </div>
+
+                    </form>
                 </div>
             </div>
         </nav>
-        <!-- Navbar End -->
-        <!-- 篩選列開始 -->
-        <div class="container-fluid pt-4 px-4">
-            <nav class="navbar navbar-expand-lg bg-white rounded">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <div class="d-flex align-items-center">
-                        <div class="d-flex align-items-center me-4" style="margin-left: 25px;">
-                            <span style="margin-right: 10px; text-align: center;">上架時間:</span>
-                            <input class="form-select" style="background-color:#fff;" type="date" name="start" id=""
-                                   value="上架時間">
-                        </div>
-
-                        <div class="d-flex align-items-center me-4">
-                            <span style="margin-left: -20px; text-align: center;">至</span>
-                            <input class="form-select" style="background-color:#fff; margin-left: 10px;" type="date"
-                                   name="end" id="" value="結束時間">
-                        </div>
-
-                        <div class="col-4 d-flex align-items-center ms-4">
-                            <span style="margin-right: 10px; text-align: center;">上架狀態:</span>
-                            <select class="form-select" style="background-color: #fff;" aria-label="上架狀態">
-                                <option selected disabled hidden>請選擇</option>
-                                <option value="t1">上架</option>
-                                <option value="t2">下架</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-3 d-flex align-items-center ms-4" style="margin-right: 25px;">
-                    搜尋:
-                    <div class=" ms-2 me-2 flex-grow-1">
-                        @using (Html.BeginForm())
-                        {
-                            @Html.TextBox("txtKeyword")
-                            <input class=" form-control" type="submit" placeholder="請輸入關鍵字" aria-label="請輸入關鍵字"
-                                   id="searchInput">
-                        }
-                    </div>
-                    <a href="">
-                        <i class="fa-solid fa-magnifying-glass fa-xl"></i>
-                    </a>
-                    <button class="btn btn-outline-success " style="margin-top: 0px; margin-left: 10px;"
-                            type="submit">
-                        清空
-                    </button>
-                </div>
-                <br>
-                <br>
-                <br>
-            </nav>
-        </div>
-
-
-
-        <!-- 管理列表開始 -->
-        <div class="container-fluid pt-4 px-4">
-            <div class="bg-white text-center rounded p-4">
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h5 class="mb-0 text-dark">課程列表</h5>
-          
-                    <a class="btn btn-primary  custom-purple" asp-action="Create">新增課程</a>
-                   
-
-                </div>
-                <div class="table-responsive">
-                    <table class="table text-center align-middle table-bordered table-hover mb-0">
-                        <thead style="background-color: #74ffba;">
-                            <tr class="text-dark">
-                                <th scope="col"></th>
-                                <th scope="col">課程編號</th>
-                                <th scope="col">課程名稱</th>
-                                <th scope="col">封面</th>
-                                <th scope="col">狀態</th>
-                                <th scope="col">建立時間</th>
-                                <th scope="col">操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            @{
-                                int count = 0;
-                                foreach (var item in Model)
-                                {
-                                    count++;
-
-                                    <tr class="data-row">
-                                        <td><input class="form-check-input" type="checkbox"></td>
-                                        <td>@Html.DisplayFor(modelItem => item.ClassTypeId)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.ClassName)</td>
-                                        <td>
-                                            <img class="fixed-image" src="./img/gallery/重量訓練.jpg" alt=""
-                                                 style="max-width: 200px;">
-                                        </td>
-                                        <td>上架</td>
-                                        <td>2023-08-07 10:10</td>
-                                        <td>
-                                            <a class="btn btn-sm btn-secondary" href="@Url.Action("Edit", "ClassType", new { id = item.ClassTypeId })"
-                                               style="background-color: aliceblue; color: black;">
-                                                <i class="fa-regular fa-pen-to-square">編輯</i>
-                                            </a>
-                                            <a class="btn btn-sm btn-primary" href="@Url.Action("Delete","ClassType", new { id = item.ClassTypeId })">
-                                                <i class="fa-solid fa-trash-can">刪除</i>
-                                            </a>
-                                        </td>
-                                    </tr>
-
-
-                                }
-                            }
-
-
-
-@*
-                        <tr class="data-row">
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>CODE002</td>
-                            <td>格鬥</td>
-                            <td>
-                                <img class="fixed-image" src="./img/gallery/格鬥.jpg" alt=""
-                                     style="max-width: 200px;">
-                            </td>
-                            <td>上架</td>
-                            <td>2023-08-07 10:10</td>
-                            <td>
-                                <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
-                                   style="background-color: aliceblue; color: black;">
-                                    <i class="fa-regular fa-pen-to-square">編輯</i>
-                                </a>
-                                <a class="btn btn-sm btn-primary" href="">
-                                    <i class="fa-solid fa-trash-can">刪除</i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr class="data-row">
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>CODE003</td>
-                            <td>戰繩</td>
-                            <td>
-                                <img class="fixed-image" src="./img/gallery/戰繩.jpg" alt=""
-                                     style="max-width: 200px;">
-                            </td>
-                            <td>上架</td>
-                            <td>2023-08-07 10:10</td>
-                            <td>
-                                <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
-                                   style="background-color: aliceblue; color: black;">
-                                    <i class="fa-regular fa-pen-to-square">編輯</i>
-                                </a>
-                                <a class="btn btn-sm btn-primary" href="">
-                                    <i class="fa-solid fa-trash-can">刪除</i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr class="data-row">
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>CODE004</td>
-                            <td>有氧</td>
-                            <td>
-                                <img class="fixed-image" src="./img/gallery/有氧.jpg" alt=""
-                                     style="max-width: 200px;">
-                            </td>
-                            <td>上架</td>
-                            <td>2023-08-07 10:10</td>
-                            <td>
-                                <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
-                                   style="background-color: aliceblue; color: black;">
-                                    <i class="fa-regular fa-pen-to-square">編輯</i>
-                                </a>
-                                <a class="btn btn-sm btn-primary" href="">
-                                    <i class="fa-solid fa-trash-can">刪除</i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr class="data-row">
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>CODE005</td>
-                            <td>核心訓練</td>
-                            <td>
-                                <img class="fixed-image" src="./img/gallery/核心訓練.jpg" alt=""
-                                     style="max-width: 200px;">
-                            </td>
-                            <td>下架</td>
-                            <td>2023-08-07 10:10</td>
-                            <td>
-                                <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
-                                   style="background-color: aliceblue; color: black;">
-                                    <i class="fa-regular fa-pen-to-square">編輯</i>
-                                </a>
-                                <a class="btn btn-sm btn-primary" href="">
-                                    <i class="fa-solid fa-trash-can">刪除</i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr class="data-row">
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>CODE005</td>
-                            <td>核心訓練</td>
-                            <td>
-                                <img class="fixed-image" src="./img/gallery/核心訓練.jpg" alt=""
-                                     style="max-width: 200px;">
-                            </td>
-                            <td>下架</td>
-                            <td>2023-08-07 10:10</td>
-                            <td>
-                                <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
-                                   style="background-color: aliceblue; color: black;">
-                                    <i class="fa-regular fa-pen-to-square">編輯</i>
-                                </a>
-                                <a class="btn btn-sm btn-primary" href="">
-                                    <i class="fa-solid fa-trash-can">刪除</i>
-                                </a>
-                            </td>
-                        </tr>*@
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
-                    <!-- 全選區塊開始 -->
-                    <div class="d-flex justify-content-between">
-                        <div class="form-check custom-checkbox">
-                            <input class="form-check-input my-lg-2" type="checkbox" id="selectAll">
-                            <label class="form-check-label" for="selectAll">
-                                <span class="align-middle">全選</span>
-                            </label>
-                            <button type="button" class="btn btn-primary mx-lg-2">下架</button>
-                        </div>
-                        <!-- Pagination goes here -->
-                    </div>
-                    <!-- 全選區塊END-->
-                    <!-- 換頁區塊開始 -->
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link previous-page" data-page-type="previous" href="#">
-                                    <i class="fa-solid fa-chevron-left"></i>
-                                </a>
-                            </li>
-                            <li class="page-item active">
-                                <a class="page-link" id="page-1" data-page="1" data-page-type="number" href="#">
-                                    1
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" id="page-2" data-page="2" data-page-type="number" href="#">
-                                    2
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link next-page" data-page-type="next" href="#">
-                                    <i class="fa-solid fa-chevron-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <!-- 換頁區塊END -->
-
-                </div>
-                <!-- 最下面END -->
-            </div>
-
-        </div>
-        <!-- 管理列表結束 -->
     </div>
 
+    <!-- 篩選列結束 -->
+    <!-- 管理列表開始 -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-white text-center rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h5 class="mb-0 text-dark">課程列表</h5>
+                <a class="btn btn-primary  custom-purple" href="match_createcourses.html">新增課程</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table text-center align-middle table-bordered table-hover mb-0">
+                    <thead style="background-color: #74ffba;">
+                        <tr class="text-dark">
+                            <th scope="col"></th>
+                            <th scope="col">課程編號</th>
+                            <th scope="col">課程名稱</th>
+                            <th scope="col">封面</th>
+                            <th scope="col">狀態</th>
+                            <th scope="col">建立時間</th>
+                            <th scope="col">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int count = 0;
+                            foreach (var item in Model)
+                            {
+                                count++;
+                                <tr class="data-row">
+                                    <td><input class="form-check-input" type="checkbox"></td>
+                                    <td>@Html.DisplayFor(modelItem => item.ClassTypeId)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.ClassName)</td>
+                                    <td>
+                                        <img src="~/img/課程/@item.Photo" width="110" height="70" />
+                                    </td>
+                                    <td>@(item.Status == true ? "上架" : (item.Status == false ? "下架" : "待審核"))</td>
+                                    <td>@Html.DisplayFor(modelItem => item.CreateAt)</td>
+                                    <td>
+                                        <a class="btn btn-sm btn-secondary" href="@Url.Action("Edit", "Restaurant", new { id = item.ClassTypeId })"
+                                           style="background-color: aliceblue; color: black;">
+                                            <i class="fa-regular fa-pen-to-square">編輯</i>
+                                        </a>
+                                        <a class="btn btn-sm btn-primary" href="@Url.Action("Delete", "Restaurant", new { id = item.ClassTypeId })">
+                                            <i class="fa-solid fa-trash-can">刪除</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        @*
+
+                        <tr class="data-row">
+                        <td><input class="form-check-input" type="checkbox"></td>
+                        <td>CODE002</td>
+                        <td>格鬥</td>
+                        <td>
+                        <img class="fixed-image" src="./img/gallery/格鬥.jpg" alt=""
+                        style="max-width: 200px;">
+                        </td>
+                        <td>上架</td>
+                        <td>2023-08-07 10:10</td>
+                        <td>
+                        <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
+                        style="background-color: aliceblue; color: black;">
+                        <i class="fa-regular fa-pen-to-square">編輯</i>
+                        </a>
+                        <a class="btn btn-sm btn-primary" href="">
+                        <i class="fa-solid fa-trash-can">刪除</i>
+                        </a>
+                        </td>
+                        </tr>
+                        <tr class="data-row">
+                        <td><input class="form-check-input" type="checkbox"></td>
+                        <td>CODE003</td>
+                        <td>戰繩</td>
+                        <td>
+                        <img class="fixed-image" src="./img/gallery/戰繩.jpg" alt=""
+                        style="max-width: 200px;">
+                        </td>
+                        <td>上架</td>
+                        <td>2023-08-07 10:10</td>
+                        <td>
+                        <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
+                        style="background-color: aliceblue; color: black;">
+                        <i class="fa-regular fa-pen-to-square">編輯</i>
+                        </a>
+                        <a class="btn btn-sm btn-primary" href="">
+                        <i class="fa-solid fa-trash-can">刪除</i>
+                        </a>
+                        </td>
+                        </tr>
+                        <tr class="data-row">
+                        <td><input class="form-check-input" type="checkbox"></td>
+                        <td>CODE004</td>
+                        <td>有氧</td>
+                        <td>
+                        <img class="fixed-image" src="./img/gallery/有氧.jpg" alt=""
+                        style="max-width: 200px;">
+                        </td>
+                        <td>上架</td>
+                        <td>2023-08-07 10:10</td>
+                        <td>
+                        <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
+                        style="background-color: aliceblue; color: black;">
+                        <i class="fa-regular fa-pen-to-square">編輯</i>
+                        </a>
+                        <a class="btn btn-sm btn-primary" href="">
+                        <i class="fa-solid fa-trash-can">刪除</i>
+                        </a>
+                        </td>
+                        </tr>
+                        <tr class="data-row">
+                        <td><input class="form-check-input" type="checkbox"></td>
+                        <td>CODE005</td>
+                        <td>核心訓練</td>
+                        <td>
+                        <img class="fixed-image" src="./img/gallery/核心訓練.jpg" alt=""
+                        style="max-width: 200px;">
+                        </td>
+                        <td>下架</td>
+                        <td>2023-08-07 10:10</td>
+                        <td>
+                        <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
+                        style="background-color: aliceblue; color: black;">
+                        <i class="fa-regular fa-pen-to-square">編輯</i>
+                        </a>
+                        <a class="btn btn-sm btn-primary" href="">
+                        <i class="fa-solid fa-trash-can">刪除</i>
+                        </a>
+                        </td>
+                        </tr>
+                        <tr class="data-row">
+                        <td><input class="form-check-input" type="checkbox"></td>
+                        <td>CODE005</td>
+                        <td>核心訓練</td>
+                        <td>
+                        <img class="fixed-image" src="./img/gallery/核心訓練.jpg" alt=""
+                        style="max-width: 200px;">
+                        </td>
+                        <td>下架</td>
+                        <td>2023-08-07 10:10</td>
+                        <td>
+                        <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
+                        style="background-color: aliceblue; color: black;">
+                        <i class="fa-regular fa-pen-to-square">編輯</i>
+                        </a>
+                        <a class="btn btn-sm btn-primary" href="">
+                        <i class="fa-solid fa-trash-can">刪除</i>
+                        </a>
+                        </td> *@
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
+                <!-- 全選區塊開始 -->
+                <div class="d-flex justify-content-between">
+                    <div class="form-check custom-checkbox">
+                        <input class="form-check-input my-lg-2" type="checkbox" id="selectAll">
+                        <label class="form-check-label" for="selectAll">
+                            <span class="align-middle">全選</span>
+                        </label>
+                        <button type="button" class="btn btn-primary mx-lg-2">下架</button>
+                    </div>
+                    <!-- Pagination goes here -->
+                </div>
+                <!-- 全選區塊END-->
+                <!-- 換頁區塊開始 -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link previous-page" data-page-type="previous" href="#">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </a>
+                        </li>
+                        <li class="page-item active">
+                            <a class="page-link" id="page-1" data-page="1" data-page-type="number" href="#">
+                                1
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" id="page-2" data-page="2" data-page-type="number" href="#">
+                                2
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link next-page" data-page-type="next" href="#">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- 換頁區塊END -->
+
+            </div>
+            <!-- 最下面END -->
+        </div>
+
+    </div>
+    <!-- 管理列表結束 -->
 </div>
-
-
-
 <script>
     // 全選功能
     document.addEventListener("DOMContentLoaded", function () {
@@ -416,7 +377,6 @@
         });
     });
 
-    // 以下是分頁功能
     document.addEventListener("DOMContentLoaded", function () {
         const table = document.querySelector(".table");
         const pageLinks = document.querySelectorAll(".page-link[data-page-type='number']");
@@ -441,6 +401,8 @@
             });
         });
 
+
+        //分頁功能(新)
         prevPageLink.addEventListener("click", function (event) {
             event.preventDefault();
 
@@ -480,4 +442,41 @@
             });
         }
     });
+
+
+    // 上架時間
+    $(document).ready(function () {
+        const dateFormat = "yy/mm/dd";
+
+        const initializeDatepicker = ($element, onSelectCallback) => {
+            $element.datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 1,
+                dateFormat: dateFormat,
+                onSelect: onSelectCallback
+            });
+        };
+
+        const parseDate = value => {
+            try {
+                return $.datepicker.parseDate(dateFormat, value);
+            } catch (error) {
+                return null;
+            }
+        };
+
+        const startDate = $("#startDate");
+        const endDate = $("#endDate");
+
+        initializeDatepicker(startDate, function () {
+            endDate.datepicker("option", "minDate", parseDate(this.value));
+        });
+
+        initializeDatepicker(endDate, function () {
+            startDate.datepicker("option", "maxDate", parseDate(this.value));
+        });
+    });
+
+
 </script>

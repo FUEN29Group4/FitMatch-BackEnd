@@ -9,7 +9,13 @@ public partial class ClassType
 
     public string? ClassName { get; set; }
 
+    public string? Photo { get; set; }
+
     public string? Introduction { get; set; }
+
+    public DateTime? CreateAt { get; set; }
+
+    public bool? Status { get; set; }
 
     public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
 }
