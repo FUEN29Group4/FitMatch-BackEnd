@@ -166,8 +166,6 @@
 
 
                         @* ------radio start------ *@
-
-
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
                                 <label asp-for="Type" class="col-form-label pt-0 pe-4">問題種類</label>
@@ -196,6 +194,7 @@
                         </div>
 
 
+                        @* 將資料庫的類型帶到這個資料中顯示的function *@
                         @functions {
                             bool IsTypeSelected(string type)
                             {
