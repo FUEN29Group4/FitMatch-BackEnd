@@ -284,8 +284,13 @@ public partial class FitMatchDbContext : DbContext
             entity.ToTable("Robot");
 
             entity.Property(e => e.RobotId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()   // 這裡是關鍵的改動// 這裡是關鍵的改動!!!!!!!!!!!!!
                 .HasColumnName("RobotID");
+
+            //entity.Property(e => e.GymId)
+            //     .ValueGeneratedOnAdd()  // 這裡是關鍵的改動
+            //     .HasColumnName("GymID");
+
             entity.Property(e => e.DefaultQuestion).HasMaxLength(1000);
             entity.Property(e => e.DefaultResponse).HasMaxLength(1000);
         });

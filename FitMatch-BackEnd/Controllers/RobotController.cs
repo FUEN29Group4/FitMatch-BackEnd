@@ -58,76 +58,76 @@ namespace FitMatch_BackEnd.Controllers
 
 
 
-        //public IActionResult RobotEdit(int? id)
-        //{
-        //    if (id == null)
-        //        return RedirectToAction("Robot");
-        //    FitMatchDbContext db = new FitMatchDbContext();
-        //   Robot RoDb = db.Robots.FirstOrDefault(t => t.RobotId == id);
-
-
-        //    if (RoDb == null)
-        //        return RedirectToAction("Robot");
-        //    RobotWrap RWp = new RobotWrap();
-        //    RWp.Robot = RoDb;
-        //    return View(RWp);
-        //}
-
-        //[HttpPost]
-        //public IActionResult RobotEdit(RobotWrap RoIn)
-        //{
-        //    FitMatchDbContext db = new FitMatchDbContext();
-        //    Robot RoDb = db.Robots.FirstOrDefault(t => t.RobotId == RoIn.RobotId);
-
-        //    if (RoDb != null)
-        //    {
-        //        //if (RoIn.RobotId != null)
-        //        //{
-        //        //    string photoName = Guid.NewGuid().ToString() + ".jpg";
-        //        //    string path = _enviro.WebRootPath + "/images/" + photoName;
-        //        //    prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
-        //        //    prodDb.FImagePath = photoName;
-        //        //}
-
-
-        //        RoDb.DefaultResponse = RoIn.DefaultResponse;
-        //        RoDb.DefaultQuestion = RoIn.DefaultQuestion;
-        //        RoDb.Type = RoIn.Type;
-
-        //        db.SaveChanges();
-        //    }
-        //    return RedirectToAction("Robot");
-        //}
-
-
-
         public IActionResult RobotEdit(int? id)
         {
             if (id == null)
                 return RedirectToAction("Robot");
             FitMatchDbContext db = new FitMatchDbContext();
-            Robot cust = db.Robots.FirstOrDefault(t => t.RobotId == id);
-            if (cust == null)
+            Robot RoDb = db.Robots.FirstOrDefault(t => t.RobotId == id);
+
+
+            if (RoDb == null)
                 return RedirectToAction("Robot");
-            return View(cust);
+            RobotWrap RWp = new RobotWrap();
+            RWp.Robot = RoDb;
+            return View(RWp);
         }
 
         [HttpPost]
-        public IActionResult RobotEdit(Robot custIn)
+        public IActionResult RobotEdit(RobotWrap RoIn)
         {
             FitMatchDbContext db = new FitMatchDbContext();
-            Robot custDb = db.Robots.FirstOrDefault(t => t.RobotId == custIn.RobotId);
+            Robot RoDb = db.Robots.FirstOrDefault(t => t.RobotId == RoIn.RobotId);
 
-            if (custDb != null)
+            if (RoDb != null)
             {
-               
-                custDb.Type = custIn.Type;
-                custDb.DefaultQuestion = custIn.DefaultQuestion;
-                custDb.DefaultResponse = custIn.DefaultResponse;
+                //if (RoIn.RobotId != null)
+                //{
+                //    string photoName = Guid.NewGuid().ToString() + ".jpg";
+                //    string path = _enviro.WebRootPath + "/images/" + photoName;
+                //    prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
+                //    prodDb.FImagePath = photoName;
+                //}
+
+
+                RoDb.DefaultResponse = RoIn.DefaultResponse;
+                RoDb.DefaultQuestion = RoIn.DefaultQuestion;
+                RoDb.Type = RoIn.Type;
+
                 db.SaveChanges();
             }
             return RedirectToAction("Robot");
         }
+
+
+
+        //public IActionResult RobotEdit(int? id)
+        //{
+        //    if (id == null)
+        //        return RedirectToAction("Robot");
+        //    FitMatchDbContext db = new FitMatchDbContext();
+        //    Robot cust = db.Robots.FirstOrDefault(t => t.RobotId == id);
+        //    if (cust == null)
+        //        return RedirectToAction("Robot");
+        //    return View(cust);
+        //}
+
+        //[HttpPost]
+        //public IActionResult RobotEdit(Robot custIn)
+        //{
+        //    FitMatchDbContext db = new FitMatchDbContext();
+        //    Robot custDb = db.Robots.FirstOrDefault(t => t.RobotId == custIn.RobotId);
+
+        //    if (custDb != null)
+        //    {
+
+        //        custDb.Type = custIn.Type;
+        //        custDb.DefaultQuestion = custIn.DefaultQuestion;
+        //        custDb.DefaultResponse = custIn.DefaultResponse;
+        //        db.SaveChanges();
+        //    }
+        //    return RedirectToAction("Robot");
+        //}
 
     }
 }
