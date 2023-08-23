@@ -21,6 +21,7 @@ public partial class Product
     
     public bool? Approved { get; set; }//審核通過與否
 
+    public bool? Status { get; set; }
 
     public virtual ICollection<MemberFavorite> MemberFavorites { get; set; } = new List<MemberFavorite>();
 

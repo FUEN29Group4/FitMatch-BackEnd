@@ -1,8 +1,9 @@
-﻿@model FitMatch_BackEnd.Models.OrderDetail
+﻿@model IEnumerable<FitMatch_BackEnd.Models.OrderDetail>
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "List";
 }
+
 <style>
     .fixed-image {
         width: 100px;
@@ -265,7 +266,3 @@
 
 
     </script>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

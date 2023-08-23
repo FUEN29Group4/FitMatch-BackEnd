@@ -20,17 +20,78 @@ namespace FitMatch_BackEnd.Controllers
 
         //***篩選功能***
 
-        //取得商品管理頁面  ***上架狀態要修***圖片未抓取***全部的商品類別TypeId皆未出現，要修改***
+        //取得商品管理頁面  ***上架狀態要修***圖片未抓取***
         public IActionResult List(CKeywordViewModel vm)
         {
             FitMatchDbContext db = new FitMatchDbContext();
-            IEnumerable<Product> datas = null;
-            if (string.IsNullOrEmpty(vm.txtKeyword))
+            IEnumerable<Product> datas = db.Products;
+
+
+            if (vm.txtKeyword != null || vm.StatusFilter != null || vm.ProductFilter != null)
+            {
+                if (!string.IsNullOrEmpty(vm?.StatusFilter))
+                {
+                    switch (vm.StatusFilter)
+                    {
+                        case "上架":
+                            datas = db.Products.Where(t => t.Status == true);
+                            break;
+                        case "下架":
+                            datas = db.Products.Where(t => t.Status == false);
+                            break;
+                        case "待審核":
+                            datas = db.Products.Where(t => t.Status == null);
+                            break;
+                    }
+                    if (!string.IsNullOrEmpty(vm?.ProductFilter))
+                    {
+                        datas = datas.Where(t => t.TypeId.ToString().Contains(vm.ProductFilter));
+                    }
+                    if (!string.IsNullOrEmpty(vm?.txtKeyword))
+                    {
+                        datas = datas.Where(t => t.ProductName.Contains(vm.txtKeyword));
+                    }
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(vm?.ProductFilter))
+                    {
+                        datas = db.Products.Where(t => t.TypeId.ToString().Contains(vm.ProductFilter));
+                        if (!string.IsNullOrEmpty(vm?.txtKeyword))
+                        {
+                            datas = datas.Where(t => t.ProductName.Contains(vm.txtKeyword));
+                        }
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(vm?.txtKeyword))
+                        {
+                            datas = db.Products.Where(t => t.ProductName.Contains(vm.txtKeyword));
+                        }
+                    }
+
+                }
+            }
+            else
+            {
                 datas = from p in db.Products
                         select p;
-            else
-                datas = db.Products.Where(t => t.ProductName.Contains(vm.txtKeyword));
+            }
+
+
+            //if (string.IsNullOrEmpty(vm.txtKeyword))
+            //    datas = from p in db.Products
+            //            select p;
+            //else
+            //    datas = db.Products.Where(t => t.ProductName.Contains(vm.txtKeyword));
             return View(datas);
+        }
+
+        public class CKeywordViewModel
+        {
+            public string txtKeyword { get; set; }
+            public string ProductFilter { get; set; }
+            public string StatusFilter { get; set; }  // 使用 string
         }
 
         //新增商品  ***圖片未寫入，商品類別無法寫入***
