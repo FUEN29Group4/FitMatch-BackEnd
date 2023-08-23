@@ -12,13 +12,13 @@
         {
             _classtype = new ClassType();
         }
-        public int FId
+        public int ClassTypeId
         {
             get { return _classtype.ClassTypeId; }
             set { _classtype.ClassTypeId = value; }
         }
 
-        public string? FName
+        public string? ClassName
         {
             get { return _classtype.ClassName; }
             set { _classtype.ClassName = value; }
@@ -30,7 +30,7 @@
             set { _classtype.Photo = value; }
         }
 
-        public string? FIntroduction
+        public string? Introduction
         {
             get { return _classtype.Introduction; }
             set { _classtype.Introduction = value; }

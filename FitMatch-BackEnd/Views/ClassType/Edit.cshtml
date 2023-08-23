@@ -1,11 +1,11 @@
 ﻿@model FitMatch_BackEnd.Models.ClassType
-
+@* 
 @{
     ViewData["Title"] = "Edit";
 }
 
 <h1>修改課程</h1>
-
+ *@
 <style>
     /* 上傳照片 */
     .upload-container {
@@ -46,6 +46,8 @@
         transform: translate(-50%, -50%);
     }
 </style>
+
+
 <!-- Content Start -->
 <div class="content">
     <!-- Navbar Start -->
@@ -146,37 +148,30 @@
         <div class="row g-4">
             <div class="col-sm-12">
                 <div class="bg-secondary rounded h-100 p-4">
-                    <form asp-action="Edit" style="padding: 50px;">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input type="hidden" name="ClassTypeId" value="@Model.ClassTypeId" />
 
-                        <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
-                            <div class="col-2">
-                                <label asp-for="ClassTypeId" for="inputname" class="col-form-label">課程編號</label>
-                            </div>
-                            <div class="col-10">
-                                <input asp-for="ClassTypeId" class="form-control mb-3" type="text" aria-label="課程編號" id="inputname">
-                                <span asp-validation-for="ClassTypeId" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
-                            <div class="col-2">
+                    <form method="post" asp-action="Edit" class="" style="padding: 50px;" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" name="classTypeId" value="@Model.ClassTypeId" />
+                        <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
+                            <div class="col-1">
                                 <label asp-for="ClassName" for="inputname" class="col-form-label">課程名稱</label>
                             </div>
-                            <div class="col-10">
-                                <input asp-for="ClassName" class="form-control mb-3" type="text" aria-label="重量訓練" id="inputname">
-                                <span asp-validation-for="ClassTypeId" class="text-danger"></span>
+                            <div class="col-4">
+                                <input asp-for="ClassName" class="form-control mb-3" type="text" placeholder="這裡會帶入課程名稱"
+                                       aria-label="這裡會帶入課程名稱" id="inputname">
+                                <span asp-validation-for="ClassName" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
-                            <div class="col-2">
-                                <label for="inputname" class="col-form-label">封面照片</label>
+
+                        <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
+                            <div class="col-1">
+                                <label for="inputname" class="col-form-label">課程照片</label>
                             </div>
-                            <div class="col-10">
+                            <div class="col-4">
                                 <div class="upload-container">
                                     <label for="upload" class="label-upload">
                                         <div class="icon">+</div>
-                                        <input type="file" id="upload" class="upload-input" accept="image/*">
+                                        <input type="file" name="Photo" id="upload" class="upload-input">
                                     </label>
                                     <img id="preview" src="" alt="Image Preview">
                                 </div>
@@ -184,46 +179,47 @@
                         </div>
 
 
-                        <fieldset class="col-sm-12 col-xl-6 mb-3 d-flex">
-                            <div class="col-2">
-                                <legend class="col-form-label pt-0 pe-4">顯示狀態</legend>
+                        <fieldset class="row-sm-12 row-lg-6 mb-3 d-flex">
+                            <div class="col-1">
+                                <label asp-for="Status" class="col-form-label pt-0 pe-4">顯示狀態</label>
                             </div>
-                            <div class="col-10 d-flex justify-content-start">
+                            <div class="col-4 d-flex justify-content-start">
                                 <div class="form-check me-3">
-                                    <input class="form-check-input" type="radio" name="gridRadios"
-                                           id="gridRadios1" value="option1" checked>
-                                    <label class="form-check-label" for="gridRadios1">
+                                    <input class="form-check-input" type="radio" name="stateRadios"
+                                           id="gridRadios5" value="true" checked>
+                                    <label class="form-check-label" for="gridRadios5">
                                         上架
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gridRadios"
-                                           id="gridRadios2" value="option2">
-                                    <label class="form-check-label" for="gridRadios2">
+                                    <input class="form-check-input" type="radio" name="stateRadios"
+                                           id="gridRadios6" value="false">
+                                    <label class="form-check-label" for="gridRadios6">
                                         下架
                                     </label>
                                 </div>
                             </div>
                         </fieldset>
-                        <div class="col-sm-12 col-xl-6 mb-3 d-flex">
-                            <div class="col-2">
-                                <legend class="col-form-label pt-3 pe-4">課程簡介</legend>
+
+
+
+                        <div class="row-sm-12 row-lg-6 mb-3 d-flex">
+                            <div class="col-1">
+                                <legend class="col-form-label pt-3 pe-4">課程介紹</legend>
                             </div>
-                            <div class="col-10 form-floating pt-1">
+                            <div class="col-6 form-floating pt-1">
                                 <textarea asp-for="Introduction" class="form-control" placeholder="Leave a comment here"
                                           id="floatingTextarea" style="height: 150px;"></textarea>
-                                <label asp-for="Introduction" for="floatingTextarea">請輸入課程簡介</label>
+                                <label for="floatingTextarea">請輸入文字</label>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-xl-6 pt-5 d-flex" style="margin-left: 110px;">
 
-                            <div class="col-6 text-center">
-                                <button type="submit" class="btn btn-primary ">修改</button>
-                            </div>
-                            <div class="col-6 text-start">
-                                <a asp-action="List" class="btn btn-outline-success ">取消</a>
-                            </div>
+
+                        <div class="col-8 d-flex text-center mx-auto pt-5">
+                            <button type="submit" class="btn btn-primary me-5">修改</button>
+                            <a asp-action="List" class="btn btn-outline-success ">取消</a>
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -231,7 +227,6 @@
         </div>
     </div>
     <!-- Form End -->
-
 </div>
 <!-- Content End -->
 
@@ -256,9 +251,21 @@
         }
     });
 
+
+        // function submitForm() {
+        //     var radios = document.getElementsByName("stateRadios");
+        //     var selectValue = "";
+        //     selectValue = radios.values;
+
+        // }
 </script>
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
+
+
+
