@@ -242,12 +242,22 @@
                             </div>
                             <div class="col-10 d-flex justify-content-start">
                                 <div class="form-check me-3">
-                                    <input class="form-check-input" type="radio" name="Approved" id="radioOnShelf" value="true">
-                                    <label class="form-check-label" for="radioOnShelf">上架</label>
+                                    <input class="form-check-input" type="radio" name="Approved" id="gridRadios1" value="true" @(Model.Approved == true ? "checked" : "")>
+                                    <label class="form-check-label" for="gridRadios1">
+                                        上架
+                                    </label>
                                 </div>
                                 <div class="form-check me-3">
-                                    <input class="form-check-input" type="radio" name="Approved" id="radioOffShelf" value="false">
-                                    <label class="form-check-label" for="radioOffShelf">下架</label>
+                                    <input class="form-check-input" type="radio" name="Approved" id="gridRadios2" value="false" @(Model.Approved == false ? "checked" : "")>
+                                    <label class="form-check-label" for="gridRadios2">
+                                        下架
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="Approved" id="gridRadios3" value="" @(Model.Approved == null ? "checked" : "")>
+                                    <label class="form-check-label" for="gridRadios3">
+                                        待審核
+                                    </label>
                                 </div>
                             </div>
                         </fieldset>
