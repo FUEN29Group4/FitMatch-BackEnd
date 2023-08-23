@@ -127,7 +127,7 @@ namespace FitMatch_BackEnd.Controllers
                 custDb.Status = custIn.Status;
                 db.SaveChanges();
             }
-            return RedirectToAction("Edit");
+            return RedirectToAction("Member");
         }
 
 

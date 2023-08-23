@@ -63,23 +63,23 @@ namespace FitMatch_BackEnd.Controllers
             if (id == null)
                 return RedirectToAction("Robot");
             FitMatchDbContext db = new FitMatchDbContext();
-            Robot RoDb = db.Robots.FirstOrDefault(t => t.RobotId == id);
+            Robot RobotDb = db.Robots.FirstOrDefault(t => t.RobotId == id);
 
 
-            if (RoDb == null)
+            if (RobotDb == null)
                 return RedirectToAction("Robot");
             RobotWrap RWp = new RobotWrap();
-            RWp.Robot = RoDb;
-            return View(RWp);
+            RWp.Robot = RobotDb;
+            return View(RWp.Robot);
         }
 
         [HttpPost]
         public IActionResult RobotEdit(RobotWrap RoIn)
         {
             FitMatchDbContext db = new FitMatchDbContext();
-            Robot RoDb = db.Robots.FirstOrDefault(t => t.RobotId == RoIn.RobotId);
+            Robot RobotDb = db.Robots.FirstOrDefault(t => t.RobotId == RoIn.RobotId);
 
-            if (RoDb != null)
+            if (RobotDb != null)
             {
                 //if (RoIn.RobotId != null)
                 //{
@@ -90,10 +90,35 @@ namespace FitMatch_BackEnd.Controllers
                 //}
 
 
-                RoDb.DefaultResponse = RoIn.DefaultResponse;
-                RoDb.DefaultQuestion = RoIn.DefaultQuestion;
-                RoDb.Type = RoIn.Type;
+                RobotDb.DefaultResponse = RoIn.DefaultResponse;
+                RobotDb.DefaultQuestion = RoIn.DefaultQuestion;
+                RobotDb.Type = RoIn.Type;
 
+
+
+                //抓值的功能代修改
+                //if (int.TryParse(Request.Form["OpentimeStart"], out int opentimeStartHour))
+                //{
+                //    custDb.OpentimeStart = custDb.OpentimeStart.HasValue
+                //        ? new DateTime(custDb.OpentimeStart.Value.Year, custDb.OpentimeStart.Value.Month, custDb.OpentimeStart.Value.Day, opentimeStartHour, 0, 0)
+                //        : new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, opentimeStartHour, 0, 0);
+                //}
+                //else
+                //{
+                //    custDb.OpentimeStart = null;
+                //}
+
+                //if (int.TryParse(Request.Form["OpentimeEnd"], out int opentimeEndHour))
+                //{
+                //    custDb.OpentimeEnd = custDb.OpentimeEnd.HasValue
+                //        ? new DateTime(custDb.OpentimeEnd.Value.Year, custDb.OpentimeEnd.Value.Month, custDb.OpentimeEnd.Value.Day, opentimeEndHour, 0, 0)
+                //        : new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, opentimeEndHour, 0, 0);
+                //}
+                //else
+                //{
+                //    custDb.OpentimeEnd = null;
+                //}
+               
                 db.SaveChanges();
             }
             return RedirectToAction("Robot");

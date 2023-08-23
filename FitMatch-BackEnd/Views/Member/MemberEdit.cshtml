@@ -155,12 +155,12 @@
             <div class="col-sm-12">
                 <div class="bg-secondary rounded h-100 p-4">
 
-                    <form asp-action="Edit" class="" style="padding: 50px;">
+                    <form asp-action="MemberEdit" class="" style="padding: 50px;">
+
+                        <input type="hidden" name="MemberId" value="@Model.MemberId" />  @*  這一句是關鍵：抓到第二個HttpPost ID ，然後可以成功做修改update的功能 *@
+
                         <div class="row">
                             <div class="col">
-
-
-
 
                                 <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                                     <div class="col-2">
@@ -193,10 +193,10 @@
 
                                 <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                                     <div class="col-2">
-                                        <label asp-for="Email" class="col-form-label  t1">密碼</label>
+                                        <label asp-for="Password" class="col-form-label  t1">密碼</label>
                                     </div>
                                     <div class="col-8">
-                                        <input asp-for="Email" class="form-control mb-3" type="text" value="@Model.Password"
+                                        <input asp-for="Password" class="form-control mb-3" type="text" value="@Model.Password"
                                                id="inputname">
                                     </div>
                                 </div>
