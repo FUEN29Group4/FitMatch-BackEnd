@@ -24,11 +24,30 @@
             set { _classtype.ClassName = value; }
         }
 
+        public string? Photo
+        {
+            get { return _classtype.Photo; }
+            set { _classtype.Photo = value; }
+        }
+
         public string? FIntroduction
         {
             get { return _classtype.Introduction; }
             set { _classtype.Introduction = value; }
         }
+
+        public DateTime? CreateAt
+        {
+            get { return _classtype.CreateAt; }
+            set { _classtype.CreateAt = value; }
+        }
+        public bool? Status
+        {
+            get { return _classtype.Status; }
+            set { _classtype.Status = value; }
+        }
+
+        public IFormFile photo { get; set; }
 
     }
 }
