@@ -119,143 +119,55 @@
     </nav>
     <!-- Navbar End -->
     <!-- 篩選列開始 -->
-
-
     <div class="container-fluid pt-4 px-4">
-        <nav class="navbar navbar-expand-lg bg-white rounded">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-            </button>
-            <form method="post" action="List" class="container-fluid d-flex flex-wrap justify-content-between align-items-center">
+        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0 rounded">
+            <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <div class="d-flex align-items-center">
 
+                    <!-- 將所有的選項和搜索功能都放在同一個form中 -->
+                    <form method="post" asp-action="List" class="container-fluid d-flex flex-wrap justify-content-between align-items-center">
 
-                        <div class="col-4 d-flex align-items-center ms-4">
-                            <span for="regionType" style="margin-right: 10px; text-align: center;">地區:</span>
-                            <select id="regionType" name="RegionFilter" class="form-select" style="background-color: #fff;" aria-label="選擇城市">
-                                <option value="" selected disabled hidden>請選擇</option>
+                        <!-- 區域選擇 -->
+                        <div class="d-flex align-items-center me-3">
+                            <label for="regionType" class="me-2">區域:</label>
+                            <select id="regionType" name="RegionFilter" class="form-select" style="background-color: #fff;" aria-label="區域">
+                                <option value="" selected disabled hidden>請選擇區域</option>
                                 <option value="台北">台北</option>
                                 <option value="台中">台中</option>
                                 <option value="台南">台南</option>
                             </select>
                         </div>
-                        <div class="col-4 d-flex align-items-center ms-4">
-                            <span for="statusType" style="margin-right: 10px; text-align: center;">上架狀態:</span>
+
+                        <!-- 上架狀態選擇 -->
+                        <div class="d-flex align-items-center me-3">
+                            <label for="statusType" class="me-2">上架狀態:</label>
                             <select id="statusType" name="StatusFilter" class="form-select" style="background-color: #fff;" aria-label="上架狀態">
-                                <option value="" selected disabled hidden>請選擇</option>
+                                <option value="" selected disabled hidden>請選擇狀態</option>
                                 <option value="上架">上架</option>
                                 <option value="下架">下架</option>
                                 <option value="待審核">待審核</option>
                             </select>
                         </div>
 
-                    </div>
-                </div>
+                        <!-- 搜尋部分 -->
+                        <div class="d-flex align-items-center ml-auto">
+                            <div class="me-2">
+                                <input name="txtKeyword" class="form-control" type="text" placeholder="請輸入關鍵字" aria-label="請輸入關鍵字" id="searchInput">
+                            </div>
+                            <button type="submit" class="btn btn-primary me-2">
+                                <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                            </button>
+                            <button type="reset" class="btn btn-outline-success">清空</button>
+                        </div>
 
-                <div class="col-3 d-flex align-items-center ms-4" style="margin-right: 25px;">
-                @*     <form method="get" action="List"> *@
-                        <span style="margin-right: 10px; text-align: center;">關鍵字:</span>
-                        <input type="text" name="txtKeyword">
-                        <button type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
-                        <button type="reset" class="btn btn-outline-success">清空</button>
-               @*      </form> *@
+                    </form>
                 </div>
-
-            </form>
-            <br>
-            <br>
-            <br>
+            </div>
         </nav>
     </div>
 
-    @*     <div class="container-fluid pt-4 px-4">
-    <nav class="navbar navbar-expand-lg bg-white rounded">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-    aria-expanded="false" aria-label="Toggle navigation">
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <div class="d-flex align-items-center mr-au">
-    <div class="col-4 d-flex align-items-center">
-    <form method="get" action="@Url.Action("List", "Restaurant")">
-    <div class="row d-flex align-items-center">
-    <span style="margin-top: 40px;margin-left: 20px;">
-    上架日期:
-    </span>
-    <div class="col-4" style="margin-left: 110px;margin-top: -100px;">
-    <input type="text" class="form-control" id="startDate" placeholder="開始時間"
-    autocomplete="off">
-    </div>
-    <div class="col-1 text-center" style="margin-left: 155px;margin-top: -35px;">
-    至
-    </div>
-    <div class="col-4" style="margin-left: 110px;">
-    <input type="text" class="form-control" id="endDate" placeholder="結束時間"
-    autocomplete="off">
-    </div>
-    </div>
-    </form>
-    </div>
-
-    <form method="get" action="List">
-    <div class="col-4 d-flex align-items-center ms-4">
-    <span style="margin-right: 10px; text-align: center; margin-left: -155px;">地區:</span>
-    <select class="form-select" style="background-color: #fff;" aria-label="地區">
-    <option disabled selected hidden>選擇城市</option>
-    <option value="1">台北</option>
-    <option value="2">台中</option>
-    <option value="3">台南</option>
-    </select>
-    </div>
-
-    </form>
-    <form method="get" action="List">
-    <div class="col-4 d-flex align-items-center ms-4">
-    <span style="margin-right: 10px; text-align: center;margin-left: -115px;">上架狀態:</span>
-    <select class="form-select" style="background-color: #fff;" aria-label="上架狀態">
-    <option disabled selected hidden>選擇狀態</option>
-    <option value="1">上架</option>
-    <option value="2">下架</option>
-    </select>
-    <input type="text" name="searchKeyword">
-    <button type="submit">搜尋</button>
-    </div>
-    </form>
-    </div>
-    </div>
-
-    <div class="col-3 d-flex align-items-center ms-4" style="margin-right: 30px;">
-    搜尋:
-    @using (Html.BeginForm())
-    {
-    <div class=" ms-2 me-2 flex-grow-1">
-
-    @Html.TextBox("txtKeyword")
-    <input class="form-control" type="text" placeholder="請輸入關鍵字" aria-label="請輸入關鍵字" id="searchInput">
-
-    </div>
-    <a href="">
-    <i type="submit" class="fa-solid fa-magnifying-glass fa-xl"></i>
-    </a>
-    }
-
-
-
-    <button class="btn btn-outline-success " style="margin-top: 0px; margin-left: 10px;"
-    type="submit">
-    清空
-    </button>
-    </div>
-    <br>
-    <br>
-    <br>
-    </nav>
-    </div> *@
-
-
+    <!-- 篩選列結束 -->
+    <!-- 管理列表開始 -->
     <div class="container-fluid pt-4 px-4">
         <div class="bg-white text-center  rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
@@ -304,78 +216,7 @@
 
                             }
                         }
-                        @*                                 <tr>
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>CODE002</td>
-                        <td>十一原味 · 健康選食</td>
-                        <td>台南市</td>
-                        <td><img class="fixed-image" src="./img/mall/十一原味 · 健康選食.jpg" alt=""></td>
-                        <td>上架</td>
-                        <td>2023-08-07 10:10</td>
-                        <td>
-                        <a class="btn btn-sm btn-secondary" href="restaurant_edit.html"
-                        style="background-color: aliceblue; color: black;">
-                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                        </a>
-                        <a class="btn btn-sm btn-primary" href="">
-                        <i class="fa-solid fa-trash-can">刪除</i>
-                        </a>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>CODE003</td>
-                        <td>味道 健康餐盒</td>
-                        <td>台南市</td>
-                        <td><img class="fixed-image" src="./img/mall/味道 健康餐盒.jpg" alt=""></td>
-                        <td>上架</td>
-                        <td>2023-08-07 10:10</td>
-                        <td>
-                        <a class="btn btn-sm btn-secondary" href="restaurant_edit.html"
-                        style="background-color: aliceblue; color: black;">
-                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                        </a>
-                        <a class="btn btn-sm btn-primary" href="">
-                        <i class="fa-solid fa-trash-can">刪除</i>
-                        </a>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>CODE004</td>
-                        <td>也食 健康菜飯舖</td>
-                        <td>台南市</td>
-                        <td><img class="fixed-image" src="./img/mall/也食 健康菜飯舖.jpg" alt=""></td>
-                        <td>上架</td>
-                        <td>2023-08-07 10:10</td>
-                        <td>
-                        <a class="btn btn-sm btn-secondary" href="restaurant_edit.html"
-                        style="background-color: aliceblue; color: black;">
-                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                        </a>
-                        <a class="btn btn-sm btn-primary" href="">
-                        <i class="fa-solid fa-trash-can">刪除</i>
-                        </a>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>CODE005</td>
-                        <td>識巷點食研所</td>
-                        <td>台南市</td>
-                        <td><img class="fixed-image" src="./img/mall/識巷點食研所.jpg" alt=""></td>
-                        <td>下架</td>
-                        <td>2023-08-07 10:10</td>
-                        <td>
-                        <a class="btn btn-sm btn-secondary" href="restaurant_edit.html"
-                        style="background-color: aliceblue; color: black;">
-                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                        </a>
-                        <a class="btn btn-sm btn-primary" href="">
-                        <i class="fa-solid fa-trash-can">刪除</i>
-                        </a>
-                        </td>
-                        </tr> *@
+  
                     </tbody>
                 </table>
             </div>
