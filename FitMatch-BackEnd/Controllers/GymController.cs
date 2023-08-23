@@ -139,18 +139,22 @@ namespace FitMatch_BackEnd.Controllers
         [HttpPost]
         public IActionResult GymEdit(Gym custIn)
         {
-            FitMatchDbContext db = new FitMatchDbContext();
-            Gym custDb = db.Gyms.FirstOrDefault(t => t.GymId == custIn.GymId);
+            Gym custDb = _context.Gyms.FirstOrDefault(t => t.GymId == custIn.GymId);
 
             if (custDb != null)
             {
                 custDb.GymName = custIn.GymName;
                 custDb.Phone = custIn.Phone;
                 custDb.Address = custIn.Address;
-                db.SaveChanges();
+
+                // Add this line to update the Approved status
+                custDb.Approved = string.IsNullOrEmpty(Request.Form["Approved"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Approved"]);
+
+                _context.SaveChanges();
             }
             return RedirectToAction("Gym");
         }
+
 
         public class CKeywordViewModel
         {
