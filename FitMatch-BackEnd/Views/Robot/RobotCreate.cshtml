@@ -149,61 +149,44 @@
             <div class="col-sm-12">
                 <div class="bg-secondary rounded h-100 p-4">
 
-                    <form asp-action="RobotCreate" class="" style="padding: 50px;" enctype="multipart/form-data">
-
-                        <fieldset class="row-sm-12 row-lg-6 mb-3 d-flex">
-                            <div class="col-1">
-                                <label asp-for="Type" class="col-form-label pt-0 pe-4">問題種類</label>
-                            </div>
-
-                            <div class="col-4 d-flex justify-content-start">
-
-                                <div class="form-check me-3">
-                                    <input asp-for="Type" class="form-check-input" type="radio" name="stateRadios"
-                                           id="gridRadios1" value="預設" checked>
-                                    <label class="form-check-label" for="gridRadios1">
-                                        預設
-                                    </label>
-                                </div>
+                    <form asp-controller="Robot" asp-action="RobotCreate" method="post" class="" style="padding: 50px;" enctype="multipart/form-data">
 
 
-                                <div class="form-check">
-                                    <input asp-for="Type" class="form-check-input" type="radio" name="stateRadios"
-                                           id="gridRadios2" value="媒合">
-                                    <label class="form-check-label" for="gridRadios2">
-                                        媒合
-                                    </label>
-                                </div>
+                        @* ------radio start------ *@
+                        <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
+                       
+                        <label asp-for="Type" class="col-form-label pt-0 pe-4">問題種類</label>
 
-                                <div class="form-check">
-                                    <input asp-for="Type" class="form-check-input" type="radio" name="stateRadios"
-                                           id="gridRadios3" value="教練">
-                                    <label class="form-check-label" for="gridRadios3">
-                                        教練
-                                    </label>
-                                </div>
+                           @*  這是純預設的radio樣式 *@
+                           @*  @Html.RadioButton("Type", "教練") <span>教練</span>
+                            @Html.RadioButton("Type", "媒合") <span>媒合</span>
+                            @Html.RadioButton("Type", "課程") <span>課程</span>
+                            @Html.RadioButton("Type", "訂單") <span>訂單</span>
+                            @Html.RadioButton("Type", "其他") <span>其他</span> *@
 
 
-                                <div class="form-check">
-                                    <input asp-for="Type" class="form-check-input" type="radio" name="stateRadios"
-                                           id="gridRadios4" value="訂單">
-                                    <label class="form-check-label" for="gridRadios4">
-                                        訂單
-                                    </label>
-                                </div>
+                        @* 這是有改成我們自已class的radio樣式：class="form-check-input"*@
+                        <label  onclick="setSelectedRadio(this)">
+                            <input class="form-check-input"  type="radio" name="Type" value="教練" /> 教練
+                        </label>
+                        <label  onclick="setSelectedRadio(this)">
+                            <input class="form-check-input" type="radio" name="Type" value="媒合" /> 媒合
+                        </label>
+                        <label onclick="setSelectedRadio(this)">
+                            <input class="form-check-input" type="radio" name="Type" value="課程" /> 課程
+                        </label>
 
-                                <div class="form-check">
-                                    <input asp-for="Type" class="form-check-input" type="radio" name="stateRadios"
-                                           id="gridRadios5" value="其他">
-                                    <label class="form-check-label" for="gridRadios5">
-                                        其他
-                                    </label>
-                                </div>
+                        <label onclick="setSelectedRadio(this)">
+                            <input class="form-check-input" type="radio" name="Type" value="訂單" /> 訂單
+                        </label>
 
+                        <label onclick="setSelectedRadio(this)">
+                            <input class="form-check-input" type="radio" name="Type" value="其他" /> 其他
+                        </label>
+                        </div>
+                        @* ------radio end------ *@
+                        
 
-
-                            </div>
-                        </fieldset>
 
 
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">

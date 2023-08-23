@@ -146,7 +146,9 @@
             <div class="col-sm-12">
                 <div class="bg-secondary rounded h-100 p-4">
 
-                    <form asp-action="RobotEdit" class="" style="padding: 50px;">
+                   
+
+                        <form asp-controller="Robot" asp-action="RobotEdit" method="post" class="" style="padding: 50px;">
 
                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                          <input type="hidden" name="RobotId" value="@Model.RobotId" />    @*  這一句是關鍵：抓到第二個HttpPost ID ，然後可以成功做修改update的功能 *@
@@ -162,22 +164,48 @@
                         </div>
 
 
-                       @*  <div class="row mb-3">
-                            <label asp-for="Type" class="col-sm-1 col-form-label-ADD">問題種類</label>
-                            <div class="col-sm-10">
-                                <select class="form-select1 custom-form-control" id="validationServerCategory"
-                                        required >
-                                    <option value="">請選擇</option>
-                                    <option value="1">預設</option>
-                                    <option value="2">媒合</option>
-                                    <option value="3">教練</option>
-                                    <option value="4">訂單</option>
-                                    <option value="5">其他</option>
-                                </select>
-                                <div class="invalid-feedback">Example invalid select feedback</div>
-                                <span asp-validation-for="RobotId" class="text-danger"></span>
+
+                        @* ------radio start------ *@
+                        <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
+                            <div class="col-1">
+                                <label asp-for="Type" class="col-form-label pt-0 pe-4">問題種類</label>
                             </div>
-                        </div> *@
+                            <div class="col-4">
+
+
+                                <label onclick="setSelectedRadio(this)">
+                                    <input class="form-check-input" type="radio" name="Type" value="教練" checked="@IsTypeSelected("教練")" /> 教練
+                                </label>
+                                <label onclick="setSelectedRadio(this)">
+                                    <input class="form-check-input" type="radio" name="Type" value="媒合" checked="@IsTypeSelected("媒合")" /> 媒合
+                                </label>
+                                <label onclick="setSelectedRadio(this)">
+                                    <input class="form-check-input" type="radio" name="Type" value="課程" checked="@IsTypeSelected("課程")" /> 課程
+                                </label>
+
+                                <label onclick="setSelectedRadio(this)">
+                                    <input class="form-check-input" type="radio" name="Type" value="訂單" checked="@IsTypeSelected("訂單")" /> 訂單
+                                </label>
+
+                                <label onclick="setSelectedRadio(this)"> 
+                                    <input class="form-check-input" type="radio" name="Type" value="其他" checked="@IsTypeSelected("其他")" /> 其他
+                                </label>
+                            </div>
+                        </div>
+
+
+                        @* 將資料庫的類型帶到這個資料中顯示的function *@
+                        @functions {
+                            bool IsTypeSelected(string type)
+                            {
+                                return type == Model.Type;
+                            }
+                        }
+
+
+
+                        @* ------radio end------ *@
+
 
 
 
@@ -207,28 +235,7 @@
                        
 
 
-                       @*  <fieldset class="row-sm-12 row-lg-6 mb-3 d-flex">
-                            <div class="col-1">
-                                <legend class="col-form-label pt-0 pe-4">上/下架狀態</legend>
-                            </div>
-
-                            <div class="col-4 d-flex justify-content-start">
-                                <div class="form-check me-3">
-                                    <input class="form-check-input" type="radio" name="stateRadios" id="gridRadios5" value="option5"
-                                           checked>
-                                    <label class="form-check-label" for="gridRadios5">
-                                        上架
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="stateRadios" id="gridRadios6" value="option6">
-                                    <label class="form-check-label" for="gridRadios6">
-                                        下架
-                                    </label>
-                                </div>
-                            </div>
-                        </fieldset> *@
-
+                    
 
 
 
