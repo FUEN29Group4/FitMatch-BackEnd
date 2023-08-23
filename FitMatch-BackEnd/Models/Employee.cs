@@ -29,5 +29,5 @@ public partial class Employee
     public string? Password { get; set; }
 
     public DateTime? CreatedAt { get; set; }
-    public bool Status { get; set; }
+    public bool? Status { get; set; }
 }

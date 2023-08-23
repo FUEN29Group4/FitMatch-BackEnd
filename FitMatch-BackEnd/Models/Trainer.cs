@@ -31,7 +31,7 @@ public partial class Trainer
     public int? CourseFee { get; set; }
     [DisplayName("課程費用")]
     public string? Password { get; set; }
-    //public int? Approved { get; set; }
+    //public int? approved { get; set; }
     public CApprovalStatus? Approved { get; set; }    //判斷審核通過與否
 
     public DateTime? CreatedAt { get; set; }

@@ -42,7 +42,7 @@ namespace FitMatch_BackEnd.Controllers
                                      ClassTypeId= h.ClassTypeId
                                  }).ToList();
             // 在之前的查询逻辑之后，根据分页逻辑获取当前页的数据
-            avar startIndex = (page - 1) * itemsPerPage;
+            var startIndex = (page - 1) * itemsPerPage;
             var currentPageData = viewModelList.Skip(startIndex).Take(itemsPerPage).ToList();
             // 生成分页项
             int totalItems = viewModelList.Count;

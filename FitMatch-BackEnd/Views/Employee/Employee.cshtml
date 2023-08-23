@@ -25,46 +25,46 @@
         </form>
         <div class="navbar-nav align-items-center ms-auto">
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                <a href="#" class="nav-link">
                     <i class="fa-solid fa-gear"></i>
                     <span class="d-none d-lg-inline-flex">設定</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item text-center">See all message</a>
+                @*<div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                <a href="#" class="dropdown-item">
+                <div class="d-flex align-items-center">
+                <img class="rounded-circle" src="img/user.jpg" alt=""
+                style="width: 40px; height: 40px;">
+                <div class="ms-2">
+                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                <small>15 minutes ago</small>
                 </div>
+                </div>
+                </a>
+                <hr class="dropdown-divider">
+                <a href="#" class="dropdown-item">
+                <div class="d-flex align-items-center">
+                <img class="rounded-circle" src="img/user.jpg" alt=""
+                style="width: 40px; height: 40px;">
+                <div class="ms-2">
+                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                <small>15 minutes ago</small>
+                </div>
+                </div>
+                </a>
+                <hr class="dropdown-divider">
+                <a href="#" class="dropdown-item">
+                <div class="d-flex align-items-center">
+                <img class="rounded-circle" src="img/user.jpg" alt=""
+                style="width: 40px; height: 40px;">
+                <div class="ms-2">
+                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                <small>15 minutes ago</small>
+                </div>
+                </div>
+                </a>
+                <hr class="dropdown-divider">
+                <a href="#" class="dropdown-item text-center">See all message</a>
+                </div>*@
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -137,31 +137,62 @@
                         <div class="col-2 d-flex justify-content-end pe-2">
                             員工狀態:
                         </div>
-                            <div class="col-7 d-flex justify-content-end">
-                        <select class="form-select" aria-label="上架狀態">
-                            <option selected disabled hidden>請選擇</option>
-                            <option value="1">在職</option>
-                            <option value="2">離職</option>
-                        </select>
-                        </div>
-                    </div>
+                        <div class="col-7 d-flex justify-content-end">
+                            <select class="form-select" name="employeeStatus" aria-label="員工狀態">
+                               @* <option selected disabled hidden value="">請選擇</option>
+                                <option value="true">在職</option>
+                                <option value="false">離職</option>*@
+                                @if (ViewBag.EmployeeStatus == null)
+                                {
+                                    <option selected disabled hidden value="">請選擇</option>
+                                }
+                                else
+                                {
+                                    <option disabled hidden value="">請選擇</option>
+                                }
 
-                    <div class="col-7 d-flex align-items-center justify-content-end">
-                        <div class="col-4 d-flex justify-content-end pe-2">
-                            搜尋:
-                        </div>
-                        <div class="col-6  d-flex align-items-center justify-content-end">
-                            <input class=" form-control" type="text" placeholder="請輸入關鍵字" aria-label="請輸入關鍵字"
-                                   id="searchInput">
-                        </div>
-                        <div class="col-1 d-flex align-items-center ps-2">
-                            <a href="">
-                                <i class="fa-solid fa-magnifying-glass fa-xl"></i>
-                            </a>
+                                @if (ViewBag.EmployeeStatus == true)
+                                {
+                                    <option value="true" selected>在職</option>
+                                }
+                                else
+                                {
+                                    <option value="true">在職</option>
+                                }
+
+                                @if (ViewBag.EmployeeStatus == false)
+                                {
+                                    <option value="false" selected>離職</option>
+                                }
+                                else
+                                {
+                                    <option value="false">離職</option>
+                                }
+
+                            </select>
                         </div>
                     </div>
+                    <form method="get" action="@Url.Action("Employee", "Employee")">
+
+                        <div class="col-7 d-flex align-items-center justify-content-end">
+                            <div class="col-4 d-flex justify-content-end pe-2">
+                                搜尋:
+                            </div>
+                            <div class="col-6  d-flex align-items-center justify-content-end">
+                                @* <input @Html.TextBox("txtKeyword") class="form-control" type="text" placeholder="請輸入關鍵字" aria-label="請輸入關鍵字"
+                                id="searchInput">*@
+                                @Html.TextBox("txtKeyword", ViewBag.Keyword as string, new { @class = "form-control", @placeholder = "請輸入關鍵字", @aria_label = "請輸入關鍵字", @id = "searchInput" })
+
+                            </div>
+                            <div class="col-1 d-flex align-items-center ps-2">
+                                <button type="submit" class="btn">
+                                    <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                     <div class="col-1">
-                        <button class="btn btn-outline-success " type="submit">
+                        <button class="btn btn-outline-success" type="button" id="clearSearch">
                             清空
                         </button>
                     </div>
@@ -204,9 +235,29 @@
                                 <td>@Html.DisplayFor(modelItem => item.Position)</td>
                                 <td>@Html.DisplayFor(modelItem => item.EmployeeName)</td>
                                 <td>@item.Birth?.ToString("yyyy-MM-dd")</td>
-                                <td>@Html.DisplayFor(modelItem => item.Gender)</td>
+                                @*<td>@Html.DisplayFor(modelItem => item.Gender)</td>*@
+                                <td>
+                                    @if (item.Gender.HasValue)
+                                    {
+                                        @(item.Gender.Value ? "女" : "男")
+                                    }
+                                    else
+                                    {
+                                        @: 未知
+                                    }
+                                </td>
                                 <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                                @*<td>@Html.DisplayFor(modelItem => item.Status)</td>*@
+                                <td>
+                                    @if (item.Status.HasValue)
+                                    {
+                                        @(item.Status.Value ? "在職" : "離職")
+                                    }
+                                    else
+                                    {
+                                        @: 未知
+                                    }
+                                </td>
                                 <td>@item.CreatedAt?.ToString("yyyy-MM-dd")</td>
                                 <td>
                                     <a class="btn  btn-secondary"
@@ -253,14 +304,14 @@
                                 </li>
                             }
                             @*<li class="page-item active">
-                                <a class="page-link" id="page-1" data-page="1" data-page-type="number" href="#">
-                                    1
-                                </a>
+                            <a class="page-link" id="page-1" data-page="1" data-page-type="number" href="#">
+                            1
+                            </a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" id="page-2" data-page="2" data-page-type="number" href="#">
-                                    2
-                                </a>
+                            <a class="page-link" id="page-2" data-page="2" data-page-type="number" href="#">
+                            2
+                            </a>
                             </li>*@
                             <li class="page-item">
                                 <a class="page-link next-page" data-page-type="next" href="#">
@@ -278,6 +329,7 @@
 </div>
 <!-- Content End -->
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
     // 全選功能
@@ -298,70 +350,18 @@
             });
         });
     });
-
-    // 以下是分頁功能
-    //document.addEventListener("DOMContentLoaded", function () {
-    //    const table = document.querySelector(".table");
-    //    const pageLinks = document.querySelectorAll(".page-link[data-page-type='number']");
-    //    const prevPageLink = document.querySelector(".previous-page");
-    //    const nextPageLink = document.querySelector(".next-page");
-
-    //    pageLinks.forEach(link => {
-    //        link.addEventListener("click", function (event) {
-    //            event.preventDefault();
-
-    //            // 獲取點擊的頁碼
-    //            const page = parseInt(link.textContent);
-
-    //            // 移除所有活躍狀態
-    //            pageLinks.forEach(link => link.parentElement.classList.remove("active"));
-
-    //            // 添加活跃状态到当前页码链接
-    //            link.parentElement.classList.add("active");
-
-    //            // 更新表格内容
-    //            updateTableContent(page);
-    //        });
-    //    });
-
-    //    prevPageLink.addEventListener("click", function (event) {
-    //        event.preventDefault();
-
-    //        const activeLink = document.querySelector(".page-item.active .page-link");
-    //        if (activeLink) {
-    //            const currentPage = parseInt(activeLink.textContent);
-    //            if (currentPage > 1) {
-    //                pageLinks[currentPage - 2].click();
-    //            }
-    //        }
-    //    });
-
-    //    nextPageLink.addEventListener("click", function (event) {
-    //        event.preventDefault();
-
-    //        const activeLink = document.querySelector(".page-item.active .page-link");
-    //        if (activeLink) {
-    //            const currentPage = parseInt(activeLink.textContent);
-    //            if (currentPage < pageLinks.length) {
-    //                pageLinks[currentPage].click();
-    //            }
-    //        }
-    //    });
-
-    //    function updateTableContent(page) {
-    //        const perPage = 5;
-    //        const startIndex = (page - 1) * perPage;
-    //        const endIndex = startIndex + perPage;
-
-    //        const rows = table.querySelectorAll("tbody tr");
-    //        rows.forEach((row, index) => {
-    //            if (index >= startIndex && index < endIndex) {
-    //                row.style.display = "table-row";
-    //            } else {
-    //                row.style.display = "none";
-    //            }
-    //        });
-    //    }
-    //});
-
+   
+        // 清空功能
+    $(document).ready(function () {
+        $('#clearSearch').click(function () {
+            window.location.href = '@Url.Action("Employee", "Employee")';
+        });
+    });
+    //員工狀態
+    $(document).ready(function () {
+        $('select[name="employeeStatus"]').on('change', function () {
+            // 直接提交表單進行篩選
+            $(this).closest('form').submit();
+        });
+    });
 </script>
