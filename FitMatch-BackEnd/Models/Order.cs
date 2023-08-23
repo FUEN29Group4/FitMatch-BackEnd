@@ -7,7 +7,7 @@ public partial class Order
 {
     public int OrderId { get; set; }//訂單編號
 
-    public int? MemberId { get; set; }//  會員編號
+    public int? MemberId { get; set; }//會員編號
 
     public int? TotalPrice { get; set; }//訂單總價
 
@@ -18,6 +18,8 @@ public partial class Order
     public string? ShippingMethod { get; set; }//運送方式
 
     public string? MemberName { get; set; }//會員姓名
+
+    public DateTime? PayTime { get; set; }//付款時間
 
     public virtual Member? Member { get; set; }
 
