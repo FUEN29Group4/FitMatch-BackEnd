@@ -262,25 +262,6 @@
                             </div>
                         </fieldset>
 
-                        @if (Model != null)
-                        {
-                            var approvedStatus = Model.Approved;
-                            // ... 其他代码
-
-                            // 如果您想在视图中显示某些内容基于`Approved`的值：
-                            @if (approvedStatus.HasValue)
-                            {
-                                if (approvedStatus.Value)
-                                {
-                                    <span>已上架</span>
-                                }
-                                else
-                                {
-                                    <span>已下架</span>
-                                }
-                            }
-                        }
-
 
 
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
