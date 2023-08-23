@@ -1,6 +1,7 @@
 ﻿using FitMatch_BackEnd.Models;
 using FitMatch_BackEnd.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FitMatch_BackEnd.Controllers
 {
@@ -29,6 +30,18 @@ namespace FitMatch_BackEnd.Controllers
 
         public IActionResult RobotCreate()
         {
+
+
+            List<string> typeOptions = new List<string>
+        {
+            "教練", "媒合", "課程", "訂單", "其他"
+        };
+            ViewBag.TypeOptions = new SelectList(typeOptions);
+
+
+
+
+
             return View();
         }
 
