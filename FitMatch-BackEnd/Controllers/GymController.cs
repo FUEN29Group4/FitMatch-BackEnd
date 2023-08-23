@@ -74,20 +74,26 @@ namespace FitMatch_BackEnd.Controllers
         {
             if (ModelState.IsValid)
             {
-                // 如果Approved值未在表單中設置，則根據需要設置它
-                if (string.IsNullOrEmpty(Request.Form["Approved"].ToString()))
+                // 讀取表單中的 "Approved" 值
+                string approvedValue = Request.Form["Approved"].ToString();
+
+                // 如果Approved值未在表單中設置，則設置為 null
+                if (string.IsNullOrEmpty(approvedValue))
                 {
                     p.Approved = null;
                 }
                 else
                 {
-                    switch (Request.Form["Approved"].ToString())
+                    switch (approvedValue)
                     {
                         case "true":
                             p.Approved = true;
                             break;
                         case "false":
                             p.Approved = false;
+                            break;
+                        case "":  // 現在這個空字符串代表 "待審核"
+                            p.Approved = null;
                             break;
                         default:
                             // 此處可以處理不符合預期的值或錯誤
@@ -104,6 +110,7 @@ namespace FitMatch_BackEnd.Controllers
             }
             return View(p);
         }
+
 
 
 
