@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class OrderController : Controller
+    public class OrderController : SuperController
     {
         private readonly FitMatchDbContext _context;
 

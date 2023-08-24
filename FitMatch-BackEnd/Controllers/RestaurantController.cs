@@ -1,10 +1,11 @@
 ﻿using FitMatch_BackEnd.Models;
 using FitMatch_BackEnd.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class RestaurantController : Controller
+    public class RestaurantController : SuperController
     {
         public IWebHostEnvironment _enviro = null;
         public RestaurantController(IWebHostEnvironment p)
@@ -13,12 +14,24 @@ namespace FitMatch_BackEnd.Controllers
         }
 
 
-        public IActionResult List(CKeywordViewModel vm)
+        public IActionResult List(CKeywordViewModel vm, int currentPage = 1)
         {
 
             FitMatchDbContext db = new FitMatchDbContext();
             IQueryable<Restaurant> datas = db.Restaurants;
+            //預設一頁只能有5筆資料
+            int itemsPerPage = 5;
 
+
+            // 根據當下頁碼獲取datas
+            datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+            int totalDataCount = db.Trainers.Count();
+            int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = currentPage;
+  
 
             if (vm.txtKeyword != null || vm.StatusFilter != null || vm.RegionFilter != null)
             {

@@ -179,7 +179,7 @@
                 <table class="table text-start align-middle table-bordered table-hover mb-0 table-centered text-center">
                     <thead style="background-color: #74ffba;">
                         <tr class="text-dark" style="text-align: center;">
-                            <th scope="col"></th>
+                 
                             <th scope="col">餐廳編號</th>
                             <th scope="col">餐廳名稱</th>
                             <th scope="col">地區</th>
@@ -197,7 +197,7 @@
                                 count++;
 
                                 <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
+             
                                     <td>@Html.DisplayFor(modelItem => item.RestaurantsId)</td>
                                     <td>@Html.DisplayFor(modelItem => item.RestaurantsName)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Address)</td>
@@ -205,11 +205,11 @@
                                     <td>@(item.Status == true ? "上架" : (item.Status == false ? "下架" : "待審核"))</td>
                                     <td>@Html.DisplayFor(modelItem => item.CreateAt)</td>
                                     <td>
-                                        <a class="btn btn-sm btn-secondary" href="@Url.Action("Edit", "Restaurant", new { id = item.RestaurantsId })"
+                                        <a class="btn btn-secondary" href="@Url.Action("Edit", "Restaurant", new { id = item.RestaurantsId })"
                                            style="background-color: aliceblue; color: black;">
                                             <i class="fa-regular fa-pen-to-square">編輯</i>
                                         </a>
-                                        <a class="btn btn-sm btn-primary" href="@Url.Action("Delete", "Restaurant", new { id = item.RestaurantsId })">
+                                        <a class="btn btn-primary" href="@Url.Action("Delete", "Restaurant", new { id = item.RestaurantsId })">
                                             <i class="fa-solid fa-trash-can">刪除</i>
                                         </a>
                                     </td>
@@ -220,8 +220,8 @@
   
                     </tbody>
                 </table>
-            </div>
 
+            </div>
 
             <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
                 <!-- 全選區塊開始 -->
@@ -234,6 +234,41 @@
                     <!-- Pagination goes here -->
                 </div>
                 <!-- 全選區塊END-->
+                <!-- 換頁區塊開始 -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                            <a class="page-link previous-page" data-page-type="previous" href="@Url.Action("List", new { currentPage = ViewBag.CurrentPage - 1 })">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </a>
+                        </li>
+
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("List", new { currentPage = i })">
+                                    @i
+                                </a>
+                            </li>
+                        }
+
+                        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                            <a class="page-link next-page" data-page-type="next" href="@Url.Action("List", new { currentPage = ViewBag.CurrentPage + 1 })">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- 換頁區塊END -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+         @*    <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
+
                 <!-- 換頁區塊開始 -->
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
@@ -278,8 +313,8 @@
 </div>
 
 
-
-<script>
+ *@
+@* <script>
     // 全選功能
     document.addEventListener("DOMContentLoaded", function () {
         const selectAllCheckbox = document.getElementById("selectAll");
@@ -402,3 +437,4 @@
 
 
 </script>
+ *@
