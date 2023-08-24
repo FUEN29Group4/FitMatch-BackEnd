@@ -22,20 +22,19 @@ namespace FitMatch_BackEnd.Controllers
         }
 
         //跟場館資料連結然後呈現出views
-        public IActionResult Gym(CKeywordViewModel vm)
+        public IActionResult Gym(CKeywordViewModel vm, int currentPage = 1)
         {
             IQueryable<Gym> gyms = _context.Gyms;
 
+            // Search and filter logic
             if (!string.IsNullOrEmpty(vm?.txtKeyword))
             {
                 gyms = gyms.Where(t => t.GymName.Contains(vm.txtKeyword));
             }
-
             if (!string.IsNullOrEmpty(vm?.RegionFilter))
             {
                 gyms = gyms.Where(t => t.Address.Contains(vm.RegionFilter));
             }
-
             if (!string.IsNullOrEmpty(vm?.StatusFilter))
             {
                 switch (vm.StatusFilter)
@@ -52,9 +51,19 @@ namespace FitMatch_BackEnd.Controllers
                 }
             }
 
+            // Pagination logic
+            int itemsPerPage = 5;
+            int totalDataCount = gyms.Count();
+            int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+
+            gyms = gyms.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = currentPage;
 
             return View(gyms.ToList());
         }
+
 
 
 
@@ -68,6 +77,12 @@ namespace FitMatch_BackEnd.Controllers
         [HttpPost]
         public async Task<IActionResult> GymCreate(Gym p) // 注意這裡有 async 和 Task<IActionResult>
         {
+
+            if (p.FileToUpload == null)
+            {
+                ModelState.Remove("FileToUpload");
+            }
+
             if (ModelState.IsValid)
             {
 
@@ -82,11 +97,12 @@ namespace FitMatch_BackEnd.Controllers
                     }
 
                     // 檢查文件大小
-                    if (p.FileToUpload.Length > 5 * 1024 * 1024)  // 5 MB
+                    if (p.FileToUpload.Length > 10 * 1024 * 1024)  // 10 MB
                     {
-                        ModelState.AddModelError("FileToUpload", "文件大小不能超過 5 MB");
+                        ModelState.AddModelError("FileToUpload", "文件大小不能超過 10 MB");
                         return View(p);
                     }
+
 
                     // 生成一個唯一的文件名（這裡使用了 Guid，您也可以使用其他方式）
                     string uniqueFileName = Guid.NewGuid().ToString() + "_" + p.FileToUpload.FileName;
@@ -215,10 +231,10 @@ namespace FitMatch_BackEnd.Controllers
                 if (custIn.FileToUpload != null)
                 {
                     // 檢查文件大小（以字節為單位，這裡限制為 5MB）
-                    if (custIn.FileToUpload.Length > 5 * 1024 * 1024)
+                    if (custIn.FileToUpload.Length > 10 * 1024 * 1024)
                     {
                         // 文件過大
-                        ModelState.AddModelError("FileToUpload", "文件大小不能超過 5 MB.");
+                        ModelState.AddModelError("FileToUpload", "文件大小不能超過 10 MB.");
                         return View(custIn);
                     }
 
@@ -267,7 +283,6 @@ namespace FitMatch_BackEnd.Controllers
             public string RegionFilter { get; set; }
             public string StatusFilter { get; set; }  // 使用 string
         }
-
 
 
 

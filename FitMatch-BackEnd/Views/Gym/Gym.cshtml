@@ -156,7 +156,6 @@
                 <table class="table text-center align-middle table-bordered table-hover mb-0">
                     <thead style="background-color: #74ffba;">
                         <tr class="text-dark">
-                            <th scope="col"></th>
                             <th scope="col">場館編號</th>
                             <th scope="col">場館名稱</th>
                             <th scope="col">審核狀態</th>
@@ -175,7 +174,6 @@
                                 count++;
 
                                 <tr class="data-row">
-                                    <td><input class="form-check-input" type="checkbox"></td>
                                     <td>@Html.DisplayFor(modelItem => item.GymId)</td>
                                     <td>@Html.DisplayFor(modelItem => item.GymName)</td>
                                     <td>@(item.Approved == true ? "上架" : (item.Approved == false ? "下架" : "待審核"))</td>
@@ -200,39 +198,27 @@
                 </table>
             </div>
 
-            <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
-                <!-- 全選區塊開始 -->
-                <div class="d-flex justify-content-between">
-                    <div class="form-check custom-checkbox">
-                        <input class="form-check-input my-lg-2" type="checkbox" id="selectAll">
-                        <label class="form-check-label" for="selectAll">
-                            <span class="align-middle">全選</span>
-                        </label>
-                        <button type="button" class="btn btn-primary mx-lg-2">下架</button>
-                    </div>
-                    <!-- Pagination goes here -->
-                </div>
-                <!-- 全選區塊END-->
+
                 <!-- 換頁區塊開始 -->
-                <nav aria-label="Page navigation example">
+            <nav aria-label="Page navigation example" style="margin-left: 1435px; margin-top: 30px;">
                     <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link previous-page" data-page-type="previous" href="#">
+                        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                            <a class="page-link previous-page" data-page-type="previous" href="@Url.Action("Gym", new { currentPage = ViewBag.CurrentPage - 1 })">
                                 <i class="fa-solid fa-chevron-left"></i>
                             </a>
                         </li>
-                        <li class="page-item active">
-                            <a class="page-link" id="page-1" data-page="1" data-page-type="number" href="#">
-                                1
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" id="page-2" data-page="2" data-page-type="number" href="#">
-                                2
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link next-page" data-page-type="next" href="#">
+
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("Gym", new { currentPage = i })">
+                                    @i
+                                </a>
+                            </li>
+                        }
+
+                        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                            <a class="page-link next-page" data-page-type="next" href="@Url.Action("Gym", new { currentPage = ViewBag.CurrentPage + 1 })">
                                 <i class="fa-solid fa-chevron-right"></i>
                             </a>
                         </li>
@@ -244,31 +230,3 @@
     </div>
 </div>
 
-
-<script>
-    // 全選功能
-    document.addEventListener("DOMContentLoaded", function () {
-        const selectAllCheckbox = document.getElementById("selectAll");
-        const restaurantCheckboxes = document.querySelectorAll(".form-check-input");
-        selectAllCheckbox.addEventListener("change", function () {
-            const isChecked = selectAllCheckbox.checked;
-            restaurantCheckboxes.forEach(checkbox => {
-                checkbox.checked = isChecked;
-            });
-        });
-        restaurantCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener("change", function () {
-                selectAllCheckbox.checked = Array.from(restaurantCheckboxes).every(cb => cb.checked);
-            });
-        });
-    });
-    // 以下是分頁功能
-    function updateTableContent(page) {
-        fetch(`/Gyms/Index?page=${page}`)
-            .then(response => response.text())
-            .then(html => {
-                // 假設你要更新的表格有一個ID "gymTable"
-                document.getElementById("gymTable").innerHTML = html;
-            });
-    }
-</script>
