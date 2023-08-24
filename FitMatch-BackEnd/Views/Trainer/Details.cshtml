@@ -179,7 +179,16 @@
                                 <label id="inputname" class="col-form-label fw-bold">性別</label>
                             </div>
                             <div class="col-8">
-                                <label id="inputename" class="col-form-label" disabled>@Model.Gender</label>
+                                <label id="inputename" class="col-form-label" disabled>
+                                    @if (Model.Gender.HasValue)
+                                    {
+                                        @(Model.Gender.Value ? "女" : "男")
+                                    }
+                                    else
+                                    {
+                                        @: 未知
+                                    }
+                                </label>
                             </div>
                         </div>
                         <div class="row pt-1">
@@ -228,7 +237,28 @@
                             </div>
                             <div class="col-8">
                                 <label id="inputgym2" class="col-form-label" disabled>
-                                    @Model.Approved
+                                    @if (Model.Approved.HasValue)
+                                    {
+                                        switch ((CApprovalStatus)Model.Approved.Value)
+                                        {
+                                            case CApprovalStatus.UnderReview:
+                                                @: 審核中
+                                                break;
+                                            case CApprovalStatus.Approved:
+                                                @: 審核通過
+                                                break;
+                                            case CApprovalStatus.Rejected:
+                                                @: 退回審核
+                                                break;
+                                            default:
+                                                @: 未知
+                                                break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @: 未知
+                                    }
                                 </label>
                             </div>
                         </div>

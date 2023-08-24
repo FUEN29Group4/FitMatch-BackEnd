@@ -1,13 +1,13 @@
 ﻿using FitMatch_BackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FitMatch_BackEnd.Controllers
 {
     public class TrainerController : Controller
     {
-        //TODO: 換頁要確認
         //TODO: 全選刪除還沒做
         //TODO: 照片、合作場館未完成
 
@@ -19,11 +19,24 @@ namespace FitMatch_BackEnd.Controllers
         {
             _context = context;
         }
+        //TODO: 篩選列
         //跟教練資料連結然後呈現出views
-        public IActionResult Trainer(int currentPage = 1)
+        public IActionResult Trainer(int currentPage = 1, string txtKeyword = null)
         {
             int itemsPerPage = 5;
             IEnumerable<Trainer> datas = from p in _context.Trainers select p;
+            // 如果有搜尋關鍵字
+            if (!string.IsNullOrWhiteSpace(txtKeyword))
+            {
+                datas = datas.Where(p => p.TrainerName.Contains(txtKeyword) || p.Email.Contains(txtKeyword));
+            }
+            // 如果Approved有值
+            //if (trainerapproved.HasValue)
+            //{
+            //    datas = datas.Where(p => p.approved = trainerapproved);
+            //}
+            //把選擇的狀態存進來
+            //ViewBag.TrainerApproved = trainerapproved;
 
             // 根據當下頁碼獲取數據
             datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
@@ -33,15 +46,21 @@ namespace FitMatch_BackEnd.Controllers
 
             ViewBag.TotalPages = totalPages;
             ViewBag.CurrentPage = currentPage;
+            ViewBag.Keyword = txtKeyword;  // 將關鍵字存入ViewBag，以便在View中使用
             return View(datas);
-            //IEnumerable<Trainer> datas = from p in _context.Trainers select p;
             //int itemsPerPage = 5;
-            //int totalDataCount = datas.Count();
+            //IEnumerable<Trainer> datas = from p in _context.Trainers select p;
+
+            //// 根據當下頁碼獲取數據
+            //datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+            //int totalDataCount = _context.Trainers.Count();
             //int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
 
-            //// 頁數
             //ViewBag.TotalPages = totalPages;
+            //ViewBag.CurrentPage = currentPage;
             //return View(datas);
+            
         }
 
         //審核通過

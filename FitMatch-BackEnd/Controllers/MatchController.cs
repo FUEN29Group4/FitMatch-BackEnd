@@ -103,8 +103,7 @@ namespace FitMatch_BackEnd.Controllers
                                  TrainerId = (int)c.TrainerId,
                                  MemberId = m.MemberId,
                                  GymId = g.GymId,
-                                 ClassTypeId = (int)c.ClassTypeId,
-                                 Approved = (bool)c.Approved
+                                 ClassTypeId = (int)c.ClassTypeId
                              }).FirstOrDefault();
 
             if (viewModel == null)
@@ -155,8 +154,7 @@ namespace FitMatch_BackEnd.Controllers
                         classData.GymId = gymData.GymId;
                         classData.MemberId = member.MemberId;
                         classData.TrainerId = trainer.TrainerId;
-                        classData.CourseStatus = editedViewModel.CourseStatus;
-                        classData.Approved = editedViewModel.Approved;
+                    classData.CourseStatus = editedViewModel.CourseStatus;
                         // 更新其他属性的修改
                         classData.StartTime = editedViewModel.StartTime;
                         classData.EndTime = editedViewModel.EndTime;

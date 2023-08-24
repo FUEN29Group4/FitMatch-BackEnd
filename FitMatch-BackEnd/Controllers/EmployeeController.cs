@@ -1,5 +1,7 @@
 ﻿using FitMatch_BackEnd.Models;
+using FitMatch_BackEnd.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 
 namespace FitMatch_BackEnd.Controllers
 {
@@ -13,20 +15,33 @@ namespace FitMatch_BackEnd.Controllers
         {
             _context = context;
         }
-        //跟會員資料連結然後呈現出views
-        public IActionResult Employee(int currentPage = 1)
+        //跟員工資料連結然後呈現出views
+        public IActionResult Employee(int currentPage = 1, string txtKeyword = null, bool? employeeStatus = null)
         {
             int itemsPerPage = 5;
             IEnumerable<Employee> datas = from p in _context.Employees select p;
+            // 如果有搜尋關鍵字
+            if (!string.IsNullOrWhiteSpace(txtKeyword))
+            {
+                datas = datas.Where(p => p.EmployeeName.Contains(txtKeyword) || p.Email.Contains(txtKeyword));
+            }
+            // 如果Status有值
+            if (employeeStatus.HasValue)
+            {
+                datas = datas.Where(p => p.Status == employeeStatus.Value);
+            }
+            //把選擇的狀態存進來
+            ViewBag.EmployeeStatus = employeeStatus;
 
             // 根據當下頁碼獲取數據
             datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
 
-            int totalDataCount = _context.Trainers.Count();
+            int totalDataCount = _context.Employees.Count();
             int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
 
             ViewBag.TotalPages = totalPages;
             ViewBag.CurrentPage = currentPage;
+            ViewBag.Keyword = txtKeyword;  // 將關鍵字存入ViewBag，以便在View中使用
             return View(datas);
         }
 
@@ -58,8 +73,8 @@ namespace FitMatch_BackEnd.Controllers
         }
 
 
-        //TODO: 員工篩選、全部刪除、性別轉換、在職轉換、照片、創建時間
-        
+        //TODO: 全部刪除、照片、驗證
+
         public IActionResult Details(int id)
         {
             var Employees = _context.Employees.FirstOrDefault(t => t.EmployeeId == id);
@@ -84,6 +99,7 @@ namespace FitMatch_BackEnd.Controllers
             }
             return RedirectToAction("Employee");
         }
+       
         //TODO: 要確認編輯
         public IActionResult Edit(int? id)
         {
