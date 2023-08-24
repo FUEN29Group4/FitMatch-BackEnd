@@ -145,7 +145,7 @@
         <div class="row g-4">
             <div class="col-sm-12">
                 <div class="bg-secondary rounded h-100 p-4">
-                    <form asp-action="GymEdit" style="padding: 50px;">
+                    <form asp-action="GymEdit" method="post" enctype="multipart/form-data" style="padding: 50px;">
 
                         <input asp-for="GymId" type="hidden" />
 
@@ -188,17 +188,18 @@
                             </div>
                         </div>
 
+                        <!-- 圖片上傳部分 -->
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
                             <div class="col-2">
-                                <label for="inputname" class="col-form-label">封面照片</label>
+                                <label for="FileToUpload" class="col-form-label">封面照片</label>
                             </div>
                             <div class="col-10">
                                 <div class="upload-container">
-                                    <label for="upload" class="label-upload">
+                                    <label for="FileToUpload" class="label-upload">
                                         <div class="icon">+</div>
-                                        <input type="file" id="upload" class="upload-input" accept="image/*">
+                                        <input asp-for="FileToUpload" type="file" id="FileToUpload" class="upload-input" accept="image/*">
                                     </label>
-                                    <img id="preview" src="" alt="Image Preview">
+                                    <img id="preview" src="@Url.Content($"~/img/gym/{Model.Photo}")" alt="Image Preview"> <!-- 注意這裡的路徑 -->
                                 </div>
                             </div>
                         </div>
@@ -292,3 +293,25 @@
 
 </div>
 <!-- Content End -->
+<!-- 圖片預覽 -->
+<script>
+
+    const uploadInput = document.getElementById('FileToUpload');
+    const preview = document.getElementById('preview');
+    const icon = document.querySelector('.icon');
+
+    uploadInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.addEventListener('load', function () {
+                preview.src = this.result;
+                preview.style.display = 'block';
+                icon.style.display = 'none';
+            });
+
+            reader.readAsDataURL(file);
+        }
+    });
+    </script>

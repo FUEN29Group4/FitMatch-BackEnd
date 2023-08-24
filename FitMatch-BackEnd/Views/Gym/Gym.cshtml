@@ -263,55 +263,12 @@
         });
     });
     // 以下是分頁功能
-    document.addEventListener("DOMContentLoaded", function () {
-        const table = document.querySelector(".table");
-        const pageLinks = document.querySelectorAll(".page-link[data-page-type='number']");
-        const prevPageLink = document.querySelector(".previous-page");
-        const nextPageLink = document.querySelector(".next-page");
-        pageLinks.forEach(link => {
-            link.addEventListener("click", function (event) {
-                event.preventDefault();
-                // 獲取點擊的頁碼
-                const page = parseInt(link.textContent);
-                // 移除所有活躍狀態
-                pageLinks.forEach(link => link.parentElement.classList.remove("active"));
-                // 添加活跃状态到当前页码链接
-                link.parentElement.classList.add("active");
-                // 更新表格内容
-                updateTableContent(page);
+    function updateTableContent(page) {
+        fetch(`/Gyms/Index?page=${page}`)
+            .then(response => response.text())
+            .then(html => {
+                // 假設你要更新的表格有一個ID "gymTable"
+                document.getElementById("gymTable").innerHTML = html;
             });
-        });
-        prevPageLink.addEventListener("click", function (event) {
-            event.preventDefault();
-            const activeLink = document.querySelector(".page-item.active .page-link");
-            if (activeLink) {
-                const currentPage = parseInt(activeLink.textContent);
-                if (currentPage > 1) {
-                    pageLinks[currentPage - 2].click();
-                }
-            }
-        });
-        nextPageLink.addEventListener("click", function (event) {
-            event.preventDefault();
-            const activeLink = document.querySelector(".page-item.active .page-link");
-            if (activeLink) {
-                const currentPage = parseInt(activeLink.textContent);
-                if (currentPage < pageLinks.length) {
-                    pageLinks[currentPage].click();
-                }
-            }
-        });
-        function updateTableContent(page) {
-            const perPage = 5;
-            const startIndex = (page - 1) * perPage;
-            const endIndex = startIndex + perPage;
-            const rows = table.querySelectorAll("tbody tr");
-            rows.forEach((row, index) => {
-                if (index >= startIndex && index < endIndex) {
-                    row.style.display = "table-row";
-                } else {
-                    row.style.display = "none";
-                }
-            });
-        }
-    });</script>
+    }
+</script>

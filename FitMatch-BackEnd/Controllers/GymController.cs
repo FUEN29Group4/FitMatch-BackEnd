@@ -71,14 +71,40 @@ namespace FitMatch_BackEnd.Controllers
             if (ModelState.IsValid)
             {
 
-                // 上傳文件代碼
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/gym", p.FileToUpload.FileName);
-                using (var stream = new FileStream(path, FileMode.Create))
+                if (p.FileToUpload != null)
                 {
-                    await p.FileToUpload.CopyToAsync(stream); // 這裡使用了 await，所以需要標記方法為 async
+                    // 檢查 MIME 類型
+                    var allowedMimeTypes = new[] { "image/jpeg", "image/png", "image/gif" };
+                    if (!allowedMimeTypes.Contains(p.FileToUpload.ContentType))
+                    {
+                        ModelState.AddModelError("FileToUpload", "只允許 JPEG, PNG 或 GIF 格式的文件");
+                        return View(p);
+                    }
+
+                    // 檢查文件大小
+                    if (p.FileToUpload.Length > 5 * 1024 * 1024)  // 5 MB
+                    {
+                        ModelState.AddModelError("FileToUpload", "文件大小不能超過 5 MB");
+                        return View(p);
+                    }
+
+                    // 生成一個唯一的文件名（這裡使用了 Guid，您也可以使用其他方式）
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + p.FileToUpload.FileName;
+
+                    // 確定保存位置
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/gym", uniqueFileName);
+
+                    // 保存文件
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await p.FileToUpload.CopyToAsync(stream);
+                    }
+
+                    // 保存新文件名到數據庫
+                    p.Photo = uniqueFileName;
                 }
 
-                p.Photo = p.FileToUpload.FileName;
+
                 // 讀取表單中的 "Approved" 值
                 string approvedValue = Request.Form["Approved"].ToString();
 
@@ -121,10 +147,6 @@ namespace FitMatch_BackEnd.Controllers
 
 
 
-
-
-
-
         //刪除功能
         public IActionResult GymDelete(int? id)
         {
@@ -151,7 +173,7 @@ namespace FitMatch_BackEnd.Controllers
         }
 
         [HttpPost]
-        public IActionResult GymEdit(Gym custIn)
+        public async Task<IActionResult> GymEdit(Gym custIn)
         {
             Gym custDb = _context.Gyms.FirstOrDefault(t => t.GymId == custIn.GymId);
 
@@ -190,7 +212,47 @@ namespace FitMatch_BackEnd.Controllers
                     custDb.OpentimeEnd = null;
                 }
 
-                _context.SaveChanges();
+                if (custIn.FileToUpload != null)
+                {
+                    // 檢查文件大小（以字節為單位，這裡限制為 5MB）
+                    if (custIn.FileToUpload.Length > 5 * 1024 * 1024)
+                    {
+                        // 文件過大
+                        ModelState.AddModelError("FileToUpload", "文件大小不能超過 5 MB.");
+                        return View(custIn);
+                    }
+
+                    // 檢查MIME類型
+                    string[] permittedExtensions = { ".jpg", ".jpeg", ".png", ".gif" };
+                    string fileExtension = Path.GetExtension(custIn.FileToUpload.FileName).ToLowerInvariant();
+                    if (string.IsNullOrEmpty(fileExtension) || !permittedExtensions.Contains(fileExtension))
+                    {
+                        // 非法文件類型
+                        ModelState.AddModelError("FileToUpload", "只允許 JPEG, PNG 或 GIF 格式的文件");
+                        return View(custIn);
+                    }
+
+                    // 生成一個唯一的檔名
+                    string uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
+
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/gym", uniqueFileName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await custIn.FileToUpload.CopyToAsync(stream);
+                    }
+
+                    // 刪除舊照片（如果需要）
+                    if (!string.IsNullOrEmpty(custDb.Photo))
+                    {
+                        var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/gym", custDb.Photo);
+                        System.IO.File.Delete(oldPath);
+                    }
+
+                    custDb.Photo = uniqueFileName;
+                }
+
+                await _context.SaveChangesAsync();
             }
             return RedirectToAction("Gym");
         }
