@@ -2,6 +2,7 @@
 using FitMatch_BackEnd.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitMatch_BackEnd.Controllers
 {
@@ -19,11 +20,23 @@ namespace FitMatch_BackEnd.Controllers
         {
             _enviro = p;
         }
-        public IActionResult Robot()
+        public IActionResult Robot(int currentPage = 1)
         {
 
             FitMatchDbContext db = new FitMatchDbContext();
             IEnumerable<Robot> datas = from d in db.Robots select d;
+
+            int itemsPerPage = 5;
+            // 根據當下頁碼獲取數據
+            datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+            int totalDataCount = db.Robots.Count();
+            int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = currentPage;
+
+
             return View(datas);
         }
 

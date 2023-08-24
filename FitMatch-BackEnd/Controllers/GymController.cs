@@ -156,7 +156,7 @@ namespace FitMatch_BackEnd.Controllers
 
                 ViewData["FormSubmitted"] = true;
                 // 重新傳遞模型到當前視圖以顯示通知
-                return View(p);
+                return RedirectToAction("Gym");
             }
             return View(p);
         }

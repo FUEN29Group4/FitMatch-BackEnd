@@ -44,19 +44,6 @@
         transform: translate(-50%, -50%);
     }
 
-    #notification {
-        position: fixed; /* 使用固定定位 */
-        top: 50%; /* 從頂部開始的位置為50% */
-        left: 50%; /* 從左邊開始的位置為50% */
-        transform: translate(-50%, -50%); /* 使用轉換來回彈到正確的中央位置 */
-        z-index: 1000; /* 使用較高的z-index確保它出現在其他元素之上 */
-        padding: 15px; /* 根據需要增加內部間距 */
-        background-color: rgba(0,0,0,0.7); /* 添加背景色 */
-        color: #fff; /* 設置文本顏色為白色 */
-        border-radius: 5px; /* 添加邊界半徑，使其看起來更加圓滑 */
-        display: none; /* 默認情況下隱藏它，因為你只想在某些事件後顯示它 */
-    }
-
 
 </style>
 
@@ -284,9 +271,7 @@
  
 </div>
 <!-- Content End -->
-<div class="notification" id="notification">
-    場館新增成功！目前處於<span id="currentStatus">待審核</span>的狀態。
-</div>
+
 <script>
     const uploadInput = document.getElementById('FileToUpload');
     const preview = document.getElementById('preview');
