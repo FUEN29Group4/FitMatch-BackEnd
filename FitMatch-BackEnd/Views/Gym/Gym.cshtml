@@ -163,6 +163,7 @@
                             <th scope="col">地址</th>
                             <th scope="col">營業時間</th>
                             <th scope="col">結束時間</th>
+                            <th scope="col">封面</th>
                             <th scope="col">操作</th>
                         </tr>
                     </thead>
@@ -181,7 +182,7 @@
                                     <td>@Html.DisplayFor(modelItem => item.Address)</td>
                                     <td>@(item.OpentimeStart.HasValue ? item.OpentimeStart.Value.ToString("HH:mm") : "未設定")</td>
                                     <td>@(item.OpentimeEnd.HasValue ? item.OpentimeEnd.Value.ToString("HH:mm") : "未設定")</td>
-                                    <!-- 如果有 Gym 的圖片欄位，你可以在此插入 -->
+                                    <td><img src="@("/img/gym/" + item.Photo)" width="110" height="70" /></td>
                                     <td>
                                         <a class="btn btn-sm btn-secondary" href="@Url.Action("GymEdit", "Gym", new { id = item.GymId })"
                                            style="background-color: aliceblue; color: black;">

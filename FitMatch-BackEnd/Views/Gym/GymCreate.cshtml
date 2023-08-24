@@ -163,26 +163,7 @@
         <div class="row g-4">
             <div class="col-sm-12">
                 <div class="bg-secondary rounded h-100 p-4">
-                    <form asp-action="GymCreate" class="" style="padding: 50px;">
- @*                       <div class="col-sm-12  col-xl-6 mb-3 d-flex ps">
-                            <div class="col-2">
-                                <label for="inputname" class="col-form-label">地區</label>
-                            </div>
-                            <div class="col-10 d-flex">
-                                <select class="form-select mb-3 me-4" aria-label="Default select example">
-                                    <option disabled selected>選擇城市</option>
-                                    <option value="1">台北</option>
-                                    <option value="2">台中</option>
-                                    <option value="3">台南</option>
-                                </select>
-                                <select class="form-select mb-3 ms-4" aria-label="Default select example">
-                                    <option disabled selected>選擇區域</option>
-                                    <option value="1">東區</option>
-                                    <option value="2">北區</option>
-                                    <option value="3">南區</option>
-                                </select>
-                            </div>
-                        </div>*@
+                    <form asp-action="GymCreate" enctype="multipart/form-data" class="" style="padding: 50px;">
 
 
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
@@ -222,13 +203,13 @@
 
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
                             <div class="col-2">
-                                <label for="inputname" class="col-form-label">封面照片</label>
+                                <label for="FileToUpload" class="col-form-label">封面照片</label>
                             </div>
                             <div class="col-10">
                                 <div class="upload-container">
-                                    <label for="upload" class="label-upload">
+                                    <label for="FileToUpload" class="label-upload">
                                         <div class="icon">+</div>
-                                        <input type="file" id="upload" class="upload-input" accept="image/*">
+                                        <input asp-for="FileToUpload" type="file" id="FileToUpload" class="upload-input" accept="image/*">
                                     </label>
                                     <img id="preview" src="" alt="Image Preview">
                                 </div>
@@ -286,14 +267,13 @@
                                 <label for="floatingTextarea">請輸入場館簡介</label>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-xl-6 pt-5 d-flex" style="margin-left: 55px;">
-                            <div class="col-4 text-center">
-                                <button type="submit" class="btn btn-primary ">新增</button>
-                            </div>
-                            <div class="col-4 text-start">
-                                <a asp-action="Gym" class="btn btn-outline-success ">取消</a>
+                        <div class="col-sm-12 col-xl-6 pt-5 d-flex">
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-primary" style="margin-right:130px">新增</button>  
+                                <a asp-action="Gym" class="btn btn-outline-success">取消</a>
                             </div>
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -308,7 +288,7 @@
     場館新增成功！目前處於<span id="currentStatus">待審核</span>的狀態。
 </div>
 <script>
-    const uploadInput = document.getElementById('upload');
+    const uploadInput = document.getElementById('FileToUpload');
     const preview = document.getElementById('preview');
     const icon = document.querySelector('.icon');
 

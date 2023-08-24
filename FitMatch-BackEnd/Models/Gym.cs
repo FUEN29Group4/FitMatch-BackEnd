@@ -25,4 +25,8 @@ public partial class Gym
     public bool? Approved { get; set; }
     public string? GymDescription { get; set; }
 
+    [NotMapped] // <-- Add this attribute
+    public IFormFile FileToUpload { get; set; }
+    public string? Photo { get; set; }
+ 
 }

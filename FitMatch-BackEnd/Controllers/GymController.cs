@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using FitMatch_BackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
+using Microsoft.AspNetCore.Mvc;
+
 
 namespace FitMatch_BackEnd.Controllers
 {
@@ -56,13 +59,6 @@ namespace FitMatch_BackEnd.Controllers
 
 
 
-        //public IActionResult GymEdit()
-        //{
-
-        //    IEnumerable<Gym> datas = from p in _context.Gyms select p;
-        //    return View(datas);
-        //}
-
         public IActionResult GymCreate()
         {
             return View(new Gym());
@@ -70,10 +66,19 @@ namespace FitMatch_BackEnd.Controllers
 
 
         [HttpPost]
-        public IActionResult GymCreate(Gym p)
+        public async Task<IActionResult> GymCreate(Gym p) // 注意這裡有 async 和 Task<IActionResult>
         {
             if (ModelState.IsValid)
             {
+
+                // 上傳文件代碼
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/gym", p.FileToUpload.FileName);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await p.FileToUpload.CopyToAsync(stream); // 這裡使用了 await，所以需要標記方法為 async
+                }
+
+                p.Photo = p.FileToUpload.FileName;
                 // 讀取表單中的 "Approved" 值
                 string approvedValue = Request.Form["Approved"].ToString();
 
@@ -105,7 +110,7 @@ namespace FitMatch_BackEnd.Controllers
                 p.GymDescription = Request.Form["GymDescription"];
 
                 _context.Gyms.Add(p);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 ViewData["FormSubmitted"] = true;
                 // 重新傳遞模型到當前視圖以顯示通知
