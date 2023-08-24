@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class ArticleController : Controller
+    public class ArticleController : SuperController
     {
         private readonly FitMatchDbContext _context;
 

@@ -5,7 +5,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class TrainerController : Controller
+    public class TrainerController : SuperController
     {
         //TODO: 換頁要確認
         //TODO: 全選刪除還沒做

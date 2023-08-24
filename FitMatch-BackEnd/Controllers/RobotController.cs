@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class RobotController : Controller
+    public class RobotController : SuperController
     {
         public IActionResult Index()
         {
