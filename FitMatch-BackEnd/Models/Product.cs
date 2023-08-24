@@ -1,26 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace FitMatch_BackEnd.Models;
 
 public partial class Product
 {
-    public int ProductId { get; set; }//產品編號
+    [DisplayName("商品編號")]
+    public int ProductId { get; set; }//商品編號
 
-    public string? ProductName { get; set; }//產品名稱
+    [DisplayName("商品名稱")]
+    public string? ProductName { get; set; }//商品名稱
 
-    public string? ProductDescription { get; set; }//產品描述
+    [DisplayName("商品描述")]
+    public string? ProductDescription { get; set; }//商品描述
 
+    [DisplayName("照片")]
     public string? Photo { get; set; }//照片
 
+    [DisplayName("價格")]
     public int? Price { get; set; }//價格
 
+    [DisplayName("商品類別編號")]
     public int? TypeId { get; set; }//商品類別編號
 
+    [DisplayName("商品庫存")]
     public int? ProductInventory { get; set; }//商品庫存
-    
+
+    [DisplayName("審核通過與否")]
     public bool? Approved { get; set; }//審核通過與否
 
+    [DisplayName("狀態")]
     public bool? Status { get; set; }
 
     public virtual ICollection<MemberFavorite> MemberFavorites { get; set; } = new List<MemberFavorite>();

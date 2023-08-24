@@ -49,6 +49,8 @@ public partial class OrderDetail
     [DisplayName("出貨時間")]
     public DateTime? SendItemTime { get; set; }//出貨時間
 
+    //[DisplayName("地址")]
+    //public DateTime? Address { get; set; }
 
     public virtual Order? Order { get; set; }
 

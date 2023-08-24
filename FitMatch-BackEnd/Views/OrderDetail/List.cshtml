@@ -120,50 +120,7 @@
         </div>
     </nav>
     <!-- Navbar End -->
-    <!-- 篩選列開始 -->
-    <div class="container-fluid pt-4 px-4">
-        <nav class="navbar navbar-expand-lg bg-white rounded">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <div class="d-flex align-items-center">
-                    <div class="col-3 d-flex align-items-center" style="margin-left: 20px;">
-                        產品類別:
-                        <div class="ms-2 me-2 flex-grow-1">
-                            <select class="form-select" id="citySelect"
-                                    aria-label="Floating label select example">
-                                <option selected disabled hidden>請選擇類別</option>
-                                <option value="1">雞胸肉</option>
-                                <option value="2">乳清蛋白</option>
-                                <option value="3">保健品</option>
-                            </select>
-                        </div>
-                    </div>
-
-
-                    <div class="col-4 d-flex align-items-center" style="margin-left: 765px;">
-                        搜尋:
-                        <div class=" ms-2 me-2 flex-grow-1">
-                            <input class=" form-control" type="text" placeholder="請輸入關鍵字" aria-label="請輸入關鍵字"
-                                   id="searchInput">
-                        </div>
-                        <a href="">
-                            <i class="fa-solid fa-magnifying-glass fa-xl"></i>
-                        </a>
-                        <button class="btn btn-outline-success " style="margin-top: 0px; margin-left: 10px;"
-                                type="submit">
-                            清空
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
-
-    <!-- 篩選列結束 -->
+    
     <!-- 管理列表開始 -->
     <div class="container-fluid pt-4 px-4">
         <div class="bg-white text-center rounded p-4">
@@ -180,7 +137,7 @@
                             <th scope="col" style="min-width: 80px;">@Html.DisplayNameFor(model => model.Photo)</th>
                             <th scope="col" style="min-width: 80px;">@Html.DisplayNameFor(model => model.Quantity)</th>
                             <th scope="col" style="min-width: 80px;">@Html.DisplayNameFor(model => model.Price)</th>
-                        @*     <th scope="col" style="min-width: 80px;">商品類別編號</th>
+                            @*     <th scope="col" style="min-width: 80px;">商品類別編號</th>
                             <th scope="col" style="min-width: 80px;">產品名稱</th>
                             <th scope="col" style="min-width: 80px;">照片</th>
                             <th scope="col" style="min-width: 80px;">數量</th>
@@ -194,8 +151,8 @@
                             {
                                 count++;
                                 <tr class="data-row">
-                                  @*  <td><input class="form-check-input" type="checkbox"></td>*@
-                             
+                                    @*  <td><input class="form-check-input" type="checkbox"></td>*@
+
 
                                     <td>@Html.DisplayFor(modelItem => item.ProductId)</td>
                                     <td>@Html.DisplayFor(modelItem => item.TypeID)</td>
@@ -204,14 +161,14 @@
                                     <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Price)</td>
                                     @*<td>
-                                        <a class="btn btn-sm btn-secondary" href="@Url.Action(" List", "OrderDetail" , new { id=item.OrderId })"
-                                           style="background-color: aliceblue; color: black;">
-                                            <i class="fa-regular fa-pen-to-square">編輯</i>
-                                        </a>
-                                        <a class="btn btn-sm btn-primary" href="@Url.Action(" Delete", "Order" , new { id=item.OrderId })">
-                                            <i class="fa-solid fa-trash-can">刪除</i>
-                                        </a>
-                                    </td>*@
+                            <a class="btn btn-sm btn-secondary" href="@Url.Action(" List", "OrderDetail" , new { id=item.OrderId })"
+                            style="background-color: aliceblue; color: black;">
+                            <i class="fa-regular fa-pen-to-square">編輯</i>
+                            </a>
+                            <a class="btn btn-sm btn-primary" href="@Url.Action(" Delete", "Order" , new { id=item.OrderId })">
+                            <i class="fa-solid fa-trash-can">刪除</i>
+                            </a>
+                            </td>*@
                                 </tr>
                             }
                         }
@@ -223,15 +180,24 @@
                 <div class="rounded-top p-4">
                     <div class="Oredercontainer">
                         <div class="d-flex align-items-end justify-content-center">
-                            <ul class="Orderaddress"
-                                style="list-style-type: none; padding-left: 0; text-align: left;margin-top: -10px;margin-left: -1210px;">
-                                <li>訂單時間:2023/08/15 09:53</li>
-                                <li>付款時間:2023/08/15 09:53</li>
-                                <li>收件人:黃飛鴻</li>
-                                <li>收件電話:09124213412</li>
-                                <li>收件地址:7-11 國華門市 台南市中西區國華街3號</li>
-                                <li>訂單總金額:25742</li>
-                            </ul>
+                            @{
+                                foreach (var item in Model)
+                                {
+                                    <ul class="Orderaddress"
+                                        style="list-style-type: none; padding-left: 0; text-align: left;margin-top: -10px;margin-left: -1210px;">
+
+                                        <li>訂單時間:@Html.DisplayFor(modelItem => item.OrderTime)</li>
+                                        <li>付款時間:@Html.DisplayFor(modelItem => item.PayTime)</li>
+                                        <li>寄貨時間:@Html.DisplayFor(modelItem => item.SendItemTime)</li>
+                                        <li>收件人:@Html.DisplayFor(modelItem => item.MemberName)</li>
+                                        <li>收件電話:@Html.DisplayFor(modelItem => item.Phone)</li>
+                                       @* <li>收件地址:@Html.DisplayFor(modelItem => item.Address)</li>  *@
+                                        <li>訂單總金額:@Html.DisplayFor(modelItem => item.TotalPrice)</li>
+
+                                    </ul>
+                                    break;
+                                }
+                            }
                         </div>
                     </div>
                 </div>

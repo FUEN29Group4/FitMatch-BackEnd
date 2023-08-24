@@ -21,24 +21,10 @@ namespace FitMatch_BackEnd.Controllers
         //***篩選功能***
 
         //取得商品管理頁面  ***上架狀態要修***圖片未抓取***預設這頁只能放五筆資料***
-        public IActionResult List(CKeywordViewModel vm)
+        public IActionResult List(CKeywordViewModel vm, int currentPage = 1)
         {
             FitMatchDbContext db = new FitMatchDbContext();
             IEnumerable<Product> datas = db.Products;
-            ////預設這頁只能放五筆資料
-            //int itemsPerPage = 5;
-            //IEnumerable<Product> datas = from p in _context.Products select p;
-
-            //// 根據當下頁碼獲取datas
-            //datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
-
-            //int totalDataCount = _context.Products.Count();
-            //int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
-
-            //ViewBag.TotalPages = totalPages;
-            //ViewBag.CurrentPage = currentPage;
-            //return View(datas);
-
 
 
             if (vm.txtKeyword != null || vm.StatusFilter != null || vm.ProductFilter != null)
@@ -52,9 +38,6 @@ namespace FitMatch_BackEnd.Controllers
                             break;
                         case "下架":
                             datas = db.Products.Where(t => t.Status == false);
-                            break;
-                        case "待審核":
-                            datas = db.Products.Where(t => t.Status == null);
                             break;
                     }
                     if (!string.IsNullOrEmpty(vm?.ProductFilter))
@@ -92,13 +75,18 @@ namespace FitMatch_BackEnd.Controllers
                         select p;
             }
 
+            int itemsPerPage = 5;
 
-            //if (string.IsNullOrEmpty(vm.txtKeyword))
-            //    datas = from p in db.Products
-            //            select p;
-            //else
-            //    datas = db.Products.Where(t => t.ProductName.Contains(vm.txtKeyword));
+            // 根據當下頁碼獲取datas
+            datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+            int totalDataCount = _context.Products.Count();
+            int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = currentPage;
             return View(datas);
+
         }
 
         public class CKeywordViewModel
