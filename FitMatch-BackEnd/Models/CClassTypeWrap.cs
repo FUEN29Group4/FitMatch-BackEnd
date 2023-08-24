@@ -36,11 +36,6 @@
             set { _classtype.Introduction = value; }
         }
 
-        public DateTime? CreateAt
-        {
-            get { return _classtype.CreateAt; }
-            set { _classtype.CreateAt = value; }
-        }
         public bool? Status
         {
             get { return _classtype.Status; }

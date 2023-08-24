@@ -86,7 +86,6 @@ namespace FitMatch_BackEnd.Controllers
                 custDb.Status = string.IsNullOrEmpty(Request.Form["Status"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Status"]);
                 custDb.ClassName = p.ClassName;
                 custDb.Introduction = p.Introduction;
-                custDb.CreateAt = p.CreateAt;
 
 
                 db.ClassTypes.Add(custDb);
@@ -149,7 +148,6 @@ namespace FitMatch_BackEnd.Controllers
                 custDb.Status = string.IsNullOrEmpty(Request.Form["Status"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Status"]);
                 custDb.ClassName = prodIn.ClassName;
                 custDb.Introduction = prodIn.Introduction;
-                custDb.CreateAt = prodIn.CreateAt;
 
 
                 db.SaveChanges();

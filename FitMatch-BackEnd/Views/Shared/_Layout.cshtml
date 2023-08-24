@@ -72,7 +72,7 @@
                                 <i class="fa-solid fa-calendar-check me-2"></i>媒合作業管理
                             </a>
                             <div class="dropdown-menu bg-transparent border-0">
-                                <a href="match_courses.html" class="dropdown-item">課程管理</a>
+                            <a class="dropdown-item" asp-controller="ClassType" asp-action="List">課程管理</a>
                             <a class="dropdown-item" asp-controller="Gym" asp-action="Gym">場館管理</a>
                                 <a href="match.html" class="dropdown-item">預約管理</a>
                             </div>
@@ -105,8 +105,8 @@
                                 <i class="far fa-file-alt me-2"></i>健康餐管理
                             </a>
                             <div class="dropdown-menu bg-transparent border-0">
-                                <a href="restaurant.html" class="dropdown-item">餐廳管理列表</a>
-                                <a href="restaurant_edit.html" class="dropdown-item">餐廳上架</a>
+                            <a class="dropdown-item" asp-controller="Restaurant" asp-action="List">餐廳管理列表</a>
+                            <a class="dropdown-item" asp-controller="Restaurant" asp-action="Create">餐廳上架</a>
                             </div>
                         </div>
 
