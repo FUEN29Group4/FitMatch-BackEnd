@@ -13,7 +13,7 @@ namespace FitMatch_BackEnd.Controllers
         }
 
 
-        public IActionResult List(CKeywordViewModel vm)
+        public IActionResult List(CKeywordViewModel vm, int currentPage = 1)
         {
             FitMatchDbContext db = new FitMatchDbContext();
             IQueryable<ClassType> datas = db.ClassTypes;
@@ -53,6 +53,19 @@ namespace FitMatch_BackEnd.Controllers
                 datas = from p in db.ClassTypes
                         select p;
             }
+            //預設一頁只能有5筆資料
+            int itemsPerPage = 5;
+
+
+            // 根據當下頁碼獲取datas
+            datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+            int totalDataCount = db.ClassTypes.Count();
+            int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = currentPage;
+
 
             return View(datas);
         }

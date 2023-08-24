@@ -19,19 +19,8 @@ namespace FitMatch_BackEnd.Controllers
 
             FitMatchDbContext db = new FitMatchDbContext();
             IQueryable<Restaurant> datas = db.Restaurants;
-            //預設一頁只能有5筆資料
-            int itemsPerPage = 5;
 
 
-            // 根據當下頁碼獲取datas
-            datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
-
-            int totalDataCount = db.Trainers.Count();
-            int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
-
-            ViewBag.TotalPages = totalPages;
-            ViewBag.CurrentPage = currentPage;
-  
 
             if (vm.txtKeyword != null || vm.StatusFilter != null || vm.RegionFilter != null)
             {
@@ -83,7 +72,18 @@ namespace FitMatch_BackEnd.Controllers
                 datas = from p in db.Restaurants
                         select p;
             }
+            //預設一頁只能有5筆資料
+            int itemsPerPage = 5;
 
+
+            // 根據當下頁碼獲取datas
+            datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+            int totalDataCount = db.Restaurants.Count();
+            int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = currentPage;
 
             return View(datas);
 
@@ -99,7 +99,7 @@ namespace FitMatch_BackEnd.Controllers
         {
             FitMatchDbContext db = new FitMatchDbContext();
             Restaurant custDb = new Restaurant();
-            DateTime dateTime = DateTime.Now;   
+            DateTime dateTime = DateTime.Now;
 
             if (p != null)
             {
@@ -201,10 +201,6 @@ namespace FitMatch_BackEnd.Controllers
             public string RegionFilter { get; set; }
             public string StatusFilter { get; set; }  // 使用 string
         }
-
-
-
-
     }
 }
 
