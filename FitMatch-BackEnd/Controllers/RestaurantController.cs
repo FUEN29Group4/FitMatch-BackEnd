@@ -86,6 +86,7 @@ namespace FitMatch_BackEnd.Controllers
         {
             FitMatchDbContext db = new FitMatchDbContext();
             Restaurant custDb = new Restaurant();
+            DateTime dateTime = DateTime.Now;   
 
             if (p != null)
             {
@@ -108,7 +109,7 @@ namespace FitMatch_BackEnd.Controllers
                 custDb.Phone = p.Phone;
                 custDb.Address = p.Address;
                 custDb.RestaurantsDescription = p.RestaurantsDescription;
-                custDb.CreateAt = p.CreateAt;
+                custDb.CreateAt = dateTime;
 
                 db.Restaurants.Add(custDb);
                 db.SaveChanges();
@@ -174,7 +175,6 @@ namespace FitMatch_BackEnd.Controllers
                 custDb.Phone = prodIn.Phone;
                 custDb.Address = prodIn.Address;
                 custDb.RestaurantsDescription = prodIn.RestaurantsDescription;
-                custDb.CreateAt = prodIn.CreateAt;
 
                 db.SaveChanges();
             }
