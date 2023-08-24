@@ -20,11 +20,25 @@ namespace FitMatch_BackEnd.Controllers
 
         //***篩選功能***
 
-        //取得商品管理頁面  ***上架狀態要修***圖片未抓取***
+        //取得商品管理頁面  ***上架狀態要修***圖片未抓取***預設這頁只能放五筆資料***
         public IActionResult List(CKeywordViewModel vm)
         {
             FitMatchDbContext db = new FitMatchDbContext();
             IEnumerable<Product> datas = db.Products;
+            ////預設這頁只能放五筆資料
+            //int itemsPerPage = 5;
+            //IEnumerable<Product> datas = from p in _context.Products select p;
+
+            //// 根據當下頁碼獲取datas
+            //datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+            //int totalDataCount = _context.Products.Count();
+            //int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+
+            //ViewBag.TotalPages = totalPages;
+            //ViewBag.CurrentPage = currentPage;
+            //return View(datas);
+
 
 
             if (vm.txtKeyword != null || vm.StatusFilter != null || vm.ProductFilter != null)
@@ -133,9 +147,9 @@ namespace FitMatch_BackEnd.Controllers
             Product prod = db.Products.FirstOrDefault(t => t.ProductId == id);
             if (prod == null)
                 return RedirectToAction("List");
-            
+
             return View(prod);
-          
+
         }
         [HttpPost]
         public IActionResult Edit(Product prodIn)

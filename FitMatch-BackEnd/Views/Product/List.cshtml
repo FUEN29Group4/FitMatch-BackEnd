@@ -208,7 +208,7 @@
                                     <td>@Html.DisplayFor(modelItem => item.TypeId)</td>
 
                                     <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
-                                    <td><img src="~/img/商城/@item.Photo" width="110" height="70" /></td>
+                                    <td><img src="@("/img/gym/" + item.Photo)" width="110" height="70" /></td>
                                     <td class="box">@Html.DisplayFor(modelItem => item.ProductDescription)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Price)</td>
                                     <td>@Html.DisplayFor(modelItem => item.ProductInventory)</td>
@@ -232,36 +232,27 @@
             </div>
 
             <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
-                <!-- 全選區塊開始 -->
-                <div class="d-flex justify-content-between">
-                    <div class="form-check d-flex align-items-center">
-                        <input class="form-check-input me-2" type="checkbox" id="selectAll">
-                        <label class="form-check-label" for="selectAll">全選</label>
-                        <button type="button" class="btn btn-primary mx-lg-2">刪除</button>
-                    </div>
-                    <!-- Pagination goes here -->
-                </div>
-                <!-- 全選區塊END-->
+               
                 <!-- 換頁區塊開始 -->
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link previous-page" data-page-type="previous" href="#">
+                        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                            <a class="page-link previous-page" data-page-type="previous" href="@Url.Action("Trainer", new { currentPage = ViewBag.CurrentPage - 1 })">
                                 <i class="fa-solid fa-chevron-left"></i>
                             </a>
                         </li>
-                        <li class="page-item active">
-                            <a class="page-link" id="page-1" data-page="1" data-page-type="number" href="#">
-                                1
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" id="page-2" data-page="2" data-page-type="number" href="#">
-                                2
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link next-page" data-page-type="next" href="#">
+
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("Trainer", new { currentPage = i })">
+                                    @i
+                                </a>
+                            </li>
+                        }
+
+                        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                            <a class="page-link next-page" data-page-type="next" href="@Url.Action("Trainer", new { currentPage = ViewBag.CurrentPage + 1 })">
                                 <i class="fa-solid fa-chevron-right"></i>
                             </a>
                         </li>
@@ -277,31 +268,16 @@
 
 </div>
 <!-- Content End -->
-<!-- JavaScript Libraries -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="lib/chart/chart.min.js"></script>
-<script src="lib/easing/easing.min.js"></script>
-<script src="lib/waypoints/waypoints.min.js"></script>
-<script src="lib/owlcarousel/owl.carousel.min.js"></script>
-<script src="lib/tempusdominus/js/moment.min.js"></script>
-<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-<!-- Template Javascript -->
-<script src="js/main.js"></script>
+
+
+
 <!-- JQ -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
 
-    //全選功能
-    document.getElementById("selectAll").addEventListener("change", function () {
-        let checkboxes = document.querySelectorAll(".table .form-check-input");
-        for (let checkbox of checkboxes) {
-            checkbox.checked = this.checked;
-        }
-    });
+   
     // 換頁效果
     document.addEventListener("DOMContentLoaded", function () {
         const table = document.querySelector(".table");
@@ -366,6 +342,4 @@
             });
         }
     });
-
-
 </script>
