@@ -268,9 +268,9 @@
                                 <legend class="col-form-label pt-3 pe-4">場館簡介</legend>
                             </div>
                             <div class="col-10 form-floating pt-1">
-                                <textarea class="form-control" placeholder="Leave a comment here"
+                                <textarea asp-for="GymDescription" class="form-control" placeholder="Leave a comment here"
                                           id="floatingTextarea" style="height: 150px;"></textarea>
-                                <label for="floatingTextarea">請輸入課程簡介</label>
+                                <span asp-validation-for="GymDescription" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-sm-12 col-xl-6 pt-5 d-flex" style="margin-left: 110px;">

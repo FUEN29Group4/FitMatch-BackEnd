@@ -101,6 +101,9 @@ namespace FitMatch_BackEnd.Controllers
                     }
                 }
 
+                // 讀取表單中的 "GymDescription" 值
+                p.GymDescription = Request.Form["GymDescription"];
+
                 _context.Gyms.Add(p);
                 _context.SaveChanges();
 
@@ -155,6 +158,9 @@ namespace FitMatch_BackEnd.Controllers
 
                 // 更新 Approved 狀態
                 custDb.Approved = string.IsNullOrEmpty(Request.Form["Approved"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Approved"]);
+
+                // 更新 GymDescription
+                custDb.GymDescription = custIn.GymDescription;
 
                 // 更新 OpentimeStart 和 OpentimeEnd
                 if (int.TryParse(Request.Form["OpentimeStart"], out int opentimeStartHour))

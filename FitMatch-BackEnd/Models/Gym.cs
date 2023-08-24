@@ -23,4 +23,6 @@ public partial class Gym
     public DateTime? OpentimeEnd { get; set; }
 
     public bool? Approved { get; set; }
+    public string? GymDescription { get; set; }
+
 }
