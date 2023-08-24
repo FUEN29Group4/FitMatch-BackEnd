@@ -40,7 +40,8 @@ namespace FitMatch_BackEnd.Controllers
                 HttpContext.Session.SetString(CDictionary.SK_LOGINED_USER, json);
                 return RedirectToAction("Index");
             }
-            return PartialView();
+            ModelState.AddModelError("", "");
+            return PartialView("Login",ModelState);
         }
 
 
