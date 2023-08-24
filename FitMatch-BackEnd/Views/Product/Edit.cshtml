@@ -148,21 +148,31 @@
 
                     <form asp-action="Edit" class="" style="padding: 50px;">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input type="hidden" name="ProductId" value="@Model.ProductId" />
-                        <div class="row mb-3">
-                        <label asp-for="TypeId" class="col-sm-1 col-form-label-ADD">商品類別</label>
-                        <div class="col-sm-10">
-                        <select class="form-select1 custom-form-control" id="validationServerCategory"
-                        required aria-label="select example">
-                        <option value="">請選擇</option>
-                        <option value="1">雞胸肉</option>
-                        <option value="2">保健品</option>
-                        <option value="3">乳清蛋白</option>
-                        </select>
-                        <div class="invalid-feedback">Example invalid select feedback</div>
-                        <span asp-validation-for="TypeId" class="text-danger"></span>
+
+                        <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
+                            <div class="col-2">
+                                <label asp-for="ProductId" class="col-form-label" t1>商品編號</label>
+                            </div>
+                            <div class="col-10">
+                                <label asp-for="ProductId" class="col-form-label  t1" value="MemberId"> @Model.ProductId</label>
+                            </div>
                         </div>
+                        @* <input type="hidden" name="ProductId" value="@Model.ProductId" />  *@                    
+
+                        <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
+                            <div class="col-1">
+                                <label for="TypeId" class="me-2">商品類別:</label>
+                            </div>
+                            <div class="col-4">
+                                <select asp-for="TypeId" name="ProductFilter" class="form-select" style="background-color: #fff;" aria-label="商品類別">
+                                    <option value="" selected disabled hidden>請選擇商品類別</option>
+                                    <option value="1">雞胸肉</option>
+                                    <option value="2">乳清蛋白</option>
+                                    <option value="3">保健品</option>
+                                </select>
+                            </div>
                         </div>
+
 
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">

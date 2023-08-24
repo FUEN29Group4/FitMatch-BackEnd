@@ -6,7 +6,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class TrainerController : Controller
+    public class TrainerController : SuperController
     {
         //TODO: 全選刪除還沒做
         //TODO: 照片、合作場館未完成
@@ -23,6 +23,7 @@ namespace FitMatch_BackEnd.Controllers
         //跟教練資料連結然後呈現出views
         public IActionResult Trainer(int currentPage = 1, string txtKeyword = null)
         {
+            //預設一頁只能有5筆資料
             int itemsPerPage = 5;
             IEnumerable<Trainer> datas = from p in _context.Trainers select p;
             // 如果有搜尋關鍵字
@@ -38,7 +39,7 @@ namespace FitMatch_BackEnd.Controllers
             //把選擇的狀態存進來
             //ViewBag.TrainerApproved = trainerapproved;
 
-            // 根據當下頁碼獲取數據
+            // 根據當下頁碼獲取datas
             datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
 
             int totalDataCount = _context.Trainers.Count();

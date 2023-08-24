@@ -5,10 +5,13 @@ using System.Threading.Tasks;
 using FitMatch_BackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
+using Microsoft.AspNetCore.Mvc;
+
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class GymController : Controller
+    public class GymController : SuperController
     {
         private readonly FitMatchDbContext _context;
 
@@ -19,20 +22,19 @@ namespace FitMatch_BackEnd.Controllers
         }
 
         //跟場館資料連結然後呈現出views
-        public IActionResult Gym(CKeywordViewModel vm)
+        public IActionResult Gym(CKeywordViewModel vm, int currentPage = 1)
         {
             IQueryable<Gym> gyms = _context.Gyms;
 
+            // Search and filter logic
             if (!string.IsNullOrEmpty(vm?.txtKeyword))
             {
                 gyms = gyms.Where(t => t.GymName.Contains(vm.txtKeyword));
             }
-
             if (!string.IsNullOrEmpty(vm?.RegionFilter))
             {
                 gyms = gyms.Where(t => t.Address.Contains(vm.RegionFilter));
             }
-
             if (!string.IsNullOrEmpty(vm?.StatusFilter))
             {
                 switch (vm.StatusFilter)
@@ -49,6 +51,15 @@ namespace FitMatch_BackEnd.Controllers
                 }
             }
 
+            // Pagination logic
+            int itemsPerPage = 5;
+            int totalDataCount = gyms.Count();
+            int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+
+            gyms = gyms.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = currentPage;
 
             return View(gyms.ToList());
         }
@@ -56,12 +67,6 @@ namespace FitMatch_BackEnd.Controllers
 
 
 
-        //public IActionResult GymEdit()
-        //{
-
-        //    IEnumerable<Gym> datas = from p in _context.Gyms select p;
-        //    return View(datas);
-        //}
 
         public IActionResult GymCreate()
         {
@@ -70,10 +75,52 @@ namespace FitMatch_BackEnd.Controllers
 
 
         [HttpPost]
-        public IActionResult GymCreate(Gym p)
+        public async Task<IActionResult> GymCreate(Gym p) // 注意這裡有 async 和 Task<IActionResult>
         {
+
+            if (p.FileToUpload == null)
+            {
+                ModelState.Remove("FileToUpload");
+            }
+
             if (ModelState.IsValid)
             {
+
+                if (p.FileToUpload != null)
+                {
+                    // 檢查 MIME 類型
+                    var allowedMimeTypes = new[] { "image/jpeg", "image/png", "image/gif" };
+                    if (!allowedMimeTypes.Contains(p.FileToUpload.ContentType))
+                    {
+                        ModelState.AddModelError("FileToUpload", "只允許 JPEG, PNG 或 GIF 格式的文件");
+                        return View(p);
+                    }
+
+                    // 檢查文件大小
+                    if (p.FileToUpload.Length > 10 * 1024 * 1024)  // 10 MB
+                    {
+                        ModelState.AddModelError("FileToUpload", "文件大小不能超過 10 MB");
+                        return View(p);
+                    }
+
+
+                    // 生成一個唯一的文件名（這裡使用了 Guid，您也可以使用其他方式）
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + p.FileToUpload.FileName;
+
+                    // 確定保存位置
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/gym", uniqueFileName);
+
+                    // 保存文件
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await p.FileToUpload.CopyToAsync(stream);
+                    }
+
+                    // 保存新文件名到數據庫
+                    p.Photo = uniqueFileName;
+                }
+
+
                 // 讀取表單中的 "Approved" 值
                 string approvedValue = Request.Form["Approved"].ToString();
 
@@ -101,19 +148,18 @@ namespace FitMatch_BackEnd.Controllers
                     }
                 }
 
+                // 讀取表單中的 "GymDescription" 值
+                p.GymDescription = Request.Form["GymDescription"];
+
                 _context.Gyms.Add(p);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 ViewData["FormSubmitted"] = true;
                 // 重新傳遞模型到當前視圖以顯示通知
-                return View(p);
+                return RedirectToAction("Gym");
             }
             return View(p);
         }
-
-
-
-
 
 
 
@@ -143,7 +189,7 @@ namespace FitMatch_BackEnd.Controllers
         }
 
         [HttpPost]
-        public IActionResult GymEdit(Gym custIn)
+        public async Task<IActionResult> GymEdit(Gym custIn)
         {
             Gym custDb = _context.Gyms.FirstOrDefault(t => t.GymId == custIn.GymId);
 
@@ -155,6 +201,9 @@ namespace FitMatch_BackEnd.Controllers
 
                 // 更新 Approved 狀態
                 custDb.Approved = string.IsNullOrEmpty(Request.Form["Approved"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Approved"]);
+
+                // 更新 GymDescription
+                custDb.GymDescription = custIn.GymDescription;
 
                 // 更新 OpentimeStart 和 OpentimeEnd
                 if (int.TryParse(Request.Form["OpentimeStart"], out int opentimeStartHour))
@@ -179,7 +228,47 @@ namespace FitMatch_BackEnd.Controllers
                     custDb.OpentimeEnd = null;
                 }
 
-                _context.SaveChanges();
+                if (custIn.FileToUpload != null)
+                {
+                    // 檢查文件大小（以字節為單位，這裡限制為 5MB）
+                    if (custIn.FileToUpload.Length > 10 * 1024 * 1024)
+                    {
+                        // 文件過大
+                        ModelState.AddModelError("FileToUpload", "文件大小不能超過 10 MB.");
+                        return View(custIn);
+                    }
+
+                    // 檢查MIME類型
+                    string[] permittedExtensions = { ".jpg", ".jpeg", ".png", ".gif" };
+                    string fileExtension = Path.GetExtension(custIn.FileToUpload.FileName).ToLowerInvariant();
+                    if (string.IsNullOrEmpty(fileExtension) || !permittedExtensions.Contains(fileExtension))
+                    {
+                        // 非法文件類型
+                        ModelState.AddModelError("FileToUpload", "只允許 JPEG, PNG 或 GIF 格式的文件");
+                        return View(custIn);
+                    }
+
+                    // 生成一個唯一的檔名
+                    string uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
+
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/gym", uniqueFileName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await custIn.FileToUpload.CopyToAsync(stream);
+                    }
+
+                    // 刪除舊照片（如果需要）
+                    if (!string.IsNullOrEmpty(custDb.Photo))
+                    {
+                        var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/gym", custDb.Photo);
+                        System.IO.File.Delete(oldPath);
+                    }
+
+                    custDb.Photo = uniqueFileName;
+                }
+
+                await _context.SaveChangesAsync();
             }
             return RedirectToAction("Gym");
         }
@@ -194,7 +283,6 @@ namespace FitMatch_BackEnd.Controllers
             public string RegionFilter { get; set; }
             public string StatusFilter { get; set; }  // 使用 string
         }
-
 
 
 
