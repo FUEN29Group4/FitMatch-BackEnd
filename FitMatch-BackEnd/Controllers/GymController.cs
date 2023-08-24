@@ -29,8 +29,9 @@ namespace FitMatch_BackEnd.Controllers
             // Search and filter logic
             if (!string.IsNullOrEmpty(vm?.txtKeyword))
             {
-                gyms = gyms.Where(t => t.GymName.Contains(vm.txtKeyword));
+                gyms = gyms.Where(t => EF.Functions.Like(t.Address, $"%{vm.txtKeyword}%"));
             }
+
             if (!string.IsNullOrEmpty(vm?.RegionFilter))
             {
                 gyms = gyms.Where(t => t.Address.Contains(vm.RegionFilter));
@@ -148,14 +149,30 @@ namespace FitMatch_BackEnd.Controllers
                     }
                 }
 
-                // 讀取表單中的 "GymDescription" 值
-                p.GymDescription = Request.Form["GymDescription"];
+                // 處理營業開始時間
+                if (int.TryParse(Request.Form["startTime"], out int startTime))
+                {
+                    p.OpentimeStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, startTime, 0, 0);
+                }
+                else
+                {
+                    p.OpentimeStart = null;
+                }
 
+                // 處理營業結束時間
+                if (int.TryParse(Request.Form["endTime"], out int endTime))
+                {
+                    p.OpentimeEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, endTime, 0, 0);
+                }
+                else
+                {
+                    p.OpentimeEnd = null;
+                }
+
+                // 將對象添加到數據庫
                 _context.Gyms.Add(p);
                 await _context.SaveChangesAsync();
 
-                ViewData["FormSubmitted"] = true;
-                // 重新傳遞模型到當前視圖以顯示通知
                 return RedirectToAction("Gym");
             }
             return View(p);
