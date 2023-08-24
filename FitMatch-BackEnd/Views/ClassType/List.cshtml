@@ -192,11 +192,11 @@
                                     </td>
                                     <td>@(item.Status == true ? "上架" : (item.Status == false ? "下架" : "待審核"))</td>
                                     <td>
-                                        <a class="btn btn-sm btn-secondary" href="@Url.Action("Edit", "ClassType", new { id = item.ClassTypeId })"
+                                        <a class="btn btn-secondary" href="@Url.Action("Edit", "ClassType", new { id = item.ClassTypeId })"
                                            style="background-color: aliceblue; color: black;">
                                             <i class="fa-regular fa-pen-to-square">編輯</i>
                                         </a>
-                                        <a class="btn btn-sm btn-primary" href="@Url.Action("Delete", "ClassType", new { id = item.ClassTypeId })">
+                                        <a class="btn btn-primary" href="@Url.Action("Delete", "ClassType", new { id = item.ClassTypeId })">
                                             <i class="fa-solid fa-trash-can">刪除</i>
                                         </a>
                                     </td>
