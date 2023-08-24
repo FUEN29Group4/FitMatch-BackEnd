@@ -281,13 +281,14 @@
                 </div>
                 <!-- 全選區塊END-->
                 <!-- 換頁區塊開始 -->
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link previous-page" data-page-type="previous" href="#">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </a>
-                        </li>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                                <a class="page-link previous-page" data-page-type="previous" href="@Url.Action("Trainer", new { currentPage = ViewBag.CurrentPage - 1 })">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </a>
+                            </li>
+
                             @for (int i = 1; i <= ViewBag.TotalPages; i++)
                             {
                                 <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
@@ -297,23 +298,13 @@
                                 </li>
                             }
 
-                       @* <li class="page-item active">
-                            <a class="page-link" id="page-1" data-page="1" data-page-type="number" href="#">
-                                1
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" id="page-2" data-page="2" data-page-type="number" href="#">
-                                2
-                            </a>
-                        </li>*@
-                        <li class="page-item">
-                            <a class="page-link next-page" data-page-type="next" href="#">
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                            <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                                <a class="page-link next-page" data-page-type="next" href="@Url.Action("Trainer", new { currentPage = ViewBag.CurrentPage + 1 })">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 <!-- 換頁區塊END -->
             </div>
         </div>

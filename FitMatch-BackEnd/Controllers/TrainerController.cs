@@ -22,10 +22,11 @@ namespace FitMatch_BackEnd.Controllers
         //跟教練資料連結然後呈現出views
         public IActionResult Trainer(int currentPage = 1)
         {
+            //預設一頁只能有5筆資料
             int itemsPerPage = 5;
             IEnumerable<Trainer> datas = from p in _context.Trainers select p;
 
-            // 根據當下頁碼獲取數據
+            // 根據當下頁碼獲取datas
             datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
 
             int totalDataCount = _context.Trainers.Count();
