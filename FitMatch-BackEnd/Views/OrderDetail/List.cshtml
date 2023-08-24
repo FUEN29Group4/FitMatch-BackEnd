@@ -164,34 +164,38 @@
     </div>
 
     <!-- 篩選列結束 -->
-    @{
-        int count = 0;
-        foreach (var item in Model)
-        {
-            count++;
-            <!-- 管理列表開始 -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="bg-white text-center rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h5 class="mb-0 text-dark">訂單詳細紀錄(訂單明細編號:@Html.DisplayFor(modelItem => item.OrderDetailId))</h5>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table text-center align-middle table-bordered table-hover mb-0">
-                            <thead style="background-color: #74ffba;">
-                                <tr class="text-dark">
-                                    <th scope="col"></th>
-                                    <th scope="col" style="min-width: 80px;">產品編號</th>
-                                    <th scope="col" style="min-width: 80px;">商品類別編號</th>
-                                    <th scope="col" style="min-width: 80px;">產品名稱</th>
-                                    <th scope="col" style="min-width: 80px;">照片</th>
-                                    <th scope="col" style="min-width: 80px;">數量</th>
-                                    <th scope="col" style="min-width: 80px;">價格</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+    <!-- 管理列表開始 -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-white text-center rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h5 class="mb-0 text-dark">訂單詳細紀錄(訂單明細編號:@Html.DisplayNameFor(model => model.OrderDetailId))</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table text-center align-middle table-bordered table-hover mb-0">
+                    <thead style="background-color: #74ffba;">
+                        <tr class="text-dark">
+                            <th scope="col" style="min-width: 80px;">@Html.DisplayNameFor(model => model.ProductId)</th>
+                            <th scope="col" style="min-width: 80px;">@Html.DisplayNameFor(model => model.TypeID)</th>
+                            <th scope="col" style="min-width: 80px;">@Html.DisplayNameFor(model => model.ProductName)</th>
+                            <th scope="col" style="min-width: 80px;">@Html.DisplayNameFor(model => model.Photo)</th>
+                            <th scope="col" style="min-width: 80px;">@Html.DisplayNameFor(model => model.Quantity)</th>
+                            <th scope="col" style="min-width: 80px;">@Html.DisplayNameFor(model => model.Price)</th>
+                        @*     <th scope="col" style="min-width: 80px;">商品類別編號</th>
+                            <th scope="col" style="min-width: 80px;">產品名稱</th>
+                            <th scope="col" style="min-width: 80px;">照片</th>
+                            <th scope="col" style="min-width: 80px;">數量</th>
+                            <th scope="col" style="min-width: 80px;">價格</th> *@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int count = 0;
+                            foreach (var item in Model)
+                            {
+                                count++;
                                 <tr class="data-row">
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>@count</td>
+                                  @*  <td><input class="form-check-input" type="checkbox"></td>*@
+                             
 
                                     <td>@Html.DisplayFor(modelItem => item.ProductId)</td>
                                     <td>@Html.DisplayFor(modelItem => item.TypeID)</td>
@@ -199,7 +203,7 @@
                                     <td>@Html.DisplayFor(modelItem => item.Photo)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Price)</td>
-                                    <td>
+                                    @*<td>
                                         <a class="btn btn-sm btn-secondary" href="@Url.Action(" List", "OrderDetail" , new { id=item.OrderId })"
                                            style="background-color: aliceblue; color: black;">
                                             <i class="fa-regular fa-pen-to-square">編輯</i>
@@ -207,34 +211,34 @@
                                         <a class="btn btn-sm btn-primary" href="@Url.Action(" Delete", "Order" , new { id=item.OrderId })">
                                             <i class="fa-solid fa-trash-can">刪除</i>
                                         </a>
-                                    </td>
+                                    </td>*@
                                 </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
 
-                    <div class="container-fluid pt-4 px-4">
-                        <div class="rounded-top p-4">
-                            <div class="Oredercontainer">
-                                <div class="d-flex align-items-end justify-content-center">
-                                    <ul class="Orderaddress"
-                                        style="list-style-type: none; padding-left: 0; text-align: left;margin-top: -10px;margin-left: -1210px;">
-                                        <li>訂單時間:2023/08/15 09:53</li>
-                                        <li>付款時間:2023/08/15 09:53</li>
-                                        <li>收件人:黃飛鴻</li>
-                                        <li>收件電話:09124213412</li>
-                                        <li>收件地址:7-11 國華門市 台南市中西區國華街3號</li>
-                                        <li>訂單總金額:25742</li>
-                                    </ul>
-                                </div>
-                            </div>
+            <div class="container-fluid pt-4 px-4">
+                <div class="rounded-top p-4">
+                    <div class="Oredercontainer">
+                        <div class="d-flex align-items-end justify-content-center">
+                            <ul class="Orderaddress"
+                                style="list-style-type: none; padding-left: 0; text-align: left;margin-top: -10px;margin-left: -1210px;">
+                                <li>訂單時間:2023/08/15 09:53</li>
+                                <li>付款時間:2023/08/15 09:53</li>
+                                <li>收件人:黃飛鴻</li>
+                                <li>收件電話:09124213412</li>
+                                <li>收件地址:7-11 國華門市 台南市中西區國華街3號</li>
+                                <li>訂單總金額:25742</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-        }
-    }
 
     <!-- Content End -->
     <!-- Back to Top -->

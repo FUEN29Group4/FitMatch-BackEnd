@@ -1,4 +1,5 @@
-﻿@model FitMatch_BackEnd.Models.OrderDetail
+﻿@model FitMatch_BackEnd.Models.Order
+
 
 @{
     ViewData["Title"] = "Edit";
@@ -163,16 +164,20 @@
     </div>
 
     <!-- 篩選列結束 -->
+<<<<<<< Updated upstream
   @*   @{
+=======
+   @*  @{
+>>>>>>> Stashed changes
         int count = 0;
         foreach (var item in Model)
         {
-            count++;
+            count++; *@
             <!-- 管理列表開始 -->
             <div class="container-fluid pt-4 px-4">
                 <div class="bg-white text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h5 class="mb-0 text-dark">訂單詳細紀錄(訂單明細編號:@Html.DisplayFor(modelItem => item.OrderDetailId))</h5>
+                 @*        <h5 class="mb-0 text-dark">訂單詳細紀錄(訂單明細編號:@Html.DisplayFor(modelItem => item.OrderDetailId))</h5> *@
                     </div>
                     <div class="table-responsive">
                         <table class="table text-center align-middle table-bordered table-hover mb-0">
@@ -190,7 +195,7 @@
                             <tbody>
                                 <tr class="data-row">
                                     <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>@count</td>
+              @*                       <td>@count</td>
 
                                     <td>@Html.DisplayFor(modelItem => item.ProductId)</td>
                                     <td>@Html.DisplayFor(modelItem => item.TypeID)</td>
@@ -230,12 +235,17 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
+            </div> *@
+@* 
         }
     }
+<<<<<<< Updated upstream
 
     <!-- Content End --> *@
+=======
+ *@
+    <!-- Content End -->
+>>>>>>> Stashed changes
     <!-- Back to Top -->
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
