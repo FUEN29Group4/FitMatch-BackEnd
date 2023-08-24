@@ -133,6 +133,7 @@
                             <label for="statusType" class="me-2">上架狀態:</label>
                             <select id="statusType" name="StatusFilter" class="form-select" style="background-color: #fff;" aria-label="上架狀態">
                                 <option value="" selected disabled hidden>請選擇狀態</option>
+                                <option value="">無</option>
                                 <option value="上架">上架</option>
                                 <option value="下架">下架</option>
                                 <option value="待審核">待審核</option>
@@ -173,7 +174,6 @@
                             <th scope="col">課程名稱</th>
                             <th scope="col">封面</th>
                             <th scope="col">狀態</th>
-                            <th scope="col">建立時間</th>
                             <th scope="col">操作</th>
                         </tr>
                     </thead>
@@ -191,134 +191,29 @@
                                         <img src="~/img/課程/@item.Photo" width="110" height="70" />
                                     </td>
                                     <td>@(item.Status == true ? "上架" : (item.Status == false ? "下架" : "待審核"))</td>
-                                    <td>@Html.DisplayFor(modelItem => item.CreateAt)</td>
                                     <td>
-                                        <a class="btn btn-sm btn-secondary" href="@Url.Action("Edit", "ClassType", new { id = item.ClassTypeId })"
+                                        <a class="btn btn-secondary" href="@Url.Action("Edit", "ClassType", new { id = item.ClassTypeId })"
                                            style="background-color: aliceblue; color: black;">
                                             <i class="fa-regular fa-pen-to-square">編輯</i>
                                         </a>
-                                        <a class="btn btn-sm btn-primary" href="@Url.Action("Delete", "ClassType", new { id = item.ClassTypeId })">
+                                        <a class="btn btn-primary" href="@Url.Action("Delete", "ClassType", new { id = item.ClassTypeId })">
                                             <i class="fa-solid fa-trash-can">刪除</i>
                                         </a>
                                     </td>
                                 </tr>
                             }
                         }
-                        @*
 
-                        <tr class="data-row">
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>CODE002</td>
-                        <td>格鬥</td>
-                        <td>
-                        <img class="fixed-image" src="./img/gallery/格鬥.jpg" alt=""
-                        style="max-width: 200px;">
-                        </td>
-                        <td>上架</td>
-                        <td>2023-08-07 10:10</td>
-                        <td>
-                        <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
-                        style="background-color: aliceblue; color: black;">
-                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                        </a>
-                        <a class="btn btn-sm btn-primary" href="">
-                        <i class="fa-solid fa-trash-can">刪除</i>
-                        </a>
-                        </td>
-                        </tr>
-                        <tr class="data-row">
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>CODE003</td>
-                        <td>戰繩</td>
-                        <td>
-                        <img class="fixed-image" src="./img/gallery/戰繩.jpg" alt=""
-                        style="max-width: 200px;">
-                        </td>
-                        <td>上架</td>
-                        <td>2023-08-07 10:10</td>
-                        <td>
-                        <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
-                        style="background-color: aliceblue; color: black;">
-                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                        </a>
-                        <a class="btn btn-sm btn-primary" href="">
-                        <i class="fa-solid fa-trash-can">刪除</i>
-                        </a>
-                        </td>
-                        </tr>
-                        <tr class="data-row">
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>CODE004</td>
-                        <td>有氧</td>
-                        <td>
-                        <img class="fixed-image" src="./img/gallery/有氧.jpg" alt=""
-                        style="max-width: 200px;">
-                        </td>
-                        <td>上架</td>
-                        <td>2023-08-07 10:10</td>
-                        <td>
-                        <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
-                        style="background-color: aliceblue; color: black;">
-                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                        </a>
-                        <a class="btn btn-sm btn-primary" href="">
-                        <i class="fa-solid fa-trash-can">刪除</i>
-                        </a>
-                        </td>
-                        </tr>
-                        <tr class="data-row">
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>CODE005</td>
-                        <td>核心訓練</td>
-                        <td>
-                        <img class="fixed-image" src="./img/gallery/核心訓練.jpg" alt=""
-                        style="max-width: 200px;">
-                        </td>
-                        <td>下架</td>
-                        <td>2023-08-07 10:10</td>
-                        <td>
-                        <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
-                        style="background-color: aliceblue; color: black;">
-                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                        </a>
-                        <a class="btn btn-sm btn-primary" href="">
-                        <i class="fa-solid fa-trash-can">刪除</i>
-                        </a>
-                        </td>
-                        </tr>
-                        <tr class="data-row">
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>CODE005</td>
-                        <td>核心訓練</td>
-                        <td>
-                        <img class="fixed-image" src="./img/gallery/核心訓練.jpg" alt=""
-                        style="max-width: 200px;">
-                        </td>
-                        <td>下架</td>
-                        <td>2023-08-07 10:10</td>
-                        <td>
-                        <a class="btn btn-sm btn-secondary" href="match_editcourses.html"
-                        style="background-color: aliceblue; color: black;">
-                        <i class="fa-regular fa-pen-to-square">編輯</i>
-                        </a>
-                        <a class="btn btn-sm btn-primary" href="">
-                        <i class="fa-solid fa-trash-can">刪除</i>
-                        </a>
-                        </td> *@
                         </tr>
                     </tbody>
                 </table>
             </div>
 
+
             <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
                 <!-- 全選區塊開始 -->
                 <div class="d-flex justify-content-between">
-                    <div class="form-check custom-checkbox">
-                        <input class="form-check-input my-lg-2" type="checkbox" id="selectAll">
-                        <label class="form-check-label" for="selectAll">
-                            <span class="align-middle">全選</span>
-                        </label>
-                        <button type="button" class="btn btn-primary mx-lg-2">下架</button>
+                    <div class="form-check d-flex align-items-center">
                     </div>
                     <!-- Pagination goes here -->
                 </div>
@@ -326,157 +221,31 @@
                 <!-- 換頁區塊開始 -->
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link previous-page" data-page-type="previous" href="#">
+                        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                            <a class="page-link previous-page" data-page-type="previous" href="@Url.Action("List", new { currentPage = ViewBag.CurrentPage - 1 })">
                                 <i class="fa-solid fa-chevron-left"></i>
                             </a>
                         </li>
-                        <li class="page-item active">
-                            <a class="page-link" id="page-1" data-page="1" data-page-type="number" href="#">
-                                1
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" id="page-2" data-page="2" data-page-type="number" href="#">
-                                2
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link next-page" data-page-type="next" href="#">
+
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("List", new { currentPage = i })">
+                                    @i
+                                </a>
+                            </li>
+                        }
+
+                        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                            <a class="page-link next-page" data-page-type="next" href="@Url.Action("List", new { currentPage = ViewBag.CurrentPage + 1 })">
                                 <i class="fa-solid fa-chevron-right"></i>
                             </a>
                         </li>
                     </ul>
                 </nav>
                 <!-- 換頁區塊END -->
-
             </div>
-            <!-- 最下面END -->
         </div>
-
     </div>
-    <!-- 管理列表結束 -->
 </div>
-<script>
-    // 全選功能
-    document.addEventListener("DOMContentLoaded", function () {
-        const selectAllCheckbox = document.getElementById("selectAll");
-        const restaurantCheckboxes = document.querySelectorAll(".form-check-input");
 
-        selectAllCheckbox.addEventListener("change", function () {
-            const isChecked = selectAllCheckbox.checked;
-            restaurantCheckboxes.forEach(checkbox => {
-                checkbox.checked = isChecked;
-            });
-        });
-
-        restaurantCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener("change", function () {
-                selectAllCheckbox.checked = Array.from(restaurantCheckboxes).every(cb => cb.checked);
-            });
-        });
-    });
-
-    document.addEventListener("DOMContentLoaded", function () {
-        const table = document.querySelector(".table");
-        const pageLinks = document.querySelectorAll(".page-link[data-page-type='number']");
-        const prevPageLink = document.querySelector(".previous-page");
-        const nextPageLink = document.querySelector(".next-page");
-
-        pageLinks.forEach(link => {
-            link.addEventListener("click", function (event) {
-                event.preventDefault();
-
-                // 獲取點擊的頁碼
-                const page = parseInt(link.textContent);
-
-                // 移除所有活躍狀態
-                pageLinks.forEach(link => link.parentElement.classList.remove("active"));
-
-                // 添加活跃状态到当前页码链接
-                link.parentElement.classList.add("active");
-
-                // 更新表格内容
-                updateTableContent(page);
-            });
-        });
-
-
-        //分頁功能(新)
-        prevPageLink.addEventListener("click", function (event) {
-            event.preventDefault();
-
-            const activeLink = document.querySelector(".page-item.active .page-link");
-            if (activeLink) {
-                const currentPage = parseInt(activeLink.textContent);
-                if (currentPage > 1) {
-                    pageLinks[currentPage - 2].click();
-                }
-            }
-        });
-
-        nextPageLink.addEventListener("click", function (event) {
-            event.preventDefault();
-
-            const activeLink = document.querySelector(".page-item.active .page-link");
-            if (activeLink) {
-                const currentPage = parseInt(activeLink.textContent);
-                if (currentPage < pageLinks.length) {
-                    pageLinks[currentPage].click();
-                }
-            }
-        });
-
-        function updateTableContent(page) {
-            const perPage = 5;
-            const startIndex = (page - 1) * perPage;
-            const endIndex = startIndex + perPage;
-
-            const rows = table.querySelectorAll("tbody tr");
-            rows.forEach((row, index) => {
-                if (index >= startIndex && index < endIndex) {
-                    row.style.display = "table-row";
-                } else {
-                    row.style.display = "none";
-                }
-            });
-        }
-    });
-
-
-    // 上架時間
-    $(document).ready(function () {
-        const dateFormat = "yy/mm/dd";
-
-        const initializeDatepicker = ($element, onSelectCallback) => {
-            $element.datepicker({
-                defaultDate: "+1w",
-                changeMonth: true,
-                numberOfMonths: 1,
-                dateFormat: dateFormat,
-                onSelect: onSelectCallback
-            });
-        };
-
-        const parseDate = value => {
-            try {
-                return $.datepicker.parseDate(dateFormat, value);
-            } catch (error) {
-                return null;
-            }
-        };
-
-        const startDate = $("#startDate");
-        const endDate = $("#endDate");
-
-        initializeDatepicker(startDate, function () {
-            endDate.datepicker("option", "minDate", parseDate(this.value));
-        });
-
-        initializeDatepicker(endDate, function () {
-            startDate.datepicker("option", "maxDate", parseDate(this.value));
-        });
-    });
-
-
-</script>

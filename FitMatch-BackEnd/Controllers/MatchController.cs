@@ -16,7 +16,7 @@ namespace FitMatch_BackEnd.Controllers
             _db = db;
         }
 
-        public IActionResult List(string searchField, string searchKeyword, DateTime? start, DateTime? end, string CourseStatus, int page = 1)
+        public IActionResult List(string searchField, string searchKeyword, DateTime? start, DateTime? end, string CourseStatus, int currentPage = 1)
         {
 
             var viewModelList = (from c in _db.Classes
@@ -73,7 +73,18 @@ namespace FitMatch_BackEnd.Controllers
             {
                 viewModelList = viewModelList.Where(vm => vm.CourseStatus == CourseStatus).ToList();
             }
+            int itemsPerPage = 5;
+            int totalDataCount = viewModelList.Count();
+            int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+            int validCurrentPage = Math.Max(1, Math.Min(currentPage, totalPages));
 
+            viewModelList = viewModelList
+                .Skip((validCurrentPage - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .ToList();
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = validCurrentPage;
             return View(viewModelList);
         }
         public IActionResult Edit(int id)

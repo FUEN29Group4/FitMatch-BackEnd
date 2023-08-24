@@ -44,19 +44,6 @@
         transform: translate(-50%, -50%);
     }
 
-    #notification {
-        position: fixed; /* 使用固定定位 */
-        top: 50%; /* 從頂部開始的位置為50% */
-        left: 50%; /* 從左邊開始的位置為50% */
-        transform: translate(-50%, -50%); /* 使用轉換來回彈到正確的中央位置 */
-        z-index: 1000; /* 使用較高的z-index確保它出現在其他元素之上 */
-        padding: 15px; /* 根據需要增加內部間距 */
-        background-color: rgba(0,0,0,0.7); /* 添加背景色 */
-        color: #fff; /* 設置文本顏色為白色 */
-        border-radius: 5px; /* 添加邊界半徑，使其看起來更加圓滑 */
-        display: none; /* 默認情況下隱藏它，因為你只想在某些事件後顯示它 */
-    }
-
 
 </style>
 
@@ -163,26 +150,7 @@
         <div class="row g-4">
             <div class="col-sm-12">
                 <div class="bg-secondary rounded h-100 p-4">
-                    <form asp-action="GymCreate" class="" style="padding: 50px;">
- @*                       <div class="col-sm-12  col-xl-6 mb-3 d-flex ps">
-                            <div class="col-2">
-                                <label for="inputname" class="col-form-label">地區</label>
-                            </div>
-                            <div class="col-10 d-flex">
-                                <select class="form-select mb-3 me-4" aria-label="Default select example">
-                                    <option disabled selected>選擇城市</option>
-                                    <option value="1">台北</option>
-                                    <option value="2">台中</option>
-                                    <option value="3">台南</option>
-                                </select>
-                                <select class="form-select mb-3 ms-4" aria-label="Default select example">
-                                    <option disabled selected>選擇區域</option>
-                                    <option value="1">東區</option>
-                                    <option value="2">北區</option>
-                                    <option value="3">南區</option>
-                                </select>
-                            </div>
-                        </div>*@
+                    <form asp-action="GymCreate" enctype="multipart/form-data" class="" style="padding: 50px;">
 
 
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
@@ -222,13 +190,13 @@
 
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
                             <div class="col-2">
-                                <label for="inputname" class="col-form-label">封面照片</label>
+                                <label for="FileToUpload" class="col-form-label">封面照片</label>
                             </div>
                             <div class="col-10">
                                 <div class="upload-container">
-                                    <label for="upload" class="label-upload">
+                                    <label for="FileToUpload" class="label-upload">
                                         <div class="icon">+</div>
-                                        <input type="file" id="upload" class="upload-input" accept="image/*">
+                                        <input asp-for="FileToUpload" type="file" id="FileToUpload" class="upload-input" accept="image/*">
                                     </label>
                                     <img id="preview" src="" alt="Image Preview">
                                 </div>
@@ -281,19 +249,18 @@
                                 <legend class="col-form-label pt-3 pe-4">場館簡介</legend>
                             </div>
                             <div class="col-10 form-floating pt-1">
-                                <textarea class="form-control" placeholder="Leave a comment here"
+                                <textarea class="form-control" name="GymDescription" placeholder="Leave a comment here"
                                           id="floatingTextarea" style="height: 150px;"></textarea>
                                 <label for="floatingTextarea">請輸入場館簡介</label>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-xl-6 pt-5 d-flex" style="margin-left: 55px;">
-                            <div class="col-4 text-center">
-                                <button type="submit" class="btn btn-primary ">新增</button>
-                            </div>
-                            <div class="col-4 text-start">
-                                <a asp-action="Gym" class="btn btn-outline-success ">取消</a>
+                        <div class="col-sm-12 col-xl-6 pt-5 d-flex">
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-primary" style="margin-right:130px">新增</button>  
+                                <a asp-action="Gym" class="btn btn-outline-success">取消</a>
                             </div>
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -304,11 +271,9 @@
  
 </div>
 <!-- Content End -->
-<div class="notification" id="notification">
-    場館新增成功！目前處於<span id="currentStatus">待審核</span>的狀態。
-</div>
+
 <script>
-    const uploadInput = document.getElementById('upload');
+    const uploadInput = document.getElementById('FileToUpload');
     const preview = document.getElementById('preview');
     const icon = document.querySelector('.icon');
 

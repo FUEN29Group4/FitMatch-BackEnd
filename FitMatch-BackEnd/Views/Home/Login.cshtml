@@ -1,0 +1,192 @@
+﻿@* @{
+    ViewBag.Title = "Login";
+}
+
+<h2>登入系統</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>輸入帳號密碼</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            帳號
+            <div class="col-md-10">
+                @Html.TextBox("txtAccount", "marco@gmail.com", new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            密碼
+            <div class="col-md-10">
+                @Html.TextBox("txtPassword", "", new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="登入" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("忘記密碼", "List")
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+ *@
+
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FitMatch Backstage</title>
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Libraries Stylesheet -->
+    <link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="~/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="~/css/style.css" rel="stylesheet">
+
+    <!-- JQ -->
+    <link rel="~/stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        body {
+            background-color: #fff;
+        }
+
+        input:focus {
+            border: 2px solid #000000 !important;
+            outline: none;
+        }
+
+        .col-original {
+            border-color: #808080;
+        }
+    </style>
+</head>
+
+<body>
+    @using (Html.BeginForm())
+    {
+        <div class="container-fluid position-relative d-flex p-0">
+            <!-- Spinner Start -->
+            <div id="spinner"
+                 class="show bg-light position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <!-- Spinner End -->
+            @Html.AntiForgeryToken()
+            <!-- Sign In Start -->
+            <div class="container-fluid">
+                <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+
+                    <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+
+
+
+
+                        <div class="rounded p-4 p-sm-5 my-4 mx-3" style="background-color: #fff;border:2px solid #000000;">
+
+
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+
+                                <div class=" mb-3" style="transform: scale(0.9);">
+
+                                    <img src="~/img/LOGO/Logo.png" style="width: auto;height: auto;background-color:#000000;border-radius: 10px;" />
+
+                                </div>
+                                <h3 style="color: #000000;">登入</h3>
+
+                            </div>
+                            <div class="form-floating mb-3">
+                                @Html.TextBox("txtAccount", "" , new { @class = "form-control col-original" , @id = "floatingInput", @placeholder="name@example.com" } )
+
+                                <label for="floatingInput" style="color: #a5a5a5;">帳號</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                @Html.TextBox("txtPassword", "", new { @class = "form-control col-original" , @id = "floatingPassword", @placeholder="Password" })
+
+                                <label for="floatingPassword" style="color: #a5a5a5;">密碼</label>
+                            </div>
+                            @Html.ValidationSummary(true,"電子郵件或密碼輸入錯誤", new { @class = "text-danger" })
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                    <label class="form-check-label" for="exampleCheck1" style="color: #a5a5a5;">記住我</label>
+                                </div>
+                                <a href="" style="color: #000000;">忘記密碼</a>
+                            </div>
+                            <button type="submit" class="btn btn-primary py-3 w-100 mb-4"
+                                    style="background-color: #F24B88; color: white;">
+                                登入
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Sign In End -->
+
+        </div>
+
+    }
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/chart/chart.min.js"></script>
+    <script src="~/lib/easing/easing.min.js"></script>
+    <script src="~/lib/waypoints/waypoints.min.js"></script>
+    <script src="~/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="~/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="~/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="~/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+
+    <!-- Template Javascript -->
+    <script src="~/js/main.js"></script>
+    <!-- JQ -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+        $(document).on("contextmenu", function (e) {
+            e.preventDefault();
+        });
+    </script>
+
+
+
+</body>
+
+</html>

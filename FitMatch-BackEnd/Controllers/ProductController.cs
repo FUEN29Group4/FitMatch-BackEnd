@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : SuperController
     {
         //連結DB
         private readonly FitMatchDbContext _context;
@@ -20,17 +20,92 @@ namespace FitMatch_BackEnd.Controllers
 
         //***篩選功能***
 
-        //取得商品管理頁面  ***上架狀態要修***圖片未抓取***全部的商品類別TypeId皆未出現，要修改***
+        //取得商品管理頁面  ***上架狀態要修***圖片未抓取***預設這頁只能放五筆資料***
         public IActionResult List(CKeywordViewModel vm)
         {
             FitMatchDbContext db = new FitMatchDbContext();
-            IEnumerable<Product> datas = null;
-            if (string.IsNullOrEmpty(vm.txtKeyword))
+            IEnumerable<Product> datas = db.Products;
+            ////預設這頁只能放五筆資料
+            //int itemsPerPage = 5;
+            //IEnumerable<Product> datas = from p in _context.Products select p;
+
+            //// 根據當下頁碼獲取datas
+            //datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+            //int totalDataCount = _context.Products.Count();
+            //int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+
+            //ViewBag.TotalPages = totalPages;
+            //ViewBag.CurrentPage = currentPage;
+            //return View(datas);
+
+
+
+            if (vm.txtKeyword != null || vm.StatusFilter != null || vm.ProductFilter != null)
+            {
+                if (!string.IsNullOrEmpty(vm?.StatusFilter))
+                {
+                    switch (vm.StatusFilter)
+                    {
+                        case "上架":
+                            datas = db.Products.Where(t => t.Status == true);
+                            break;
+                        case "下架":
+                            datas = db.Products.Where(t => t.Status == false);
+                            break;
+                        case "待審核":
+                            datas = db.Products.Where(t => t.Status == null);
+                            break;
+                    }
+                    if (!string.IsNullOrEmpty(vm?.ProductFilter))
+                    {
+                        datas = datas.Where(t => t.TypeId.ToString().Contains(vm.ProductFilter));
+                    }
+                    if (!string.IsNullOrEmpty(vm?.txtKeyword))
+                    {
+                        datas = datas.Where(t => t.ProductName.Contains(vm.txtKeyword));
+                    }
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(vm?.ProductFilter))
+                    {
+                        datas = db.Products.Where(t => t.TypeId.ToString().Contains(vm.ProductFilter));
+                        if (!string.IsNullOrEmpty(vm?.txtKeyword))
+                        {
+                            datas = datas.Where(t => t.ProductName.Contains(vm.txtKeyword));
+                        }
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(vm?.txtKeyword))
+                        {
+                            datas = db.Products.Where(t => t.ProductName.Contains(vm.txtKeyword));
+                        }
+                    }
+
+                }
+            }
+            else
+            {
                 datas = from p in db.Products
                         select p;
-            else
-                datas = db.Products.Where(t => t.ProductName.Contains(vm.txtKeyword));
+            }
+
+
+            //if (string.IsNullOrEmpty(vm.txtKeyword))
+            //    datas = from p in db.Products
+            //            select p;
+            //else
+            //    datas = db.Products.Where(t => t.ProductName.Contains(vm.txtKeyword));
             return View(datas);
+        }
+
+        public class CKeywordViewModel
+        {
+            public string txtKeyword { get; set; }
+            public string ProductFilter { get; set; }
+            public string StatusFilter { get; set; }  // 使用 string
         }
 
         //新增商品  ***圖片未寫入，商品類別無法寫入***
@@ -72,9 +147,9 @@ namespace FitMatch_BackEnd.Controllers
             Product prod = db.Products.FirstOrDefault(t => t.ProductId == id);
             if (prod == null)
                 return RedirectToAction("List");
-            
+
             return View(prod);
-          
+
         }
         [HttpPost]
         public IActionResult Edit(Product prodIn)
