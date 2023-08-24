@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class CustomerServiceController : Controller
+    public class CustomerServiceController : SuperController
     {
         public IActionResult Index()
         {

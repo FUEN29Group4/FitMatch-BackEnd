@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class MemberController : Controller
+    public class MemberController : SuperController
     {
         // GET: /<controller>/  預設先註解掉
         //public IActionResult Index()

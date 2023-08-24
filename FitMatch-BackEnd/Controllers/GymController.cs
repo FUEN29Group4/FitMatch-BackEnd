@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class GymController : Controller
+    public class GymController : SuperController
     {
         private readonly FitMatchDbContext _context;
 

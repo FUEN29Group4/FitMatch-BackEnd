@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class RobotController : Controller
+    public class RobotController : SuperController
     {
         public IActionResult Index()
         {
