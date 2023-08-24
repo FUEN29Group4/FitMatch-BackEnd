@@ -187,7 +187,6 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="d-flex align-items-center">
-                    <form method="get" action="@Url.Action("List", "Match")">
                         <!-- Other search fields -->
 
                         <div class="d-flex align-items-center me-4" style="margin-left: 25px;">
@@ -197,12 +196,10 @@
                             <span style="text-align: center;">至</span>
                             <input class="form-select" style="background-color:#fff; margin-left: 10px;" type="date"
                                    name="end" id="" value="結束時間">
-                            <button type="submit" class="btn btn-primary me-2" style="margin-left: 10px;">
-                                <i class="fa-solid fa-magnifying-glass fa-xl"></i>
-                            </button>
+
                         </div>
 
-                    </form>
+                    
 
                     <div class="col-4 d-flex align-items-center ms-4">
                         <span style="margin-right: 10px; text-align: center;">課程狀態:</span>
@@ -215,7 +212,7 @@
                 </div>
             </div>
 
-            <div class="col-3 d-flex align-items-center ms-4" style="margin-right: 25px;">
+            <div class="col-4 d-flex align-items-center ms-4" style="margin-right: 25px;">
                 <form class="custom-select" id="searchForm" method="get" action="List">
                     <select name="searchField" style="color:#696969">
                         <option value="ClassName">課程名稱</option>
@@ -225,6 +222,8 @@
                     </select>
                     <input id="searchInput" type="text" name="searchKeyword">
                     <button type="reset" class="btn btn-outline-success">清空</button>
+                    <button type="submit" id="combinedSearchButton" class="btn btn-primary">综合搜索</button>
+
                 </form>
             </div>
             <br>
@@ -307,32 +306,32 @@
   
 
                 <div class="d-flex justify-content-end pt-4">
-                    <!-- 分页区块开始 -->
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
-                                <a class="page-link previous-page" data-page-type="previous" href="#">
-                                    <i class="fa-solid fa-chevron-left"></i>
+                <!-- 換頁區塊開始 -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                            <a class="page-link previous-page" data-page-type="previous" href="@Url.Action("List", new { currentPage = ViewBag.CurrentPage - 1 })">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </a>
+                        </li>
+
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("List", new { currentPage = i })">
+                                    @i
                                 </a>
                             </li>
+                        }
 
-                            @for (int i = 1; i <= ViewBag.TotalPages; i++)
-                            {
-                                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                                    <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="#">
-                                        @i
-                                    </a>
-                                </li>
-                            }
-
-                            <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
-                                <a class="page-link next-page" data-page-type="next" href="#">
-                                    <i class="fa-solid fa-chevron-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <!-- 分页区块结束 -->
+                        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                            <a class="page-link next-page" data-page-type="next" href="@Url.Action("List", new { currentPage = ViewBag.CurrentPage + 1 })">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- 換頁區塊END -->
             </div>
             <!-- 最下面END -->
         </div>
@@ -345,15 +344,25 @@
 
 </div>
 <script>
-    // 在輸入框上監聽 "keydown" 事件
-    document.getElementById("searchInput").addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault(); // 防止預設行為（提交表單）
+    document.getElementById("combinedSearchButton").addEventListener("click", function () {
+        var startDate = document.querySelector('input[name="start"]').value;
+        var endDate = document.querySelector('input[name="end"]').value;
+        var courseStatus = document.getElementById("CourseStatusFilter").value;
+        var searchField = document.querySelector('select[name="searchField"]').value;
+        var searchKeyword = document.getElementById("searchInput").value;
 
-            // 提交表單
-            document.getElementById("searchForm").submit();
-        }
+        var url = "@Url.Action("List", "Match")" +
+            "?start=" + encodeURIComponent(startDate) +
+            "&end=" + encodeURIComponent(endDate) +
+            "&courseStatus=" + encodeURIComponent(courseStatus) +
+            "&searchField=" + encodeURIComponent(searchField) +
+            "&searchKeyword=" + encodeURIComponent(searchKeyword);
+
+        window.location.href = url;
     });
+</script>
+
+<script>
 
     // 以下是分頁功能
     document.addEventListener("DOMContentLoaded", function () {
@@ -419,16 +428,8 @@
             });
         }
 
-        // 以下是筛选功能代码
-        const courseStatusFilter = document.getElementById("CourseStatusFilter");
-        if (courseStatusFilter) {
-            courseStatusFilter.addEventListener("change", function () {
-                var selectedStatus = this.value;
-                // 跳转到列表页，将选择的课程状态作为参数传递
-                window.location.href = "/Match/List?CourseStatus=" + selectedStatus;
-            });
-        }
-    });
+
+    
 
 
 </script>
