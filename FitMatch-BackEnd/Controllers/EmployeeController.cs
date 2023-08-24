@@ -9,16 +9,23 @@ namespace FitMatch_BackEnd.Controllers
     {
         //注入DB 可以在很多方法用他來連結資料庫
         private readonly FitMatchDbContext _context;
-
-        //連結DB
-        public EmployeeController(FitMatchDbContext context)
+        //讀取web根目錄
+        public IWebHostEnvironment _enviro = null;
+        public EmployeeController(IWebHostEnvironment enviro, FitMatchDbContext context)
         {
+            _enviro = enviro;
+            //連結DB
             _context = context;
         }
+        
+        //public EmployeeController(FitMatchDbContext context)
+        //{
+        //    _context = context;
+        //}
         //跟員工資料連結然後呈現出views
         public IActionResult Employee(int currentPage = 1, string txtKeyword = null, bool? employeeStatus = null)
         {
-            int itemsPerPage = 5;
+            int itemsPerPage = 8;
             IEnumerable<Employee> datas = from p in _context.Employees select p;
             // 如果有搜尋關鍵字
             if (!string.IsNullOrWhiteSpace(txtKeyword))
@@ -73,7 +80,7 @@ namespace FitMatch_BackEnd.Controllers
         }
 
 
-        //TODO: 全部刪除、照片、驗證
+        //TODO: 照片、驗證
 
         public IActionResult Details(int id)
         {
@@ -112,25 +119,57 @@ namespace FitMatch_BackEnd.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Employee custIn)
+       
+        public IActionResult Edit(CEmployeeWrap prodIn)
         {
-            Employee e = _context.Employees.FirstOrDefault(t => t.EmployeeId == custIn.EmployeeId);
-
-            if (e != null)
+          Employee e = _context.Employees.FirstOrDefault(t => t.EmployeeId ==  prodIn.EmployeeID);
+            //檢查
+            if (e == null)
             {
-                e.EmployeeName = custIn.EmployeeName;
-                e.Phone = custIn.Phone;
-                e.Email = custIn.Email;
-                e.Address = custIn.Address;
-                e.Password = custIn.Password;
-                e.Gender = custIn.Gender;
-                //e.CreatedAt = custIn.CreatedAt;
-                e.Photo = custIn.Photo;
-                e.Birth = custIn.Birth;
-                e.Status = custIn.Status;
+                return NotFound(); // 返回404 Not Found
+            }
+            if (prodIn != null)
+            {
+                if (prodIn.photo != null)
+                {
+                    string photoName = Guid.NewGuid().ToString() + ".jpg";
+                    string path = _enviro.WebRootPath + "/img/員工/" + photoName;
+                    prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
+                    e.Photo = photoName;
+                }
+                e.EmployeeName = prodIn.EmployeeName;
+                e.Gender = prodIn.Gender;
+                e.Birth = prodIn.Birth;
+                e.Phone = prodIn.Phone;
+                e.Address = prodIn.Address;
+                e.Email = prodIn.Email;
+                e.Position = prodIn.Position;
+                e.Password = prodIn.Password;
+                e.Status = prodIn.Status;
                 _context.SaveChanges();
             }
             return RedirectToAction("Employee");
         }
+        //public IActionResult Edit(Employee custIn)
+        //{
+        //    Employee e = _context.Employees.FirstOrDefault(t => t.EmployeeId == custIn.EmployeeId);
+
+        //    if (e != null)
+        //    {
+        //        e.EmployeeName = custIn.EmployeeName;
+        //        e.Phone = custIn.Phone;
+        //        e.Email = custIn.Email;
+        //        e.Address = custIn.Address;
+        //        e.Password = custIn.Password;
+        //        e.Gender = custIn.Gender;
+        //        //e.CreatedAt = custIn.CreatedAt;
+        //        e.Photo = custIn.Photo;
+        //        e.Birth = custIn.Birth;
+        //        e.Status = custIn.Status;
+        //        _context.SaveChanges();
+        //    }
+
+        //    return RedirectToAction("Employee");
+        //}
     }
 }

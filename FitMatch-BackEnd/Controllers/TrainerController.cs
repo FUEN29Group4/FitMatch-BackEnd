@@ -8,9 +8,6 @@ namespace FitMatch_BackEnd.Controllers
 {
     public class TrainerController : SuperController
     {
-        //TODO: 全選刪除還沒做
-        //TODO: 照片、合作場館未完成
-
         //注入DB 可以在很多方法用他來連結資料庫
         private readonly FitMatchDbContext _context;
 
@@ -19,25 +16,30 @@ namespace FitMatch_BackEnd.Controllers
         {
             _context = context;
         }
-        //TODO: 篩選列
         //跟教練資料連結然後呈現出views
-        public IActionResult Trainer(int currentPage = 1, string txtKeyword = null)
+        public IActionResult Trainer(int currentPage = 1, string txtKeyword = null, int? trainerApproved = null, string? city = "", int? approved = null)
         {
-            //預設一頁只能有5筆資料
-            int itemsPerPage = 5;
+            //預設一頁只能有8筆資料
+            int itemsPerPage = 8;
             IEnumerable<Trainer> datas = from p in _context.Trainers select p;
             // 如果有搜尋關鍵字
             if (!string.IsNullOrWhiteSpace(txtKeyword))
             {
-                datas = datas.Where(p => p.TrainerName.Contains(txtKeyword) || p.Email.Contains(txtKeyword));
+                datas = datas.Where(p => p.TrainerName.Contains(txtKeyword));
             }
-            // 如果Approved有值
-            //if (trainerapproved.HasValue)
-            //{
-            //    datas = datas.Where(p => p.approved = trainerapproved);
-            //}
-            //把選擇的狀態存進來
-            //ViewBag.TrainerApproved = trainerapproved;
+
+            // 如果City有值
+            if (!string.IsNullOrEmpty(city))
+            {
+                datas = datas.Where(p => p.Address.StartsWith(city));
+            }
+            ViewBag.City = city;
+
+            //審核篩選:如果Approved有值
+            if (approved.HasValue)
+            {
+                datas = datas.Where(p => p.Approved == approved.Value);
+            }
 
             // 根據當下頁碼獲取datas
             datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
@@ -48,20 +50,8 @@ namespace FitMatch_BackEnd.Controllers
             ViewBag.TotalPages = totalPages;
             ViewBag.CurrentPage = currentPage;
             ViewBag.Keyword = txtKeyword;  // 將關鍵字存入ViewBag，以便在View中使用
+
             return View(datas);
-            //int itemsPerPage = 5;
-            //IEnumerable<Trainer> datas = from p in _context.Trainers select p;
-
-            //// 根據當下頁碼獲取數據
-            //datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
-
-            //int totalDataCount = _context.Trainers.Count();
-            //int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
-
-            //ViewBag.TotalPages = totalPages;
-            //ViewBag.CurrentPage = currentPage;
-            //return View(datas);
-            
         }
 
         //審核通過
@@ -74,7 +64,8 @@ namespace FitMatch_BackEnd.Controllers
                 return NotFound();
             }
             //有教練就審核通過
-            trainer.Approved = CApprovalStatus.Approved;
+            //trainer.Approved = CApprovalStatus.Approved;
+            trainer.Approved = 1;
             //保存到資料庫
             _context.SaveChanges();
             //返回教練列表
@@ -90,12 +81,13 @@ namespace FitMatch_BackEnd.Controllers
                 return NotFound();
             }
             //教練的申請拒絕
-            trainer.Approved = CApprovalStatus.Rejected;
+            //trainer.Approved = CApprovalStatus.Rejected;
+            trainer.Approved = 2;
             _context.SaveChanges();
 
             return RedirectToAction("Trainer");
         }
-        //代辦事項: 要做確認按鈕!!!!!!!!!!!!!!!
+        //TODO: 要做確認按鈕!!!!!!!!!!!!!!!
 
         //教練履歷
         public IActionResult Details(int id)
@@ -107,5 +99,6 @@ namespace FitMatch_BackEnd.Controllers
             }
             return View(trainer);
         }
+
     }
 }

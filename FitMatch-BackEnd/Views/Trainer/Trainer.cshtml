@@ -112,145 +112,125 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">*@
         <div class="row g-4">
+            <form method="GET" action="@Url.Action("Trainer")">
 
             <div class="col">
                 <div class="bg-white rounded h-100 p-4">
-                    <form id="searchForm">
-                        <div class="row pr-1">
+                    <div class="row pr-1">
+                        
+
                             <!-- 第一區塊 -->
-                            <div class="col-4 d-flex align-items-center justify-content-center">
+                            <div class="col-3 d-flex align-items-center justify-content-center">
                                 所在城市:
                                 <div class="mx-1 flex-grow-1 ps-1">
-                                    <select class="form-select" name="citySelect"
+                                    <select class="form-select" name="city"
                                             aria-label="所在城市">
-                                       @* <option selected disabled value="">請選擇城市</option>
-                                        <option value="台北市">台北市</option>
-                                        <option value="新北市">新北市</option>
-                                        <option value="新竹市">新竹市</option>
-                                        <option value="台中市">台中市</option>
-                                        <option value="台南市">台南市</option>
-                                        <option value="高雄市">高雄市</option>*@
-                                        @if (ViewBag.TrainerApproved == null)
+                                        <option selected disabled value="">請選擇城市</option>
+                                        @foreach (var cityOption in new List<string> { "臺北市", "新北市", "新竹市", "臺中市", "臺南市", "高雄市" })
                                         {
-                                            <option selected disabled hidden value="">請選擇</option>
-                                        }
-                                        else
-                                        {
-                                            <option disabled hidden value="">請選擇</option>
-                                        }
-
-                                        @if (ViewBag.TrainerApproved == true)
-                                        {
-                                            <option value="true" selected>在職</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="true">在職</option>
-                                        }
-
-                                        @if (ViewBag.TrainerApproved == false)
-                                        {
-                                            <option value="false" selected>離職</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="false">離職</option>
+                                            if (ViewBag.City == cityOption)
+                                            {
+                                                <option value="@cityOption" selected>@cityOption</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@cityOption">@cityOption</option>
+                                            }
                                         }
                                     </select>
 
                                 </div>
                             </div>
 
-                            <!-- 第二區塊 -->
-                            <div class="col-3 d-flex align-items-center justify-content-center" name="trainerapproved">
+                        @*@{
+                        var statuses = new Dictionary<int, string>
+                        {
+                        { 0, "審核通過" },
+                        { 1, "審核中" },
+                        { 2, "退回審核" }
+                        };
+                        }*@
+                        <!-- 第二區塊 -->
+
+                            <div class="col-3 d-flex align-items-center justify-content-center">
                                 審核狀態:
                                 <div class="mx-1 flex-grow-1 ps-2">
-                                    <select class="form-select" id="statusSelect"
+                                    <select class="form-select" name="approved"
                                             aria-label="Floating label select example">
-                                        <option selected disabled>請選擇</option>
-                                        <option value="0">審核通過</option>
-                                        <option value="1">審核中</option>
-                                        <option value="2">已退回</option>
-                                        @*@if (ViewBag.TrainerApproved == "")
-                                        {
-                                            <option selected disabled hidden value="">請選擇</option>
-                                        }
-                                        else
-                                        {
-                                            <option disabled hidden value="">請選擇</option>
-                                        }
-                                        @if (ViewBag.TrainerApproved == 0)
-                                        {
-                                            <option selected value="0">審核通過</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="0">審核通過</option>
-                                        }
-                                        @if (ViewBag.TrainerApproved == 1)
-                                        {
-                                            <option selected value="2">審核中</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="2">審核中</option>
-                                        }
-                                        @if (ViewBag.TrainerApproved == 2)
-                                        {
-                                            <option selected value="3">退回審核</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="3">退回審核</option>
-                                        }*@
+                                        <option selected disabled value="">請選擇</option>
+                                        <option value="0">審核中</option>
+                                        <option value="1">審核通過</option>
+                                        <option value="2">退回審核</option>
                                     </select>
                                 </div>
                             </div>
-                            <!-- 第三區塊 -->
-                            @*<div class="col-3 d-flex align-items-center">
-                            希望待遇:
-                            <div class="mx-1 flex-grow-1">
-                            <select class="form-select" id="statusSelect"
-                            aria-label="Floating label select example">
-                            <option selected disabled>請選擇</option>
-                            <option value="1">0~1000</option>
-                            <option value="2">1000~2000</option>
-                            <option value="3">2000以上</option>
-                            </select>
-                            </div>
-                            </div>*@
 
-                            <!-- 第四區塊 -->
+                        <!-- 第三區塊 -->
+                        @*<div class="col-3 d-flex align-items-center">
+                        希望待遇:
+                        <div class="mx-1 flex-grow-1">
+                        <select class="form-select" id="statusSelect"
+                        aria-label="Floating label select example">
+                        <option selected disabled>請選擇</option>
+                        <option value="1">0~1000</option>
+                        <option value="2">1000~2000</option>
+                        <option value="3">2000以上</option>
+                        </select>
+                        </div>
+                        </div>*@
+                        <!-- 第四區塊 -->
+                        @*<div class="col-4 d-flex align-items-center justify-content-end">
+
+                        <div class="col-1 p-0">
+                        搜尋:
+                        </div>
+                        <div class="col-9 ps-2">
+                        <div class="mx-10 flex-grow-1">
+                        <input class=" form-control" type="text" placeholder="請輸入關鍵字"
+                        aria-label="請輸入關鍵字" id="searchInput">
+                        </div>
+                        </div>
+                        <div class="col-1 d-flex align-items-center p-0 ps-2">
+                        <a href="">
+                        <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                        </a>
+                        </div>*@
+
+                        @*</div>*@
+
+
+                        <form method="get" action="@Url.Action("Trainer", "Trainer")">
+
                             <div class="col-4 d-flex align-items-center justify-content-end">
-
                                 <div class="col-1 p-0">
                                     搜尋:
                                 </div>
                                 <div class="col-9 ps-2">
                                     <div class="mx-10 flex-grow-1">
-                                        <input class=" form-control" type="text" placeholder="請輸入關鍵字"
-                                               aria-label="請輸入關鍵字" id="searchInput">
+                                        @*<input class=" form-control" type="text" placeholder="請輸入關鍵字"
+                                        aria-label="請輸入關鍵字" id="searchInput">*@
+                                        @Html.TextBox("txtKeyword", ViewBag.Keyword as string, new { @class = "form-control", @placeholder = "請輸入關鍵字", @aria_label = "請輸入關鍵字", @id = "searchInput" })
+
                                     </div>
                                 </div>
-                                <div class="col-1 d-flex align-items-center p-0 ps-2">
-                                    <a href="">
+                                <div class="col-1 d-flex align-items-center p-0  ps-2">
+                                    <button type="submit" class="btn">
                                         <i class="fa-solid fa-magnifying-glass fa-xl"></i>
-                                    </a>
+                                    </button>
                                 </div>
-
                             </div>
-                            <!-- 第四區塊 -->
-                            <div class="col-1">
+                        </form>
 
-
-                                <button class="btn  btn-outline-success" type="submit">清空</button>
-
+                        <!-- 清空區塊 -->
+                        <div class="col-1">
+                            <button class="btn btn-outline-success" type="button" id="clearSearch">
+                                清空
+                            </button>
                             </div>
-                        </div>
-
-                    </form>
+                    </div>
                 </div>
             </div>
+            </form>
         </div>
         @*</div>
         </nav>*@
@@ -268,8 +248,8 @@
                 <table class="table text-start align-middle table-bordered table-hover mb-0 text-center">
                     <thead style="background-color: #74ffba;">
                         <tr class="text-dark">
-                            <th scope="col">
-                            </th>
+                            @* <th scope="col">
+                            </th>*@
                             <th scope="col">教練姓名</th>
                             <th scope="col">所在城市</th>
                             <th scope="col">希望待遇</th>
@@ -282,7 +262,7 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td><input class="form-check-input" type="checkbox"></td>
+                                @*<td><input class="form-check-input" type="checkbox"></td>*@
                                 <td>@Html.DisplayFor(modelItem => item.TrainerName)</td>
                                 <td>
                                     @if (item.Address != null && item.Address.Length >= 3)
@@ -296,21 +276,44 @@
                                 </td>
                                 <td>@Html.DisplayFor(modelItem => item.CourseFee)</td>
                                 <td>
-                                    @switch (item.Approved)
-                                    {
-                                        case CApprovalStatus.UnderReview:
-                                            <text>審核中</text>
-                                            break;
-                                        case CApprovalStatus.Approved:
-                                            <text>審核通過</text>
-                                            break;
-                                        case CApprovalStatus.Rejected:
-                                            <text>退回審核</text>
-                                            break;
-                                        default:
-                                            <text>未知</text>
-                                            break;
+                                    @*@switch (item.Approved)
+                                {
+                                case CApprovalStatus.UnderReview:
+                                <text>審核中</text>
+                                break;
+                                case CApprovalStatus.Approved:
+                                <text>審核通過</text>
+                                break;
+                                case CApprovalStatus.Rejected:
+                                <text>退回審核</text>
+                                break;
+                                default:
+                                <text>未知</text>
+                                break;
+                                }*@
+
+                                    @{
+                                        string reviewStatus = string.Empty;
+                                        switch (item.Approved)
+                                        {
+                                            case 0:
+                                                reviewStatus = "審核中";
+                                                break;
+                                            case 1:
+                                                reviewStatus = "審核通過";
+                                                break;
+                                            case 2:
+                                                reviewStatus = "退回審核";
+                                                break;
+                                            default:
+                                                reviewStatus = "未知";
+                                                break;
+                                        }
+
+
+                                        @reviewStatus
                                     }
+
                                 </td>
                                 <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
                                 <td>
@@ -328,18 +331,18 @@
                 </table>
 
 
-            <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
-                <!-- 全選區塊開始 -->
-                <div class="d-flex justify-content-between">
-                    <div class="form-check d-flex align-items-center">
+                <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
+                    <!-- 全選區塊開始 -->
+                    <div class="d-flex justify-content-between">
+                        @*<div class="form-check d-flex align-items-center">
                         <input class="form-check-input me-2" type="checkbox" id="selectAll">
                         <label class="form-check-label" for="selectAll">全選</label>
                         <button type="button" class="btn btn-primary mx-lg-2">刪除</button>
+                        </div>*@
+                        <!-- Pagination goes here -->
                     </div>
-                    <!-- Pagination goes here -->
-                </div>
-                <!-- 全選區塊END-->
-                <!-- 換頁區塊開始 -->
+                    <!-- 全選區塊END-->
+                    <!-- 換頁區塊開始 -->
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
                             <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
@@ -364,41 +367,35 @@
                             </li>
                         </ul>
                     </nav>
-                <!-- 換頁區塊END -->
+                    <!-- 換頁區塊END -->
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 <script>
-    // 全選功能
-    document.addEventListener("DOMContentLoaded", function () {
-        const selectAllCheckbox = document.getElementById("selectAll");
-        const restaurantCheckboxes = document.querySelectorAll(".form-check-input");
-
-        selectAllCheckbox.addEventListener("change", function () {
-            const isChecked = selectAllCheckbox.checked;
-            restaurantCheckboxes.forEach(checkbox => {
-                checkbox.checked = isChecked;
-            });
-        });
-
-        restaurantCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener("change", function () {
-                selectAllCheckbox.checked = Array.from(restaurantCheckboxes).every(cb => cb.checked);
-            });
+    // 清空功能
+    $(document).ready(function () {
+        $('#clearSearch').click(function () {
+            window.location.href = '@Url.Action("Trainer", "Trainer")';
         });
     });
-    //所在城市
-    //$(document).ready(function () {
-    //    $('select[name="citySelect"]').on('change', function () {
-    //        // 直接提交表單進行篩選
-    //        $(this).closest('form').submit();
-    //    });
-    //});
-    
+    //教練審核狀態
+    $(document).ready(function () {
+        $('select[name="approved"]').on('change', function () {
+            // 直接提交表單進行篩選
+            $(this).closest('form').submit();
+        });
+
+        $('select[name="city"]').on('change', function () {
+            // 直接提交表單進行篩選
+            $(this).closest('form').submit();
+        });
+    });
+
 </script>
