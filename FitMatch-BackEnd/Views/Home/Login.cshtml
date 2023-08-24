@@ -96,17 +96,17 @@
 
 <body>
     @using (Html.BeginForm())
-{
-    <div class="container-fluid position-relative d-flex p-0">
-        <!-- Spinner Start -->
-        <div id="spinner"
-             class="show bg-light position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
+    {
+        <div class="container-fluid position-relative d-flex p-0">
+            <!-- Spinner Start -->
+            <div id="spinner"
+                 class="show bg-light position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
             </div>
-        </div>
-        <!-- Spinner End -->
-        @Html.AntiForgeryToken()
+            <!-- Spinner End -->
+            @Html.AntiForgeryToken()
             <!-- Sign In Start -->
             <div class="container-fluid">
                 <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
@@ -156,8 +156,8 @@
                 </div>
             </div>
             <!-- Sign In End -->
-        
-    </div>
+
+        </div>
 
     }
 
@@ -179,7 +179,11 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-
+    <script>
+        $(document).on("contextmenu", function (e) {
+            e.preventDefault();
+        });
+    </script>
 
 
 
