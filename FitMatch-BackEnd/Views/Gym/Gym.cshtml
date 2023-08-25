@@ -109,8 +109,10 @@
                             <select id="regionType" name="RegionFilter" class="form-select" style="background-color: #fff;" aria-label="區域">
                                 <option value="" selected disabled hidden>請選擇區域</option>
                                 <option value="台北">台北</option>
+                                <option value="新北">新北</option>
                                 <option value="台中">台中</option>
                                 <option value="台南">台南</option>
+                                <option value="屏東">屏東</option>
                             </select>
                         </div>
 
@@ -133,7 +135,7 @@
                             <button type="submit" class="btn p-0 ps-2">
                                 <i class="fa-solid fa-magnifying-glass fa-xl"></i>
                             </button>
-                            <button type="reset" class="btn btn-outline-success" style="margin-left:15px">清空</button>
+                            <button type="reset" class="btn btn-outline-success" id="resetButton" style="margin-left:15px">清空</button>
                         </div>
 
                     </form>
@@ -230,3 +232,15 @@
     </div>
 </div>
 
+
+<script>
+    //清空功能
+    document.addEventListener("DOMContentLoaded", function () {
+        const resetButton = document.getElementById("resetButton");
+        resetButton.addEventListener("click", function (e) {
+            e.preventDefault(); // 防止默認的重置行為
+            // 重新導航到初始URL
+            window.location.href = window.location.pathname;
+        });
+    });
+</script>
