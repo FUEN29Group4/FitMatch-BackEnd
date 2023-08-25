@@ -135,20 +135,20 @@
 
                                 <!-- 權限 -->
                                 @*<div class="row-sm-12 row-lg-6 mb-3 d-flex">
-                                    <div class="col-2">
-                                        <label for="inputname" class="col-form-label">權限</label>
-                                    </div>
-                                    <div class="col-8 ps-3 mb-2">
+            <div class="col-2">
+                <label for="inputname" class="col-form-label">權限</label>
+            </div>
+            <div class="col-8 ps-3 mb-2">
 
-                                        <select class="form-select" asp-for="Position">
-                                            <option value="系統管理員" selected>系統管理員</option>
-                                            <option value="商城管理員">商城管理員</option>
-                                            <option value="課程管理員">課程管理員</option>
-                                            <option value="客服管理員">客服管理員</option>
-                                        </select>
-                                        <span asp-validation-for="Position" class="text-danger"></span>
-                                    </div>
-                                </div>*@
+                <select class="form-select" asp-for="Position">
+                    <option value="系統管理員" selected>系統管理員</option>
+                    <option value="商城管理員">商城管理員</option>
+                    <option value="課程管理員">課程管理員</option>
+                    <option value="客服管理員">客服管理員</option>
+                </select>
+                <span asp-validation-for="Position" class="text-danger"></span>
+            </div>
+        </div>*@
                                 <!-- 狀態 -->
                                 <div class="row-sm-12 row-lg-6 mb-3 d-flex">
                                     <div class="col-2">
@@ -254,7 +254,16 @@
                                     </div>
                                 </div>
 
-
+                                <!-- 入會 -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex">
+                                    <div class="col-2">
+                                        <label for="inputname" class="col-form-label">入會時間</label>
+                                    </div>
+                                    <div class="col-8 ps-3 mb-2">
+                                        <input asp-for="CreatedAt" class="form-select" type="date" />
+                                        <span asp-validation-for="CreatedAt" class="text-danger"></span>
+                                    </div>
+                                </div>
 
 
                             </div>
