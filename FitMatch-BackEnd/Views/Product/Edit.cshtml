@@ -149,16 +149,17 @@
                     <form method="post" asp-action="Edit" class="" style="padding: 50px;" enctype="multipart/form-data">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+                        <input type="hidden" name="ProductId" value="@Model.ProductId"> 
 
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
                             <div class="col-2">
                                 <label asp-for="ProductId" class="col-form-label" t1>商品編號</label>
                             </div>
                             <div class="col-10">
-                                <label asp-for="ProductId" class="col-form-label  t1" value="MemberId"> @Model.ProductId</label>
+                                <label asp-for="ProductId" class="col-form-label  t1" value="ProductId"> @Model.ProductId</label>
                             </div>
                         </div>
-                        @* <input type="hidden" name="ProductId" value="@Model.ProductId" />  *@                    
+                                           
 
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
@@ -185,6 +186,7 @@
                                 <span asp-validation-for="ProductName" class="text-danger"></span>
                             </div>
                         </div>
+
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
                                 <label for="inputname" class="col-form-label">商品封面</label>
@@ -201,37 +203,36 @@
                         </div>
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
-                                <label asp-for="ProductDescription" for="inputname" class="col-form-label">商品描述</label>
+                                <label asp-for="ProductDescription" for="inputdescription" class="col-form-label">商品描述</label>
                             </div>
                             <div class="col-4">
-                                <input asp-for="ProductDescription" class="form-control mb-3" type="text" placeholder="這裡會帶入商品描述"
-                                       aria-label="這裡會帶入商品描述" id="inputname">
+                                <input asp-for="ProductDescription"  class="form-control mb-3" type="text" placeholder="這裡會帶入商品描述"
+                                       aria-label="這裡會帶入商品描述" id="inputdescription">
                                 <span asp-validation-for="ProductDescription" class="text-danger"></span>
                             </div>
                         </div>
 
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
-                                <label asp-for="Price" for="inputname" class="col-form-label">價格</label>
+                                <label asp-for="Price" for="inputprice" class="col-form-label">價格</label>
                             </div>
                             <div class="col-4">
-                                <input asp-for="Price" class="form-control mb-3" type="text" placeholder="這裡會帶入價格" aria-label="這裡會帶入價格"
-                                       id="inputname">
+                                <input asp-for="Price"  class="form-control mb-3" type="text" placeholder="這裡會帶入價格"
+                                       aria-label="這裡會帶入價格" id="inputprice">
                                 <span asp-validation-for="Price" class="text-danger"></span>
                             </div>
                         </div>
+
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
-                                <label asp-for="ProductInventory" for="inputname" class="col-form-label">商品庫存</label>
+                                <label asp-for="ProductInventory" for="inputinventory" class="col-form-label">商品庫存</label>
                             </div>
                             <div class="col-4">
-                                <input asp-for="ProductInventory" class="form-control mb-3" type="text" placeholder="這裡會帶入商品庫存"
-                                       aria-label="這裡會帶入商品庫存" id="inputname">
+                                <input asp-for="ProductInventory"  class="form-control mb-3" type="text" placeholder="這裡會帶入商品庫存"
+                                       aria-label="這裡會帶入商品庫存" id="inputinventory">
                                 <span asp-validation-for="ProductInventory" class="text-danger"></span>
                             </div>
                         </div>
-
-
 
                         <fieldset class="row-sm-12 row-lg-6 mb-3 d-flex">
                             <div class="col-1">
