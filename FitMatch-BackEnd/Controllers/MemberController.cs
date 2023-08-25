@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FitMatch_BackEnd.Models;
@@ -22,9 +23,16 @@ namespace FitMatch_BackEnd.Controllers
         private readonly FitMatchDbContext _context;
 
         //連結DB
-        public MemberController(FitMatchDbContext context)
+        //public MemberController(FitMatchDbContext context)
+        //{
+        //    _context = context;
+        //}
+
+
+        public IWebHostEnvironment _enviro = null;
+        public MemberController(IWebHostEnvironment p)
         {
-            _context = context;
+            _enviro = p;
         }
 
 
@@ -108,13 +116,26 @@ namespace FitMatch_BackEnd.Controllers
         }
 
         [HttpPost]
-        public IActionResult MemberEdit(Member custIn)
+        public IActionResult MemberEdit(MemberWarap custIn)
         {
             FitMatchDbContext db = new FitMatchDbContext();
             Member custDb = db.Members.FirstOrDefault(t => t.MemberId== custIn.MemberId);
 
             if (custDb != null)
             {
+
+                if (custIn.photo != null)
+                {
+                    string photoName = Guid.NewGuid().ToString() + ".jpg";
+                    string path = _enviro.WebRootPath + "/img/會員/" + photoName;
+                    custIn.photo.CopyTo(new FileStream(path, FileMode.Create));
+                    custDb.Photo = photoName;
+                }
+
+
+                // 更新 Approved 狀態
+                //custDb.Status = string.IsNullOrEmpty(Request.Form["Status"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Status"]);
+
                 custDb.MemberName = custIn.MemberName;
                 custDb.Phone = custIn.Phone;
                 custDb.Email = custIn.Email;

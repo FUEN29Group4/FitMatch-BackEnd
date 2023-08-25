@@ -2,20 +2,26 @@
 
 @{
     ViewData["Title"] = "MemberEdit";
-    //layout : iindex_Add_Member_peraonal.html
-
+    //Layout = "~/Views/Employee/Employee.cshtml";
 }
 <!-- css/personnel參考 -->
 <link rel="stylesheet" href="css/personnel/revise.css">
 <style>
+    .upload-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
     /* 上傳照片 */
     .upload-container {
-        width: 100%;
-        min-height: 400px;
+        width: 300px;
+        height: 300px;
         border: 1px solid #000;
         position: relative;
         overflow: hidden;
-        border-radius: 5px;
+        border-radius: 50%;
         background-color: #E0E0E0;
     }
 
@@ -47,11 +53,6 @@
         transform: translate(-50%, -50%);
     }
 </style>
-
-
-
-@*放內容哩*@
-
 <!-- Content Start -->
 <div class="content">
     <!-- Navbar Start -->
@@ -63,50 +64,15 @@
             <i class="fa fa-bars"></i>
         </a>
         <form class="d-none d-md-flex ms-4">
-            <h4 class="m-auto">會員詳細資料</h4>
+            <h4 class="m-auto">員工管理/新增員工</h4>
         </form>
         <div class="navbar-nav align-items-center ms-auto">
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                <a href="#" class="nav-link">
                     <i class="fa-solid fa-gear"></i>
                     <span class="d-none d-lg-inline-flex">設定</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item text-center">See all message</a>
-                </div>
+
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -147,238 +113,196 @@
         </div>
     </nav>
     <!-- Navbar End -->
-
-
     <!-- Form Start -->
     <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-sm-12">
-                <div class="bg-secondary rounded h-100 p-4">
-
-                    <form asp-action="MemberEdit" class="" style="padding: 50px;">
-
-                        <input type="hidden" name="MemberId" value="@Model.MemberId" />  @*  這一句是關鍵：抓到第二個HttpPost ID ，然後可以成功做修改update的功能 *@
-
+        <div class="bg-secondary rounded pt-5 px-5 pb-2">
+            <form asp-action="Edit" enctype="multipart/form-data">
+                <div class="row d-flex">
+                    <div class="col-6">
                         <div class="row">
                             <div class="col">
-
-                                <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <!-- ID(不給編輯) -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex">
                                     <div class="col-2">
-                                        <label asp-for="MemberId" class="col-form-label  t1">會員ID</label>
+                                        <label asp-for="MemberId" class="col-form-label">ID</label>
                                     </div>
-                                    <div class="col-8">
-                                        <label asp-for="MemberId" class="col-form-label  t1" value="MemberId"> @Model.MemberId</label>
+                                    <div class="col-8 ps-3">
+                                        <input asp-for="MemberId" class="form-control" readonly />
+                                        <span asp-validation-for="MemberId" class="text-danger"></span>
                                     </div>
                                 </div>
 
-                                <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
+                                <!-- 權限 -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex">
                                     <div class="col-2">
-                                        <label asp-for="MemberName" class="col-form-label  t1">會員姓名</label>
+                                        <label for="inputname" class="col-form-label">權限</label>
                                     </div>
-                                    <div class="col-8">
-                                        <input asp-for="MemberName" class="form-control mb-3" type="text" value="@Model.MemberName"
-                                               id="inputname">
+                                    <div class="col-8 ps-3 mb-2">
+
+                                        <select class="form-select" asp-for="Position">
+                                            <option value="系統管理員" selected>系統管理員</option>
+                                            <option value="商城管理員">商城管理員</option>
+                                            <option value="課程管理員">課程管理員</option>
+                                            <option value="客服管理員">客服管理員</option>
+                                        </select>
+                                        <span asp-validation-for="Position" class="text-danger"></span>
                                     </div>
                                 </div>
-
-                                <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
+                                <!-- 狀態 -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex">
                                     <div class="col-2">
-                                        <label asp-for="Email" class="col-form-label  t1">帳號</label>
+                                        <label for="inputname" class="col-form-label">狀態</label>
                                     </div>
-                                    <div class="col-8">
-                                        <input asp-for="Email" class="form-control mb-3" type="text" value="@Model.Email"
-                                               id="inputname">
+
+                                    <div class="col-8 d-flex ps-3 justify-content-start pt-2">
+                                        <div class="form-check me-3 mb-2">
+                                            <input asp-for="Status" class="form-check-input" type="radio" id="MaleRadio" value="True" />
+                                            <label class="form-check-label" for="StatusOn">
+                                                有效
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input asp-for="Status" class="form-check-input" type="radio" id="FemaleRadio" value="False" />
+                                            <label class="form-check-label" for="StatusOff">
+                                                無效
+                                            </label>
+                                        </div>
+                                        <span asp-validation-for="Status" class="text-danger"></span>
                                     </div>
                                 </div>
-
-                                <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
+                                <!-- 姓名 -->
+                                <div class="row-sm-12 row-lg-6 mb-2 d-flex">
                                     <div class="col-2">
-                                        <label asp-for="Password" class="col-form-label  t1">密碼</label>
+                                        <label for="inputname" class="col-form-label">姓名</label>
                                     </div>
-                                    <div class="col-8">
-                                        <input asp-for="Password" class="form-control mb-3" type="text" value="@Model.Password"
-                                               id="inputname">
+                                    <div class="col-8 ps-3">
+                                        <input asp-for="MemberName" class="form-control mb-2" placeholder="請輸入姓名" />
+                                        <span asp-validation-for="MemberName" class="text-danger"></span>
                                     </div>
                                 </div>
-
-                                @*<div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
-            <div class="col-2">
-                <label asp-for="Email" class="col-form-label  t1">確認密碼</label>
-            </div>
-            <div class="col-8">
-                <input asp-for="Email" class="form-control mb-3" type="text" placeholder="請輸入密碼"
-                       aria-label="請輸入密碼" id="inputname">
-            </div>
-        </div>*@
-        
-                                @*時間點下去應該要可以更新 怪怪的要修修*@
-                                <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
+                                <!-- 性別 -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex">
                                     <div class="col-2">
-                                        <label asp-for="Birth" class="col-form-label  t1">生日</label>
-                                    </div>
-                                    <div class="col-8">
-                                        <input asp-for="Birth" class="form-select" style="background-color:#fff;" type="date"
-                                               name="birth" id="" value="@Model.Birth">
-                                    </div>
-                                </div>
-
-
-
-                                @*男女判斷怪怪的要修（Controller GenderType）*@
-                                <fieldset class="row-sm-12 row-lg-6 mb-3 d-flex">
-                                    <div class="col-2">
-                                        <label asp-for="Gender" class="col-form-label  t1">性別</label>
+                                        <label for="inputname" class="col-form-label">性別</label>
                                     </div>
 
-                                    <div asp-for="Gender" class="col-8 d-flex justify-content-start">
-                                        <div class="form-check me-3">
-                                            <input class="form-check-input" type="radio" name="gender"
-                                                   id="gridRadios5" value="true" @(Model.Gender ? "checked" : "")>
-                                            <label class="form-check-label" for="">
+                                    <div class="col-8 d-flex ps-3 justify-content-start pt-2">
+                                        <div class="form-check me-3 mb-2">
+                                            <input asp-for="Gender" class="form-check-input" type="radio" id="MaleRadio" value="False" />
+                                            <label class="form-check-label" for="MaleRadio">
                                                 男
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="gender"
-                                                   id="gridRadios5" value="false" @(Model.Gender ? "checked" : "")>
-                                            <label class="form-check-label" for="">
+                                            <input asp-for="Gender" class="form-check-input" type="radio" id="FemaleRadio" value="True" />
+                                            <label class="form-check-label" for="FemaleRadio">
                                                 女
                                             </label>
                                         </div>
+                                        <span asp-validation-for="Gender" class="text-danger"></span>
                                     </div>
-                                </fieldset>
-
-
-                                <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
+                                </div>
+                                <!-- 生日 -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex">
                                     <div class="col-2">
-                                        <label asp-for="Phone" class="col-form-label  t1">手機號碼</label>
+                                        <label for="inputname" class="col-form-label">生日</label>
                                     </div>
-                                    <div class="col-8">
-                                        <input asp-for="Phone" class="form-control mb-3" type="text" value="@Model.Phone"
-                                               id="inputname">
+                                    <div class="col-8 ps-3 mb-2">
+                                        <input asp-for="Birth" class="form-select" type="date" />
+                                        <span asp-validation-for="Birth" class="text-danger"></span>
                                     </div>
                                 </div>
-
-                                <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
+                                <!-- 帳號 -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex">
                                     <div class="col-2">
-                                        <label asp-for="Address" class="col-form-label  t1">地址</label>
+                                        <label for="inputname" class="col-form-label">電話號碼</label>
                                     </div>
-                                    <div class="col-8">
-                                        <input asp-for="Address" class="form-control mb-3" type="text" value="@Model.Address"
-                                               id="inputname">
+                                    <div class="col-8 ps-3">
+                                        <input asp-for="Phone" class="form-control mb-2" placeholder="請輸入電話號碼" />
+                                        <span asp-validation-for="Phone" class="text-danger"></span>
                                     </div>
                                 </div>
-
-
-
-
-                                @*？？？會員物狀態要去SQL 修修欄位*@
-                                @*<div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
-            <div class="col-2">
-                <label for="inputname" class="col-form-label t1">
-                    會員狀態
-                </label>
-            </div>
-            <div class="col-8">
-                <select class="form-select" style="background-color: #fff;"
-                        aria-label="權限" name="add1" size="1">
-                    <option value="2">有效會員</option>
-                    <option value="2">無效會員</option>
-                </select>
-            </div>
-        </div>*@
-
-
-
-                                @*時間點下去應該要可以更新 怪怪的要修修*@
-
-                                <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
+                                <!-- 地址 -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex">
                                     <div class="col-2">
-                                        <label asp-for="CreatedAt"
-                                               class="col-form-label min-width-label">入會時間</label>
+                                        <label for="inputname" class="col-form-label">地址</label>
                                     </div>
-                                    <div class="col-8">
-                                        <input asp-for="CreatedAt" class="form-select" style="background-color:#fff;" type="date"
-                                               name="birth" id="" value="@Model.CreatedAt">
+                                    <div class="col-8 ps-3">
+                                        <input asp-for="Address" class="form-control mb-2" placeholder="請輸入地址" />
+                                        <span asp-validation-for="Address" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <!-- 電子信箱 -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex">
+                                    <div class="col-2">
+                                        <label for="inputname" class="col-form-label">電子信箱</label>
+                                    </div>
+                                    <div class="col-8 ps-3">
+                                        <input asp-for="Email" class="form-control mb-3" placeholder="請輸入電子信箱" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <!-- 密碼 -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex">
+                                    <div class="col-2">
+                                        <label for="inputname" class="col-form-label">密碼</label>
+                                    </div>
+                                    <div class="col-8 ps-3">
+                                        <input asp-for="Password" class="form-control mb-2" placeholder="請輸入密碼" />
+                                        <span asp-validation-for="Password" class="text-danger"></span>
                                     </div>
                                 </div>
 
 
 
-                                @*btn 按鈕*@
 
-                                <div class="col-8 d-flex text-center pt-5" style="margin-left: 270px;">
-                                    <input type="submit" value="修改"class="btn btn-primary me-5" />
-
-                                    <a asp-action="Member" class="btn btn-outline-success">取消</a>
-
-
-                                </div>
-                            </div>
-
-                                   
-
-                            
-     
-                            
-                       @*      圖片上傳功能錯誤 *@
-                    <div class="col">
-                        <div>
-                            <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
-                                <div class="col-2">
-                                            <label asp-for="Photo" class="col-form-label  t1">大頭貼</label>
-                                </div>
-                               
-                                
-                                <div class="col-8">
-                                    <div class="upload-container">
-                                        <label for="upload" class="label-upload">
-                                            <div class="icon">+</div>
-                                            <input type="file" id="upload" class="upload-input"
-                                                   accept="image/*">
-                                        </label>
-                                                <img asp-for="Photo" src="~/img/Members/@Model.Photo" width="110" height="70" />
-                                    </div>
-
-
-                                            <div class="rounded-circle ms-5" style="height: 200px;width: 200px; overflow:hidden;">
-                                              
-                                               
-                                            </div>
-
-
-                                </div>
-
-                                        
-
-
-                            </div>
-                            <div class="col-8" style="margin-left:230px">
-                                只能上傳jpg/png文件，且不超過500kb
                             </div>
                         </div>
                     </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col">
+                                <!-- 照片 -->
+                                <div class="row-sm-12 row-lg-6 mb-3 d-flex justify-content-center">
+                                    <div class="upload-container">
+                                        <label for="upload" class="label-upload">
+                                            <div class="icon">編輯</div>
+                                            @*這裡還要修!!*@
+                                            <input asp-for="Photo" class="upload-input" type="file" id="upload" name="photo" accept="image/*" />
+                                            <img src="~/img/會員/@Model.Photo" style="width:100%;" alt="Photo">
+                                            <span asp-validation-for="Photo" class="text-danger"></span>
+                                        </label>
+                                        <img id="preview" src="" alt="Image Preview">
+                                    </div>
+                                </div>
+                                <div class="row d-flex justify-content-center">
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                    </form>
 
-
-
-
+                    <div class="row">
+                        <!-- 按鈕 -->
+                        <div class=" d-flex justify-content-center pt-2 form-group">
+                            <button type="submit" class="btn btn-primary me-5" value="Save">確認</button>
+                            <a asp-action="Member"
+                               class="btn btn-outline-success">取消</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
+            </form>
         </div>
     </div>
     <!-- Form End -->
-
 </div>
 <!-- Content End -->
-@*內容結束*@
-
-
-
-
-@*JS區*@
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
 <script>const uploadInput = document.getElementById('upload');
     const preview = document.getElementById('preview');
     const icon = document.querySelector('.icon');
@@ -397,3 +321,8 @@
             reader.readAsDataURL(file);
         }
     });</script>
+
+
+
+
+
