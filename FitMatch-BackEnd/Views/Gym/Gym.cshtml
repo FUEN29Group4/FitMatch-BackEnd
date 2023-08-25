@@ -96,63 +96,82 @@
     <!-- Navbar End -->
     <!-- 篩選列開始 -->
     <div class="container-fluid pt-4 px-4">
-        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0 rounded">
-            <div class="container-fluid">
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="row g-4">
+            <form method="post" asp-action="Gym">
 
-                    <!-- 將所有的選項和搜索功能都放在同一個form中 -->
-                    <form method="post" asp-action="Gym" class="container-fluid d-flex flex-wrap justify-content-between align-items-center">
+                <div class="col">
+                    <div class="bg-white rounded h-100 p-4">
+                        <div class="row pr-1">
 
-                        <!-- 區域選擇 -->
-                        <div class="d-flex align-items-center me-3">
-                            <label for="regionType" class="me-2">區域:</label>
-                            <select id="regionType" name="RegionFilter" class="form-select" style="background-color: #fff;" aria-label="區域">
-                                <option value="" selected disabled hidden>請選擇區域</option>
-                                <option value="台北">台北</option>
-                                <option value="新北">新北</option>
-                                <option value="台中">台中</option>
-                                <option value="台南">台南</option>
-                                <option value="屏東">屏東</option>
-                            </select>
-                        </div>
-
-                        <!-- 上架狀態選擇 -->
-                        <div class="d-flex align-items-center me-3">
-                            <label for="statusType" class="me-2">上架狀態:</label>
-                            <select id="statusType" name="StatusFilter" class="form-select" style="background-color: #fff;" aria-label="上架狀態">
-                                <option value="" selected disabled hidden>請選擇狀態</option>
-                                <option value="上架">上架</option>
-                                <option value="下架">下架</option>
-                                <option value="待審核">待審核</option>
-                            </select>
-                        </div>
-
-                        <!-- 搜尋部分 -->
-                        <div class="d-flex align-items-center ml-auto">
-                            <div class="me-2">
-                                <input name="txtKeyword" class="form-control" type="text" placeholder="請輸入關鍵字" aria-label="請輸入關鍵字" id="searchInput">
+                            <!-- 第一區塊 -->
+                            <div class="col-3 d-flex align-items-center justify-content-center">
+                                區域:
+                                <div class="mx-1 flex-grow-1 ps-1">
+                                    <select class="form-select" name="RegionFilter"
+                                            aria-label="區域">
+                                        <option selected disabled hidden value="">請選擇區域</option>
+                                        <option value="台北">台北</option>
+                                        <option value="新北">新北</option>
+                                        <option value="台中">台中</option>
+                                        <option value="台南">台南</option>
+                                        <option value="屏東">屏東</option>
+                                    </select>
+                                </div>
                             </div>
-                            <button type="submit" class="btn p-0 ps-2">
-                                <i class="fa-solid fa-magnifying-glass fa-xl"></i>
-                            </button>
-                            <button type="reset" class="btn btn-outline-success" id="resetButton" style="margin-left:15px">清空</button>
+
+                            <!-- 第二區塊 -->
+                            <div class="col-3 d-flex align-items-center justify-content-center">
+                                上架狀態:
+                                <div class="mx-1 flex-grow-1 ps-2">
+                                    <select class="form-select" name="StatusFilter"
+                                            aria-label="上架狀態">
+                                        <option selected disabled hidden value="">請選擇狀態</option>
+                                        <option value="上架">上架</option>
+                                        <option value="下架">下架</option>
+                                        <option value="待審核">待審核</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- 搜尋部分 -->
+                            <div class="col-4 d-flex align-items-center justify-content-end">
+                                <div class="col-1 p-0">
+                                    搜尋:
+                                </div>
+                                <div class="col-9 ps-2">
+                                    <div class="mx-10 flex-grow-1">
+                                        <input class="form-control" type="text" name="txtKeyword" placeholder="請輸入關鍵字"
+                                               aria-label="請輸入關鍵字" id="searchInput">
+                                    </div>
+                                </div>
+                                <div class="col-1 d-flex align-items-center p-0 ps-2">
+                                    <button type="submit" class="btn">
+                                        <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 清空區塊 -->
+                            <div class="col-1">
+                                <button type="reset" class="btn btn-outline-success" id="resetButton">
+                                    清空
+                                </button>
+                            </div>
+
                         </div>
-
-                    </form>
+                    </div>
                 </div>
-            </div>
-        </nav>
+
+            </form>
+        </div>
     </div>
-
-
-
     <!-- 篩選列結束 -->
     <!-- 管理列表開始 -->
     <div class="container-fluid pt-4 px-4">
         <div class="bg-white text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <h5 class="mb-0 text-dark">場館列表</h5>
-                <a class="btn btn-primary  custom-purple" asp-action="GymCreate">新增場館</a>
+                <a class="btn btn-primary custom-purple" asp-action="GymCreate">新增場館</a>
             </div>
             <div class="table-responsive">
                 <table class="table text-center align-middle table-bordered table-hover mb-0">
@@ -184,11 +203,11 @@
                                     <td>@(item.OpentimeEnd.HasValue ? item.OpentimeEnd.Value.ToString("HH:mm") : "未設定")</td>
                                     <td><img src="@("/img/gym/" + item.Photo)" width="110" height="70" /></td>
                                     <td>
-                                        <a class="btn btn-sm btn-secondary" href="@Url.Action("GymEdit", "Gym", new { id = item.GymId })"
+                                        <a class="btn btn-secondary" href="@Url.Action("GymEdit", "Gym", new { id = item.GymId })"
                                            style="background-color: aliceblue; color: black;">
                                             <i class="fa-regular fa-pen-to-square">編輯</i>
                                         </a>
-                                        <a class="btn btn-sm btn-primary" href="@Url.Action("GymDelete", "Gym", new { id = item.GymId })">
+                                        <a class="btn btn-primary" href="@Url.Action("GymDelete", "Gym", new { id = item.GymId })">
                                             <i class="fa-solid fa-trash-can">刪除</i>
                                         </a>
                                     </td>
@@ -196,20 +215,17 @@
                             }
                         }
                     </tbody>
-
                 </table>
             </div>
-
-
-                <!-- 換頁區塊開始 -->
-            <nav aria-label="Page navigation example" style="margin-left: 1435px; margin-top: 30px;">
+            <!-- 換頁區塊 -->
+            <div class="d-flex justify-content-end pt-4">
+                <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
                             <a class="page-link previous-page" data-page-type="previous" href="@Url.Action("Gym", new { currentPage = ViewBag.CurrentPage - 1 })">
                                 <i class="fa-solid fa-chevron-left"></i>
                             </a>
                         </li>
-
                         @for (int i = 1; i <= ViewBag.TotalPages; i++)
                         {
                             <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
@@ -218,7 +234,6 @@
                                 </a>
                             </li>
                         }
-
                         <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
                             <a class="page-link next-page" data-page-type="next" href="@Url.Action("Gym", new { currentPage = ViewBag.CurrentPage + 1 })">
                                 <i class="fa-solid fa-chevron-right"></i>
@@ -226,7 +241,6 @@
                         </li>
                     </ul>
                 </nav>
-                <!-- 換頁區塊END -->
             </div>
         </div>
     </div>
