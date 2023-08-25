@@ -155,13 +155,11 @@
                             <label asp-for="TypeId" class="col-sm-1 col-form-label-ADD">商品類別</label>
                             <div class="col-sm-10">
                                 <select class="form-select1 custom-form-control" id="validationServerCategory"
-                                        required aria-label="select example">
-                                    <option value="">請選擇</option>
-                                    <option value="1">雞胸肉</option>
-                                    <option value="2">保健品</option>
-                                    <option value="3">乳清蛋白</option>
+                                        required aria-label="select example" asp-for="TypeId">
+                                    <option value="雞胸肉">雞胸肉</option>
+                                    <option value="保健品">保健品</option>
+                                    <option value="乳清蛋白">乳清蛋白</option>
                                 </select>
-                                <div class="invalid-feedback">Example invalid select feedback</div>
                                 <span asp-validation-for="TypeId" class="text-danger"></span>
                             </div>
                         </div>

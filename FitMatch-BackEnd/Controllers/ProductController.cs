@@ -1,6 +1,6 @@
 ﻿using FitMatch_BackEnd.Models;
-using FitMatch_BackEnd.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitMatch_BackEnd.Controllers
 {
@@ -20,7 +20,7 @@ namespace FitMatch_BackEnd.Controllers
 
         //***篩選功能***
 
-        //取得商品管理頁面  ***上架狀態要修***圖片未抓取***預設這頁只能放五筆資料***
+        //取得商品管理頁面  ***上架狀態要修***圖片未抓取***
         public IActionResult List(CKeywordViewModel vm, int currentPage = 1)
         {
             FitMatchDbContext db = new FitMatchDbContext();

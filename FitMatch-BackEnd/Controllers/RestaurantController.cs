@@ -199,7 +199,7 @@ namespace FitMatch_BackEnd.Controllers
         {
             public string txtKeyword { get; set; }
             public string RegionFilter { get; set; }
-            public string StatusFilter { get; set; }  // 使用 string
+            public string StatusFilter { get; set; }  
         }
     }
 }
