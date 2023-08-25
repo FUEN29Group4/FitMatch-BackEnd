@@ -17,8 +17,15 @@ namespace FitMatch_BackEnd.Controllers
         }
 
         public IActionResult List(string searchField, string searchKeyword, DateTime? start, DateTime? end, string CourseStatus, int currentPage = 1)
+        
         {
 
+            
+            
+            
+            
+            
+            
             var viewModelList = (from c in _db.Classes
                                  join m in _db.Members on c.MemberId equals m.MemberId
                                  join t in _db.Trainers on c.TrainerId equals t.TrainerId
@@ -168,8 +175,8 @@ namespace FitMatch_BackEnd.Controllers
                     classData.CourseStatus = editedViewModel.CourseStatus;
                         // 更新其他属性的修改
                         classData.StartTime = editedViewModel.StartTime;
-                        classData.EndTime = editedViewModel.EndTime;
-                        classData.BuildTime = DateTime.Now;
+                    classData.EndTime = editedViewModel.StartTime.AddHours(1);
+                    classData.BuildTime = DateTime.Now;
                     // ... 根据需要应用其他属性的修改
 
                     // 保存更改到数据库

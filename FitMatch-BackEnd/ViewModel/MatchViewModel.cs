@@ -9,16 +9,22 @@ namespace FitMatch_BackEnd.ViewModel
         public int TrainerId { get; set; }
         public string ClassName { get; set; }
         public DateTime BuildTime { get; set; }
+        [DisplayName("課程開始時間")]
         public DateTime StartTime { get; set; }
+
+        [DisplayName("課程結束時間")]
         public DateTime EndTime { get; set; }
+
         public int MemberId { get; set; }
 
         public string MemberName { get; set; }
         public string TrainerName { get; set; }
         public string GymName { get; set; }
+        [DisplayName("課程狀態")]
         public string CourseStatus { get; set; }
         public int GymId { get; set; }
 
+        [DisplayName("審核通過與否")]
         public bool Approved { get; set; }
 
         public int ClassTypeId { get; set; }
