@@ -72,7 +72,7 @@
                     <i class="fa-solid fa-gear"></i>
                     <span class="d-none d-lg-inline-flex">設定</span>
                 </a>
-               
+
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -261,28 +261,17 @@
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="row">
-                            <div class="col">
-                                <!-- 照片 -->
-                                <div class="row-sm-12 row-lg-6 mb-3 d-flex justify-content-center">
-                                    <div class="upload-container">
-                                        <label for="upload" class="label-upload">
-                                            <div class="icon">編輯</div>
-                                            @*這裡還要修!!*@
-                                            <input asp-for="Photo" class="upload-input" type="file" id="upload" name="photo" accept="image/*" />
-                                            <img src="~/img/員工/@Model.Photo" style="width:100%;" alt="Photo">
-                                            <span asp-validation-for="Photo" class="text-danger"></span>
-                                        </label>
-                                        <img id="preview" src="" alt="Image Preview">
-                                    </div>
-                                </div>
-                                <div class="row d-flex justify-content-center">
-                                </div>
+                        <!-- 照片 -->
+                        <div class="row-sm-12 row-lg-6 mb-3 d-flex justify-content-center">
+                            <div class="upload-container">
+                                <img id="previewImage" src="~/img/員工/@Model.Photo" style="width:100%;" />
+                                @*</label>*@
                             </div>
-
+                        </div>
+                        <div class="row-sm-12 row-lg-6 mb-3 d-flex justify-content-center">
+                            <input type="file" id="imageUpload" name="photo" class="form-control" style="min-width:100px;max-width:300px" />
                         </div>
                     </div>
-
                     <div class="row">
                         <!-- 按鈕 -->
                         <div class=" d-flex justify-content-center pt-2 form-group">
@@ -304,28 +293,37 @@
     }
 }
 <script>
-    const uploadInput = document.getElementById('upload');
-    const preview = document.getElementById('preview');
-    const icon = document.querySelector('.icon');
+    //const uploadInput = document.getElementById('upload');
+    //const preview = document.getElementById('preview');
+    //const icon = document.querySelector('.icon');
 
-    uploadInput.addEventListener('change', function () {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
+    //uploadInput.addEventListener('change', function () {
+    //    const file = this.files[0];
+    //    if (file) {
+    //        const reader = new FileReader();
 
-            reader.addEventListener('load', function () {
-                preview.src = this.result;
-                preview.style.display = 'block';
-                icon.style.display = 'none';
-            });
+    //        reader.addEventListener('load', function () {
+    //            preview.src = this.result;
+    //            preview.style.display = 'block';
+    //            icon.style.display = 'none';
+    //        });
 
-            reader.readAsDataURL(file);
+    //        reader.readAsDataURL(file);
+    //    }
+    //});
+
+    //及時秀照片
+    document.getElementById('imageUpload').addEventListener('change', function (e) {
+        var reader = new FileReader();
+
+        reader.onload = function (event) {
+            document.getElementById('previewImage').src = event.target.result;
         }
+        reader.readAsDataURL(e.target.files[0]);
     });
-
 </script>
 
 
-            
+
 
 

@@ -2,9 +2,9 @@
 
 @{
     ViewData["Title"] = "Trainer";
+
 }
-@*換頁要確認*@
-@*全選刪除還沒做*@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Content Start -->
 <div class="content">
@@ -201,7 +201,7 @@
 
                         <form method="get" action="@Url.Action("Trainer", "Trainer")">
 
-                            <div class="col-4 d-flex align-items-center justify-content-end">
+                            <div class="col-5 d-flex align-items-center justify-content-end">
                                 <div class="col-1 p-0">
                                     搜尋:
                                 </div>
@@ -222,7 +222,7 @@
                         </form>
 
                         <!-- 清空區塊 -->
-                        <div class="col-1">
+                            <div class="col-1 d-flex  align-items-center justify-content-end">
                             <button class="btn btn-outline-success" type="button" id="clearSearch">
                                 清空
                             </button>
@@ -320,8 +320,8 @@
                                     <a href="@Url.Action("Details", "Trainer", new { id = item.TrainerId })" class="btn  btn-light text-white">
                                         查看履歷
                                     </a>
-                                    <a href="@Url.Action("Approve", "Trainer", new { id = item.TrainerId })" class="btn  btn-primary">審核通過</a>
-                                    <a href="@Url.Action("Reject", "Trainer", new { id = item.TrainerId })" class="btn  btn-danger">退回審核</a>
+                                    <a href="@Url.Action("Approve", "Trainer", new { id = item.TrainerId })" class="btn  btn-primary" onclick="check()">審核通過</a>
+                                    <a href="@Url.Action("Reject", "Trainer", new { id = item.TrainerId })" class="btn  btn-danger" onclick="error()">退回審核</a>
                                 </td>
                             </tr>
                         }
@@ -376,6 +376,7 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 
 
 <script>
@@ -385,6 +386,24 @@
             window.location.href = '@Url.Action("Trainer", "Trainer")';
         });
     });
+    //確認通過審核
+    const check = () => {
+        Swal.fire({
+            icon: 'success',
+            timer: 3000,
+            title: '審核通過',
+        })
+    }
+    //確認退回審核
+    const error = () => {
+        Swal.fire({
+            icon: 'error',
+            timer: 3000,
+            title: '退回審核',
+        })
+    }
+
+
     //教練審核狀態
     $(document).ready(function () {
         $('select[name="approved"]').on('change', function () {

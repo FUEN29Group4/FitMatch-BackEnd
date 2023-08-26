@@ -4,6 +4,8 @@
     ViewData["Title"] = "Create";
     //Layout = "~/Views/Employee/Employee.cshtml";
 }
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+
 <!-- css/personnel參考 -->
 <link rel="stylesheet" href="css/personnel/revise.css">
 <style>
@@ -151,7 +153,7 @@
     <!-- Form Start -->
     <div class="container-fluid pt-4 px-4">
         <div class="bg-secondary rounded pt-5 px-5 pb-2">
-            <form asp-action="Create">
+            <form asp-action="Create" enctype="multipart/form-data" method="post" id="employeeForm">
                 <div class="row d-flex">
                     <div class="col-6">
                         <div class="row">
@@ -251,35 +253,26 @@
                                         <label for="inputname" class="col-form-label">密碼</label>
                                     </div>
                                     <div class="col-8 ps-3">
-                                        <input asp-for="Password" class="form-control mb-2" placeholder="請輸入密碼" />
+                                        <input type="Password" asp-for="Password" class="form-control mb-2" placeholder="請輸入密碼" />
                                         <span asp-validation-for="Password" class="text-danger"></span>
                                     </div>
                                 </div>
 
-
-
-                                
                             </div>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="row">
-                            <div class="col">
-                                <div class="row-sm-12 row-lg-6 mb-3 d-flex justify-content-center">
-                                    <div class="upload-container">
-                                        <label for="upload" class="label-upload">
-                                            <div class="icon">+</div>
-                                            @*照片存檔地點為調整*@
-                                            <input asp-for="Photo" class="upload-input" type="file" id="upload" accept="image/*" />
-                                            <span asp-validation-for="Photo" class="text-danger"></span>
-                                        </label>
-                                        <img id="preview" src="" alt="Image Preview">
-                                    </div>
-                                </div>
-                                <div class="row d-flex justify-content-center">
-                                </div>
+                        <div class="row-sm-12 row-lg-6 mb-3 d-flex justify-content-center">
+                            <div class="upload-container">
+                                <label for="FileToUpload" class="label-upload">
+                                    <div class="icon">+</div>
+                                    <input asp-for="FileToUpload" type="file" id="FileToUpload" class="upload-input" accept="image/*">
+                                </label>
+                                <img id="preview" src="" alt="Image Preview">
                             </div>
-
+                        </div>
+                        <div class="row-sm-12 row-lg-6 mb-3 d-flex justify-content-center">
+                            <span asp-validation-for="Photo" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -303,8 +296,10 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+
 <script>
-    const uploadInput = document.getElementById('upload');
+    const uploadInput = document.getElementById('FileToUpload');
     const preview = document.getElementById('preview');
     const icon = document.querySelector('.icon');
 
@@ -322,5 +317,42 @@
             reader.readAsDataURL(file);
         }
     });
+    // 確認按鈕的驗證
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("employeeForm");
 
+        form.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            // Perform form submission using AJAX or fetch
+            try {
+                // Simulate form submission success
+                const response = await fetch(/* your form submission endpoint */, {
+                    method: "POST",
+                    body: new FormData(form)
+                });
+
+                if (response.ok) {
+                    // Show success message
+                    await Swal.fire({
+                        icon: "success",
+                        title: "新增成功",
+                        text: "已成功建立一筆員工資料'",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    throw new Error("表單提交失敗");
+                }
+            } catch (error) {
+                // Show error message
+                await Swal.fire({
+                    icon: "error",
+                    title: "驗證錯誤",
+                    text: "請確認欄位是否符合正確格式",
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    });
 </script>
