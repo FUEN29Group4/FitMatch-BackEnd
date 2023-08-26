@@ -15,9 +15,9 @@ public partial class Gym
     [Required(ErrorMessage = "場館名稱是必填的")]
     [StringLength(50, MinimumLength = 5, ErrorMessage = "場館名稱應在5到50個字之間")]
     public string? GymName { get; set; }
- 
+
     [Required(ErrorMessage = "場館電話是必填的")]
-    [RegularExpression(@"^[0-9]{2}-[0-9]{7}$", ErrorMessage = "電話號碼格式不正確 正確格式為##-#######")]
+    [RegularExpression(@"^[0-9]{2}-[0-9]{7,8}$", ErrorMessage = "電話號碼格式不正確 正確格式為##-#######(前兩碼為區碼)")]
     public string? Phone { get; set; }
 
     [Required(ErrorMessage = "場館地址是必填的")]

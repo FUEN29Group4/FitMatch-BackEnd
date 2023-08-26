@@ -164,8 +164,9 @@
                                 <label asp-for="GymName" class="col-form-label" t1>場館名稱</label>
                             </div>
                             <div class="col-10">
-                                <input asp-for="GymName" class="form-control mb-3" type="text" value="@Model.GymName"
-                                       id="inputname">
+                                <input asp-for="GymName" data-validate="gymName" data-error-message="場館名稱是必填的" class="form-control mb-3" type="text" value="@Model.GymName"
+                                       id="inputGymName">
+                                <span asp-validation-for="GymName" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -174,8 +175,9 @@
                                 <label asp-for="Phone" class="col-form-label">場館電話</label>
                             </div>
                             <div class="col-10">
-                                <input asp-for="Phone" class="form-control mb-3" type="text" value="@Model.Phone"
-                                       id="inputname">
+                                <input asp-for="Phone" data-validate="phone" data-error-message="請輸入正確的電話號碼格式" class="form-control mb-3" type="text" value="@Model.Phone"
+                                       id="inputPhone">
+                                <span asp-validation-for="Phone" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -184,8 +186,9 @@
                                 <label asp-for="Address" class="col-form-label">場館地址</label>
                             </div>
                             <div class="col-10">
-                                <input asp-for="Address" class="form-control mb-3" type="text" value="@Model.Address"
-                                       id="inputname">
+                                <input asp-for="Address" data-validate="address" data-error-message="地址是必填的" class="form-control mb-3" type="text" value="@Model.Address"
+                                       id="inputAddress">
+                                <span asp-validation-for="Address" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -286,11 +289,12 @@
                                 <legend class="col-form-label pt-3 pe-4">場館簡介</legend>
                             </div>
                             <div class="col-10 form-floating pt-1">
-                                <textarea asp-for="GymDescription" class="form-control" placeholder="Leave a comment here"
-                                          id="floatingTextarea" style="height: 150px;"></textarea>
+                                <textarea asp-for="GymDescription" class="form-control" placeholder="請輸入場館簡介"
+                                          id="floatingTextarea" data-validate="gymDescription" data-error-message="場館簡介是必填的" style="height: 150px;"></textarea>
                                 <span asp-validation-for="GymDescription" class="text-danger"></span>
                             </div>
                         </div>
+
                         <div class="col-sm-12 col-xl-6 pt-5 d-flex" style="margin-left: 110px;">
 
                             <div class="col-6 text-center">
@@ -323,4 +327,123 @@
         }
         reader.readAsDataURL(event.target.files[0]);
     }
+
+    //以下是表單驗證
+    //以下是表單驗證
+    //以下是表單驗證
+
+    // 顯示錯誤訊息
+    function showErrorMessage(element, message) {
+        let errorMessageElement = element.parentNode.querySelector('.error-message');
+        if (!errorMessageElement) {
+            errorMessageElement = document.createElement('span');
+            errorMessageElement.className = 'error-message text-danger';
+            element.parentNode.appendChild(errorMessageElement);
+        }
+        errorMessageElement.textContent = message;
+    }
+
+    // 清除錯誤訊息
+    function clearErrorMessage(element) {
+        const errorMessageElement = element.parentNode.querySelector('.error-message');
+        if (errorMessageElement) {
+            errorMessageElement.remove();
+        }
+    }
+
+
+    // 驗證函數
+    function validate(element) {
+        const validateRule = element.getAttribute('data-validate');
+        const errorMessage = element.getAttribute('data-error-message');
+
+        if (validateRule === 'required') {
+            if (element.value === '') {
+                showErrorMessage(element, errorMessage);
+                return false;
+            }
+        }
+
+        if (validateRule === 'gymName') {
+            if (element.value.length < 5 || element.value.length > 50) {
+                showErrorMessage(element, "場館名稱應在5到50個字之間");
+                return false;
+            }
+        }
+
+        if (validateRule === 'phone') {
+            const regex = /^[0-9]{2}-[0-9]{7}$/;
+            if (!regex.test(element.value)) {
+                showErrorMessage(element, "電話號碼格式不正確 正確格式為##-#######(前兩碼為區碼)");
+                return false;
+            }
+        }
+
+        if (validateRule === 'address') {
+            if (element.value.length < 10 || element.value.length > 100) {
+                showErrorMessage(element, "地址應在10到100個字之間");
+                return false;
+            }
+        }
+
+        if (validateRule === 'gymDescription') {
+            if (element.value.length < 20 || element.value.length > 500) {
+                showErrorMessage(element, "場館簡介是必填的，並且長度不應超過500個字");
+                return false;
+            }
+        }
+
+        if (validateRule === 'startTime' || validateRule === 'endTime') {
+            const startTimeElement = document.querySelector('[data-validate="startTime"]');
+            const endTimeElement = document.querySelector('[data-validate="endTime"]');
+            const startTime = startTimeElement.value;
+            const endTime = endTimeElement.value;
+
+            if (parseInt(startTime) >= parseInt(endTime)) {
+                showErrorMessage(startTimeElement, "開始時間必須早於結束時間");
+                showErrorMessage(endTimeElement, "結束時間必須晚於開始時間");
+                return false;
+            }
+        }
+
+
+        clearErrorMessage(element);
+        return true;
+    }
+
+    // 在輸入或失去焦點時觸發驗證
+    const elementsToValidate = document.querySelectorAll('[data-validate]');
+    elementsToValidate.forEach(function (element) {
+        element.addEventListener('keyup', function () {
+            clearBackendErrorMessage(this);
+            validate(this);
+        });
+        element.addEventListener('blur', function () {
+            clearBackendErrorMessage(this);
+            validate(this);
+        });
+    });
+
+    // 清除後端錯誤訊息
+    function clearBackendErrorMessage(element) {
+        const backendErrorMessageElement = element.parentNode.querySelector('.text-danger');
+        if (backendErrorMessageElement) {
+            backendErrorMessageElement.textContent = '';
+        }
+    }
+
+    //(時間)下拉選單改變時觸發驗證
+    document.addEventListener("DOMContentLoaded", function () {
+        const startTimeElement = document.querySelector('[data-validate="startTime"]');
+        const endTimeElement = document.querySelector('[data-validate="endTime"]');
+
+        startTimeElement.addEventListener('change', function () {
+            validate(this);
+        });
+
+        endTimeElement.addEventListener('change', function () {
+            validate(this);
+        });
+    });
+
 </script>

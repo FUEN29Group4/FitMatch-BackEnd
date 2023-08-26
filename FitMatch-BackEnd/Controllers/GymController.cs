@@ -6,7 +6,6 @@ using FitMatch_BackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
-using Microsoft.AspNetCore.Mvc;
 
 
 namespace FitMatch_BackEnd.Controllers
@@ -213,6 +212,16 @@ namespace FitMatch_BackEnd.Controllers
         [HttpPost]
         public async Task<IActionResult> GymEdit(Gym custIn)
         {
+            if (custIn == null ||
+       string.IsNullOrEmpty(custIn.GymName) ||
+       string.IsNullOrEmpty(custIn.Phone) ||
+       string.IsNullOrEmpty(custIn.Address) ||
+       string.IsNullOrEmpty(custIn.GymDescription))
+            {
+                ModelState.AddModelError("", "所有欄位都是必填的");
+                return View(custIn);
+            }
+
             Gym custDb = _context.Gyms.FirstOrDefault(t => t.GymId == custIn.GymId);
 
             if (custDb != null)
