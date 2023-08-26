@@ -28,7 +28,7 @@ namespace FitMatch_BackEnd.Controllers
             set { _Member.MemberName = value; }
         }
 
-        public bool Gender
+        public bool? Gender
         {
             get { return _Member.Gender; }
             set { _Member.Gender = value; }
@@ -71,7 +71,7 @@ namespace FitMatch_BackEnd.Controllers
             get { return _Member.CreatedAt; }
             set { _Member.CreatedAt = value; }
         }
-        public bool Status
+        public bool? Status
         {
             get { return _Member.Status; }
             set { _Member.Status = value; }

@@ -4,10 +4,6 @@
     ViewData["Title"] = "Member";
 }
 
-@*<h1>Member</h1>*@
-
-
-
 <!-- Content Start -->
 <div class="content">
     <!-- Navbar Start -->
@@ -108,93 +104,178 @@
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
 
-            <div class="col">
-                <div class="bg-secondary rounded h-100 p-4">
+            <form method="GET" action="@Url.Action("Member")">
 
-                    <form id="searchForm">
-
-
+                <div class="col">
+                    <div class="bg-white rounded h-100 p-4">
                         <div class="row pr-1">
 
-                            <!--第ㄧ區塊：註冊時間選擇-->
-                            @*col-3 d-flex align-items-center // me-4// margin-right: 0px*@
 
-                            @*<div class="col-4 d-flex align-items-center " style="">
-                                <span style="margin-left: -20px; text-align: center;">註冊日期:</span>
-                                <input class="form-select" style="background-color:#fff;" type="date" name="start" id=""
-                                       value="開始時間">
+                            <!-- 第一區塊 -->
+                            <div class="col-3 d-flex align-items-center justify-content-center">
+                                性別:
+                                <div class="mx-1 flex-grow-1 ps-1">
+                                    <select class="form-select" name="gender"
+                                           >
+                                        <option selected disabled value="">請選擇</option>
+                                        @foreach (var g in new List <string>{ "男", "女" })
+                                            {
+                                                if (ViewBag.Gender == g)
+                                                {
+                                                <option value="@g" selected>@g</option>
+                                            }
+                                            else
+                                            {
+                                               <option value="@g" selected>@g</option>
+                                            }
+                                        }
+                                    </select>
+
+                                </div>
                             </div>
 
-                            <div class=" col-4 d-flex align-items-center ">
+                            @*@{
+                        var statuses = new Dictionary<int, string>
+                        {
+                        { 0, "審核通過" },
+                        { 1, "審核中" },
+                        { 2, "退回審核" }
+                        };
+                        }*@
+                            <!-- 第二區塊 -->
 
-                                <span style="margin-left: -20px; text-align: center;">至</span>
-                                <input class="form-select" style="background-color:#fff; margin-left: 10px;" type="date"
-                                       name="end" id="" value="結束時間">
-                            </div>*@
-
-
-
-                            <!-- 第二區塊：會員狀態 -->
-                            <div class="col-3 d-flex align-items-center">
+                            <div class="col-3 d-flex align-items-center justify-content-center">
                                 會員狀態:
-                                <div class="mx-1 flex-grow-1">
-                                    <select class="form-select" id="statusSelect"
+                                <div class="mx-1 flex-grow-1 ps-2">
+                                    <select class="form-select" name="approved"
                                             aria-label="Floating label select example">
-                                        <option selected disabled>請選擇</option>
-                                        <option value="2">有效</option>
-                                        <option value="1">無效</option>
-
+                                        <option selected disabled value="">請選擇</option>
+                                        
+                                        <option value="True">有效</option>
+                                        <option value="False">無效</option>
                                     </select>
                                 </div>
                             </div>
 
-                        </div>
 
-                        <div class="row pr-1">
+                            <form method="get" action="@Url.Action("Member", "Member")">
 
-                            <!-- 第三區塊：關鍵字選項 -->
-                            <div class="col-3 d-flex align-items-center">
-                                搜尋選項:
-                                <div class="mx-1 flex-grow-1">
-                                    <select class="form-select" id="citySelect"
-                                            aria-label="Floating label select example">
-                                        <option selected disabled>請選擇類別</option>
-                                        <option value="1">會員姓名</option>
-                                        <option value="2">生日</option>
-                                        <option value="2">性別</option>
-                                        <option value="2">電子信箱</option>
-
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- 第四區塊：關鍵字搜尋 -->
-                            <div class="col-4 d-flex">
-                                <div class="row align-items-center">
-                                    <div class="col-2 p-0 me-1 text-md-end">
+                                <div class="col-4 d-flex align-items-center justify-content-end">
+                                    <div class="col-1 p-0">
                                         搜尋:
                                     </div>
-                                    <div class="col-7 p-0">
-                                        <div class="mx-1 flex-grow-1">
-                                            <input class=" form-control" type="text" placeholder="請輸入關鍵字"
-                                                   aria-label="請輸入關鍵字" id="searchInput">
+                                    <div class="col-8 ps-2">
+                                        <div class="mx-10 flex-grow-1">
+                                            @*<input class=" form-control" type="text" placeholder="請輸入關鍵字"
+                                        aria-label="請輸入關鍵字" id="searchInput">*@
+                                            @Html.TextBox("txtKeyword", ViewBag.Keyword as string, new { @class = "form-control", @placeholder = "請輸入關鍵字", @aria_label = "請輸入關鍵字", @id = "searchInput" })
+
                                         </div>
                                     </div>
-                                    <div class="col-1 d-flex align-items-center me-2 p-0">
-                                        <a href="">
+                                    <div class="col-2 d-flex align-items-center p-0  ps-2">
+                                        <button type="submit" class="btn">
                                             <i class="fa-solid fa-magnifying-glass fa-xl"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-1 d-flex align-items-center p-0">
-                                        <button class="btn btn-sm btn-outline-success" type="submit">清空</button>
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
 
+                            <!-- 清空區塊 -->
+                            <div class="col-2">
+                                <button class="btn btn-outline-success" type="button" id="clearSearch">
+                                    清空
+                                </button>
+                            </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>        
+            </form>
+
+            <!--<div class="col">
+        <div class="bg-secondary rounded h-100 p-4">
+
+            <formid="searchForm">
+
+
+
+
+                    <!--第ㄧ區塊：註冊時間選擇-->
+            
+            <!--@*col-3 d-flex align-items-center // me-4// margin-right: 0px*@
+
+        @*<div class="col-4 d-flex align-items-center " style="">
+            <span style="margin-left: -20px; text-align: center;">註冊日期:</span>
+            <input class="form-select" style="background-color:#fff;" type="date" name="start" id=""
+                   value="開始時間">
+        </div>
+
+        <div class=" col-4 d-flex align-items-center ">
+
+            <span style="margin-left: -20px; text-align: center;">至</span>
+            <input class="form-select" style="background-color:#fff; margin-left: 10px;" type="date"
+                   name="end" id="" value="結束時間">
+        </div>*@
+
+
+
+
+
+    <div class="row pr-1">-->
+            <!-- 第二區塊：會員狀態 -->
+            <!--<div class="col-3 d-flex align-items-center">
+        會員狀態:
+        <div class="mx-1 flex-grow-1">
+            <select class="form-select" id="statusSelect"
+                    aria-label="Floating label select example">
+                <option selected disabled>請選擇</option>
+                <option value="2">有效</option>
+                <option value="1">無效</option>
+
+            </select>
+        </div>
+    </div>-->
+            <!-- 第三區塊：關鍵字選項 -->
+            <!--<div class="col-3 d-flex align-items-center">
+        搜尋選項:
+        <div class="mx-1 flex-grow-1">
+            <select class="form-select" id="citySelect"
+                    aria-label="Floating label select example">
+                <option selected disabled>請選擇類別</option>
+                <option value="1">會員姓名</option>
+                <option value="2">生日</option>
+                <option value="2">性別</option>
+                <option value="2">電子信箱</option>
+
+            </select>
+        </div>
+    </div>-->
+            <!-- 第四區塊：關鍵字搜尋 -->
+            <!--<div class="col-4 d-flex">
+                        <div class="row align-items-center">
+                            <div class="col-2 p-0 me-1 text-md-end">
+                                搜尋:
+                            </div>
+                            <div class="col-7 p-0">
+                                <div class="mx-1 flex-grow-1">
+                                    <input class=" form-control" type="text" placeholder="請輸入關鍵字"
+                                           aria-label="請輸入關鍵字" id="searchInput">
+                                </div>
+                            </div>
+                            <div class="col-1 d-flex align-items-center me-2 p-0">
+                                <a href="">
+                                    <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                                </a>
+                            </div>
+                            <div class="col-1 d-flex align-items-center p-0">
+                                <button class="btn btn-sm btn-outline-success" type="submit">清空</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>-->
         </div>
 
 
@@ -210,7 +291,8 @@
                     @*<input type="submit" value="新增會員" class="btn btn-primary  custom-purple">*@
 
 
-                    <a href="@Url.Action("MemberCreate", "Member" )" class="btn btn-primary  custom-purple">新增會員</a>
+                    @*新增會員功能應該是前台 先隱藏一下*@
+                    @*<a href="@Url.Action("MemberCreate", "Member" )" class="btn btn-primary  custom-purple">新增會員</a>*@
 
 
                 </div>
@@ -222,19 +304,18 @@
 
                     @*table 開始*@
                     <table class="table text-start align-middle table-bordered table-hover mb-0 text-center">
-                        @*head樣式 開始@
+                        @*head樣式 開始*@
                 <thead style="background-color: #74ffba;">
 
                     <tr class="text-dark">
 
                         @*上方固定樣式row*@
-                        <th scope="col">
-                        </th>
+                        @*<th scope="col"></th>*@
                         <th scope="col">會員姓名</th>
                         <th scope="col">生日</th>
                         <th scope="col">性別</th>
                         <th scope="col">電子信箱</th>
-                        @*<th scope="col">會員狀態</th>*@
+                        <th scope="col">會員狀態</th>
                         <th scope="col">註冊時間</th>
                         <th scope="col">操作</th>
                         </tr>
@@ -266,69 +347,69 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td> @**勾選box*@
-                                    <td>@Html.DisplayFor(modelItem => item.MemberName)</td> @**姓名*@
-                                    <td>@Html.DisplayFor(modelItem => item.Birth)</td> @*生日*@
-                                    <td>@Html.DisplayFor(modelItem => item.Gender)</td> @**性別*@
-                                    <td>@Html.DisplayFor(modleItem => item.Email)</td> @**信箱*@
-                                  
 
-                                    @*（SQL table 要修修）<td>
-                                @switch (item.Approved)
-                                {
-                                    case CApprovalStatus.UnderReview:
-                                        <text>審核中</text>
-                                        break;
-                                    case CApprovalStatus.Approved:
-                                        <text>審核通過</text>
-                                        break;
-                                    case CApprovalStatus.Rejected:
-                                        <text>退回審核</text>
-                                        break;
-                                    default:
-                                        <text>未知</text>
-                                        break;
-                                }
-                            </td>  *會員狀態  *@
+                                    <tr>
+                                        <!--<td><input class="form-check-input" type="checkbox"></td>--> @**勾選box*@
+                                        <td>@Html.DisplayFor(modelItem => item.MemberName)</td> @**姓名*@
+                                        <td>@item.Birth?.ToString("d")</td> @*生日*@
 
-                                    <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td> @*註冊時間*@
+                                        <td>@**性別*@
+                                            @if (item.Gender.HasValue)
+                                            {
+                                                @(item.Gender.Value ? "女" : "男")
+                                            }
+                                            else
+                                            {
+                                                @: 未知
+                                            }
+                                        @*@Html.DisplayFor(modelItem => item.Gender)*@
+                                        </td> 
+                                        <td>@Html.DisplayFor(modleItem => item.Email)</td> @**信箱*@
 
 
 
-                                    @*操作*@
+                                        @*會員狀態  *@
+                                        <td>
+                                            @if (item.Status.HasValue)
+                                            {
+                                                @(item.Status.Value ? "有效" : "無效")
+                                            }
+                                            @*@Html.DisplayFor(modelItem => item.Status)*@
+                                        </td> @**性別*@
+                                        <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td> @*註冊時間*@
 
 
 
+                                        @*操作*@
 
-                                    @*<td>
-                                <a href="@Url.ActionLink("修改", "Edit", new { id = item.MemberId })
-                                @Html.ActionLink("刪除", "Delete", "Customer", new { id = item.MemberId },
-                               new { onclick = "return confirm('確定要刪除嗎?')" })"
-                                </a>
-                            </td>*@
-
-
-
-                                    <td>
-                                    <a href="@Url.Action("MemberEdit", "Member", new { id = item.MemberId })" class="btn btn-sm btn-primary">
-                                            查看/編輯
-                                        </a>
-
-                                        <a href="@Url.Action("MemberDelete", "Member", new { id = item.MemberId })" class="btn btn-sm btn-danger">刪除</a>
-                                    </td>
+                                        @*<td>
+            <a href="@Url.ActionLink("修改", "Edit", new { id = item.MemberId })
+            @Html.ActionLink("刪除", "Delete", "Customer", new { id = item.MemberId },
+           new { onclick = "return confirm('確定要刪除嗎?')" })"
+            </a>
+        </td>*@
 
 
 
-                                    @*
-                             ---老師的參考---
-                             <td>
-                             @Html.ActionLink("修改", "Edit", new { id = item.FId }) |
-                             @Html.ActionLink("刪除", "Delete", "Customer", new { id = item.FId },
-                             new { onclick = "return confirm('確定要刪除嗎?')" })
-                            </td>*@
+                                        <td>
+                                            <a href="@Url.Action("MemberEdit", "Member", new { id = item.MemberId })" class="btn  btn-secondary" style="background-color: aliceblue; color: black;">
+                                                <i class="fa-regular fa-pen-to-square"> 編輯</i>
+                                            </a>
 
-                                </tr>
+                                            <a href="@Url.Action("MemberDelete", "Member", new { id = item.MemberId })" class="btn  btn-primary"><i class="fa-solid fa-trash-can">刪除</i></a>
+                                        </td>
+
+
+
+                                        @*
+         ---老師的參考---
+         <td>
+         @Html.ActionLink("修改", "Edit", new { id = item.FId }) |
+         @Html.ActionLink("刪除", "Delete", "Customer", new { id = item.FId },
+         new { onclick = "return confirm('確定要刪除嗎?')" })
+        </td>*@
+
+                                    </tr>
                             }
                         </tbody>
 
@@ -339,40 +420,70 @@
 
                     <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
                         <!-- 全選區塊開始 -->
-                        <div class="d-flex justify-content-between">
-                            <div class="form-check d-flex align-items-center">
-                                <input class="form-check-input me-2" type="checkbox" id="selectAll">
-                                <label class="form-check-label" for="selectAll">全選</label>
-                                <button type="button" class="btn btn-primary mx-lg-2">刪除</button>
-                            </div>
-                            <!-- Pagination goes here -->
-                        </div>
+                        <!--<div class="d-flex justify-content-between">
+        <div class="form-check d-flex align-items-center">
+            <input class="form-check-input me-2" type="checkbox" id="selectAll">
+            <label class="form-check-label" for="selectAll">全選</label>
+            <button type="button" class="btn btn-primary mx-lg-2">刪除</button>
+        </div>-->
+                        <!--</div>-->
                         <!-- 全選區塊END-->
+
+
+
+                        <!-- 換頁區塊開始 -->
+                        @*<nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link previous-page" data-page-type="previous" href="#">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </a>
+                </li>
+                <li class="page-item active">
+                    <a class="page-link" id="page-1" data-page="1" data-page-type="number" href="#">
+                        1
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" id="page-2" data-page="2" data-page-type="number" href="#">
+                        2
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link next-page" data-page-type="next" href="#">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>*@
+
+
                         <!-- 換頁區塊開始 -->
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link previous-page" data-page-type="previous" href="#">
+                                <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                                    <a class="page-link previous-page" data-page-type="previous" href="@Url.Action("Member", new { currentPage = ViewBag.CurrentPage - 1 })">
                                         <i class="fa-solid fa-chevron-left"></i>
                                     </a>
                                 </li>
-                                <li class="page-item active">
-                                    <a class="page-link" id="page-1" data-page="1" data-page-type="number" href="#">
-                                        1
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" id="page-2" data-page="2" data-page-type="number" href="#">
-                                        2
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link next-page" data-page-type="next" href="#">
+
+                                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                                {
+                                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                        <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("Member", new { currentPage = i })">
+                                            @i
+                                        </a>
+                                    </li>
+                                }
+
+                                <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                                    <a class="page-link next-page" data-page-type="next" href="@Url.Action("Member", new { currentPage = ViewBag.CurrentPage + 1 })">
                                         <i class="fa-solid fa-chevron-right"></i>
                                     </a>
                                 </li>
                             </ul>
                         </nav>
+                        <!-- 換頁區塊END -->
                         <!-- 換頁區塊END -->
                     </div>
                 </div>
@@ -382,88 +493,111 @@
     </div>
 <!-- Content END -->
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
-<script>// 全選功能
-    document.addEventListener("DOMContentLoaded", function () {
-        const selectAllCheckbox = document.getElementById("selectAll");
-        const restaurantCheckboxes = document.querySelectorAll(".form-check-input");
-
-        selectAllCheckbox.addEventListener("change", function () {
-            const isChecked = selectAllCheckbox.checked;
-            restaurantCheckboxes.forEach(checkbox => {
-                checkbox.checked = isChecked;
-            });
+<script>
+      // 清空功能
+    $(document).ready(function () {
+        $('#clearSearch').click(function () {
+            window.location.href = '@Url.Action("Member", "Member")';
         });
-
-        restaurantCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener("change", function () {
-                selectAllCheckbox.checked = Array.from(restaurantCheckboxes).every(cb => cb.checked);
-            });
+    });
+    //會員狀態
+    $(document).ready(function () {
+        $('select[name="Status"]').on('change', function () {
+            // 直接提交表單進行篩選
+            $(this).closest('form').submit();
         });
     });
 
-    // 以下是分頁功能
-    document.addEventListener("DOMContentLoaded", function () {
-        const table = document.querySelector(".table");
-        const pageLinks = document.querySelectorAll(".page-link[data-page-type='number']");
-        const prevPageLink = document.querySelector(".previous-page");
-        const nextPageLink = document.querySelector(".next-page");
 
-        pageLinks.forEach(link => {
-            link.addEventListener("click", function (event) {
-                event.preventDefault();
 
-                // 獲取點擊的頁碼
-                const page = parseInt(link.textContent);
 
-                // 移除所有活躍狀態
-                pageLinks.forEach(link => link.parentElement.classList.remove("active"));
+    // 全選功能
+    //document.addEventListener("DOMContentLoaded", function () {
+    //    const selectAllCheckbox = document.getElementById("selectAll");
+    //    const restaurantCheckboxes = document.querySelectorAll(".form-check-input");
 
-                // 添加活跃状态到当前页码链接
-                link.parentElement.classList.add("active");
+    //    selectAllCheckbox.addEventListener("change", function () {
+    //        const isChecked = selectAllCheckbox.checked;
+    //        restaurantCheckboxes.forEach(checkbox => {
+    //            checkbox.checked = isChecked;
+    //        });
+    //    });
 
-                // 更新表格内容
-                updateTableContent(page);
-            });
-        });
+    //    restaurantCheckboxes.forEach(checkbox => {
+    //        checkbox.addEventListener("change", function () {
+    //            selectAllCheckbox.checked = Array.from(restaurantCheckboxes).every(cb => cb.checked);
+    //        });
+    //    });
+    //});
 
-        prevPageLink.addEventListener("click", function (event) {
-            event.preventDefault();
+    // 以下是分頁功能Design
+    //document.addEventListener("DOMContentLoaded", function () {
+    //    const table = document.querySelector(".table");
+    //    const pageLinks = document.querySelectorAll(".page-link[data-page-type='number']");
+    //    const prevPageLink = document.querySelector(".previous-page");
+    //    const nextPageLink = document.querySelector(".next-page");
 
-            const activeLink = document.querySelector(".page-item.active .page-link");
-            if (activeLink) {
-                const currentPage = parseInt(activeLink.textContent);
-                if (currentPage > 1) {
-                    pageLinks[currentPage - 2].click();
-                }
-            }
-        });
+    //    pageLinks.forEach(link => {
+    //        link.addEventListener("click", function (event) {
+    //            event.preventDefault();
 
-        nextPageLink.addEventListener("click", function (event) {
-            event.preventDefault();
+    //            // 獲取點擊的頁碼
+    //            const page = parseInt(link.textContent);
 
-            const activeLink = document.querySelector(".page-item.active .page-link");
-            if (activeLink) {
-                const currentPage = parseInt(activeLink.textContent);
-                if (currentPage < pageLinks.length) {
-                    pageLinks[currentPage].click();
-                }
-            }
-        });
+    //            // 移除所有活躍狀態
+    //            pageLinks.forEach(link => link.parentElement.classList.remove("active"));
 
-        function updateTableContent(page) {
-            const perPage = 5;
-            const startIndex = (page - 1) * perPage;
-            const endIndex = startIndex + perPage;
+    //            // 添加活跃状态到当前页码链接
+    //            link.parentElement.classList.add("active");
 
-            const rows = table.querySelectorAll("tbody tr");
-            rows.forEach((row, index) => {
-                if (index >= startIndex && index < endIndex) {
-                    row.style.display = "table-row";
-                } else {
-                    row.style.display = "none";
-                }
-            });
-        }
-    });</script>
+    //            // 更新表格内容
+    //            updateTableContent(page);
+    //        });
+    //    });
+
+    //    prevPageLink.addEventListener("click", function (event) {
+    //        event.preventDefault();
+
+    //        const activeLink = document.querySelector(".page-item.active .page-link");
+    //        if (activeLink) {
+    //            const currentPage = parseInt(activeLink.textContent);
+    //            if (currentPage > 1) {
+    //                pageLinks[currentPage - 2].click();
+    //            }
+    //        }
+    //    });
+
+    //    nextPageLink.addEventListener("click", function (event) {
+    //        event.preventDefault();
+
+    //        const activeLink = document.querySelector(".page-item.active .page-link");
+    //        if (activeLink) {
+    //            const currentPage = parseInt(activeLink.textContent);
+    //            if (currentPage < pageLinks.length) {
+    //                pageLinks[currentPage].click();
+    //            }
+    //        }
+    //    });
+
+    //    function updateTableContent(page) {
+    //        const perPage = 5;
+    //        const startIndex = (page - 1) * perPage;
+    //        const endIndex = startIndex + perPage;
+
+    //        const rows = table.querySelectorAll("tbody tr");
+    //        rows.forEach((row, index) => {
+    //            if (index >= startIndex && index < endIndex) {
+    //                row.style.display = "table-row";
+    //            } else {
+    //                row.style.display = "none";
+    //            }
+    //        });
+    //    }
+    //});
+
+
+
+</script>

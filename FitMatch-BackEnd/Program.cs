@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
-// ·s¼W³s±µ
+// ï¿½sï¿½Wï¿½sï¿½ï¿½
 builder.Services.AddDbContext<FitMatch_BackEnd.Models.FitMatchDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

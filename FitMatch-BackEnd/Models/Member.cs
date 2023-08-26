@@ -9,7 +9,7 @@ public partial class Member
 
     public string? MemberName { get; set; }
 
-    public bool Gender { get; set; }
+    public bool? Gender { get; set; }
 
     public DateTime? Birth { get; set; }
 
@@ -25,7 +25,7 @@ public partial class Member
 
     public DateTime? CreatedAt { get; set; }
 
-    public bool Status { get; set; }
+    public bool? Status { get; set; }
 
     public virtual ICollection<MemberFavorite> MemberFavorites { get; set; } = new List<MemberFavorite>();
 
