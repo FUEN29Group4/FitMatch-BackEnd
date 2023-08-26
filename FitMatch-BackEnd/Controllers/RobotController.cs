@@ -26,7 +26,7 @@ namespace FitMatch_BackEnd.Controllers
             FitMatchDbContext db = new FitMatchDbContext();
             IEnumerable<Robot> datas = from d in db.Robots select d;
 
-            int itemsPerPage = 5;
+            int itemsPerPage = 8;
             // 根據當下頁碼獲取數據
             datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
 

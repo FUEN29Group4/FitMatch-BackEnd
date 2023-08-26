@@ -39,7 +39,7 @@ namespace FitMatch_BackEnd.Controllers
         //@@@@ ---- 進入Member Menagement View 1---- @@@@@@
 
         //--------- M-0:欣彤試連，純出現會員DB資料連結
-        public IActionResult Member()
+        public IActionResult Member(int currentPage = 1)
         {
             //資料庫連接 =>實體化DB
             FitMatchDbContext db = new FitMatchDbContext();
@@ -47,8 +47,20 @@ namespace FitMatch_BackEnd.Controllers
             //資料定義與處理
             //- Member Model(定義資料類型):Member class 
             //- FitMAtchDBContext(操作資料表):public virtual DbSet<Member> Members { get; set; } //Members 集合實體
-            IEnumerable<Member> datas = from d in db.Members select d; //
-            
+            IEnumerable<Member> datas = from d in db.Members select d;
+
+            //頁換碼start
+            int itemsPerPage = 8;// 根據當下頁碼獲取數據
+            datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+            int totalDataCount = db.Robots.Count();
+            int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = currentPage;
+            //頁換碼end
+
+
             return View(datas);
         }
 

@@ -3,8 +3,7 @@
 @{
     ViewData["Title"] = "Robot";
 }
-@*換頁要確認*@
-@*全選刪除還沒做*@
+
 
 <!-- Content Start -->
 <div class="content">
@@ -104,13 +103,7 @@
     <!-- system adminstractor Navbar start-->
     <div class="container-fluid pt-4 px-4">
 
-        @*<nav class="navbar navbar-expand-lg bg-white rounded">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-        aria-expanded="false" aria-label="Toggle navigation">
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">*@
+     
         <div class="row g-4">
 
             <div class="col">
@@ -121,7 +114,28 @@
                             <div class="col-4 d-flex align-items-center justify-content-center">
                                 問題類型:
                                 <div class="mx-1 flex-grow-1 ps-1">
-                                    <select class="form-select" id="citySelect"
+
+                                    <select class="form-select" name="Type"
+                                            aria-label="">
+                                        <option selected disabled value="">請選擇</option>
+                                        @foreach (var Option in new List<string> { "系統預設", "媒合", "教練", "課程", "訂單", "其他" })
+                                        {
+                                            if (ViewBag.Type == Option)
+                                            {
+                                                <option value="@Option" selected>Option</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@Option">@Option</option>
+                                            }
+                                        }
+                                    </select>
+
+
+
+
+
+                                    @*<select class="form-select" id="Type"
                                             aria-label="Floating label select example">
                                         <option selected disabled>請選擇</option>
                                         <option value="1">系統預設</option>
@@ -130,36 +144,10 @@
                                         <option value="4">課程</option>
                                         <option value="5">訂單</option>
                                         <option value="6">其他</option>
-                                    </select>
-                                </div>
-                            </div>
 
-                            <!-- 第二區塊 -->
-                            @* <div class="col-3 d-flex align-items-center justify-content-center">
-                                審核狀態:
-                                <div class="mx-1 flex-grow-1 ps-2">
-                                    <select class="form-select" id="statusSelect"
-                                            aria-label="Floating label select example">
-                                        <option selected disabled>請選擇</option>
-                                        <option value="2">審核通過</option>
-                                        <option value="1">審核中</option>
-                                        <option value="2">已退回</option>
-                                    </select>
+                                    </select>*@
                                 </div>
-                            </div> *@
-                            <!-- 第三區塊 -->
-                            @*<div class="col-3 d-flex align-items-center">
-                            希望待遇:
-                            <div class="mx-1 flex-grow-1">
-                            <select class="form-select" id="statusSelect"
-                            aria-label="Floating label select example">
-                            <option selected disabled>請選擇</option>
-                            <option value="1">0~1000</option>
-                            <option value="2">1000~2000</option>
-                            <option value="3">2000以上</option>
-                            </select>
                             </div>
-                            </div>*@
 
                             <!-- 第四區塊 -->
                             <div class="col-4 d-flex align-items-center justify-content-end">
@@ -180,21 +168,14 @@
                                 </div>
 
                             </div>
-                            <!-- 第四區塊 -->
-                            <div class="col-1">
-
-
-                                <button class="btn  btn-outline-success" type="submit">清空</button>
-
-                            </div>
+                           
                         </div>
 
                     </form>
                 </div>
             </div>
         </div>
-        @*</div>
-        </nav>*@
+      
 
     </div>
     <div class="container-fluid pt-4 px-4">
@@ -203,15 +184,14 @@
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <h5 class="mb-0 text-dark">機器人問題管理列表</h5>
                               
-                <a href="@Url.Action("RobotCreate", "Robot" )" class="btn btn-primary  custom-purple">新增問題/答覆</a>
+                <a href="@Url.Action("RobotCreate", "Robot" )" class="btn btn-primary  custom-purple">新增問題</a>
             </div>
 
             <div class="table-responsive">
                 <table class="table text-start align-middle table-bordered table-hover mb-0 text-center">
                     <thead style="background-color: #74ffba;">
                         <tr class="text-dark">
-                            <th scope="col">
-                            </th>
+                            
                             <th scope="col">機器人編號</th>
                             <th scope="col">問題類型</th>
                             <th scope="col">問題</th>
@@ -226,7 +206,7 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td><input class="form-check-input" type="checkbox"></td>  @* checkbox *@
+
                                 <td>@Html.DisplayFor(modelItem => item.RobotId)</td>       @* id *@
                                 <td>@Html.DisplayFor(modelItem => item.Type)</td>          @* 判斷&顯示問題 *@
                                 <td>
@@ -252,34 +232,25 @@
                                         @item.DefaultResponse
                                     }
                                 </td>
+                                
+                                    @*操作*@
                                 <td>
-                                    @* 操作btn *@
-                                    <a href="@Url.Action("RobotEdit", "Robot", new { id = item.RobotId })" class="btn  btn-light text-white">
-                                        編輯
+                                    <a href="@Url.Action("RobotEdit", "Robot", new { id = item.RobotId })" class="btn  btn-secondary" style="background-color: aliceblue; color: black;">
+                                        <i class="fa-regular fa-pen-to-square"> 編輯</i>
                                     </a>
-                                    <a href="@Url.Action("RobotDelete", "Robot", new { id = item.RobotId })" class="btn  btn-danger">刪除</a>
+
+                                    <a href="@Url.Action("RobotDelete", "Robot", new { id = item.RobotId })" class="btn  btn-primary"><i class="fa-solid fa-trash-can">刪除</i></a>
                                 </td>
+
+                                
                             </tr>
                         }
                     </tbody>
-
-
                 </table>
 
 
-                <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
-                    <!-- 全選區塊開始 -->
-                    <div class="d-flex justify-content-between">
-                        <div class="form-check d-flex align-items-center">
-                            <input class="form-check-input me-2" type="checkbox" id="selectAll">
-                            <label class="form-check-label" for="selectAll">全選</label>
-                            <button type="button" class="btn btn-primary mx-lg-2">刪除</button>
-                        </div>
-                        <!-- Pagination goes here -->
-                    </div>
-                    <!-- 全選區塊END-->
-                    <!-- 換頁區塊開始 -->
-                     <!-- 換頁區塊開始 -->
+                <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;"> </div>
+                    <!-- 換頁區塊開始 --> 
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
                             <li class="page-item">
@@ -294,17 +265,7 @@
                                         @i
                                     </a>
                                 </li>
-                            }
-                            @*<li class="page-item active">
-                                <a class="page-link" id="page-1" data-page="1" data-page-type="number" href="#">
-                                    1
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" id="page-2" data-page="2" data-page-type="number" href="#">
-                                    2
-                                </a>
-                            </li>*@
+                            }             
                             <li class="page-item">
                                 <a class="page-link next-page" data-page-type="next" href="#">
                                     <i class="fa-solid fa-chevron-right"></i>
@@ -313,7 +274,7 @@
                         </ul>
                     </nav>
                     <!-- 換頁區塊END -->
-                    <!-- 換頁區塊END -->
+                  
                 </div>
             </div>
         </div>
@@ -343,67 +304,5 @@
         });
     });
 
-        // 以下是分頁功能
-        //document.addEventListener("DOMContentLoaded", function () {
-        //    const table = document.querySelector(".table");
-        //    const pageLinks = document.querySelectorAll(".page-link[data-page-type='number']");
-        //    const prevPageLink = document.querySelector(".previous-page");
-        //    const nextPageLink = document.querySelector(".next-page");
-
-        //    pageLinks.forEach(link => {
-        //        link.addEventListener("click", function (event) {
-        //            event.preventDefault();
-
-        //            // 獲取點擊的頁碼
-        //            const page = parseInt(link.textContent);
-
-        //            // 移除所有活躍狀態
-        //            pageLinks.forEach(link => link.parentElement.classList.remove("active"));
-
-        //            // 添加活跃状态到当前页码链接
-        //            link.parentElement.classList.add("active");
-
-        //            // 更新表格内容
-        //            updateTableContent(page);
-        //        });
-        //    });
-
-        //    prevPageLink.addEventListener("click", function (event) {
-        //        event.preventDefault();
-
-        //        const activeLink = document.querySelector(".page-item.active .page-link");
-        //        if (activeLink) {
-        //            const currentPage = parseInt(activeLink.textContent);
-        //            if (currentPage > 1) {
-        //                pageLinks[currentPage - 2].click();
-        //            }
-        //        }
-        //    });
-
-        //    nextPageLink.addEventListener("click", function (event) {
-        //        event.preventDefault();
-
-        //        const activeLink = document.querySelector(".page-item.active .page-link");
-        //        if (activeLink) {
-        //            const currentPage = parseInt(activeLink.textContent);
-        //            if (currentPage < pageLinks.length) {
-        //                pageLinks[currentPage].click();
-        //            }
-        //        }
-        //    });
-
-        //    function updateTableContent(page) {
-        //        const perPage = 5;
-        //        const startIndex = (page - 1) * perPage;
-        //        const endIndex = startIndex + perPage;
-
-        //        const rows = table.querySelectorAll("tbody tr");
-        //        rows.forEach((row, index) => {
-        //            if (index >= startIndex && index < endIndex) {
-        //                row.style.display = "table-row";
-        //            } else {
-        //                row.style.display = "none";
-        //            }
-        //        });
-        //    }
+       
         });</script>

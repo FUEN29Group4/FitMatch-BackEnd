@@ -115,21 +115,62 @@
                             <div class="col-3 d-flex align-items-center justify-content-center">
                                 性別:
                                 <div class="mx-1 flex-grow-1 ps-1">
-                                    <select class="form-select" name="gender"
-                                           >
-                                        <option selected disabled value="">請選擇</option>
-                                        @foreach (var g in new List <string>{ "男", "女" })
-                                            {
-                                                if (ViewBag.Gender == g)
-                                                {
-                                                <option value="@g" selected>@g</option>
-                                            }
-                                            else
-                                            {
-                                               <option value="@g" selected>@g</option>
-                                            }
+
+
+                                    <!--<select class="form-select" name="gender">
+                                        <option selected disabled value="">請選擇</option>-->
+                                        @*@foreach (var g in new List<string> { "男", "女" })
+            {
+                if (ViewBag.Gender == g)
+                {
+                    <option value="@g" selected>@g</option>
+                }
+                else
+                {
+                    <option value="@g" selected>@g</option>
+                }
+            }*@
+
+
+
+
+                                        @*@if (ViewBag.Gender == null)
+                                        {
+                                            <option selected disabled hidden value="">請選擇</option>
                                         }
+                                        else
+                                        {
+                                            <option disabled hidden value="">請選擇</option>
+                                        }
+
+                                        @if (ViewBag.Gender == true)
+                                        {
+                                            <option value="true" selected>男</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="true">男</option>
+                                        }
+
+                                        @if (ViewBag.Gender == false)
+                                        {
+                                            <option value="false" selected>女</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="false">女</option>
+                                        }*@
+
+
+                                    <!--</select>-->
+
+
+                                    <select class="form-select" name="gender">
+                                        <option selected disabled value="">請選擇</option>
+                                        <option value="true">男</option>
+                                        <option value="false">女</option>
                                     </select>
+
 
                                 </div>
                             </div>
@@ -147,13 +188,47 @@
                             <div class="col-3 d-flex align-items-center justify-content-center">
                                 會員狀態:
                                 <div class="mx-1 flex-grow-1 ps-2">
-                                    <select class="form-select" name="approved"
+                                    <select class="form-select" name="Status"
                                             aria-label="Floating label select example">
                                         <option selected disabled value="">請選擇</option>
-                                        
-                                        <option value="True">有效</option>
-                                        <option value="False">無效</option>
+
+                                        @*<option value="True">有效</option>
+                                        <option value="False">無效</option>*@
+
+                                        @foreach (var StatusOption in new List<string> { "有效", "無效" })
+                                        {
+                                            if (ViewBag.Status == StatusOption)
+                                            {
+                                                <option value="@StatusOption" selected>@StatusOption</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@StatusOption">@StatusOption</option>
+                                            }
+                                        }
+
+
                                     </select>
+
+
+                                    @*參考用*@
+                                    @*<select class="form-select" name="city"
+                                            aria-label="所在城市">
+                                        <option selected disabled value="">請選擇城市</option>
+                                        @foreach (var cityOption in new List<string> { "臺北市", "新北市", "新竹市", "臺中市", "臺南市", "高雄市" })
+                                        {
+                                            if (ViewBag.City == cityOption)
+                                            {
+                                                <option value="@cityOption" selected>@cityOption</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@cityOption">@cityOption</option>
+                                            }
+                                        }
+                                    </select>*@
+
+
                                 </div>
                             </div>
 
@@ -161,7 +236,7 @@
                             <form method="get" action="@Url.Action("Member", "Member")">
 
                                 <div class="col-4 d-flex align-items-center justify-content-end">
-                                    <div class="col-1 p-0">
+                                    <div class="col-2 p-0">
                                         搜尋:
                                     </div>
                                     <div class="col-8 ps-2">
@@ -356,12 +431,16 @@
                                         <td>@**性別*@
                                             @if (item.Gender.HasValue)
                                             {
-                                                @(item.Gender.Value ? "女" : "男")
+                                                @(item.Gender.Value ? "男" : "女")
                                             }
                                             else
                                             {
                                                 @: 未知
                                             }
+
+
+
+
                                         @*@Html.DisplayFor(modelItem => item.Gender)*@
                                         </td> 
                                         <td>@Html.DisplayFor(modleItem => item.Email)</td> @**信箱*@
@@ -381,16 +460,6 @@
 
 
                                         @*操作*@
-
-                                        @*<td>
-            <a href="@Url.ActionLink("修改", "Edit", new { id = item.MemberId })
-            @Html.ActionLink("刪除", "Delete", "Customer", new { id = item.MemberId },
-           new { onclick = "return confirm('確定要刪除嗎?')" })"
-            </a>
-        </td>*@
-
-
-
                                         <td>
                                             <a href="@Url.Action("MemberEdit", "Member", new { id = item.MemberId })" class="btn  btn-secondary" style="background-color: aliceblue; color: black;">
                                                 <i class="fa-regular fa-pen-to-square"> 編輯</i>
@@ -402,89 +471,48 @@
 
 
                                         @*
-         ---老師的參考---
-         <td>
-         @Html.ActionLink("修改", "Edit", new { id = item.FId }) |
-         @Html.ActionLink("刪除", "Delete", "Customer", new { id = item.FId },
-         new { onclick = "return confirm('確定要刪除嗎?')" })
-        </td>*@
+                         ---老師的參考---
+                         <td>
+                         @Html.ActionLink("修改", "Edit", new { id = item.FId }) |
+                         @Html.ActionLink("刪除", "Delete", "Customer", new { id = item.FId },
+                         new { onclick = "return confirm('確定要刪除嗎?')" })
+                        </td>*@
 
                                     </tr>
                             }
                         </tbody>
-
-
-
                     </table>
 
 
-                    <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
-                        <!-- 全選區塊開始 -->
-                        <!--<div class="d-flex justify-content-between">
-        <div class="form-check d-flex align-items-center">
-            <input class="form-check-input me-2" type="checkbox" id="selectAll">
-            <label class="form-check-label" for="selectAll">全選</label>
-            <button type="button" class="btn btn-primary mx-lg-2">刪除</button>
-        </div>-->
-                        <!--</div>-->
-                        <!-- 全選區塊END-->
-
-
-
-                        <!-- 換頁區塊開始 -->
-                        @*<nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link previous-page" data-page-type="previous" href="#">
-                        <i class="fa-solid fa-chevron-left"></i>
-                    </a>
-                </li>
-                <li class="page-item active">
-                    <a class="page-link" id="page-1" data-page="1" data-page-type="number" href="#">
-                        1
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" id="page-2" data-page="2" data-page-type="number" href="#">
-                        2
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link next-page" data-page-type="next" href="#">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-                </li>
-            </ul>
-        </nav>*@
-
-
-                        <!-- 換頁區塊開始 -->
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                                <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
-                                    <a class="page-link previous-page" data-page-type="previous" href="@Url.Action("Member", new { currentPage = ViewBag.CurrentPage - 1 })">
-                                        <i class="fa-solid fa-chevron-left"></i>
+                    <  <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;"> </div>
+                    <!-- 換頁區塊開始 --> 
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link previous-page" data-page-type="previous" href="#">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </a>
+                            </li>
+                            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                            {
+                                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                    <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("Member", new { currentPage = i })">
+                                        @i
                                     </a>
                                 </li>
+                            }             
+                            <li class="page-item">
+                                <a class="page-link next-page" data-page-type="next" href="#">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
 
-                                @for (int i = 1; i <= ViewBag.TotalPages; i++)
-                                {
-                                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                                        <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("Member", new { currentPage = i })">
-                                            @i
-                                        </a>
-                                    </li>
-                                }
+                    <!-- 換頁區塊END -->
 
-                                <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
-                                    <a class="page-link next-page" data-page-type="next" href="@Url.Action("Member", new { currentPage = ViewBag.CurrentPage + 1 })">
-                                        <i class="fa-solid fa-chevron-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                        <!-- 換頁區塊END -->
-                        <!-- 換頁區塊END -->
+
+
                     </div>
                 </div>
             </div>
@@ -495,8 +523,9 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
 <script>
+
+
       // 清空功能
     $(document).ready(function () {
         $('#clearSearch').click(function () {
@@ -513,90 +542,16 @@
 
 
 
-
-    // 全選功能
-    //document.addEventListener("DOMContentLoaded", function () {
-    //    const selectAllCheckbox = document.getElementById("selectAll");
-    //    const restaurantCheckboxes = document.querySelectorAll(".form-check-input");
-
-    //    selectAllCheckbox.addEventListener("change", function () {
-    //        const isChecked = selectAllCheckbox.checked;
-    //        restaurantCheckboxes.forEach(checkbox => {
-    //            checkbox.checked = isChecked;
-    //        });
-    //    });
-
-    //    restaurantCheckboxes.forEach(checkbox => {
-    //        checkbox.addEventListener("change", function () {
-    //            selectAllCheckbox.checked = Array.from(restaurantCheckboxes).every(cb => cb.checked);
-    //        });
-    //    });
-    //});
-
-    // 以下是分頁功能Design
-    //document.addEventListener("DOMContentLoaded", function () {
-    //    const table = document.querySelector(".table");
-    //    const pageLinks = document.querySelectorAll(".page-link[data-page-type='number']");
-    //    const prevPageLink = document.querySelector(".previous-page");
-    //    const nextPageLink = document.querySelector(".next-page");
-
-    //    pageLinks.forEach(link => {
-    //        link.addEventListener("click", function (event) {
-    //            event.preventDefault();
-
-    //            // 獲取點擊的頁碼
-    //            const page = parseInt(link.textContent);
-
-    //            // 移除所有活躍狀態
-    //            pageLinks.forEach(link => link.parentElement.classList.remove("active"));
-
-    //            // 添加活跃状态到当前页码链接
-    //            link.parentElement.classList.add("active");
-
-    //            // 更新表格内容
-    //            updateTableContent(page);
-    //        });
-    //    });
-
-    //    prevPageLink.addEventListener("click", function (event) {
-    //        event.preventDefault();
-
-    //        const activeLink = document.querySelector(".page-item.active .page-link");
-    //        if (activeLink) {
-    //            const currentPage = parseInt(activeLink.textContent);
-    //            if (currentPage > 1) {
-    //                pageLinks[currentPage - 2].click();
-    //            }
-    //        }
-    //    });
-
-    //    nextPageLink.addEventListener("click", function (event) {
-    //        event.preventDefault();
-
-    //        const activeLink = document.querySelector(".page-item.active .page-link");
-    //        if (activeLink) {
-    //            const currentPage = parseInt(activeLink.textContent);
-    //            if (currentPage < pageLinks.length) {
-    //                pageLinks[currentPage].click();
-    //            }
-    //        }
-    //    });
-
-    //    function updateTableContent(page) {
-    //        const perPage = 5;
-    //        const startIndex = (page - 1) * perPage;
-    //        const endIndex = startIndex + perPage;
-
-    //        const rows = table.querySelectorAll("tbody tr");
-    //        rows.forEach((row, index) => {
-    //            if (index >= startIndex && index < endIndex) {
-    //                row.style.display = "table-row";
-    //            } else {
-    //                row.style.display = "none";
-    //            }
-    //        });
-    //    }
-    //});
+    //男生女生
+    $(document).ready(function () {
+        $('select[name="gender"]').on('change', function () {
+            // 在這裡添加性別選項的值
+            var genderValue = $('select[name="gender"]').val();
+            $(this).closest('form').append($('<input>').attr('type', 'hidden').attr('name', 'gender').val(genderValue));
+            // 提交表單進行篩選
+            $(this).closest('form').submit();
+        });
+    });
 
 
 
