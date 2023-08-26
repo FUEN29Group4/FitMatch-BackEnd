@@ -3,6 +3,9 @@
 @{
     ViewData["Title"] = "Gym";
 }
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <!-- Content Start -->
 <div class="content">
     <!-- Navbar Start -->
@@ -207,7 +210,8 @@
                                            style="background-color: aliceblue; color: black;">
                                             <i class="fa-regular fa-pen-to-square">編輯</i>
                                         </a>
-                                        <a class="btn btn-primary" href="@Url.Action("GymDelete", "Gym", new { id = item.GymId })">
+                                        <a class="btn btn-primary" href="@Url.Action("GymDelete", "Gym", new { id = item.GymId })"
+                                           onclick="return showDeleteConfirmation('@item.GymId')">
                                             <i class="fa-solid fa-trash-can">刪除</i>
                                         </a>
                                     </td>
@@ -257,4 +261,45 @@
             window.location.href = window.location.pathname;
         });
     });
+
+
+    //刪除確認功能
+    function showDeleteConfirmation(id) {
+        Swal.fire({
+            title: '確定要刪除這筆資料嗎？',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#2BC17B',
+            cancelButtonColor: '##dc3545',
+            confirmButtonText: '確定',
+            cancelButtonText: '取消'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/Gym/GymDelete/' + id;
+            }
+        });
+
+        return false;
+    }
+
+    // Check if the URL contains the "deletedId" query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const deletedId = urlParams.get('deletedId');
+
+    // If "deletedId" exists, show SweetAlert
+    if (deletedId) {
+        Swal.fire({
+            title: '刪除成功',
+            text: '已成功刪除場館資料。',
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: '確定'
+        });
+    }
+
+
+
 </script>
+
+
+

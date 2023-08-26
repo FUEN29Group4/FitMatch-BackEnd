@@ -185,14 +185,19 @@ namespace FitMatch_BackEnd.Controllers
         {
             if (id == null)
                 return RedirectToAction("Gym");
+
             Gym cust = _context.Gyms.FirstOrDefault(t => t.GymId == id);
             if (cust != null)
             {
                 _context.Gyms.Remove(cust);
                 _context.SaveChanges();
+
+                return RedirectToAction("Gym", new { deletedId = id });
             }
+
             return RedirectToAction("Gym");
         }
+
 
 
         public IActionResult GymEdit(int? id)
