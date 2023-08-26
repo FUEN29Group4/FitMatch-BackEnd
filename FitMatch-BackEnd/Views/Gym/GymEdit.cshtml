@@ -140,6 +140,7 @@
         </div>
     </nav>
     <!-- Navbar End -->
+   
     <!-- Form Start -->
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
@@ -188,21 +189,37 @@
                             </div>
                         </div>
 
-                        <!-- 圖片上傳部分 -->
-                        <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
-                            <div class="col-2">
-                                <label for="FileToUpload" class="col-form-label">封面照片</label>
-                            </div>
-                            <div class="col-10">
-                                <div class="upload-container">
-                                    <label for="FileToUpload" class="label-upload">
-                                        <div class="icon">+</div>
-                                        <input asp-for="FileToUpload" type="file" id="FileToUpload" class="upload-input" accept="image/*">
-                                    </label>
-                                    <img id="preview" src="@Url.Content($"~/img/gym/{Model.Photo}")" alt="Image Preview"> <!-- 注意這裡的路徑 -->
+                        <!-- 現有照片預覽 -->
+                        <div class="col-sm-12 col-xl-6 mb-3">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-center">
+                                    現有封面照片
+                                </div>
+                                <div class="card-body d-flex justify-content-center">
+                                    <img id="existingPreview" src="@Url.Content($"~/img/gym/{Model.Photo}")" alt="Existing Image Preview" width="330" height="210">
                                 </div>
                             </div>
                         </div>
+
+                        <!-- 新照片上傳和預覽 -->
+                        <div class="col-sm-12 col-xl-6 mb-3">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-center">
+                                    新封面照片
+                                </div>
+                                <div class="card-body d-flex flex-column align-items-center">
+                                    <!-- 預覽新上傳的照片 -->
+                                    <div class="d-flex justify-content-center">
+                                        <img id="newPreview" src="" alt="New Image Preview" style="display:none;" width="330" height="210">
+                                    </div>
+                                    <!-- 上傳按鈕 -->
+                                    <div class="d-flex justify-content-center mt-3 w-100">
+                                        <input type="file" id="FileToUpload" name="FileToUpload" accept="image/*" onchange="previewNewImage(event)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <fieldset class="col-sm-12 col-xl-6 mb-3 d-flex">
                             <div class="col-2">
@@ -293,25 +310,17 @@
 
 </div>
 <!-- Content End -->
-<!-- 圖片預覽 -->
+
+
 <script>
 
-    const uploadInput = document.getElementById('FileToUpload');
-    const preview = document.getElementById('preview');
-    const icon = document.querySelector('.icon');
-
-    uploadInput.addEventListener('change', function () {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-
-            reader.addEventListener('load', function () {
-                preview.src = this.result;
-                preview.style.display = 'block';
-                icon.style.display = 'none';
-            });
-
-            reader.readAsDataURL(file);
+    function previewNewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('newPreview');
+            output.src = reader.result;
+            output.style.display = 'block'; // 顯示新的預覽圖片
         }
-    });
-    </script>
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
