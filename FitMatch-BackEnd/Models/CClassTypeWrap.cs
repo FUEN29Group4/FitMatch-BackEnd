@@ -36,7 +36,7 @@
             set { _classtype.Introduction = value; }
         }
 
-        public bool? Status
+        public int? Status
         {
             get { return _classtype.Status; }
             set { _classtype.Status = value; }

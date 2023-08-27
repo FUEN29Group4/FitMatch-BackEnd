@@ -130,12 +130,12 @@
 
                             </div>
                             <div class="form-floating mb-3">
-                                @Html.TextBox("txtAccount", "" , new { @class = "form-control col-original" , @id = "floatingInput", @placeholder="name@example.com" } )
+                                @Html.TextBox("txtAccount", "" , new { @class = "form-control col-original" , id = "floatingInput", placeholder="name@example.com" } )
 
                                 <label for="floatingInput" style="color: #a5a5a5;">帳號</label>
                             </div>
                             <div class="form-floating mb-4">
-                                @Html.TextBox("txtPassword", "", new { @class = "form-control col-original" , @id = "floatingPassword", @placeholder="Password" })
+                                @Html.TextBox("txtPassword", null , new { @class = "form-control col-original" , id = "password", placeholder="Password" })
 
                                 <label for="floatingPassword" style="color: #a5a5a5;">密碼</label>
                             </div>

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class ClassTypeController : SuperController
+    public class ClassTypeController : Controller
     {
         public IWebHostEnvironment _enviro = null;
         public ClassTypeController(IWebHostEnvironment p)
@@ -13,59 +13,34 @@ namespace FitMatch_BackEnd.Controllers
         }
 
 
-        public IActionResult List(CKeywordViewModel vm, int currentPage = 1)
+        public IActionResult List(int currentPage = 1, string txtKeyword = null, int? ClassTypeStatus = null, int? Status = null)
         {
             FitMatchDbContext db = new FitMatchDbContext();
-            IQueryable<ClassType> datas = db.ClassTypes;
+            //預設一頁只能有8筆資料
+            int itemsPerPage = 8;
+            IEnumerable<ClassType> datas = from p in db.ClassTypes select p;
 
-
-            if (vm.txtKeyword != null || vm.StatusFilter != null)
+            // 如果有搜尋關鍵字
+            if (!string.IsNullOrWhiteSpace(txtKeyword))
             {
-                if (!string.IsNullOrEmpty(vm?.StatusFilter))
-                {
-                    switch (vm.StatusFilter)
-                    {
-                        case "上架":
-                            datas = db.ClassTypes.Where(t => t.Status == true);
-                            break;
-                        case "下架":
-                            datas = db.ClassTypes.Where(t => t.Status == false);
-                            break;
-                        case "待審核":
-                            datas = db.ClassTypes.Where(t => t.Status == null);
-                            break;
-                    }
-                    if (!string.IsNullOrEmpty(vm?.txtKeyword))
-                    {
-                        datas = datas.Where(t => t.ClassName.Contains(vm.txtKeyword));
-                    }
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(vm?.txtKeyword))
-                    {
-                        datas = datas.Where(t => t.ClassName.Contains(vm.txtKeyword));
-                    }
-                }
+                datas = datas.Where(p => p.ClassName.Contains(txtKeyword));
             }
-            else
-            {
-                datas = from p in db.ClassTypes
-                        select p;
-            }
-            //預設一頁只能有5筆資料
-            int itemsPerPage = 5;
 
+            //審核篩選:如果Status有值
+            if (Status.HasValue)
+            {
+                datas = datas.Where(p => p.Status == Status.Value);
+            }
 
             // 根據當下頁碼獲取datas
             datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
 
-            int totalDataCount = db.ClassTypes.Count();
+            int totalDataCount = db.Restaurants.Count();
             int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
 
             ViewBag.TotalPages = totalPages;
             ViewBag.CurrentPage = currentPage;
-
+            ViewBag.Keyword = txtKeyword;  // 將關鍵字存入ViewBag，以便在View中使用
 
             return View(datas);
         }
@@ -96,7 +71,7 @@ namespace FitMatch_BackEnd.Controllers
                     p.photo.CopyTo(new FileStream(path, FileMode.Create));
                     custDb.Photo = photoName;
                 }
-                custDb.Status = string.IsNullOrEmpty(Request.Form["Status"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Status"]);
+                custDb.Status = p.Status;
                 custDb.ClassName = p.ClassName;
                 custDb.Introduction = p.Introduction;
 
@@ -158,7 +133,7 @@ namespace FitMatch_BackEnd.Controllers
                     prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
                     custDb.Photo = photoName;
                 }
-                custDb.Status = string.IsNullOrEmpty(Request.Form["Status"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Status"]);
+                custDb.Status = prodIn.Status;
                 custDb.ClassName = prodIn.ClassName;
                 custDb.Introduction = prodIn.Introduction;
 
