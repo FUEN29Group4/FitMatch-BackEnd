@@ -69,19 +69,19 @@
     var myChart1 = new Chart(ctx1, {
         type: "bar",
         data: {
-            labels: ["2016", "2017", "2018", "2019", "2020", "2021", "2022"],
+            labels: ["2019", "2020", "2021", "2022", "2023"],
             datasets: [{
-                label: "USA",
+                label: "教練數量",
                 data: [15, 30, 55, 65, 60, 80, 95],
                 backgroundColor: "#1d8052"
             },
             {
-                label: "UK",
+                label: "課程數量",
                 data: [8, 35, 40, 60, 70, 55, 75],
                 backgroundColor: "rgba(235, 22, 22, .5)"
             },
             {
-                label: "AU",
+                label: "學生數量",
                 data: [12, 25, 45, 55, 65, 70, 60],
                 backgroundColor: "rgba(235, 22, 22, .3)"
             }
@@ -98,15 +98,15 @@
     var myChart2 = new Chart(ctx2, {
         type: "line",
         data: {
-            labels: ["2016", "2017", "2018", "2019", "2020", "2021", "2022"],
+            labels: ["2019", "2020", "2021", "2022", "2023"],
             datasets: [{
-                label: "Salse",
+                label: "訂單數量",
                 data: [15, 30, 55, 45, 70, 65, 85],
                 backgroundColor: "rgba(235, 22, 22, .7)",
                 fill: true
             },
             {
-                label: "Revenue",
+                label: "訂單收入",
                 data: [99, 135, 170, 130, 190, 180, 270],
                 backgroundColor: "rgba(235, 22, 22, .5)",
                 fill: true
