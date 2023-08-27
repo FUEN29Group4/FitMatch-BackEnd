@@ -31,10 +31,12 @@ namespace FitMatch_BackEnd.ViewModel
         public Member member { get; set; }
 
         public int? TypeId { get; set; }//商品類別編號
-        public string? TypeName { get; set; }//商品類別編號
-        public string? Photo { get; set; }//商品類別編號
+        public string? TypeName { get; set; }
+        public string? Photo { get; set; }
 
-
+        public string? Phone { get; set; }
+        public string? Address { get; set; }
+        public int? TotalPrice { get; set; }
 
 
     }

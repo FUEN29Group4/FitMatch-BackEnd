@@ -82,6 +82,7 @@ namespace FitMatch_BackEnd.Controllers
         {
                var viewModelList = (from c in _context.OrderDetails
                                  join m in _context.Orders on c.OrderId equals m.OrderId
+                                 join h in _context.Members on m.MemberId equals h.MemberId
                                  join t in _context.Products on c.ProductId equals t.ProductId
                                  join g in _context.ProductTypes on t.TypeId equals g.TypeId
                        
@@ -92,6 +93,9 @@ namespace FitMatch_BackEnd.Controllers
                                      MemberId = (int)m.MemberId,
                                      TypeId= (int)g.TypeId,
                                      TypeName = g.TypeName,
+                                     Phone = h.Phone,
+                                     Address = h.Address,
+                                     TotalPrice = m.TotalPrice,
                                      Photo = t.Photo,
                                      ProductId = t.ProductId,
                                      ProductName = t.ProductName,

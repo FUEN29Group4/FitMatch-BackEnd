@@ -121,7 +121,7 @@
     </nav>
     <!-- Navbar End -->
     <!-- 篩選列開始 -->
-    <div class="container-fluid pt-4 px-4">
+   @* <div class="container-fluid pt-4 px-4">
         <nav class="navbar navbar-expand-lg bg-white rounded">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -165,13 +165,17 @@
             </div>
         </nav>
     </div>
-
+*@
     <!-- 篩選列結束 -->
     <!-- 管理列表開始 -->
     <div class="container-fluid pt-4 px-4">
         <div class="bg-white text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
-                <h5 class="mb-0 text-dark">訂單詳細紀錄(訂單編號:Order001)</h5>
+                @if (Model.Count > 0)
+                {
+                    var firstorder = Model[0];
+                    <h5 class="mb-0 text-dark">訂單詳細紀錄(訂單編號:@firstorder.OrderId)</h5>
+                }
             </div>
             <div class="table-responsive">
                 <table class="table text-center align-middle table-bordered table-hover mb-0">
@@ -187,21 +191,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                              @foreach (var item in Model)
-                            {
-                                <tr class="data-row">
+                        @foreach (var item in Model)
+                        {
+                            <tr class="data-row">
                                 <td>@item.ProductId</td>
                                 <td>@item.TypeName</td>
                                 <td>@item.ProductName</td>
-                                    <td>
+                                <td>
                                     <img src="~/img/商城/@item.Photo" width="110" height="70" />
-                                    </td>
+                                </td>
                                 <td>@item.Quantity</td>
                                 <td>@item.小計</td>
 
 
-                                </tr>
-                           }
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
@@ -212,16 +216,17 @@
                         <div class="d-flex align-items-end justify-content-center">
                             <ul class="Orderaddress"
                                 style="list-style-type: none; padding-left: 0; text-align: left;margin-top: -10px;margin-left: -1210px;">
-                                @for(int i = 0; i < 1; i++)
+                                @if (Model.Count > 0)
                                 {
-                                 <li>訂單時間:</li>
-                                <li>付款時間:2023/08/15 09:53</li>
-                                <li>收件人:黃飛鴻</li>
-                                <li>收件電話:09124213412</li>
-                                <li>收件地址:7-11 國華門市 台南市中西區國華街3號</li>
-                                <li>訂單總金額:25742</li>
+                                    var firstorder = Model[0];
+                                    <li>訂單時間:@firstorder.OrderTime</li>
+                                    <li>付款時間:@firstorder.PayTime</li>
+                                    <li>收件人:@firstorder.MemberName</li>
+                                    <li>收件電話:@firstorder.Phone</li>
+                                    <li>收件地址:@firstorder.Address</li>
+                                    <li>訂單總金額:@firstorder.TotalPrice</li>
                                 }
-                       
+
                             </ul>
                         </div>
                     </div>
