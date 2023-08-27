@@ -30,8 +30,10 @@ namespace FitMatch_BackEnd.Controllers
             // Search and filter logic
             if (!string.IsNullOrEmpty(vm?.txtKeyword))
             {
-                gyms = gyms.Where(t => EF.Functions.Like(t.Address, $"%{vm.txtKeyword}%"));
+                gyms = gyms.Where(t => EF.Functions.Like(t.Address, $"%{vm.txtKeyword}%") ||
+                                        EF.Functions.Like(t.GymName, $"%{vm.txtKeyword}%"));
             }
+
 
             if (!string.IsNullOrEmpty(vm?.RegionFilter))
             {
