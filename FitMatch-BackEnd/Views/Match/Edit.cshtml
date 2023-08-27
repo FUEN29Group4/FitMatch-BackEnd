@@ -42,6 +42,11 @@
         left: 50%;
         transform: translate(-50%, -50%);
     }
+
+    .form-control:disabled, .form-control:read-only {
+        background-color: #fff;
+        opacity: 1;
+    }
 </style>
 <div class="content">
     <!-- Navbar Start -->
@@ -53,50 +58,14 @@
             <i class="fa fa-bars"></i>
         </a>
         <form class="d-none d-md-flex ms-4">
-            <h4 class="m-auto">場館管理 / 編輯場館</h4>
+            <h4 class="m-auto">預約管理 / 編輯預約</h4>
         </form>
         <div class="navbar-nav align-items-center ms-auto">
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                <a href="#" class="nav-link">
                     <i class="fa-solid fa-gear"></i>
                     <span class="d-none d-lg-inline-flex">設定</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item text-center">See all message</a>
-                </div>
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -137,83 +106,78 @@
         </div>
     </nav>
 
-<!-- Form Start -->
-<div class="container-fluid pt-4 px-4">
-    <div class="row g-4">
-        <div class="col-sm-12">
-            <div class="bg-secondary rounded h-100 p-4" >
-                    <form asp-action="Edit" style="width:600px">
+    <!-- Form Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-12">
+                <div class="bg-secondary rounded h-100 p-4 ps-5">
+                    <form asp-action="Edit" class="col-6">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
-                            <label asp-for="ClassId" class="control-label"></label>
+                        <div class="form-group pb-3">
+                            <label asp-for="ClassId" class="control-label pb-1">預約編號</label>
                             <input asp-for="ClassId" class="form-control" readonly />
                             <span asp-validation-for="ClassId" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="SelectedGymId" class="control-label"></label>
+                        <div class="form-group pb-3">
+                            <label asp-for="SelectedGymId" class="control-label pb-1"></label>
                             <select asp-for="SelectedGymId" asp-items="Model.AvailableGyms" class="form-control"></select>
                             <span asp-validation-for="SelectedGymId" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="SelectedMemberId" class="control-label"></label>
+                        <div class="form-group pb-3">
+                            <label asp-for="SelectedMemberId" class="control-label pb-1"></label>
                             <select asp-for="SelectedMemberId" asp-items="Model.AvailableMember" class="form-control"></select>
                             <span asp-validation-for="SelectedMemberId" class="text-danger"></span>
                         </div>
 
-                        <div class="form-group">
-                            <label asp-for="SelectedClassTypeId" class="control-label"></label>
+                        <div class="form-group pb-3">
+                            <label asp-for="SelectedClassTypeId" class="control-label pb-1"></label>
                             <select asp-for="SelectedClassTypeId" asp-items="Model.AvailableClassType" class="form-control"></select>
                             <span asp-validation-for="SelectedClassTypeId" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="SelectedTrainerId" class="control-label"></label>
+                        <div class="form-group pb-3">
+                            <label asp-for="SelectedTrainerId" class="control-label pb-1"></label>
                             <select asp-for="SelectedTrainerId" asp-items="Model.AvailableTrainer" class="form-control"></select>
                             <span asp-validation-for="SelectedTrainerId" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="StartTime" class="control-label"></label>
+                        <div class="form-group pb-3">
+                            <label asp-for="StartTime" class="control-label pb-1"></label>
                             <input asp-for="StartTime" id="startTimeInput" class="form-control" />
                             <span asp-validation-for="StartTime" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="EndTime" class="control-label"></label>
+                        <div class="form-group pb-3">
+                            <label asp-for="EndTime" class="control-label pb-1"></label>
                             <input asp-for="EndTime" id="endTimeInput" class="form-control" readonly="readonly" />
                             <span asp-validation-for="EndTime" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="Approved" class="control-label"></label>
+                        <div class="form-group pb-3">
+                            <label asp-for="Approved" class="control-label pb-1"></label>
                             <select asp-for="Approved" class="form-control">
                                 <option value="true">已通過</option>
                                 <option value="false">未通過</option>
                             </select>
                             <span asp-validation-for="Approved" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="CourseStatus" class="control-label"></label>
+                        <div class="form-group pb-3">
+                            <label asp-for="CourseStatus" class="control-label pb-1"></label>
                             <select asp-for="CourseStatus" class="form-control">
                                 <option value="進行中">進行中</option>
                                 <option value="已完成">已完成</option>
-                                <!-- 添加其他选项 -->
                             </select>
                             <span asp-validation-for="CourseStatus" class="text-danger"></span>
                         </div>
-                        <!-- 加入一些空白行或其他元素來調整位置 -->
-                        <br>
-                        <br>
-                        <br>
-                        <div class="form-group">
-                            <input type="submit" value="储存" class="btn btn-primary" style="margin-right: 10px;" />
-                            <input type="submit" value="返回" class="btn btn-primary" />
+                        <div class="form-group d-flex align-content-center justify-content-center">
+                            <input type="submit" value="储存" class="btn btn-primary me-5"/>
+                            <input type="submit" value="返回" class="btn  btn-outline-success" />
 
                         </div>
                     </form>
+                </div>
             </div>
-        </div>
 
-    </div>
-</div>
-<!-- Form End -->
         </div>
+    </div>
+    <!-- Form End -->
+</div>
 <!-- Content End -->
 
 <script>
@@ -241,5 +205,7 @@
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
