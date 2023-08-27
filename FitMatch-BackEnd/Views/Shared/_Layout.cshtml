@@ -46,14 +46,14 @@
             <div class="sidebar pe-4 pb-3">
                 <!-- 左側的選單字跟背景色 -->
                 <nav class="navbar bg-secondary navbar-dark">
-                    <a href="index.html" class="navbar-brand mx-4 mb-3 d-flex justify-content-center">
+                <aasp-controller ="Home" asp-action="Index" class="navbar-brand mx-4 mb-3 d-flex justify-content-center">
                         <h1 class="text-white">Fit</h1>
                         <h1 style="color: #F24B88;">Match</h1>
                     </a>
 
                     <div class="navbar-nav w-100">
-                        <a href="index.html" class="nav-item nav-link">
-                            <i class="fa-solid fa-book-open me-2"></i>課程管理
+                    <a asp-controller="Home" asp-action="Index" class="nav-item nav-link">
+                        <i class="fa-solid fa-house me-2"></i>首頁
                         </a>
 
                         <div class="nav-item dropdown">
@@ -88,6 +88,7 @@
                             </div>
                         </div>
 
+
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                                 <i class="fa-solid fa-store me-2"></i>商城管理
@@ -100,15 +101,10 @@
                             </div>
                         </div>
 
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="far fa-file-alt me-2"></i>健康餐管理
-                            </a>
-                            <div class="dropdown-menu bg-transparent border-0">
-                            <a class="dropdown-item" asp-controller="Restaurant" asp-action="List">餐廳管理列表</a>
-                            <a class="dropdown-item" asp-controller="Restaurant" asp-action="Create">餐廳上架</a>
-                            </div>
-                        </div>
+                    <a class="nav-item nav-link" asp-controller="Restaurant" asp-action="List">
+                        <i class="fa-solid fa-utensils me-2"></i>健康餐管理
+                    </a>
+
 
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
