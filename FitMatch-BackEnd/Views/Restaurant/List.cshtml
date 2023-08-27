@@ -122,98 +122,98 @@
     <!-- 篩選列開始 -->
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
-            <form method="get" action="@Url.Action("List")" />
+            <form>
 
-            <div class="col">
-                <div class="bg-white rounded h-100 p-4">
-                    <div class="row pr-1">
+                <div class="col">
+                    <div class="bg-white rounded h-100 p-4">
+                        <div class="row pr-1">
 
 
-                        <!-- 第一區塊 -->
-                        <div class="col-3 d-flex align-items-center justify-content-center">
-                            所在城市:
-                            <div class="mx-1 flex-grow-1 ps-1">
-                                <select class="form-select" name="city"
-                                        aria-label="所在城市">
-                                    <option selected disabled value="">請選擇城市</option>
-                                    @foreach (var cityOption in new List<string> { "台北市", "台中市", "台南市" })
-                                    {
-                                        if (ViewBag.City == cityOption)
+                            <!-- 第一區塊 -->
+                            <div class="col-3 d-flex align-items-center justify-content-center">
+                                所在城市:
+                                <div class="mx-1 flex-grow-1 ps-1">
+                                    <select class="form-select" name="city"
+                                            aria-label="所在城市">
+                                        <option selected disabled value="">請選擇城市</option>
+                                        @foreach (var cityOption in new List<string> { "台北市", "台中市", "台南市" })
                                         {
-                                            <option value="@cityOption" selected>@cityOption</option>
+                                            if (ViewBag.City == cityOption)
+                                            {
+                                                <option value="@cityOption" selected>@cityOption</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@cityOption">@cityOption</option>
+                                            }
                                         }
-                                        else
-                                        {
-                                            <option value="@cityOption">@cityOption</option>
-                                        }
-                                    }
-                                </select>
-
-                            </div>
-                        </div>
-
-                        <!-- 上架狀態選擇 -->
-                        <div class="col-3 d-flex align-items-center justify-content-center">
-                            審核狀態:
-                            <div class="mx-1 flex-grow-1 ps-2">
-                                <select class="form-select" name="Status"
-                                        aria-label="Floating label select example">
-                                    <option selected disabled value="">請選擇</option>
-                                    <option value="0">上架</option>
-                                    <option value="1">下架</option>
-                                    <option value="2">審核中</option>
-                                </select>
-                            </div>
-                        </div>
-
-
-                        <form method="get" action="@Url.Action("List", "Restaurant")">
-
-                            <div class="col-4 d-flex align-items-center justify-content-end">
-                                <div class="col-1 p-0">
-                                    搜尋:
+                                    </select>
 
                                 </div>
-                                <div class="col-9 ps-2">
-                                    <div class="mx-10 flex-grow-1">
-                                        @Html.TextBox("txtKeyword", ViewBag.Keyword as string, new { @class = "form-control", @placeholder = "請輸入關鍵字", @aria_label = "請輸入關鍵字", @id = "searchInput" })
+                            </div>
+
+                            <!-- 上架狀態選擇 -->
+                            <div class="col-3 d-flex align-items-center justify-content-center">
+                                審核狀態:
+                                <div class="mx-1 flex-grow-1 ps-2">
+                                    <select class="form-select" name="Status"
+                                            aria-label="Floating label select example">
+                                        <option selected disabled value="">請選擇</option>
+                                        <option value="0">上架</option>
+                                        <option value="1">下架</option>
+                                        <option value="2">審核中</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <form method="get" action="@Url.Action("List", "Restaurant")">
+
+                                <div class="col-4 d-flex align-items-center justify-content-end">
+                                    <div class="col-1 p-0">
+                                        搜尋:
 
                                     </div>
+                                    <div class="col-9 ps-2">
+                                        <div class="mx-10 flex-grow-1">
+                                            @Html.TextBox("txtKeyword", ViewBag.Keyword as string, new { @class = "form-control", @placeholder = "請輸入關鍵字", @aria_label = "請輸入關鍵字", @id = "searchInput" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-1 d-flex align-items-center p-0  ps-2">
+                                        <button type="submit" class="btn me-2">
+                                            <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="col-1 d-flex align-items-center p-0  ps-2">
-                                    <button type="submit" class="btn me-2">
-                                        <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+
+
+
+
+                                <!-- 搜尋部分 -->
+                                @*               <div class="d-flex align-items-center ml-auto">
+                                <div class="me-2">
+                                <input name="txtKeyword" class="form-control" type="text" placeholder="請輸入關鍵字" aria-label="請輸入關鍵字" id="searchInput">
+                                </div>
+                                <button type="submit" class="btn btn-primary me-2">
+                                <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                                </button>
+                                <button type="reset" class="btn btn-outline-success">清空</button>
+                                </div>
+                                *@
+
+
+                                <!-- 清空區塊 -->
+                                <div class="col-1 d-flex align-items-center p-0  ps-2 ml-3">
+                                    <button class="btn btn-outline-success" type="button" id="clearSearch">
+                                        清空
                                     </button>
                                 </div>
-                            </div>
-
-
-
-
-                            <!-- 搜尋部分 -->
-                            @*               <div class="d-flex align-items-center ml-auto">
-                            <div class="me-2">
-                            <input name="txtKeyword" class="form-control" type="text" placeholder="請輸入關鍵字" aria-label="請輸入關鍵字" id="searchInput">
-                            </div>
-                            <button type="submit" class="btn btn-primary me-2">
-                            <i class="fa-solid fa-magnifying-glass fa-xl"></i>
-                            </button>
-                            <button type="reset" class="btn btn-outline-success">清空</button>
-                            </div>
-                            *@
-
-
-                            <!-- 清空區塊 -->
-                            <div class="col-1 d-flex align-items-center p-0  ps-2 ml-3">
-                                <button class="btn btn-outline-success" type="button" id="clearSearch">
-                                    清空
-                                </button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            </form>
         </div>
     </div>
     <!-- 篩選列結束 -->
@@ -332,6 +332,8 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
     // 清空功能
     $(document).ready(function () {
@@ -341,7 +343,7 @@
     });
     //教練審核狀態
     $(document).ready(function () {
-        $('select[name="approved"]').on('change', function () {
+        $('select[name="Status"]').on('change', function () {
             // 直接提交表單進行篩選
             $(this).closest('form').submit();
         });
