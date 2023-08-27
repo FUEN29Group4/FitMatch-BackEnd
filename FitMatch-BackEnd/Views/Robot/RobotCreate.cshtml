@@ -4,7 +4,6 @@
     ViewData["Title"] = "RobotCreate";
 }
 
-<h1>新增機器人問題</h1>
 
 <style>
     /* 上傳照片 */
@@ -58,51 +57,15 @@
         <a href="#" class="sidebar-toggler flex-shrink-0">
             <i class="fa fa-bars"></i>
         </a>
-        <form class="d-none d-md-flex ms-4">
-            <h4 class="m-auto">問題/答覆建立</h4>
+        <form class="d-none d-md-flex ms-4 align-items-center">
+            <h4 class="m-auto">新增機器人答覆</h4>
         </form>
         <div class="navbar-nav align-items-center ms-auto">
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                <a href="#" class="nav-link">
                     <i class="fa-solid fa-gear"></i>
                     <span class="d-none d-lg-inline-flex">設定</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item text-center">See all message</a>
-                </div>
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -130,9 +93,9 @@
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
+                    <img class="rounded-circle me-lg-2" src="~/img/員工/02627af6-2503-42cc-8ea7-5a69773dadd6.jpg" alt=""
                          style="width: 40px; height: 40px;">
-                    <span class="d-none d-lg-inline-flex">John Doe</span>
+                    <span class="d-none d-lg-inline-flex">揚庭</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                     <a href="#" class="dropdown-item">My Profile</a>
@@ -154,38 +117,38 @@
 
                         @* ------radio start------ *@
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
-                       
-                        <label asp-for="Type" class="col-form-label pt-0 pe-4">問題種類</label>
 
-                           @*  這是純預設的radio樣式 *@
-                           @*  @Html.RadioButton("Type", "教練") <span>教練</span>
-                            @Html.RadioButton("Type", "媒合") <span>媒合</span>
-                            @Html.RadioButton("Type", "課程") <span>課程</span>
-                            @Html.RadioButton("Type", "訂單") <span>訂單</span>
-                            @Html.RadioButton("Type", "其他") <span>其他</span> *@
+                            <label asp-for="Type" class="col-form-label pt-0 pe-4">問題種類</label>
+
+                            @*  這是純預設的radio樣式 *@
+                            @*  @Html.RadioButton("Type", "教練") <span>教練</span>
+                                @Html.RadioButton("Type", "媒合") <span>媒合</span>
+                                @Html.RadioButton("Type", "課程") <span>課程</span>
+                                @Html.RadioButton("Type", "訂單") <span>訂單</span>
+                                @Html.RadioButton("Type", "其他") <span>其他</span> *@
 
 
-                        @* 這是有改成我們自已class的radio樣式：class="form-check-input"*@
-                        <label  onclick="setSelectedRadio(this)">
-                            <input class="form-check-input"  type="radio" name="Type" value="教練" /> 教練
-                        </label>
-                        <label  onclick="setSelectedRadio(this)">
-                            <input class="form-check-input" type="radio" name="Type" value="媒合" /> 媒合
-                        </label>
-                        <label onclick="setSelectedRadio(this)">
-                            <input class="form-check-input" type="radio" name="Type" value="課程" /> 課程
-                        </label>
+                            @* 這是有改成我們自已class的radio樣式：class="form-check-input"*@
+                            <label onclick="setSelectedRadio(this)">
+                                <input class="form-check-input" type="radio" name="Type" value="教練" /> 教練
+                            </label>
+                            <label onclick="setSelectedRadio(this)">
+                                <input class="form-check-input" type="radio" name="Type" value="媒合" /> 媒合
+                            </label>
+                            <label onclick="setSelectedRadio(this)">
+                                <input class="form-check-input" type="radio" name="Type" value="課程" /> 課程
+                            </label>
 
-                        <label onclick="setSelectedRadio(this)">
-                            <input class="form-check-input" type="radio" name="Type" value="訂單" /> 訂單
-                        </label>
+                            <label onclick="setSelectedRadio(this)">
+                                <input class="form-check-input" type="radio" name="Type" value="訂單" /> 訂單
+                            </label>
 
-                        <label onclick="setSelectedRadio(this)">
-                            <input class="form-check-input" type="radio" name="Type" value="其他" /> 其他
-                        </label>
+                            <label onclick="setSelectedRadio(this)">
+                                <input class="form-check-input" type="radio" name="Type" value="其他" /> 其他
+                            </label>
                         </div>
                         @* ------radio end------ *@
-                        
+
 
 
 
@@ -209,7 +172,7 @@
                             <div class="col-4">
                                 <textarea asp-for="DefaultResponse" class="form-control mb-3" type="text" placeholder="請輸入答覆"
                                           id="inputname" style="height: 150px;"></textarea>
-                               @*  <span asp-validation-for="DefaultResponse" class="text-danger"></span> 驗證功能待補 *@
+                                @*  <span asp-validation-for="DefaultResponse" class="text-danger"></span> 驗證功能待補 *@
                             </div>
                         </div>
 

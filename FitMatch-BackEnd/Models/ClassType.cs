@@ -13,7 +13,7 @@ public partial class ClassType
 
     public string? Introduction { get; set; }
 
-    public bool? Status { get; set; }
+    public int? Status { get; set; }
 
     public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
 }
