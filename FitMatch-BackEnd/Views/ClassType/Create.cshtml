@@ -186,19 +186,19 @@
                             </div>
                             <div class="col-10 d-flex justify-content-start">
                                 <div class="form-check me-3">
-                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios1" value="true" @(Model.Status == true ? "checked" : "")>
+                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios1" value="0" @(Model.Status == 0 ? "checked" : "")>
                                     <label class="form-check-label" for="gridRadios1">
                                         上架
                                     </label>
                                 </div>
                                 <div class="form-check me-3">
-                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios2" value="false" @(Model.Status == false ? "checked" : "")>
+                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios2" value="1" @(Model.Status == 1 ? "checked" : "")>
                                     <label class="form-check-label" for="gridRadios2">
                                         下架
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios3" value="" @(Model.Status == null ? "checked" : "")>
+                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios3" value="2" @(Model.Status == 2 ? "checked" : "")>
                                     <label class="form-check-label" for="gridRadios3">
                                         待審核
                                     </label>

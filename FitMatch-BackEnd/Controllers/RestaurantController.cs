@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class RestaurantController : SuperController
+    public class RestaurantController : Controller
     {
         public IWebHostEnvironment _enviro = null;
         public RestaurantController(IWebHostEnvironment p)
