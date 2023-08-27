@@ -5,6 +5,8 @@
 }
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 <!-- Content Start -->
 <div class="content">
@@ -79,13 +81,20 @@
                                 區域:
                                 <div class="mx-1 flex-grow-1 ps-1">
                                     <select class="form-select" name="RegionFilter"
-                                            aria-label="區域">
+                                            aria-label="區域" onchange="filterTable()">
                                         <option selected disabled hidden value="">請選擇區域</option>
-                                        <option value="台北">台北</option>
-                                        <option value="新北">新北</option>
-                                        <option value="台中">台中</option>
-                                        <option value="台南">台南</option>
-                                        <option value="屏東">屏東</option>
+                                        @foreach (var cityOption in new List<string> { "台北市", "台中市", "台南市", "新竹市", "屏東市" })
+                                        {
+                                            if (ViewBag.RegionFilter == cityOption)
+                                            {
+                                                <option value="@cityOption" selected>@cityOption</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@cityOption">@cityOption</option>
+                                            }
+                                        }
+
                                     </select>
                                 </div>
                             </div>
@@ -97,9 +106,17 @@
                                     <select class="form-select" name="StatusFilter"
                                             aria-label="上架狀態">
                                         <option selected disabled hidden value="">請選擇狀態</option>
-                                        <option value="上架">上架</option>
-                                        <option value="下架">下架</option>
-                                        <option value="待審核">待審核</option>
+                                        @foreach (var statusOption in new List<string> { "上架", "下架", "待審核" })
+                                        {
+                                            if (ViewBag.StatusFilter == statusOption)
+                                            {
+                                                <option value="@statusOption" selected>@statusOption</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@statusOption">@statusOption</option>
+                                            }
+                                        }
                                     </select>
                                 </div>
                             </div>
@@ -158,7 +175,7 @@
                             <th scope="col">操作</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tableBody">
                         @{
                             int count = 0;
                             foreach (var item in Model)
@@ -264,6 +281,20 @@
             confirmButtonText: '確定'
         });
     }
+
+
+    $(document).ready(function () {
+        $('select[name="RegionFilter"]').on('change', function () {
+            // 直接提交表單進行篩選
+            $(this).closest('form').submit();
+        });
+
+        $('select[name="StatusFilter"]').on('change', function () {
+            // 直接提交表單進行篩選
+            $(this).closest('form').submit();
+        });
+    });
+
 </script>
 
 
