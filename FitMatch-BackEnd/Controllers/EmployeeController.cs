@@ -2,12 +2,13 @@
 using FitMatch_BackEnd.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Text.RegularExpressions;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class EmployeeController : Controller
+    public class EmployeeController : SuperController
     {
         //注入DB 可以在很多方法用他來連結資料庫
         private readonly FitMatchDbContext _context;
@@ -134,9 +135,9 @@ namespace FitMatch_BackEnd.Controllers
 
         [HttpPost]
        
-        public IActionResult Edit(CEmployeeWrap prodIn)
+        public async Task<IActionResult> Edit(CEmployeeWrap prodIn)
         {
-          Employee e = _context.Employees.FirstOrDefault(t => t.EmployeeId ==  prodIn.EmployeeID);
+            Employee e = await _context.Employees.FirstOrDefaultAsync(t => t.EmployeeId == prodIn.EmployeeID);
             //檢查
             if (e == null)
             {
@@ -159,7 +160,7 @@ namespace FitMatch_BackEnd.Controllers
                     string path = _enviro.WebRootPath + "/img/員工/" + photoName;
                     using (var fileStream = new FileStream(path, FileMode.Create))
                     {
-                        prodIn.photo.CopyTo(fileStream);
+                        await prodIn.photo.CopyToAsync(fileStream);
                     }
                     //prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
                     e.Photo = photoName;
@@ -173,7 +174,7 @@ namespace FitMatch_BackEnd.Controllers
                 e.Position = prodIn.Position;
                 e.Password = prodIn.Password;
                 e.Status = prodIn.Status;
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             return RedirectToAction("Employee");
         }

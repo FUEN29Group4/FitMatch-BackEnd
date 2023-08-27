@@ -180,7 +180,7 @@
                                         <label class="col-form-label">生日</label>
                                     </div>
                                     <div class="col-8 ps-3 mb-2">
-                                        <input asp-for="Birth" class="form-select" type="date" />
+                                        <input asp-for="Birth" class="form-select" type="date" id="inputBirth" />
                                         <span asp-validation-for="Birth" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -190,7 +190,7 @@
                                         <label  class="col-form-label">電話號碼</label>
                                     </div>
                                     <div class="col-8 ps-3">
-                                        <input asp-for="Phone" data-validate="Phone" data-error-message="電話號碼格式不正確" class="form-control mb-2" placeholder="請輸入電話號碼" />
+                                        <input asp-for="Phone" data-validate="Phone" data-error-message="電話號碼格式不正確" class="form-control mb-2" placeholder="請輸入電話號碼" id="inputPhone" />
                                         <span asp-validation-for="Phone" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -200,7 +200,7 @@
                                         <label  class="col-form-label">地址</label>
                                     </div>
                                     <div class="col-8 ps-3">
-                                        <input asp-for="Address" data-validate="Address" data-error-message="地址格式不正確" class="form-control mb-2" placeholder="請輸入地址" />
+                                        <input asp-for="Address" data-validate="Address" data-error-message="地址格式不正確" class="form-control mb-2" placeholder="請輸入地址" id="inputAddress" />
                                         <span asp-validation-for="Address" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -210,7 +210,7 @@
                                         <label class="col-form-label">電子信箱</label>
                                     </div>
                                     <div class="col-8 ps-3">
-                                        <input asp-for="Email" data-validate="Email" data-error-message="電子信箱格式不正確" class="form-control mb-3" placeholder="請輸入電子信箱" />
+                                        <input asp-for="Email" data-validate="Email" data-error-message="電子信箱格式不正確" class="form-control mb-3" placeholder="請輸入電子信箱" id="inputEmail" />
                                         <span asp-validation-for="Email" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -220,7 +220,7 @@
                                         <label  class="col-form-label">密碼</label>
                                     </div>
                                     <div class="col-8 ps-3">
-                                        <input type="Password" asp-for="Password" data-validate="Password" data-error-message="密碼格式不正確" class="form-control mb-2" placeholder="請輸入密碼" />
+                                        <input type="Password" asp-for="Password" data-validate="Password" data-error-message="密碼格式不正確" class="form-control mb-2" placeholder="請輸入密碼" id="inputPassword" />
                                         <span asp-validation-for="Password" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -248,7 +248,8 @@
                         <div class=" d-flex justify-content-center pt-2 form-group">
                             <button type="submit" class="btn btn-primary me-5" value="Create">新增</button>
                             <a asp-action="Employee"
-                               class="btn btn-outline-success">取消</a>
+                               class="btn btn-outline-success me-5">取消</a>
+                            <button type="button" id="demoButton" class="btn btn-outline-info ">DEMO</button>
                         </div>
                     </div>
                 </div>
@@ -443,6 +444,21 @@
             backendErrorMessageElement.textContent = '';
         }
     }
+    // DEMO按钮
+    document.addEventListener("DOMContentLoaded", function () {
+        var demoButton = document.getElementById("demoButton");
+        if (demoButton) {
+            demoButton.addEventListener("click", function () {
+                document.getElementById("inputname").value = "金敏智";
+                document.getElementById("FemaleRadio").checked = true;
+                document.getElementById("inputBirth").value = "2004-05-07"; 
+                document.getElementById("inputPhone").value = "0944265810"; 
+                document.getElementById("inputAddress").value = "新北市八里區華富山82號9樓";
+                document.getElementById("inputEmail").value = "Newjans@gmail.com";
+                document.getElementById("inputPassword").value = "12345"; 
+            });
+        }
+    });
 
 </script>
 @*@section Scripts {

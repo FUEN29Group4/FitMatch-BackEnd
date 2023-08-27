@@ -2,10 +2,9 @@
 
 @{
     ViewData["Title"] = "Edit";
-    //Layout = "~/Views/Employee/Employee.cshtml";
 }
-<!-- css/personnel參考 -->
-<link rel="stylesheet" href="css/personnel/revise.css">
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+
 <style>
     .upload-container img {
         width: 100%;
@@ -116,7 +115,8 @@
     <!-- Form Start -->
     <div class="container-fluid pt-4 px-4">
         <div class="bg-secondary rounded pt-5 px-5 pb-2">
-            <form asp-action="Edit" enctype="multipart/form-data">
+                <form asp-action="Edit" enctype="multipart/form-data" id="employeeForm" method="POST">
+
                 <div class="row d-flex">
                     <div class="col-6">
                         <div class="row">
@@ -174,17 +174,17 @@
                                 <!-- 姓名 -->
                                 <div class="row-sm-12 row-lg-6 mb-2 d-flex">
                                     <div class="col-2">
-                                        <label for="inputname" class="col-form-label">姓名</label>
+                                        <label class="col-form-label">姓名</label>
                                     </div>
                                     <div class="col-8 ps-3">
-                                        <input asp-for="EmployeeName" class="form-control mb-2" placeholder="請輸入姓名" />
+                                        <input asp-for="EmployeeName" data-validate="EmployeeName" data-error-message="請輸入至少兩個中文字" class="form-control mb-2" placeholder="請輸入姓名" />
                                         <span asp-validation-for="EmployeeName" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <!-- 性別 -->
                                 <div class="row-sm-12 row-lg-6 mb-3 d-flex">
                                     <div class="col-2">
-                                        <label for="inputname" class="col-form-label">性別</label>
+                                        <label class="col-form-label">性別</label>
                                     </div>
 
                                     <div class="col-8 d-flex ps-3 justify-content-start pt-2">
@@ -206,7 +206,7 @@
                                 <!-- 生日 -->
                                 <div class="row-sm-12 row-lg-6 mb-3 d-flex">
                                     <div class="col-2">
-                                        <label for="inputname" class="col-form-label">生日</label>
+                                        <label  class="col-form-label">生日</label>
                                     </div>
                                     <div class="col-8 ps-3 mb-2">
                                         <input asp-for="Birth" class="form-select" type="date" />
@@ -216,47 +216,43 @@
                                 <!-- 帳號 -->
                                 <div class="row-sm-12 row-lg-6 mb-3 d-flex">
                                     <div class="col-2">
-                                        <label for="inputname" class="col-form-label">電話號碼</label>
+                                        <label class="col-form-label">電話號碼</label>
                                     </div>
                                     <div class="col-8 ps-3">
-                                        <input asp-for="Phone" class="form-control mb-2" placeholder="請輸入電話號碼" />
+                                        <input asp-for="Phone" data-validate="Phone" data-error-message="電話號碼格式不正確" class="form-control mb-2" placeholder="請輸入電話號碼" />
                                         <span asp-validation-for="Phone" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <!-- 地址 -->
                                 <div class="row-sm-12 row-lg-6 mb-3 d-flex">
                                     <div class="col-2">
-                                        <label for="inputname" class="col-form-label">地址</label>
+                                        <label  class="col-form-label">地址</label>
                                     </div>
                                     <div class="col-8 ps-3">
-                                        <input asp-for="Address" class="form-control mb-2" placeholder="請輸入地址" />
+                                        <input asp-for="Address" data-validate="Address" data-error-message="地址格式不正確" class="form-control mb-2" placeholder="請輸入地址" />
                                         <span asp-validation-for="Address" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <!-- 電子信箱 -->
                                 <div class="row-sm-12 row-lg-6 mb-3 d-flex">
                                     <div class="col-2">
-                                        <label for="inputname" class="col-form-label">電子信箱</label>
+                                        <label class="col-form-label">電子信箱</label>
                                     </div>
                                     <div class="col-8 ps-3">
-                                        <input asp-for="Email" class="form-control mb-3" placeholder="請輸入電子信箱" />
+                                        <input asp-for="Email" data-validate="Email" data-error-message="電子信箱格式不正確" class="form-control mb-3" placeholder="請輸入電子信箱" />
                                         <span asp-validation-for="Email" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <!-- 密碼 -->
                                 <div class="row-sm-12 row-lg-6 mb-3 d-flex">
                                     <div class="col-2">
-                                        <label for="inputname" class="col-form-label">密碼</label>
+                                        <label class="col-form-label">密碼</label>
                                     </div>
                                     <div class="col-8 ps-3">
-                                        <input asp-for="Password" class="form-control mb-2" placeholder="請輸入密碼" />
+                                        <input asp-for="Password" data-validate="Password" data-error-message="密碼格式不正確" class="form-control mb-2" placeholder="請輸入密碼" />
                                         <span asp-validation-for="Password" class="text-danger"></span>
                                     </div>
                                 </div>
-
-
-
-
                             </div>
                         </div>
                     </div>
@@ -275,7 +271,7 @@
                     <div class="row">
                         <!-- 按鈕 -->
                         <div class=" d-flex justify-content-center pt-2 form-group">
-                            <button type="submit" class="btn btn-primary me-5" value="Save">確認</button>
+                            <button type="submit" class="btn btn-primary me-5" value="Edit">確認</button>
                             <a asp-action="Employee"
                                class="btn btn-outline-success">取消</a>
                         </div>
@@ -287,32 +283,15 @@
     <!-- Form End -->
 </div>
 <!-- Content End -->
-@section Scripts {
+@*@section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
+}*@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+
 <script>
-    //const uploadInput = document.getElementById('upload');
-    //const preview = document.getElementById('preview');
-    //const icon = document.querySelector('.icon');
-
-    //uploadInput.addEventListener('change', function () {
-    //    const file = this.files[0];
-    //    if (file) {
-    //        const reader = new FileReader();
-
-    //        reader.addEventListener('load', function () {
-    //            preview.src = this.result;
-    //            preview.style.display = 'block';
-    //            icon.style.display = 'none';
-    //        });
-
-    //        reader.readAsDataURL(file);
-    //    }
-    //});
-
-    //及時秀照片
+    // 及時顯示上傳的照片
     document.getElementById('imageUpload').addEventListener('change', function (e) {
         var reader = new FileReader();
 
@@ -321,6 +300,165 @@
         }
         reader.readAsDataURL(e.target.files[0]);
     });
+    // 確認按鈕的驗證
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("employeeForm");
+
+        form.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            let allValid = true;
+            const elementsToValidate = document.querySelectorAll('[data-validate]');
+            elementsToValidate.forEach(function (element) {
+                if (!validate(element)) {
+                    allValid = false;
+                }
+            });
+
+            if (!allValid) {
+                await Swal.fire({
+                    icon: "error",
+                    title: "驗證錯誤",
+                    text: "請確認欄位是否符合正確格式",
+                    confirmButtonText: "OK"
+                });
+                return;
+            }
+
+            try {
+                const response = await fetch('/Employee/Edit', {
+                    method: "POST",
+                    body: new FormData(form)
+                });
+
+                if (response.ok) {
+                    // Show success message with confirm button
+                    await Swal.fire({
+                        icon: "success",
+                        title: "編輯成功",
+                        text: "已成功編輯一筆員工資料",
+                        showConfirmButton: true,
+                        confirmButtonText: "確認"
+                    }).then(() => {
+                        window.location.href = "/Employee/Employee";
+                    });
+                } else {
+                    throw new Error("表單提交失敗");
+                }
+            } catch (error) {
+                // Show error message
+                await Swal.fire({
+                    icon: "error",
+                    title: "錯誤",
+                    text: error.message,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    });
+
+    //以下是表單驗證
+    // 顯示錯誤訊息
+    function showErrorMessage(element, message) {
+        let errorMessageElement = element.parentNode.querySelector('.error-message');
+        if (!errorMessageElement) {
+            errorMessageElement = document.createElement('span');
+            errorMessageElement.className = 'error-message text-danger';
+            element.parentNode.appendChild(errorMessageElement);
+        }
+        errorMessageElement.textContent = message;
+    }
+
+    // 清除錯誤訊息
+    function clearErrorMessage(element) {
+        const errorMessageElement = element.parentNode.querySelector('.error-message');
+        if (errorMessageElement) {
+            errorMessageElement.remove();
+        }
+    }
+
+    // 驗證函數
+    function validate(element) {
+        const validateRule = element.getAttribute('data-validate');
+        const errorMessage = element.getAttribute('data-error-message');
+
+
+        if (validateRule === 'required') {
+            if (element.value === '') {
+                showErrorMessage(element, errorMessage);
+                return false;
+            }
+        }
+
+
+        if (validateRule === 'EmployeeName') {
+            const regex = /^[\u4E00-\u9FA5]{2,}$/;
+            if (!regex.test(element.value)) {
+                showErrorMessage(element, "請輸入至少兩個中文字");
+                return false;
+            }
+        }
+
+        if (validateRule === 'Phone') {
+            const regex = /^09\d{8}$/;
+            if (!regex.test(element.value)) {
+                showErrorMessage(element, "手機號碼格式不正確");
+                return false;
+            }
+        }
+
+        if (validateRule === 'Address') {
+            if (element.value.length < 5) {
+                showErrorMessage(element, "地址格式不正確");
+                return false;
+            }
+        }
+        if (validateRule === 'Email') {
+            const regex = /^[a-zA-Z0-9._-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (!regex.test(element.value)) {
+                showErrorMessage(element, "電子信箱格式不正確");
+                return false;
+            }
+        }
+        if (validateRule === 'Password') {
+            const regex = /^[a-zA-Z0-9]{4,}$/;
+            if (!regex.test(element.value)) {
+                showErrorMessage(element, "密碼至少需要4個字符，只能包含英文和數字");
+                return false;
+            }
+            const chineseRegex = /[\u4E00-\u9FA5]/; // 驗證是否包含中文
+            if (chineseRegex.test(element.value)) {
+                showErrorMessage(element, "密碼不能包含中文");
+                return false;
+            }
+        }
+
+        clearErrorMessage(element);
+        return true;
+    }
+
+    // 在輸入或失去焦點時觸發驗證
+    const elementsToValidate = document.querySelectorAll('[data-validate]');
+    elementsToValidate.forEach(function (element) {
+        element.addEventListener('keyup', function () {
+            clearBackendErrorMessage(this);
+            validate(this);
+        });
+        element.addEventListener('blur', function () {
+            clearBackendErrorMessage(this);
+            validate(this);
+        });
+    });
+
+    // 清除後端錯誤訊息
+    function clearBackendErrorMessage(element) {
+        const backendErrorMessageElement = element.parentNode.querySelector('.text-danger');
+        if (backendErrorMessageElement) {
+            backendErrorMessageElement.textContent = '';
+        }
+    }
+ 
 </script>
 
 
