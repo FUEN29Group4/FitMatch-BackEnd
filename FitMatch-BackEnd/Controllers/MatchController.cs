@@ -4,6 +4,9 @@ using System.Linq;
 using FitMatch_BackEnd.ViewModel;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using X.PagedList;
+using X.PagedList.Mvc.Core;
+using System.Drawing.Printing;
 
 namespace FitMatch_BackEnd.Controllers
 {
@@ -15,23 +18,17 @@ namespace FitMatch_BackEnd.Controllers
         {
             _db = db;
         }
+        // 新的 OnGet 方法，處理帶有預設篩選條件的情況
 
-        public IActionResult List(string searchField, string searchKeyword, DateTime? start, DateTime? end, string CourseStatus, int currentPage = 1)
-        
+
+        // 用於篩選和分頁的邏輯，可以在兩個方法中重複使用
+        private IQueryable<MatchViewModel> GetFilteredData(string searchField, string searchKeyword, DateTime? start, DateTime? end, string CourseStatus)
         {
-
-            
-            
-            
-            
-            
-            
             var viewModelList = (from c in _db.Classes
                                  join m in _db.Members on c.MemberId equals m.MemberId
                                  join t in _db.Trainers on c.TrainerId equals t.TrainerId
                                  join g in _db.Gyms on c.GymId equals g.GymId
                                  join h in _db.ClassTypes on c.ClassTypeId equals h.ClassTypeId
-
                                  select new MatchViewModel
                                  {
                                      ClassId = c.ClassId,
@@ -42,58 +39,84 @@ namespace FitMatch_BackEnd.Controllers
                                      EndTime = (DateTime)c.EndTime,
                                      MemberName = m.MemberName,
                                      TrainerName = t.TrainerName,
+                                     Approved = c.Approved,
                                      GymName = g.GymName,
-                                     CourseStatus=c.CourseStatus,
+                                     CourseStatus = c.CourseStatus,
                                      TrainerId = t.TrainerId,
-                                     ClassTypeId= h.ClassTypeId,
-                                     Approved = (bool)c.Approved
-                                 }).ToList();
+                                     ClassTypeId = h.ClassTypeId,
+                                    
+                                 });
 
             if (start.HasValue && end.HasValue)
             {
                 DateTime adjustedEndDate = end.Value.AddDays(1).Date; // 设置为当天的00:00:00
-                viewModelList = viewModelList.Where(vm => vm.StartTime >= start.Value && vm.StartTime < adjustedEndDate).ToList();
+                viewModelList = viewModelList.Where(vm => vm.StartTime >= start.Value && vm.StartTime < adjustedEndDate);
             }
+
             if (!string.IsNullOrEmpty(searchField) && !string.IsNullOrEmpty(searchKeyword))
             {
                 switch (searchField)
                 {
                     case "ClassName":
-                        viewModelList = viewModelList.Where(vm => vm.ClassName.Contains(searchKeyword)).ToList();
+                        viewModelList = viewModelList.Where(vm => vm.ClassName.Contains(searchKeyword));
                         break;
                     case "MemberName":
-                        viewModelList = viewModelList.Where(vm => vm.MemberName.Contains(searchKeyword)).ToList();
+                        viewModelList = viewModelList.Where(vm => vm.MemberName.Contains(searchKeyword));
                         break;
                     case "TrainerName":
-                        viewModelList = viewModelList.Where(vm => vm.TrainerName.Contains(searchKeyword)).ToList();
+                        viewModelList = viewModelList.Where(vm => vm.TrainerName.Contains(searchKeyword));
                         break;
                     case "GymName":
-                        viewModelList = viewModelList.Where(vm => vm.GymName.Contains(searchKeyword)).ToList();
+                        viewModelList = viewModelList.Where(vm => vm.GymName.Contains(searchKeyword));
                         break;
                     default:
                         // 默认处理
                         break;
                 }
             }
-            // 在篩選過程中，僅當選擇了課程狀態時才進行過濾
+
             if (!string.IsNullOrEmpty(CourseStatus))
             {
-                viewModelList = viewModelList.Where(vm => vm.CourseStatus == CourseStatus).ToList();
+                viewModelList = viewModelList.Where(vm => vm.CourseStatus == CourseStatus);
             }
+
+            return viewModelList;
+        }
+
+
+
+        public IActionResult List(string searchField, string searchKeyword, DateTime? start, DateTime? end, string CourseStatus, int currentPage)
+        {
             int itemsPerPage = 5;
+
+            var viewModelList = GetFilteredData(searchField, searchKeyword, start, end, CourseStatus);
+
             int totalDataCount = viewModelList.Count();
-            int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+            int totalPages = (int)Math.Ceiling((double)totalDataCount / itemsPerPage);
             int validCurrentPage = Math.Max(1, Math.Min(currentPage, totalPages));
 
-            viewModelList = viewModelList
-                .Skip((validCurrentPage - 1) * itemsPerPage)
-                .Take(itemsPerPage)
-                .ToList();
+            viewModelList = viewModelList.Skip((validCurrentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+            IPagedList<MatchViewModel> pagedData = new StaticPagedList<MatchViewModel>(viewModelList, validCurrentPage, itemsPerPage, totalDataCount);
 
             ViewBag.TotalPages = totalPages;
             ViewBag.CurrentPage = validCurrentPage;
-            return View(viewModelList);
+            ViewBag.SearchField = searchField;
+            ViewBag.SearchKeyword = searchKeyword;
+            ViewBag.StartDate = start;
+            ViewBag.EndDate = end;
+            ViewBag.CourseStatus = CourseStatus;
+
+            return View(pagedData);
         }
+
+
+
+
+
+
+
+
         public IActionResult Edit(int id)
         {
             if (id == null)
@@ -119,9 +142,11 @@ namespace FitMatch_BackEnd.Controllers
                                  GymName = g.GymName,
                                  CourseStatus = c.CourseStatus,
                                  TrainerId = (int)c.TrainerId,
+                                 Approved = c.Approved,
                                  MemberId = m.MemberId,
                                  GymId = g.GymId,
-                                 ClassTypeId = (int)c.ClassTypeId
+                                 ClassTypeId = (int)ct.ClassTypeId,
+                                
                              }).FirstOrDefault();
 
             if (viewModel == null)
@@ -172,7 +197,7 @@ namespace FitMatch_BackEnd.Controllers
                         classData.GymId = gymData.GymId;
                         classData.MemberId = member.MemberId;
                         classData.TrainerId = trainer.TrainerId;
-                    classData.CourseStatus = editedViewModel.CourseStatus;
+                        classData.CourseStatus = editedViewModel.CourseStatus;
                         // 更新其他属性的修改
                         classData.StartTime = editedViewModel.StartTime;
                     classData.EndTime = editedViewModel.StartTime.AddHours(1);
