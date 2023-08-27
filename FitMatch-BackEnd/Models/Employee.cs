@@ -40,7 +40,7 @@ public partial class Employee
 
     public string? Position { get; set; }
     [Required(ErrorMessage = "密碼必填")]
-    [MinLength(5, ErrorMessage = "密碼至少需要5個字")]
+    [MinLength(4, ErrorMessage = "密碼至少需要4個字")]
     [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "密碼只能包含英文和數字")]
 
 

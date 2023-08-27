@@ -71,17 +71,17 @@
         data: {
             labels: ["2019", "2020", "2021", "2022", "2023"],
             datasets: [{
-                label: "教練數量",
+                label: "Trainer",
                 data: [15, 30, 55, 65, 60, 80, 95],
                 backgroundColor: "#1d8052"
             },
             {
-                label: "課程數量",
+                label: "Class",
                 data: [8, 35, 40, 60, 70, 55, 75],
                 backgroundColor: "rgba(235, 22, 22, .5)"
             },
             {
-                label: "學生數量",
+                label: "Member",
                 data: [12, 25, 45, 55, 65, 70, 60],
                 backgroundColor: "rgba(235, 22, 22, .3)"
             }
@@ -100,13 +100,13 @@
         data: {
             labels: ["2019", "2020", "2021", "2022", "2023"],
             datasets: [{
-                label: "訂單數量",
+                label: "order",
                 data: [15, 30, 55, 45, 70, 65, 85],
                 backgroundColor: "rgba(235, 22, 22, .7)",
                 fill: true
             },
             {
-                label: "訂單收入",
+                label: "revenue",
                 data: [99, 135, 170, 130, 190, 180, 270],
                 backgroundColor: "rgba(235, 22, 22, .5)",
                 fill: true
