@@ -14,67 +14,30 @@ namespace FitMatch_BackEnd.Controllers
         }
 
 
-        public IActionResult List(CKeywordViewModel vm, int currentPage = 1)
+        public IActionResult List(int currentPage = 1, string txtKeyword = null, int? RestaurantStatus = null, string? city = "", int? Status = null)
         {
-
             FitMatchDbContext db = new FitMatchDbContext();
-            IQueryable<Restaurant> datas = db.Restaurants;
-
-
-
-            if (vm.txtKeyword != null || vm.StatusFilter != null || vm.RegionFilter != null)
+            //預設一頁只能有8筆資料
+            int itemsPerPage = 8;
+            IEnumerable<Restaurant> datas = from p in db.Restaurants select p;
+            // 如果有搜尋關鍵字
+            if (!string.IsNullOrWhiteSpace(txtKeyword))
             {
-                if (!string.IsNullOrEmpty(vm?.StatusFilter))
-                {
-                    switch (vm.StatusFilter)
-                    {
-                        case "上架":
-                            datas = db.Restaurants.Where(t => t.Status == true);
-                            break;
-                        case "下架":
-                            datas = db.Restaurants.Where(t => t.Status == false);
-                            break;
-                        case "待審核":
-                            datas = db.Restaurants.Where(t => t.Status == null);
-                            break;
-                    }
-                    if (!string.IsNullOrEmpty(vm?.RegionFilter))
-                    {
-                        datas = datas.Where(t => t.Address.Contains(vm.RegionFilter));
-                    }
-                    if (!string.IsNullOrEmpty(vm?.txtKeyword))
-                    {
-                        datas = datas.Where(t => t.RestaurantsName.Contains(vm.txtKeyword));
-                    }
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(vm?.RegionFilter))
-                    {
-                        datas = db.Restaurants.Where(t => t.Address.Contains(vm.RegionFilter));
-                        if (!string.IsNullOrEmpty(vm?.txtKeyword))
-                        {
-                            datas = datas.Where(t => t.RestaurantsName.Contains(vm.txtKeyword));
-                        }
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(vm?.txtKeyword))
-                        {
-                            datas = db.Restaurants.Where(t => t.RestaurantsName.Contains(vm.txtKeyword));
-                        }
-                    }
-
-                }
+                datas = datas.Where(p => p.RestaurantsName.Contains(txtKeyword));
             }
-            else
+
+            // 如果City有值
+            if (!string.IsNullOrEmpty(city))
             {
-                datas = from p in db.Restaurants
-                        select p;
+                datas = datas.Where(p => p.Address.StartsWith(city));
             }
-            //預設一頁只能有5筆資料
-            int itemsPerPage = 5;
+            ViewBag.City = city;
 
+            //審核篩選:如果Status有值
+            if (Status.HasValue)
+            {
+                datas = datas.Where(p => p.Status == Status.Value);
+            }
 
             // 根據當下頁碼獲取datas
             datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
@@ -84,10 +47,26 @@ namespace FitMatch_BackEnd.Controllers
 
             ViewBag.TotalPages = totalPages;
             ViewBag.CurrentPage = currentPage;
+            ViewBag.Keyword = txtKeyword;  // 將關鍵字存入ViewBag，以便在View中使用
 
             return View(datas);
 
         }
+
+        private void 獲取頁碼(IQueryable<Restaurant> datas, int currentPage, int itemsPerPage = 8, string? txtKeyword = "")
+        {
+            FitMatchDbContext db = new FitMatchDbContext();
+            // 根據當下頁碼獲取datas
+            datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+            int totalDataCount = db.Restaurants.Count();
+            int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = currentPage;
+            ViewBag.Keyword = txtKeyword;  // 將關鍵字存入ViewBag，以便在View中使用
+        }
+
         public IActionResult Create()
         {
             CRestaurantWrap prodWp = new CRestaurantWrap();
@@ -117,7 +96,7 @@ namespace FitMatch_BackEnd.Controllers
                     custDb.Photo = photoName;
                 }
                 // 更新 Approved 狀態
-                custDb.Status = string.IsNullOrEmpty(Request.Form["Status"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Status"]);
+                custDb.Status = p.Status;
                 custDb.RestaurantsName = p.RestaurantsName;
                 custDb.Phone = p.Phone;
                 custDb.Address = p.Address;
@@ -183,7 +162,7 @@ namespace FitMatch_BackEnd.Controllers
                 }
 
                 // 更新 Approved 狀態
-                custDb.Status = string.IsNullOrEmpty(Request.Form["Status"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Status"]);
+                custDb.Status = prodIn.Status;
                 custDb.RestaurantsName = prodIn.RestaurantsName;
                 custDb.Phone = prodIn.Phone;
                 custDb.Address = prodIn.Address;
@@ -199,7 +178,7 @@ namespace FitMatch_BackEnd.Controllers
         {
             public string txtKeyword { get; set; }
             public string RegionFilter { get; set; }
-            public string StatusFilter { get; set; }  
+            public string StatusFilter { get; set; }
         }
     }
 }
