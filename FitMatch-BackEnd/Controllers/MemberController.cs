@@ -60,6 +60,7 @@ namespace FitMatch_BackEnd.Controllers
         //跟員工資料連結然後呈現出views
         public IActionResult Member(int currentPage = 1, string txtKeyword = null, bool? memberStatus = null)
         {
+            //預設一頁只能有8筆資料
             int itemsPerPage = 8;
             IEnumerable<Member> datas = from p in _context.Members select p;
             // 如果有搜尋關鍵字
