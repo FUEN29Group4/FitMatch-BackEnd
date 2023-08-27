@@ -63,46 +63,10 @@
         </form>
         <div class="navbar-nav align-items-center ms-auto">
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                <a href="#" class="nav-link">
                     <i class="fa-solid fa-gear"></i>
                     <span class="d-none d-lg-inline-flex">設定</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item text-center">See all message</a>
-                </div>
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -130,7 +94,7 @@
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
+                    <img class="rounded-circle me-lg-2" src="~/img/員工/02627af6-2503-42cc-8ea7-5a69773dadd6.jpg" alt=""
                          style="width: 40px; height: 40px;">
                     <span class="d-none d-lg-inline-flex">John Doe</span>
                 </a>
@@ -156,8 +120,8 @@
                                 <label asp-for="RestaurantsName" for="inputname" class="col-form-label">餐廳名稱</label>
                             </div>
                             <div class="col-4">
-                                <input asp-for="RestaurantsName" class="form-control mb-3" type="text" placeholder="這裡會帶入餐廳名稱"
-                                       aria-label="這裡會帶入餐廳名稱" id="inputname">
+                                <input asp-for="RestaurantsName" class="form-control mb-3" type="text" placeholder="請輸入餐廳名稱"
+                                       aria-label="請輸入餐廳名稱" id="inputname">
                                 <span asp-validation-for="RestaurantsName" class="text-danger"></span>
                             </div>
                         </div>
@@ -167,8 +131,8 @@
                                 <label asp-for="Address" for="inputname" class="col-form-label">餐廳地址</label>
                             </div>
                             <div class="col-4">
-                                <input asp-for="Address" class="form-control mb-3" type="text" placeholder="這裡會帶入餐廳地址"
-                                       aria-label="這裡會帶入餐廳地址" id="inputname">
+                                <input asp-for="Address" class="form-control mb-3" type="text" placeholder="請輸入餐廳地址"
+                                       aria-label="請輸入餐廳地址" id="inputname">
                                 <span asp-validation-for="RestaurantsName" class="text-danger"></span>
                             </div>
                         </div>
@@ -178,8 +142,8 @@
                                 <label asp-for="Phone" for="inputname" class="col-form-label">餐廳電話</label>
                             </div>
                             <div class="col-4">
-                                <input asp-for="Phone" class="form-control mb-3" type="text" placeholder="這裡會帶入餐廳電話"
-                                       aria-label="這裡會帶入餐廳電話" id="inputname">
+                                <input asp-for="Phone" class="form-control mb-3" type="text" placeholder="請輸入餐廳電話"
+                                       aria-label="請輸入餐廳電話" id="inputname">
                                 <span asp-validation-for="RestaurantsName" class="text-danger"></span>
                             </div>
                         </div>
@@ -217,24 +181,18 @@
                                         下架
                                     </label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios3" value="2" @(Model.Status == 2 ? "checked" : "")>
-                                    <label class="form-check-label" for="gridRadios3">
-                                        待審核
-                                    </label>
-                                </div>
                             </div>
                         </fieldset>
 
 
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex">
                             <div class="col-1">
-                                <legend class="col-form-label pt-3 pe-4">餐廳內容介紹</legend>
+                                <legend class="col-form-label pt-3 pe-4">餐廳簡介</legend>
                             </div>
-                            <div class="col-6 form-floating pt-1">
-                                <textarea asp-for="RestaurantsDescription" class="form-control" placeholder="Leave a comment here"
-                                          id="floatingTextarea" style="height: 150px;"></textarea>
-                                <label for="floatingTextarea">請輸入文字</label>
+                            <div class="col-4 form-floating pt-1">
+                                <textarea asp-for="RestaurantsDescription" class="form-control" placeholder="請輸入餐廳簡介"
+                                          id="floatingTextarea" style="height: 200px;"></textarea>
+                                <label for="floatingTextarea">請輸入餐廳簡介</label>
                             </div>
                         </div>
 

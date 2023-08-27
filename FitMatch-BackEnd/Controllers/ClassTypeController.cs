@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class ClassTypeController : Controller
+    public class ClassTypeController : SuperController
     {
         public IWebHostEnvironment _enviro = null;
         public ClassTypeController(IWebHostEnvironment p)

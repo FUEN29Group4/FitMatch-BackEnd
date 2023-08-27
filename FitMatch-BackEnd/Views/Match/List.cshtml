@@ -1,7 +1,17 @@
-﻿@model List<FitMatch_BackEnd.ViewModel.MatchViewModel>
+﻿@model X.PagedList.IPagedList<FitMatch_BackEnd.ViewModel.MatchViewModel>
+<!-- 显示分页控件 -->
+<!-- 在视图中使用 pagedData 模型来显示数据和分页控件 -->
+@using X.PagedList.Mvc;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+
+
 
 @{
     ViewData["Title"] = "List";
+    int currentPage = ViewBag.CurrentPage;
+    int totalPages = ViewBag.TotalPages;
+
 }
     <style>
         /* 編輯預約樣式 */
@@ -81,6 +91,8 @@
     .custom-select option {
         color: #696969; /* 修改选项的字体颜色 */
     }
+
+
     </style>
 <!-- Content Start -->
 <div class="content">
@@ -97,46 +109,11 @@
         </form>
         <div class="navbar-nav align-items-center ms-auto">
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                <a href="#" class="nav-link">
                     <i class="fa-solid fa-gear"></i>
                     <span class="d-none d-lg-inline-flex">設定</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item text-center">See all message</a>
-                </div>
+                
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -164,9 +141,9 @@
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
+                    <img class="rounded-circle me-lg-2" src="~/img/員工/02627af6-2503-42cc-8ea7-5a69773dadd6.jpg" alt=""
                          style="width: 40px; height: 40px;">
-                    <span class="d-none d-lg-inline-flex">John Doe</span>
+                    <span class="d-none d-lg-inline-flex">揚庭</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                     <a href="#" class="dropdown-item">My Profile</a>
@@ -185,30 +162,28 @@
                     aria-expanded="false" aria-label="Toggle navigation">
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <div class="d-flex align-items-center">
-                        <!-- Other search fields -->
-
-                        <div class="d-flex align-items-center me-4" style="margin-left: 25px;">
-                            <span style="margin-right: 10px; text-align: center;">課程日期:</span>
-                            <input class="form-select" style="background-color:#fff;" type="date" name="start" id=""
-                                   value="課程日期">
-                            <span style="text-align: center;">至</span>
-                            <input class="form-select" style="background-color:#fff; margin-left: 10px;" type="date"
-                                   name="end" id="" value="結束時間">
-
-                        </div>
-                    <div class="col-4 d-flex align-items-center ms-4">
-                        <span style="margin-right: 10px; text-align: center;">課程狀態:</span>
-                        <select id="CourseStatusFilter" class="form-select" style="background-color: #fff;" aria-label="課程狀態">
-                            <option selected disabled hidden>請選擇</option>
-                            <option value="進行中">進行中</option>
-                            <option value="已完成">已完成</option>
-                        </select>
-                    </div>
-                </div>
+            <!-- 課程日期 -->
+            <div class="d-flex align-items-center me-4" style="margin-left: 25px;">
+                <span style="margin-right: 10px; text-align: center;">課程日期:</span>
+                <input class="form-select" style="background-color:#fff;" type="date" name="start" id="start"
+                       value="@ViewBag.StartDate"> <!-- 使用 ViewBag 中的 StartDate 值 -->
+                <span style="text-align: center;">至</span>
+                <input class="form-select" style="background-color:#fff; margin-left: 10px;" type="date"
+                       name="end" id="end" value="@ViewBag.EndDate"> <!-- 使用 ViewBag 中的 EndDate 值 -->
             </div>
 
+            <!-- 課程狀態 -->
+            <div class="col-4 d-flex align-items-center ms-4">
+                <span style="margin-right: 10px; text-align: center;">課程狀態:</span>
+                <select id="CourseStatusFilter" class="form-select" style="background-color: #fff;" aria-label="課程狀態">
+
+                    <option value="">全部</option>
+                    <option value="進行中">進行中</option>
+                    <option value="已完成">已完成</option>
+                </select>
+            </div>
+
+            <!-- 篩選條件 -->
             <div class="col-4 d-flex align-items-center ms-4" style="margin-right: 25px;">
                 <form class="custom-select" id="searchForm" method="get" action="List">
                     <select name="searchField" style="color:#696969">
@@ -222,7 +197,6 @@
                     <button type="button" id="combinedSearchButton" class="btn p-0 ps-2">
                         <i class="fa-solid fa-magnifying-glass fa-xl"></i>
                     </button>
-
                 </form>
             </div>
             <br>
@@ -232,26 +206,23 @@
     </div>
 
 
-
     <div class="container-fluid pt-4 px-4">
         <div class="bg-white text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <h5 class="mb-0 text-dark">預約列表</h5>
-
             </div>
-            <div class="table-responsive">
+            <div id="dataContainer" class="table-responsive">
                 <table class="table text-center align-middle table-bordered table-hover mb-0">
                     <!-- 表頭開始 -->
                     <thead style="background-color: #74ffba;">
                         <tr class="text-dark">
-                            <!-- <th scope="col"></th> -->
                             <th scope="col">預約編號</th>
                             <th scope="col">課程名稱</th>
                             <th scope="col">教練</th>
                             <th scope="col">會員</th>
                             <th scope="col">場館</th>
                             <th scope="col">課程狀態</th>
-                            <th scope="col">審核通過與否 </th>
+                            <th scope="col">審核通過與否</th>
                             <th scope="col">建立時間</th>
                             <th scope="col">開始時間</th>
                             <th scope="col">結束時間</th>
@@ -261,8 +232,8 @@
                     <!-- 表頭結束 -->
                     <!-- 表身開始 -->
                     <tbody>
-                            @foreach (var item in Model)
-                            {
+                        @foreach (var item in Model)
+                        {
                             <tr class="data-row">
                                 <td>@item.ClassId</td>
                                 <td>@item.ClassName</td>
@@ -285,31 +256,32 @@
                                 <td>@item.EndTime</td>
                                 <td>
                                     <div class="d-flex justify-content-center">
-                                        <a asp-action="Edit" asp-route-id="@item.ClassId" class="btn btn-sm btn-secondary me-2y" style="background-color: aliceblue; color: black;">
+                                        <a asp-action="Edit" asp-route-id="@item.ClassId" class="btn btn-sm btn-secondary me-2y" style="background-color: aliceblue; color: black;margin-left: 10px">
                                             <i class="fa-regular fa-pen-to-square"> 編輯</i>
                                         </a>
-
-                                        <a asp-action="Delete" asp-route-id="@item.ClassId" class="btn btn-sm btn-danger me-2"
-                                           onclick="return confirm('確定要刪除這個項目嗎？');">
+                                        <a asp-action="Delete" asp-route-id="@item.ClassId" class="btn btn-primary me-2" onclick="return confirm('確定要刪除這個項目嗎？');" style="font-size: smaller;;">
                                             <i class="fa-solid fa-trash-can"></i> 刪除
                                         </a>
-                                        
                                     </div>
                                 </td>
                             </tr>
-                            }
-
+                        }
+                    </tbody>
+                    <!-- 表身結束 -->
                 </table>
             </div>
+        
 
-  
 
-                <div class="d-flex justify-content-end pt-4">
+
+
+
+            <div class="d-flex justify-content-end pt-4">
                 <!-- 換頁區塊開始 -->
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
-                            <a class="page-link previous-page" data-page-type="previous" href="@Url.Action("List", new { currentPage = ViewBag.CurrentPage - 1, start = ViewBag.StartDate, end = ViewBag.EndDate, courseStatus = ViewBag.CourseStatus, searchField = ViewBag.SearchField, searchKeyword = ViewBag.SearchKeyword })">
+                            <a class="page-link previous-page" data-page-type="previous" href="@Url.Action("List", new { currentPage = ViewBag.CurrentPage - 1 })">
                                 <i class="fa-solid fa-chevron-left"></i>
                             </a>
                         </li>
@@ -317,36 +289,200 @@
                         @for (int i = 1; i <= ViewBag.TotalPages; i++)
                         {
                             <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                                <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("List", new { currentPage = i, start = ViewBag.StartDate, end = ViewBag.EndDate, courseStatus = ViewBag.CourseStatus, searchField = ViewBag.SearchField, searchKeyword = ViewBag.SearchKeyword })">
+                                <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("List", new { currentPage = i })">
                                     @i
                                 </a>
                             </li>
                         }
 
                         <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
-                            <a class="page-link next-page" data-page-type="next" href="@Url.Action("List", new { currentPage = ViewBag.CurrentPage + 1, start = ViewBag.StartDate, end = ViewBag.EndDate, courseStatus = ViewBag.CourseStatus, searchField = ViewBag.SearchField, searchKeyword = ViewBag.SearchKeyword })">
+                            <a class="page-link next-page" data-page-type="next" href="@Url.Action("List", new { currentPage = ViewBag.CurrentPage + 1 })">
                                 <i class="fa-solid fa-chevron-right"></i>
                             </a>
                         </li>
                     </ul>
                 </nav>
-
                 <!-- 換頁區塊END -->
             </div>
+
+        </div>
+    </div>
+
+
             <!-- 最下面END -->
         </div>
 
-    </div>
+  
     <!-- 管理列表結束 -->
 
 
 
 
-</div>
-<script>
-    var matchListUrl = '@Url.Action("List", "Match")';
 
-    // 在页面加载时恢复筛选条件
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+<script>
+    // 篩選選項和按鈕的 DOM 元素
+    const courseStatusFilter = document.getElementById('CourseStatusFilter');
+    const searchForm = document.getElementById('searchForm');
+    const pageLinks = document.querySelectorAll('.page-link'); // 所有分頁按鈕的 DOM 元素
+    const startDateInput = document.querySelector('input[name="start"]');
+    const endDateInput = document.querySelector('input[name="end"]');
+
+    // 初始化篩選條件
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('courseStatus')) {
+        const courseStatus = params.get('courseStatus');
+        courseStatusFilter.value = courseStatus;
+    }
+
+    // 監聽篩選選項的變化
+    courseStatusFilter.addEventListener('change', function () {
+        updateFiltersAndPage(1); // 將當前頁碼設為 1
+    });
+
+    // 監聽表單的提交事件，避免頁面重新加載
+    searchForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        updateFiltersAndPage(1); // 將當前頁碼設為 1
+    });
+
+    // 監聽分頁按鈕的點擊事件
+    pageLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const newPage = parseInt(this.getAttribute('data-page'));
+            updateFiltersAndPage(newPage);
+        });
+    });
+
+    // 初始化日期選擇器的值
+    const startDateParam = params.get('start');
+    const endDateParam = params.get('end');
+    if (startDateParam !== null) {
+        startDateInput.value = startDateParam;
+    }
+    if (endDateParam !== null) {
+        endDateInput.value = endDateParam;
+    }
+
+    // 當兩個日期選擇器的值都改變時，觸發篩選
+    startDateInput.addEventListener('change', handleDateChange);
+    endDateInput.addEventListener('change', handleDateChange);
+
+    function handleDateChange() {
+        if (startDateInput.value && endDateInput.value) {
+            updateFiltersAndPage(getCurrentPage());
+        }
+    }
+
+    // 更新篩選條件並修改 URL，然後換頁
+    function updateFiltersAndPage(pageNumber) {
+        const startValue = startDateInput.value; // 開始日期值
+        const endValue = endDateInput.value;     // 結束日期值
+
+        const selectedCourseStatus = courseStatusFilter.value;
+        const searchField = document.querySelector('select[name="searchField"]').value;
+        const searchKeyword = document.getElementById('searchInput').value;
+
+        const currentParams = new URLSearchParams(window.location.search);
+
+        // 更新篩選條件參數
+        currentParams.set('courseStatus', selectedCourseStatus);
+        currentParams.set('searchField', searchField);
+        currentParams.set('searchKeyword', searchKeyword);
+        currentParams.set('start', startValue); // 更新開始日期
+        currentParams.set('end', endValue);     // 更新結束日期
+
+        // 保留原有的分頁參數
+        currentParams.set('currentPage', pageNumber);
+
+        const currentUrl = new URL(window.location);
+        currentUrl.search = currentParams.toString();
+
+        // 將更新的 URL 設置為新的頁面位置
+        window.location.href = currentUrl.toString();
+    }
+
+    // 獲取當前分頁參數
+    function getCurrentPage() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('currentPage')) {
+            return params.get('currentPage');
+        }
+        return 1; // 如果沒有分頁參數，預設為第 1 頁
+    }
+
+    // 監聽清空按鈕的點擊事件
+    const clearButton = document.querySelector('#searchForm button[type="reset"]');
+    clearButton.addEventListener('click', function () {
+        const searchFieldSelect = document.querySelector('select[name="searchField"]');
+        const searchInput = document.getElementById('searchInput');
+
+        // 重置篩選條件
+        courseStatusFilter.value = '';
+        searchFieldSelect.value = 'ClassName';
+        searchInput.value = '';
+
+        // 觸發篩選並跳轉到第一頁
+        updateFiltersAndPage(1);
+    });
+
+    // 監聽另一個按鈕的點擊事件
+    const combinedSearchButton = document.getElementById('combinedSearchButton');
+    combinedSearchButton.addEventListener('click', function () {
+        const searchFieldSelect = document.querySelector('select[name="searchField"]');
+        const searchInput = document.getElementById('searchInput');
+        const startInput = document.getElementById('start');
+        const endInput = document.getElementById('end');
+
+        // 獲取選擇的日期值
+        const startValue = startInput.value;
+        const endValue = endInput.value;
+
+        // 獲取其他篩選條件值
+        const selectedCourseStatus = courseStatusFilter.value;
+        const searchField = searchFieldSelect.value;
+        const searchKeyword = searchInput.value;
+
+        // 更新 URL 參數並進行篩選
+        const currentParams = new URLSearchParams(window.location.search);
+        currentParams.set('courseStatus', selectedCourseStatus);
+        currentParams.set('searchField', searchField);
+        currentParams.set('searchKeyword', searchKeyword);
+        currentParams.set('start', startValue);
+        currentParams.set('end', endValue);
+
+        const currentUrl = new URL(window.location);
+        currentUrl.search = currentParams.toString();
+
+        // 將更新的 URL 設置為新的頁面位置，並跳轉到第一頁
+        window.location.href = currentUrl.toString() + '&currentPage=1';
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<script>
+    var matchListUrl = '@Url.Action("List", "Match")';
+    var currentPage = @ViewBag.CurrentPage;
+    var totalPages = @ViewBag.TotalPages;
+
+    // 在頁面載入時從本地存儲中恢復篩選條件
     window.addEventListener('load', function () {
         var savedStartDate = localStorage.getItem('startDate');
         var savedEndDate = localStorage.getItem('endDate');
@@ -360,115 +496,129 @@
         if (savedEndDate) {
             document.querySelector('input[name="end"]').value = savedEndDate;
         }
-        if (savedCourseStatus) {
-            document.getElementById("CourseStatusFilter").value = savedCourseStatus;
-        }
         if (savedSearchField) {
             document.querySelector('select[name="searchField"]').value = savedSearchField;
         }
         if (savedSearchKeyword) {
             document.getElementById("searchInput").value = savedSearchKeyword;
         }
+        if (savedCourseStatus) {
+            if (savedCourseStatus !== "__placeholder__") { // 不是 "請選擇" 提示
+                document.getElementById("CourseStatusFilter").value = savedCourseStatus;
+                applyFilters();
+            }
+        }
     });
 
-    document.getElementById("combinedSearchButton").addEventListener("click", function () {
-        event.preventDefault();
-        var startDate = document.querySelector('input[name="start"]').value;
-        var endDate = document.querySelector('input[name="end"]').value;
-        var courseStatus = document.getElementById("CourseStatusFilter").value;
-        var searchField = document.querySelector('select[name="searchField"]').value;
-        var searchKeyword = document.getElementById("searchInput").value;
-
-        // 保存筛选条件到本地存储
-        localStorage.setItem('startDate', startDate);
-        localStorage.setItem('endDate', endDate);
-        localStorage.setItem('courseStatus', courseStatus);
-        localStorage.setItem('searchField', searchField);
-        localStorage.setItem('searchKeyword', searchKeyword);
+    // 生成分頁 URL
+    function generatePageUrl(page) {
+        var startDate = encodeURIComponent(document.querySelector('input[name="start"]').value);
+        var endDate = encodeURIComponent(document.querySelector('input[name="end"]').value);
+        var courseStatus = encodeURIComponent(document.getElementById("CourseStatusFilter").value);
+        var searchField = encodeURIComponent(document.querySelector('select[name="searchField"]').value);
+        var searchKeyword = encodeURIComponent(document.getElementById("searchInput").value);
 
         var url = matchListUrl +
-            "?start=" + encodeURIComponent(startDate) +
-            "&end=" + encodeURIComponent(endDate) +
-            "&courseStatus=" + encodeURIComponent(courseStatus) +
-            "&searchField=" + encodeURIComponent(searchField) +
-            "&searchKeyword=" + encodeURIComponent(searchKeyword);
+            "?currentPage=" + page +
+            "&start=" + startDate +
+            "&end=" + endDate +
+            "&courseStatus=" + courseStatus +
+            "&searchField=" + searchField +
+            "&searchKeyword=" + searchKeyword;
 
-        window.location.href = url;
+        return url;
+    }
+
+    // 點擊上一頁按鈕
+    document.querySelector(".previous-page").addEventListener("click", function (event) {
+        event.preventDefault();
+
+        if (currentPage > 1) {
+            window.location.href = generatePageUrl(currentPage - 1);
+        }
     });
-</script>
 
-<script>
+    // 點擊下一頁按鈕
+    document.querySelector(".next-page").addEventListener("click", function (event) {
+        event.preventDefault();
 
-    // 以下是分頁功能
-    document.addEventListener("DOMContentLoaded", function () {
-        const table = document.querySelector(".table");
-        const pageLinks = document.querySelectorAll(".page-link[data-page-type='number']");
-        const prevPageLink = document.querySelector(".previous-page");
-        const nextPageLink = document.querySelector(".next-page");
+        if (currentPage < totalPages) {
+            window.location.href = generatePageUrl(currentPage + 1);
+        }
+    });
 
-        pageLinks.forEach(link => {
-            link.addEventListener("click", function (event) {
-                event.preventDefault();
-
-                // 获取点击的页码
-                const page = parseInt(link.textContent);
-
-                // 移除所有活跃状态
-                pageLinks.forEach(link => link.parentElement.classList.remove("active"));
-
-                // 添加活跃状态到当前页码链接
-                link.parentElement.classList.add("active");
-
-                // 更新表格内容
-                updateTableContent(page);
-            });
-        });
-
-        prevPageLink.addEventListener("click", function (event) {
+    // 點擊數字頁碼按鈕
+    var pageLinks = document.querySelectorAll(".page-link[data-page-type='number']");
+    pageLinks.forEach(link => {
+        link.addEventListener("click", function (event) {
             event.preventDefault();
-
-            const activeLink = document.querySelector(".page-item.active .page-link");
-            if (activeLink) {
-                const currentPage = parseInt(activeLink.textContent);
-                if (currentPage > 1) {
-                    pageLinks[currentPage - 2].click();
-                }
-            }
+            var pageNumber = parseInt(link.getAttribute("data-page"));
+            window.location.href = generatePageUrl(pageNumber);
         });
+    });
 
-        nextPageLink.addEventListener("click", function (event) {
-            event.preventDefault();
+    // 監聽篩選變更事件
+    document.getElementById("CourseStatusFilter").addEventListener("change", applyFilters);
+    document.getElementById("combinedSearchButton").addEventListener("click", applyFilters);
 
-            const activeLink = document.querySelector(".page-item.active .page-link");
-            if (activeLink) {
-                const currentPage = parseInt(activeLink.textContent);
-                if (currentPage < pageLinks.length) {
-                    pageLinks[currentPage].click();
-                }
-            }
-        });
+    // 應用篩選條件
+    function applyFilters() {
+        var selectedValue = document.getElementById("CourseStatusFilter").value;
 
-        function updateTableContent(page) {
-            const perPage = 5;
-            const startIndex = (page - 1) * perPage;
-            const endIndex = startIndex + perPage;
+        if (selectedValue !== "__placeholder__") {
+            // 取得篩選條件
+            var startDate = document.querySelector('input[name="start"]').value;
+            var endDate = document.querySelector('input[name="end"]').value;
+            var courseStatus = selectedValue;
+            var searchField = document.querySelector('select[name="searchField"]').value;
+            var searchKeyword = document.getElementById("searchInput").value;
 
-            const rows = table.querySelectorAll("tbody tr");
-            rows.forEach((row, index) => {
-                if (index >= startIndex && index < endIndex) {
-                    row.style.display = "table-row";
-                } else {
-                    row.style.display = "none";
+            // 發送 AJAX 請求
+            $.ajax({
+                url: generatePageUrl(1), // 將搜索條件應用於第一頁
+                type: "GET",
+                data: {
+                    start: startDate,
+                    end: endDate,
+                    courseStatus: courseStatus,
+                    searchField: searchField,
+                    searchKeyword: searchKeyword
+                },
+                success: function (responseData) {
+                    // 假設後端返回的資料是一個 JSON 對象，包含了要更新的資料
+                    // 例如，responseData 可能是 { courses: [...], totalPages: ... }
+
+                    // 假設您有一個 <div> 元素，用於顯示篩選後的課程資料
+                    var coursesDiv = document.getElementById("courses");
+
+                    // 假設 responseData.courses 是後端返回的課程資料陣列
+                    // 將這些資料填充到頁面的 coursesDiv 元素中
+                    coursesDiv.innerHTML = ""; // 先清空內容，以防重複填充
+                    for (var i = 0; i < responseData.courses.length; i++) {
+                        var course = responseData.courses[i];
+                        var courseElement = document.createElement("div");
+                        courseElement.textContent = course.name; // 假設課程名稱是 course 的一個屬性
+                        coursesDiv.appendChild(courseElement);
+                    }
+
+                    // 更新總頁數
+                    totalPages = responseData.totalPages; // 假設 totalPages 是後端返回的總頁數
+                },
+                error: function () {
+                    // 處理請求失敗的情況
                 }
             });
         }
-   
+    }
+
+</script>*@
 
 
-    
 
 
-</script>
+
+
+
 
 <!-- Content End -->
 <!-- Back to Top -->
