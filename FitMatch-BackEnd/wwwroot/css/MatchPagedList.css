@@ -1,0 +1,15 @@
+﻿/* 修改分頁連結項目的樣式 */
+.page-item {
+    background-color: #2BC17B;
+    border-color: #2BC17B;
+    color: white;
+    border: 1px solid #ccc; /* 添加邊框樣式 */
+    margin-right: 5px; /* 添加間距，避免連結之間過於緊湊 */
+}
+
+/* 修改分頁連結本身的樣式 */
+.page-link {
+    color: white; /* 修改文字顏色 */
+    background-color: #2BC17B; /* 修改背景顏色 */
+    border-color: #2BC17B; /* 修改邊框顏色 */
+}
