@@ -20,6 +20,7 @@ namespace FitMatch_BackEnd.Controllers
             //預設一頁只能有8筆資料
             int itemsPerPage = 8;
             IEnumerable<Restaurant> datas = from p in db.Restaurants select p;
+
             // 如果有搜尋關鍵字
             if (!string.IsNullOrWhiteSpace(txtKeyword))
             {
