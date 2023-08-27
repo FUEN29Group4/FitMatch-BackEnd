@@ -108,7 +108,7 @@
                                         <option selected disabled hidden value="">請選擇狀態</option>
                                         @foreach (var statusOption in new List<string> { "上架", "下架", "待審核" })
                                         {
-                                            if (ViewBag.Status == statusOption)
+                                            if (ViewBag.StatusFilter == statusOption)
                                             {
                                                 <option value="@statusOption" selected>@statusOption</option>
                                             }
