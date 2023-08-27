@@ -158,7 +158,7 @@
                             </div>
                             <div class="col-4">
                                 <textarea asp-for="DefaultQuestion" class="form-control mb-3" type="text" placeholder="請輸入問題"
-                                          id="inputname" style="height: 150px;"></textarea>
+                                          id="inputQuestion" style="height: 150px;"></textarea>
                                 @*  <span asp-validation-for="DefaultQuestion" class="text-danger"></span> 驗證功能待補 *@
                             </div>
                         </div>
@@ -171,7 +171,7 @@
                             </div>
                             <div class="col-4">
                                 <textarea asp-for="DefaultResponse" class="form-control mb-3" type="text" placeholder="請輸入答覆"
-                                          id="inputname" style="height: 150px;"></textarea>
+                                          id="inputResponse" style="height: 150px;"></textarea>
                                 @*  <span asp-validation-for="DefaultResponse" class="text-danger"></span> 驗證功能待補 *@
                             </div>
                         </div>
@@ -180,6 +180,8 @@
                         <div class="col-8 d-flex text-center mx-auto pt-5">
                             <button type="submit" class="btn btn-primary me-5">新增</button>
                             <a asp-action="Robot" class="btn btn-outline-success ">取消</a>
+                            @*Demo按紐*@
+                            <button type="button" id="demoButton" class="ms-3 btn btn-outline-info onclick="fillVenueInfo()">DEMO</button>
                         </div>
 
                     </form>
@@ -213,6 +215,30 @@
             reader.readAsDataURL(file);
         }
     });
+
+
+    // DEMO按钮
+    //document.addEventListener("DOMContentLoaded", function () {
+    //    var demoButton = document.getElementById("demoButton");
+    //    if (demoButton) {
+    //        demoButton.addEventListener("click", function () {
+    //            //document.getElementById("Radio").value = "課程";
+    //            document.getElementById("inputQuestion").value = "請問我該如何找尋附近推薦的健康餐廳？";
+    //            document.getElementById("inputResponse").value = "您可以前往「健康餐廳」的首頁，並且按下google地圖即可看到附近的推薦餐廳喔！";
+                
+    //        });
+    //    }
+    //});
+
+    //demo展示 快速填值
+    function fillVenueInfo() {
+
+    document.getElementById("inputQuestion").value = "請問我該如何找尋附近推薦的健康餐廳？";
+    document.getElementById("inputResponse").value = "您可以前往「健康餐廳」的首頁，並且按下google地圖即可看到附近的推薦餐廳喔！";
+ 
+    }
+
+
 
 </script>
 

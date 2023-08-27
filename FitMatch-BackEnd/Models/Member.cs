@@ -1,18 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 
+//驗證增加此兩行
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace FitMatch_BackEnd.Models;
 
 public partial class Member
 {
     public int MemberId { get; set; }
 
+    
     public string? MemberName { get; set; }
 
+   
     public bool? Gender { get; set; }
 
     public DateTime? Birth { get; set; }
 
+    
     public string? Phone { get; set; }
 
     public string? Address { get; set; }

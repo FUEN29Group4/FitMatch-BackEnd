@@ -7,6 +7,12 @@ using FitMatch_BackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+
+using System.Text;
+using System.Text.RegularExpressions;
+using Microsoft.Data.SqlClient;
+using FitMatch_BackEnd.ViewModel;
+
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace FitMatch_BackEnd.Controllers
@@ -183,11 +189,6 @@ namespace FitMatch_BackEnd.Controllers
                     //prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
                     m.Photo = photoName;
                 }
-
-
-
-                // 更新 Approved 狀態
-                //custDb.Status = string.IsNullOrEmpty(Request.Form["Status"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Status"]);
 
                 m.MemberName = custIn.MemberName;
                 m.Phone = custIn.Phone;
