@@ -1,9 +1,10 @@
 ﻿@model FitMatch_BackEnd.Models.Product
 
+@*
 @{
     ViewData["Title"] = "Create";
 }
-
+*@
 <style>
     /* 上傳照片 */
     .upload-container {
@@ -176,6 +177,10 @@
                                 <span asp-validation-for="ProductName" class="text-danger"></span>
                             </div>
                         </div>
+
+
+
+
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
                                 <label for="inputname" class="col-form-label">商品封面</label>
@@ -184,19 +189,22 @@
                                 <div class="upload-container">
                                     <label for="upload" class="label-upload">
                                         <div class="icon">+</div>
-                                        <input type="file" id="upload" class="upload-input" accept="image/*">
+                                        <input type="file" name="photo" id="upload" class="upload-input">
                                     </label>
                                     <img id="preview" src="" alt="Image Preview">
                                 </div>
                             </div>
                         </div>
+
+
+
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
                                 <label asp-for="ProductDescription" for="inputname" class="col-form-label">商品描述</label>
                             </div>
                             <div class="col-4">
                                 <input asp-for="ProductDescription" class="form-control mb-3" type="text" placeholder="這裡會帶入商品描述"
-                                       aria-label="這裡會帶入商品描述" id="inputname">
+                                       aria-label="這裡會帶入商品描述" id="inputProductDescription">
                                 <span asp-validation-for="ProductDescription" class="text-danger"></span>
                             </div>
                         </div>
@@ -207,7 +215,7 @@
                             </div>
                             <div class="col-4">
                                 <input asp-for="Price" class="form-control mb-3" type="text" placeholder="這裡會帶入價格" aria-label="這裡會帶入價格"
-                                       id="inputname">
+                                       id="inputPrice">
                                 <span asp-validation-for="Price" class="text-danger"></span>
                             </div>
                         </div>
@@ -217,34 +225,32 @@
                             </div>
                             <div class="col-4">
                                 <input asp-for="ProductInventory" class="form-control mb-3" type="text" placeholder="這裡會帶入商品庫存"
-                                       aria-label="這裡會帶入商品庫存" id="inputname">
+                                       aria-label="這裡會帶入商品庫存" id="inputProductInventory">
                                 <span asp-validation-for="ProductInventory" class="text-danger"></span>
                             </div>
                         </div>
 
 
-
-                        <div class="row-sm-12 row-lg-6 mb-3 d-flex">
-                            <div class="col-1">
+                        <fieldset class="col-sm-12 col-xl-6 mb-3 d-flex">
+                            <div class="col-2">
                                 <legend class="col-form-label pt-0 pe-4">上架狀態</legend>
                             </div>
-
-                            <div class="col-4 d-flex justify-content-start">
+                            <div class="col-10 d-flex justify-content-start">
                                 <div class="form-check me-3">
-                                    <input class="form-check-input" type="radio" name="stateRadios" id="gridRadios5" value="option5"
-                                           checked>
-                                    <label class="form-check-label" for="gridRadios5">
+                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios1" value="true" >
+                                    <label class="form-check-label" for="gridRadios1">
                                         上架
                                     </label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="stateRadios" id="gridRadios6" value="option6">
-                                    <label class="form-check-label" for="gridRadios6">
+                                <div class="form-check me-3">
+                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios2" value="false" >
+                                    <label class="form-check-label" for="gridRadios2">
                                         下架
                                     </label>
                                 </div>
                             </div>
-                        </div>
+                        </fieldset>
+
 
 
 
@@ -252,6 +258,7 @@
                         <div class="col-8 d-flex text-center mx-auto pt-5">
                             <button type="submit" class="btn btn-primary me-5">新增</button>
                             <a asp-action="List" class="btn btn-outline-success ">取消</a>
+                            <button type="button" id="demoButton" class="btn btn-outline-info " style="margin-left: 50px;">DEMO</button>
                         </div>
 
                     </form>
@@ -283,6 +290,21 @@
             });
 
             reader.readAsDataURL(file);
+        }
+    });
+
+
+    // DEMO按钮
+    document.addEventListener("DOMContentLoaded", function () {
+        var demoButton = document.getElementById("demoButton");
+        if (demoButton) {
+            demoButton.addEventListener("click", function () {
+                document.getElementById("inputname").value = "黑胡椒雞胸肉";
+                document.getElementById("inputProductDescription").value = "鮮嫩多汁，外酥裡嫩";
+                document.getElementById("inputPrice").value = "300";
+                document.getElementById("inputProductInventory").value = "50";
+                document.getElementById("gridRadios1").checked = true;
+            });
         }
     });
 

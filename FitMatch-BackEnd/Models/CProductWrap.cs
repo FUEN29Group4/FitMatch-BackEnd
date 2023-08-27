@@ -61,6 +61,7 @@
             get { return _product.Status; }
             set { _product.Status = value; }
         }
+  
         public IFormFile photo { get; set; }
         //    public int ProductId { get; internal set; }
     }

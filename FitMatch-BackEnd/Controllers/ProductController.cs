@@ -12,6 +12,9 @@ namespace FitMatch_BackEnd.Controllers
 {
     public class ProductController : SuperController
     {
+        public IWebHostEnvironment _enviro = null;
+
+
         //連結DB
         private readonly FitMatchDbContext _context;
 
@@ -23,40 +26,8 @@ namespace FitMatch_BackEnd.Controllers
 
         }
 
-        public IWebHostEnvironment _enviro = null;
 
-        //跨TABLE取值
-        //private IQueryable<ProductViewModel> GetFilteredData(string searchField, string searchKeyword)
-        //{
-        //    var viewModelList = (from c in _context.Products
-        //                         join t in _context.ProductTypes on c.TypeId equals t.TypeId
 
-        //                         select new ProductViewModel
-
-        //                         {
-        //                             TypeId = t.TypeId,
-        //                             TypeName = t.TypeName, // 从 ProductTypes 表中获取 TypeName
-        //                             ProductId = c.ProductId,
-        //                             ProductName = c.ProductName,
-        //                             ProductDescription = c.ProductDescription,
-        //                             Photo = c.Photo,
-        //                             Price = c.Price,
-        //                             ProductInventory = c.ProductInventory,
-        //                             Approved = c.Approved,
-        //                             Status = c.Status
-        //                         }).ToList();
-
-        //    if (!string.IsNullOrEmpty(searchField) && !string.IsNullOrEmpty(searchKeyword))
-        //    {
-        //        switch (searchField)
-        //        {
-        //            case "TypeName":
-        //                viewModelList = viewModelList.Where(vm => vm.TypeName.Contains(searchKeyword));
-        //                break;
-        //        }
-        //    }
-        //    return viewModelList;
-        //}
 
         //***篩選功能***
 
@@ -134,27 +105,52 @@ namespace FitMatch_BackEnd.Controllers
 
         }
 
-        public class CKeywordViewModel
-        {
-            public string txtKeyword { get; set; }
-            public string ProductFilter { get; set; }
-            public string StatusFilter { get; set; }  // 使用 string
-        }
+
 
         //新增商品  ***圖片未寫入，商品類別無法寫入***
 
         public IActionResult Create()
         {
-            return View();
+            CProductWrap prodWp = new CProductWrap();
+            return View(prodWp.product);
+            //return View();
         }
         [HttpPost]
-        public IActionResult Create(Product p)
+        public IActionResult Create(CProductWrap p)
         {
             FitMatchDbContext db = new FitMatchDbContext();
-            db.Products.Add(p);
-            db.SaveChanges();
+            Product custDb = new Product();
+
+            if (p != null)
+            {
+                if (p.photo != null)
+                {
+                    string photoName = Guid.NewGuid().ToString() + ".jpg";
+
+                    string path = _enviro.WebRootPath + "/img/商城/" + photoName;
+                    p.photo.CopyTo(new FileStream(path, FileMode.Create));
+                    custDb.Photo = photoName;
+                }
+
+                // 更新 Status 狀態
+                custDb.Status = p.Status;
+                custDb.ProductName = p.ProductName;
+                custDb.ProductDescription = p.ProductDescription;
+                custDb.Price = p.Price;
+                custDb.ProductInventory = p.ProductInventory;
+                custDb.TypeId = p.TypeId;
+
+                db.Products.Add(custDb);
+                db.SaveChanges();
+            }
+
+            //db.Restaurants.Add(p);
+            //db.SaveChanges();
             return RedirectToAction("List");
         }
+
+
+
 
         //刪除商品 
         public IActionResult Delete(int? id)
@@ -181,27 +177,51 @@ namespace FitMatch_BackEnd.Controllers
             if (prod == null)
                 return RedirectToAction("List");
 
-            return View(prod);
+            //return View(prod);
+
+            CProductWrap prodWp = new CProductWrap();
+            prodWp.product = prod;
+            return View(prodWp.product);
         }
         [HttpPost]
-        public IActionResult Edit(Product prodIn)
+        public IActionResult Edit(CProductWrap prodIn)
         {
             FitMatchDbContext db = new FitMatchDbContext();
             Product prodDb = db.Products.FirstOrDefault(t => t.ProductId == prodIn.ProductId);
 
-            if (prodDb != null)
+            if (prodIn != null)
             {
+                if (prodIn.photo != null)
+                {
+                    string photoName = Guid.NewGuid().ToString() + ".jpg";
+
+                    //string path = Path.Combine(_enviro.WebRootPath , "/images/" , photoName);
+                    //using (var stream = new FileStream(path, mode: FileMode.Create))
+                    //{
+                    //    custIn.photo = photoName;
+                    //}
+                    string path = _enviro.WebRootPath + "/img/商城/" + photoName;
+                    prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
+                    prodDb.Photo = photoName;
+                }
+
                 // 更新其他屬性
                 prodDb.ProductName = prodIn.ProductName;
                 prodDb.Photo = prodIn.Photo;
                 prodDb.ProductDescription = prodIn.ProductDescription;
                 prodDb.Price = prodIn.Price;
                 prodDb.ProductInventory = prodIn.ProductInventory;
-                prodDb.Approved = prodIn.Approved;
+                prodDb.Status = prodIn.Status;
 
                 db.SaveChanges();
             }
             return RedirectToAction("List");
+        }
+        public class CKeywordViewModel
+        {
+            public string txtKeyword { get; set; }
+            public string ProductFilter { get; set; }
+            public string StatusFilter { get; set; }  // 使用 string
         }
     }
 }
