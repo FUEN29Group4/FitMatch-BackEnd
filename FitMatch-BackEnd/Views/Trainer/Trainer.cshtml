@@ -2,9 +2,9 @@
 
 @{
     ViewData["Title"] = "Trainer";
+
 }
-@*換頁要確認*@
-@*全選刪除還沒做*@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Content Start -->
 <div class="content">
@@ -114,10 +114,10 @@
         <div class="row g-4">
             <form method="GET" action="@Url.Action("Trainer")">
 
-            <div class="col">
-                <div class="bg-white rounded h-100 p-4">
-                    <div class="row pr-1">
-                        
+                <div class="col">
+                    <div class="bg-white rounded h-100 p-4">
+                        <div class="row pr-1">
+
 
                             <!-- 第一區塊 -->
                             <div class="col-3 d-flex align-items-center justify-content-center">
@@ -142,15 +142,15 @@
                                 </div>
                             </div>
 
-                        @*@{
-                        var statuses = new Dictionary<int, string>
-                        {
-                        { 0, "審核通過" },
-                        { 1, "審核中" },
-                        { 2, "退回審核" }
-                        };
-                        }*@
-                        <!-- 第二區塊 -->
+                            @*@{
+                            var statuses = new Dictionary<int, string>
+                            {
+                            { 0, "審核通過" },
+                            { 1, "審核中" },
+                            { 2, "退回審核" }
+                            };
+                            }*@
+                            <!-- 第二區塊 -->
 
                             <div class="col-3 d-flex align-items-center justify-content-center">
                                 審核狀態:
@@ -165,43 +165,44 @@
                                 </div>
                             </div>
 
-                        <!-- 第三區塊 -->
-                        @*<div class="col-3 d-flex align-items-center">
-                        希望待遇:
-                        <div class="mx-1 flex-grow-1">
-                        <select class="form-select" id="statusSelect"
-                        aria-label="Floating label select example">
-                        <option selected disabled>請選擇</option>
-                        <option value="1">0~1000</option>
-                        <option value="2">1000~2000</option>
-                        <option value="3">2000以上</option>
-                        </select>
-                        </div>
-                        </div>*@
-                        <!-- 第四區塊 -->
-                        @*<div class="col-4 d-flex align-items-center justify-content-end">
+                            <!-- 第三區塊 -->
+                            @*<div class="col-3 d-flex align-items-center">
+                            希望待遇:
+                            <div class="mx-1 flex-grow-1">
+                            <select class="form-select" id="statusSelect"
+                            aria-label="Floating label select example">
+                            <option selected disabled>請選擇</option>
+                            <option value="1">0~1000</option>
+                            <option value="2">1000~2000</option>
+                            <option value="3">2000以上</option>
+                            </select>
+                            </div>
+                            </div>*@
+                            <!-- 第四區塊 -->
+                            @*<div class="col-4 d-flex align-items-center justify-content-end">
 
-                        <div class="col-1 p-0">
-                        搜尋:
-                        </div>
-                        <div class="col-9 ps-2">
-                        <div class="mx-10 flex-grow-1">
-                        <input class=" form-control" type="text" placeholder="請輸入關鍵字"
-                        aria-label="請輸入關鍵字" id="searchInput">
-                        </div>
-                        </div>
-                        <div class="col-1 d-flex align-items-center p-0 ps-2">
-                        <a href="">
-                        <i class="fa-solid fa-magnifying-glass fa-xl"></i>
-                        </a>
-                        </div>*@
+                            <div class="col-1 p-0">
+                            搜尋:
+                            </div>
+                            <div class="col-9 ps-2">
+                            <div class="mx-10 flex-grow-1">
+                            <input class=" form-control" type="text" placeholder="請輸入關鍵字"
+                            aria-label="請輸入關鍵字" id="searchInput">
+                            </div>
+                            </div>
+                            <div class="col-1 d-flex align-items-center p-0 ps-2">
+                            <a href="">
+                            <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                            </a>
+                            </div>*@
 
-                        @*</div>*@
+                            @*</div>*@
 
 
-                        <form method="get" action="@Url.Action("Trainer", "Trainer")">
+                            <form method="get" action="@Url.Action("Trainer", "Trainer")">
 
-                            <div class="col-4 d-flex align-items-center justify-content-end">
+<<<<<<< Updated upstream
+                            <div class="col-5 d-flex align-items-center justify-content-end">
                                 <div class="col-1 p-0">
                                     搜尋:
                                 </div>
@@ -210,26 +211,45 @@
                                         @*<input class=" form-control" type="text" placeholder="請輸入關鍵字"
                                         aria-label="請輸入關鍵字" id="searchInput">*@
                                         @Html.TextBox("txtKeyword", ViewBag.Keyword as string, new { @class = "form-control", @placeholder = "請輸入關鍵字", @aria_label = "請輸入關鍵字", @id = "searchInput" })
+=======
+                                <div class="col-4 d-flex align-items-center justify-content-end">
+                                    <div class="col-1 p-0">
+                                        搜尋:
+                                    </div>
+                                    <div class="col-9 ps-2">
+                                        <div class="mx-10 flex-grow-1">
+                                            @*<input class=" form-control" type="text" placeholder="請輸入關鍵字"
+                                            aria-label="請輸入關鍵字" id="searchInput">*@
+                                            @Html.TextBox("txtKeyword", ViewBag.Keyword as string, new { @class = "form-control", @placeholder = "請輸入關鍵字", @aria_label = "請輸入關鍵字", @id = "searchInput" })
+>>>>>>> Stashed changes
 
+                                        </div>
+                                    </div>
+                                    <div class="col-1 d-flex align-items-center p-0  ps-2">
+                                        <button type="submit" class="btn">
+                                            <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="col-1 d-flex align-items-center p-0  ps-2">
-                                    <button type="submit" class="btn">
-                                        <i class="fa-solid fa-magnifying-glass fa-xl"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                            </form>
 
+<<<<<<< Updated upstream
                         <!-- 清空區塊 -->
-                        <div class="col-1">
+                            <div class="col-1 d-flex  align-items-center justify-content-end">
                             <button class="btn btn-outline-success" type="button" id="clearSearch">
                                 清空
                             </button>
+=======
+                            <!-- 清空區塊 -->
+                            <div class="col-1">
+                                <button class="btn btn-outline-success" type="button" id="clearSearch">
+                                    清空
+                                </button>
+>>>>>>> Stashed changes
                             </div>
+                        </div>
                     </div>
                 </div>
-            </div>
             </form>
         </div>
         @*</div>
@@ -320,8 +340,8 @@
                                     <a href="@Url.Action("Details", "Trainer", new { id = item.TrainerId })" class="btn  btn-light text-white">
                                         查看履歷
                                     </a>
-                                    <a href="@Url.Action("Approve", "Trainer", new { id = item.TrainerId })" class="btn  btn-primary">審核通過</a>
-                                    <a href="@Url.Action("Reject", "Trainer", new { id = item.TrainerId })" class="btn  btn-danger">退回審核</a>
+                                    <a href="@Url.Action("Approve", "Trainer", new { id = item.TrainerId })" class="btn  btn-primary" onclick="check()">審核通過</a>
+                                    <a href="@Url.Action("Reject", "Trainer", new { id = item.TrainerId })" class="btn  btn-danger" onclick="error()">退回審核</a>
                                 </td>
                             </tr>
                         }
@@ -376,6 +396,7 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 
 
 <script>
@@ -385,6 +406,24 @@
             window.location.href = '@Url.Action("Trainer", "Trainer")';
         });
     });
+    //確認通過審核
+    const check = () => {
+        Swal.fire({
+            icon: 'success',
+            timer: 3000,
+            title: '審核通過',
+        })
+    }
+    //確認退回審核
+    const error = () => {
+        Swal.fire({
+            icon: 'error',
+            timer: 3000,
+            title: '退回審核',
+        })
+    }
+
+
     //教練審核狀態
     $(document).ready(function () {
         $('select[name="approved"]').on('change', function () {

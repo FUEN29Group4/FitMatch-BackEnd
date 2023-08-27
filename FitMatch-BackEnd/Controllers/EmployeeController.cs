@@ -2,6 +2,7 @@
 using FitMatch_BackEnd.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using System.Text;
 
 namespace FitMatch_BackEnd.Controllers
 {
@@ -55,20 +56,33 @@ namespace FitMatch_BackEnd.Controllers
         //員工新增
         public IActionResult Create()
         {
-            var employee = new Employee
-            {
-                Status = true // 預設"在職中"
-            };
-
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(Employee e)
+        public async Task<IActionResult> Create(Employee e)
         {
+            if (e.FileToUpload == null)
+            {
+                ModelState.Remove("FileToUpload");
+            }
             //使用ajax
             if (ModelState.IsValid)
             {
+
+                if (e.FileToUpload != null)
+                {
+                    string photoName = Guid.NewGuid().ToString() + ".jpg";
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/員工", photoName);
+                    // 保存照片
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await e.FileToUpload.CopyToAsync(stream);
+                    }
+                    // 保存新照片名存到DB
+                    e.Photo = photoName;
+                }
+
                 e.CreatedAt = DateTime.Now; // 設置當前的日期和時間
                 e.Status = true; // 新增時在職狀況預設為在職中
                 _context.Employees.Add(e);
@@ -76,11 +90,9 @@ namespace FitMatch_BackEnd.Controllers
                 return RedirectToAction("Employee");
             }
             return View(e);
-
         }
 
 
-        //TODO: 照片、驗證
 
         public IActionResult Details(int id)
         {
@@ -91,23 +103,23 @@ namespace FitMatch_BackEnd.Controllers
             }
             return View(Employees);
         }
-        //TODO: 跳提醒 已刪除成功
         public IActionResult Delete(int? id)
         {
             if (id == null)
                 return RedirectToAction("Employee");
-            //var Employees = _context.Employees.FirstOrDefault(t => t.EmployeeId == id);
-            Employee e = _context.Employees.FirstOrDefault(t => t.EmployeeId == id);
 
+            Employee e = _context.Employees.FirstOrDefault(t => t.EmployeeId == id);
             if (e != null)
             {
                 _context.Employees.Remove(e);
                 _context.SaveChanges();
+
+                return RedirectToAction("Employee", new { deletedId = id });
             }
+
             return RedirectToAction("Employee");
         }
        
-        //TODO: 要確認編輯
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -130,11 +142,24 @@ namespace FitMatch_BackEnd.Controllers
             }
             if (prodIn != null)
             {
-                if (prodIn.photo != null)
+                if (prodIn.photo != null && prodIn.photo.Length > 0)
                 {
+                    // 如果之前有舊圖片，先刪除
+                    if (!string.IsNullOrEmpty(e.Photo))
+                    {
+                        var oldPath = Path.Combine(_enviro.WebRootPath, "img", "員工", e.Photo);
+                        if (System.IO.File.Exists(oldPath))
+                        {
+                            System.IO.File.Delete(oldPath);
+                        }
+                    }
                     string photoName = Guid.NewGuid().ToString() + ".jpg";
                     string path = _enviro.WebRootPath + "/img/員工/" + photoName;
-                    prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        prodIn.photo.CopyTo(fileStream);
+                    }
+                    //prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
                     e.Photo = photoName;
                 }
                 e.EmployeeName = prodIn.EmployeeName;
@@ -150,26 +175,6 @@ namespace FitMatch_BackEnd.Controllers
             }
             return RedirectToAction("Employee");
         }
-        //public IActionResult Edit(Employee custIn)
-        //{
-        //    Employee e = _context.Employees.FirstOrDefault(t => t.EmployeeId == custIn.EmployeeId);
 
-        //    if (e != null)
-        //    {
-        //        e.EmployeeName = custIn.EmployeeName;
-        //        e.Phone = custIn.Phone;
-        //        e.Email = custIn.Email;
-        //        e.Address = custIn.Address;
-        //        e.Password = custIn.Password;
-        //        e.Gender = custIn.Gender;
-        //        //e.CreatedAt = custIn.CreatedAt;
-        //        e.Photo = custIn.Photo;
-        //        e.Birth = custIn.Birth;
-        //        e.Status = custIn.Status;
-        //        _context.SaveChanges();
-        //    }
-
-        //    return RedirectToAction("Employee");
-        //}
     }
 }

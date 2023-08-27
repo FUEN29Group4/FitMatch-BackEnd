@@ -9,8 +9,9 @@
     --light: #fafafa;
     --dark: #202741;*/
 }
-/*換頁功能*/
-.page-item.disabled .page-link {
+
+    /*換頁功能*/
+    .page-item.disabled .page-link {
     pointer-events: none;
     cursor: not-allowed;
     opacity: 0.6;

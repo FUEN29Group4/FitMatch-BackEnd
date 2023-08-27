@@ -19,5 +19,5 @@ public partial class Restaurant
 
     public DateTime? CreateAt { get; set; }
 
-    public bool? Status { get; set; }
+    public int? Status { get; set; }
 }

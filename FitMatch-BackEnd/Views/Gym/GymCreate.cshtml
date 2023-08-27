@@ -342,7 +342,7 @@
         if (validateRule === 'phone') {
             const regex = /^[0-9]{2}-[0-9]{7}$/;
             if (!regex.test(element.value)) {
-                showErrorMessage(element, "電話號碼格式不正確 正確格式為##-#######");
+                showErrorMessage(element, "電話號碼格式不正確 正確格式為##-#######(前兩碼為區碼)");
                 return false;
             }
         }

@@ -121,54 +121,101 @@
     <!-- Navbar End -->
     <!-- 篩選列開始 -->
     <div class="container-fluid pt-4 px-4">
-        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0 rounded">
-            <div class="container-fluid">
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="row g-4">
+            <form method="get" action="@Url.Action("List")" />
 
-                    <!-- 將所有的選項和搜索功能都放在同一個form中 -->
-                    <form method="post" asp-action="List" class="container-fluid d-flex flex-wrap justify-content-between align-items-center">
+            <div class="col">
+                <div class="bg-white rounded h-100 p-4">
+                    <div class="row pr-1">
 
-                        <!-- 區域選擇 -->
-                        <div class="d-flex align-items-center me-3">
-                            <label for="regionType" class="me-2">區域:</label>
-                            <select id="regionType" name="RegionFilter" class="form-select" style="background-color: #fff;" aria-label="區域">
-                                <option value="" selected disabled hidden>請選擇區域</option>
-                                <option value="">無</option>
-                                <option value="台北">台北</option>
-                                <option value="台中">台中</option>
-                                <option value="台南">台南</option>
-                            </select>
+
+                        <!-- 第一區塊 -->
+                        <div class="col-3 d-flex align-items-center justify-content-center">
+                            所在城市:
+                            <div class="mx-1 flex-grow-1 ps-1">
+                                <select class="form-select" name="city"
+                                        aria-label="所在城市">
+                                    <option selected disabled value="">請選擇城市</option>
+                                    @foreach (var cityOption in new List<string> { "台北市", "台中市", "台南市" })
+                                    {
+                                        if (ViewBag.City == cityOption)
+                                        {
+                                            <option value="@cityOption" selected>@cityOption</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@cityOption">@cityOption</option>
+                                        }
+                                    }
+                                </select>
+
+                            </div>
                         </div>
 
                         <!-- 上架狀態選擇 -->
-                        <div class="d-flex align-items-center me-3">
-                            <label for="statusType" class="me-2">上架狀態:</label>
-                            <select id="statusType" name="StatusFilter" class="form-select" style="background-color: #fff;" aria-label="上架狀態">
-                                <option value="" selected disabled hidden>請選擇狀態</option>
-                                <option value="">無</option>
-                                <option value="上架">上架</option>
-                                <option value="下架">下架</option>
-                                <option value="待審核">待審核</option>
-                            </select>
+                        <div class="col-3 d-flex align-items-center justify-content-center">
+                            審核狀態:
+                            <div class="mx-1 flex-grow-1 ps-2">
+                                <select class="form-select" name="Status"
+                                        aria-label="Floating label select example">
+                                    <option selected disabled value="">請選擇</option>
+                                    <option value="0">上架</option>
+                                    <option value="1">下架</option>
+                                    <option value="2">審核中</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <!-- 搜尋部分 -->
-                        <div class="d-flex align-items-center ml-auto">
+
+                        <form method="get" action="@Url.Action("List", "Restaurant")">
+
+                            <div class="col-4 d-flex align-items-center justify-content-end">
+                                <div class="col-1 p-0">
+                                    搜尋:
+
+                                </div>
+                                <div class="col-9 ps-2">
+                                    <div class="mx-10 flex-grow-1">
+                                        @Html.TextBox("txtKeyword", ViewBag.Keyword as string, new { @class = "form-control", @placeholder = "請輸入關鍵字", @aria_label = "請輸入關鍵字", @id = "searchInput" })
+
+                                    </div>
+                                </div>
+                                <div class="col-1 d-flex align-items-center p-0  ps-2">
+                                    <button type="submit" class="btn me-2">
+                                        <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+
+
+
+                            <!-- 搜尋部分 -->
+                            @*               <div class="d-flex align-items-center ml-auto">
                             <div class="me-2">
-                                <input name="txtKeyword" class="form-control" type="text" placeholder="請輸入關鍵字" aria-label="請輸入關鍵字" id="searchInput">
+                            <input name="txtKeyword" class="form-control" type="text" placeholder="請輸入關鍵字" aria-label="請輸入關鍵字" id="searchInput">
                             </div>
                             <button type="submit" class="btn btn-primary me-2">
-                                <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                            <i class="fa-solid fa-magnifying-glass fa-xl"></i>
                             </button>
                             <button type="reset" class="btn btn-outline-success">清空</button>
-                        </div>
+                            </div>
+                            *@
 
-                    </form>
+
+                            <!-- 清空區塊 -->
+                            <div class="col-1 d-flex align-items-center p-0  ps-2 ml-3">
+                                <button class="btn btn-outline-success" type="button" id="clearSearch">
+                                    清空
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </nav>
-    </div>
 
+        </div>
+    </div>
     <!-- 篩選列結束 -->
     <!-- 管理列表開始 -->
     <div class="container-fluid pt-4 px-4">
@@ -181,7 +228,7 @@
                 <table class="table text-start align-middle table-bordered table-hover mb-0 table-centered text-center">
                     <thead style="background-color: #74ffba;">
                         <tr class="text-dark" style="text-align: center;">
-                 
+
                             <th scope="col">餐廳編號</th>
                             <th scope="col">餐廳名稱</th>
                             <th scope="col">地區</th>
@@ -199,12 +246,34 @@
                                 count++;
 
                                 <tr>
-             
+
                                     <td>@Html.DisplayFor(modelItem => item.RestaurantsId)</td>
                                     <td>@Html.DisplayFor(modelItem => item.RestaurantsName)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Address)</td>
                                     <td><img src="~/img/健康餐/@item.Photo" width="110" height="70" /></td>
-                                    <td>@(item.Status == true ? "上架" : (item.Status == false ? "下架" : "待審核"))</td>
+                                    <td>
+                                        @{
+                                            string reviewStatus = string.Empty;
+                                            switch (item.Status)
+                                            {
+                                                case 0:
+                                                    reviewStatus = "上架";
+                                                    break;
+                                                case 1:
+                                                    reviewStatus = "下架";
+                                                    break;
+                                                case 2:
+                                                    reviewStatus = "審核中";
+                                                    break;
+                                                default:
+                                                    reviewStatus = "未知";
+                                                    break;
+                                            }
+
+
+                                            @reviewStatus
+                                        }
+                                    </td>
                                     <td>@Html.DisplayFor(modelItem => item.CreateAt)</td>
                                     <td>
                                         <a class="btn btn-secondary" href="@Url.Action("Edit", "Restaurant", new { id = item.RestaurantsId })"
@@ -219,7 +288,7 @@
 
                             }
                         }
-  
+
                     </tbody>
                 </table>
 
@@ -263,4 +332,24 @@
         </div>
     </div>
 </div>
+<script>
+    // 清空功能
+    $(document).ready(function () {
+        $('#clearSearch').click(function () {
+            window.location.href = '@Url.Action("Trainer", "Trainer")';
+        });
+    });
+    //教練審核狀態
+    $(document).ready(function () {
+        $('select[name="approved"]').on('change', function () {
+            // 直接提交表單進行篩選
+            $(this).closest('form').submit();
+        });
 
+        $('select[name="city"]').on('change', function () {
+            // 直接提交表單進行篩選
+            $(this).closest('form').submit();
+        });
+    });
+
+</script>

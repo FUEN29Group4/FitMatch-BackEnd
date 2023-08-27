@@ -55,7 +55,7 @@ namespace FitMatch_BackEnd.Controllers
         }
 
         //審核通過
-        public IActionResult Approve(int id)
+        public async Task<IActionResult> Approve(int id)
         {
             var trainer = _context.Trainers.Find(id);
             //檢查教練是否存在
@@ -68,11 +68,13 @@ namespace FitMatch_BackEnd.Controllers
             trainer.Approved = 1;
             //保存到資料庫
             _context.SaveChanges();
+            //延遲1.5秒
+            await Task.Delay(1500);
             //返回教練列表
             return RedirectToAction("Trainer");
         }
         ////退回申請
-        public IActionResult Reject(int id)
+        public async Task<IActionResult> Reject(int id)
         {
             var trainer = _context.Trainers.Find(id);
             //檢查教練是否存在
@@ -84,10 +86,10 @@ namespace FitMatch_BackEnd.Controllers
             //trainer.Approved = CApprovalStatus.Rejected;
             trainer.Approved = 2;
             _context.SaveChanges();
-
+            //延遲1.5秒
+            await Task.Delay(1500);
             return RedirectToAction("Trainer");
         }
-        //TODO: 要做確認按鈕!!!!!!!!!!!!!!!
 
         //教練履歷
         public IActionResult Details(int id)

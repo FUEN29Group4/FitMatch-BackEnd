@@ -49,7 +49,7 @@
             get { return _restaurant.CreateAt; }
             set { _restaurant.CreateAt = value; }
         }
-        public bool? Status
+        public int? Status
         {
             get { return _restaurant.Status; }
             set { _restaurant.Status = value; }
