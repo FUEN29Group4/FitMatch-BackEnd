@@ -1,10 +1,11 @@
 ﻿using FitMatch_BackEnd.Models;
 using FitMatch_BackEnd.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class OrderController : SuperController
+    public class OrderController : Controller
     {
         private readonly FitMatchDbContext _context;
 
@@ -74,6 +75,34 @@ namespace FitMatch_BackEnd.Controllers
                 db.SaveChanges();
             }
             return RedirectToAction("List");
+        }
+
+        //訂單明細
+        public IActionResult OrderDetails(int id)
+        {
+               var viewModelList = (from c in _context.OrderDetails
+                                 join m in _context.Orders on c.OrderId equals m.OrderId
+                                 join t in _context.Products on c.ProductId equals t.ProductId
+                                 join g in _context.ProductTypes on t.TypeId equals g.TypeId
+                       
+
+                                 select new OrderViewModel
+                                 {
+                                     OrderId = (int)c.OrderId,
+                                     MemberId = (int)m.MemberId,
+                                     TypeId= (int)g.TypeId,
+                                     TypeName = g.TypeName,
+                                     Photo = t.Photo,
+                                     ProductId = t.ProductId,
+                                     ProductName = t.ProductName,
+                                     OrderTime = (DateTime)m.OrderTime,
+                                     PayTime = (DateTime)m.PayTime,
+                                     MemberName = m.MemberName,
+                                     Quantity = (int)c.Quantity,
+                                     price = (int)t.Price
+                                 }).ToList();
+
+            return View(viewModelList);
         }
     }
 }
