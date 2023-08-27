@@ -100,15 +100,13 @@
         </div>
     </nav>
     <!-- Navbar End -->
-    <!-- system adminstractor Navbar start-->
+    <!-- 篩選列開始 -->
     <div class="container-fluid pt-4 px-4">
-
-     
         <div class="row g-4">
-
-            <div class="col">
-                <div class="bg-white rounded h-100 p-4">
-                    <form id="searchForm">
+            @*關鍵的一個form*@
+            <form>
+                <div class="col">
+                    <div class="bg-white rounded h-100 p-4">
                         <div class="row pr-1">
                             <!-- 第一區塊 -->
                             <div class="col-4 d-flex align-items-center justify-content-center">
@@ -122,7 +120,7 @@
                                         {
                                             if (ViewBag.Type == Option)
                                             {
-                                                <option value="@Option" selected>Option</option>
+                                                <option value="@Option" selected>@Option</option>
                                             }
                                             else
                                             {
@@ -130,68 +128,63 @@
                                             }
                                         }
                                     </select>
-
-
-
-
-
-                                    @*<select class="form-select" id="Type"
-                                            aria-label="Floating label select example">
-                                        <option selected disabled>請選擇</option>
-                                        <option value="1">系統預設</option>
-                                        <option value="2">媒合</option>
-                                        <option value="3">教練</option>
-                                        <option value="4">課程</option>
-                                        <option value="5">訂單</option>
-                                        <option value="6">其他</option>
-
-                                    </select>*@
                                 </div>
                             </div>
 
                             <!-- 第四區塊 -->
-                            <div class="col-4 d-flex align-items-center justify-content-end">
+                            <form method="get" action="@Url.Action("Robot", "Robot")">
 
-                                <div class="col-1 p-0">
-                                    搜尋:
-                                </div>
-                                <div class="col-9 ps-2">
-                                    <div class="mx-10 flex-grow-1">
-                                        <input class=" form-control" type="text" placeholder="請輸入關鍵字"
-                                               aria-label="請輸入關鍵字" id="searchInput">
+                                <div class="col-4 d-flex align-items-center justify-content-end">
+
+                                    <div class="col-1 p-0">
+                                        搜尋:
                                     </div>
-                                </div>
-                                <div class="col-1 d-flex align-items-center p-0 ps-2">
-                                    <a href="">
-                                        <i class="fa-solid fa-magnifying-glass fa-xl"></i>
-                                    </a>
+                                    <div class="col-9 ps-2">
+                                        <div class="mx-10 flex-grow-1">
+                                            @*<input class=" form-control" type="text" placeholder="請輸入關鍵字"
+                                                aria-label="請輸入關鍵字" id="searchInput">*@
+                                            @Html.TextBox("txtKeyword", ViewBag.Keyword as string, new { @class = "form-control", @placeholder = "請輸入關鍵字", @aria_label = "請輸入關鍵字", @id = "searchInput" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-1 d-flex align-items-center p-0 ps-2">
+                                        <button type="submit" class="btn me-2">
+
+                                            @*<button type="submit" class="btn">*@
+                                            <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                                        </button>
+                                    </div>
+
                                 </div>
 
-                            </div>
-                           
+                                <!-- 清空區塊 -->
+                                <div class="col-1 d-flex align-items-center p-0  ps-2 ml-3">
+                                    <button class="btn btn-outline-success" type="button" id="clearSearch">
+                                        清空
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-
-                    </form>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
-      
-
     </div>
     <div class="container-fluid pt-4 px-4">
         <div class="bg-white text-center  rounded p-4">
 
             <div class="d-flex align-items-center justify-content-between mb-4">
-                @*<h5 class="mb-0 text-dark">機器人問題管理列表</h5>*@
-                              
-                <a href="@Url.Action("RobotCreate", "Robot" )" class="btn btn-primary  custom-purple">新增問題</a>
+                <h5 class="mb-0 text-dark">機器人問題管理列表</h5>
+
+                <a href="@Url.Action("RobotCreate", "Robot")" class="btn btn-primary  custom-purple">新增問題</a>
             </div>
 
             <div class="table-responsive">
                 <table class="table text-start align-middle table-bordered table-hover mb-0 text-center">
                     <thead style="background-color: #74ffba;">
                         <tr class="text-dark">
-                            
+
                             <th scope="col">機器人編號</th>
                             <th scope="col">問題類型</th>
                             <th scope="col">問題</th>
@@ -203,106 +196,113 @@
 
 
                     <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
+                        @{ int count = 0;
 
-                                <td>@Html.DisplayFor(modelItem => item.RobotId)</td>       @* id *@
-                                <td>@Html.DisplayFor(modelItem => item.Type)</td>          @* 判斷&顯示問題 *@
-                                <td>
-                                    @if (item.DefaultQuestion != null && item.DefaultQuestion.Length >= 20)
-                                    {
-                                        @item.DefaultQuestion.Substring(0, 20)
-                                    }
-                                    else
-                                    {
-                                        @item.DefaultQuestion
-                                    }
-                                </td>
+                            foreach (var item in Model)
+                            {
+                                count++;
+                                <tr>
 
-                                <td>
-                                    @* 判斷&顯示回答 *@
+                                    <td>@Html.DisplayFor(modelItem => item.RobotId)</td>       @* id *@
+                                    <td>@Html.DisplayFor(modelItem => item.Type)</td>          @* 判斷&顯示問題 *@
+                                    <td>
+                                        @if (item.DefaultQuestion != null && item.DefaultQuestion.Length >= 20)
+                                        {
+                                            @item.DefaultQuestion.Substring(0, 20)
+                                        }
+                                        else
+                                        {
+                                            @item.DefaultQuestion
+                                        }
+                                    </td>
 
-                                    @if (item.DefaultResponse != null && item.DefaultResponse.Length >= 20)
-                                    {
-                                        @item.DefaultResponse.Substring(0, 20)
-                                    }
-                                    else
-                                    {
-                                        @item.DefaultResponse
-                                    }
-                                </td>
-                                
+                                    <td>
+                                        @* 判斷&顯示回答 *@
+
+                                        @if (item.DefaultResponse != null && item.DefaultResponse.Length >= 20)
+                                        {
+                                            @item.DefaultResponse.Substring(0, 20)
+                                        }
+                                        else
+                                        {
+                                            @item.DefaultResponse
+                                        }
+                                    </td>
+
                                     @*操作*@
-                                <td>
-                                    <a href="@Url.Action("RobotEdit", "Robot", new { id = item.RobotId })" class="btn  btn-secondary" style="background-color: aliceblue; color: black;">
-                                        <i class="fa-regular fa-pen-to-square"> 編輯</i>
-                                    </a>
+                                    <td>
+                                        <a href="@Url.Action("RobotEdit", "Robot", new { id = item.RobotId })" class="btn  btn-secondary" style="background-color: aliceblue; color: black;">
+                                            <i class="fa-regular fa-pen-to-square"> 編輯</i>
+                                        </a>
 
-                                    <a href="@Url.Action("RobotDelete", "Robot", new { id = item.RobotId })" class="btn  btn-primary"><i class="fa-solid fa-trash-can">刪除</i></a>
-                                </td>
+                                        <a href="@Url.Action("RobotDelete", "Robot", new { id = item.RobotId })" class="btn  btn-primary"><i class="fa-solid fa-trash-can">刪除</i></a>
+                                    </td>
 
-                                
-                            </tr>
+
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>
 
 
                 <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;"> </div>
-                    <!-- 換頁區塊開始 --> 
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link previous-page" data-page-type="previous" href="#">
-                                    <i class="fa-solid fa-chevron-left"></i>
+                <!-- 換頁區塊開始 -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link previous-page" data-page-type="previous" href="#">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </a>
+                        </li>
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("Robot", new { currentPage = i })">
+                                    @i
                                 </a>
                             </li>
-                            @for (int i = 1; i <= ViewBag.TotalPages; i++)
-                            {
-                                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                                    <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("Robot", new { currentPage = i })">
-                                        @i
-                                    </a>
-                                </li>
-                            }             
-                            <li class="page-item">
-                                <a class="page-link next-page" data-page-type="next" href="#">
-                                    <i class="fa-solid fa-chevron-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <!-- 換頁區塊END -->
-                  
-                </div>
+                        }
+                        <li class="page-item">
+                            <a class="page-link next-page" data-page-type="next" href="#">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- 換頁區塊END -->
+
             </div>
         </div>
     </div>
+</div>
 
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+
+
+
+
+
 
 
 
 <script>
-    // 全選功能
-    document.addEventListener("DOMContentLoaded", function () {
-        const selectAllCheckbox = document.getElementById("selectAll");
-        const restaurantCheckboxes = document.querySelectorAll(".form-check-input");
-
-        selectAllCheckbox.addEventListener("change", function () {
-            const isChecked = selectAllCheckbox.checked;
-            restaurantCheckboxes.forEach(checkbox => {
-                checkbox.checked = isChecked;
-            });
+    // 清空功能
+    $(document).ready(function () {
+        $('#clearSearch').click(function () {
+            window.location.href = '@Url.Action("List", "Restaurant")';
         });
+    });
+    //種類篩選
+    
 
-        restaurantCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener("change", function () {
-                selectAllCheckbox.checked = Array.from(restaurantCheckboxes).every(cb => cb.checked);
-            });
+        $('select[name="Type"]').on('change', function () {
+            // 直接提交表單進行篩選
+            $(this).closest('form').submit();
         });
     });
 
-       
-        });</script>
+</script>
