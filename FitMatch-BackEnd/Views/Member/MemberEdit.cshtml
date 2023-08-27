@@ -135,20 +135,20 @@
 
                                 <!-- 權限 -->
                                 @*<div class="row-sm-12 row-lg-6 mb-3 d-flex">
-            <div class="col-2">
-                <label for="inputname" class="col-form-label">權限</label>
-            </div>
-            <div class="col-8 ps-3 mb-2">
+                                <div class="col-2">
+                                <label for="inputname" class="col-form-label">權限</label>
+                                </div>
+                                <div class="col-8 ps-3 mb-2">
 
-                <select class="form-select" asp-for="Position">
-                    <option value="系統管理員" selected>系統管理員</option>
-                    <option value="商城管理員">商城管理員</option>
-                    <option value="課程管理員">課程管理員</option>
-                    <option value="客服管理員">客服管理員</option>
-                </select>
-                <span asp-validation-for="Position" class="text-danger"></span>
-            </div>
-        </div>*@
+                                <select class="form-select" asp-for="Position">
+                                <option value="系統管理員" selected>系統管理員</option>
+                                <option value="商城管理員">商城管理員</option>
+                                <option value="課程管理員">課程管理員</option>
+                                <option value="客服管理員">客服管理員</option>
+                                </select>
+                                <span asp-validation-for="Position" class="text-danger"></span>
+                                </div>
+                                </div>*@
                                 <!-- 狀態 -->
                                 <div class="row-sm-12 row-lg-6 mb-3 d-flex">
                                     <div class="col-2">
@@ -270,26 +270,16 @@
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="row">
-                            <div class="col">
-                                <!-- 照片 -->
-                                <div class="row-sm-12 row-lg-6 mb-3 d-flex justify-content-center">
-                                    <div class="upload-container">
-                                        <label for="upload" class="label-upload">
-                                            <div class="icon">編輯</div>
-                                            @*這裡還要修!!*@
-                                            <input asp-for="Photo" class="upload-input" type="file" id="upload" name="photo" accept="image/*" />
-                                            <img src="~/img/會員/@Model.Photo" style="width:100%;" alt="Photo">
-                                            <span asp-validation-for="Photo" class="text-danger"></span>
-                                        </label>
-                                        <img id="preview" src="" alt="Image Preview">
-                                    </div>
-                                </div>
-                                <div class="row d-flex justify-content-center">
-                                </div>
+                        <!-- 照片 -->
+                        <div class="row-sm-12 row-lg-6 mb-3 d-flex justify-content-center">
+                            <div class="upload-container">
+                                <img id="previewImage" src="~/img/會員/@Model.Photo" style="width:100%;" />
                             </div>
-
                         </div>
+                        <div class="row-sm-12 row-lg-6 mb-3 d-flex justify-content-center">
+                            <input type="file" id="imageUpload" name="photo" class="form-control" style="min-width:100px;max-width:300px" />
+                        </div>
+
                     </div>
 
                     <div class="row">
@@ -312,24 +302,17 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-<script>const uploadInput = document.getElementById('upload');
-    const preview = document.getElementById('preview');
-    const icon = document.querySelector('.icon');
+<script>
+    // 及時顯示上傳的照片
+    document.getElementById('imageUpload').addEventListener('change', function (e) {
+        var reader = new FileReader();
 
-    uploadInput.addEventListener('change', function () {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-
-            reader.addEventListener('load', function () {
-                preview.src = this.result;
-                preview.style.display = 'block';
-                icon.style.display = 'none';
-            });
-
-            reader.readAsDataURL(file);
+        reader.onload = function (event) {
+            document.getElementById('previewImage').src = event.target.result;
         }
-    });</script>
+        reader.readAsDataURL(e.target.files[0]);
+    });
+</script>
 
 
 
