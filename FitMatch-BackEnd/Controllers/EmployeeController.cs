@@ -3,6 +3,7 @@ using FitMatch_BackEnd.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace FitMatch_BackEnd.Controllers
 {
@@ -62,6 +63,7 @@ namespace FitMatch_BackEnd.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Employee e)
         {
+
             if (e.FileToUpload == null)
             {
                 ModelState.Remove("FileToUpload");
@@ -82,7 +84,7 @@ namespace FitMatch_BackEnd.Controllers
                     // 保存新照片名存到DB
                     e.Photo = photoName;
                 }
-
+               
                 e.CreatedAt = DateTime.Now; // 設置當前的日期和時間
                 e.Status = true; // 新增時在職狀況預設為在職中
                 _context.Employees.Add(e);
