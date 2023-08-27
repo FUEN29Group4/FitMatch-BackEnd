@@ -6,7 +6,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class TrainerController : SuperController
+    public class TrainerController : Controller
     {
         //注入DB 可以在很多方法用他來連結資料庫
         private readonly FitMatchDbContext _context;

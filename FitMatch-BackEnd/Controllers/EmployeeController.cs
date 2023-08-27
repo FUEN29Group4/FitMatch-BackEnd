@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class EmployeeController : SuperController
+    public class EmployeeController : Controller
     {
         //注入DB 可以在很多方法用他來連結資料庫
         private readonly FitMatchDbContext _context;

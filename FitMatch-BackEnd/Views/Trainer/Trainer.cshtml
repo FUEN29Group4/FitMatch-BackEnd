@@ -200,8 +200,6 @@
 
 
                             <form method="get" action="@Url.Action("Trainer", "Trainer")">
-
-<<<<<<< Updated upstream
                             <div class="col-5 d-flex align-items-center justify-content-end">
                                 <div class="col-1 p-0">
                                     搜尋:
@@ -211,17 +209,7 @@
                                         @*<input class=" form-control" type="text" placeholder="請輸入關鍵字"
                                         aria-label="請輸入關鍵字" id="searchInput">*@
                                         @Html.TextBox("txtKeyword", ViewBag.Keyword as string, new { @class = "form-control", @placeholder = "請輸入關鍵字", @aria_label = "請輸入關鍵字", @id = "searchInput" })
-=======
-                                <div class="col-4 d-flex align-items-center justify-content-end">
-                                    <div class="col-1 p-0">
-                                        搜尋:
-                                    </div>
-                                    <div class="col-9 ps-2">
-                                        <div class="mx-10 flex-grow-1">
-                                            @*<input class=" form-control" type="text" placeholder="請輸入關鍵字"
-                                            aria-label="請輸入關鍵字" id="searchInput">*@
-                                            @Html.TextBox("txtKeyword", ViewBag.Keyword as string, new { @class = "form-control", @placeholder = "請輸入關鍵字", @aria_label = "請輸入關鍵字", @id = "searchInput" })
->>>>>>> Stashed changes
+
 
                                         </div>
                                     </div>
@@ -232,20 +220,12 @@
                                     </div>
                                 </div>
                             </form>
-
-<<<<<<< Updated upstream
                         <!-- 清空區塊 -->
                             <div class="col-1 d-flex  align-items-center justify-content-end">
                             <button class="btn btn-outline-success" type="button" id="clearSearch">
                                 清空
                             </button>
-=======
-                            <!-- 清空區塊 -->
-                            <div class="col-1">
-                                <button class="btn btn-outline-success" type="button" id="clearSearch">
-                                    清空
-                                </button>
->>>>>>> Stashed changes
+
                             </div>
                         </div>
                     </div>
