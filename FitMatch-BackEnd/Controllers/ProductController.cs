@@ -1,6 +1,11 @@
-﻿using FitMatch_BackEnd.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using FitMatch_BackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace FitMatch_BackEnd.Controllers
 {
@@ -75,7 +80,7 @@ namespace FitMatch_BackEnd.Controllers
                         select p;
             }
 
-            int itemsPerPage = 5;
+            int itemsPerPage = 8;
 
             // 根據當下頁碼獲取datas
             datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
