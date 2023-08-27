@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 using FitMatch_BackEnd.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.IO;
+using System.Linq;
+using FitMatch_BackEnd.ViewModel;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using X.PagedList;
+using X.PagedList.Mvc.Core;
+using System.Drawing.Printing;
 
 namespace FitMatch_BackEnd.Controllers
 {
@@ -19,15 +20,50 @@ namespace FitMatch_BackEnd.Controllers
         {
             _context = context;
             _enviro = p;
+
         }
 
         public IWebHostEnvironment _enviro = null;
 
+        //跨TABLE取值
+        //private IQueryable<ProductViewModel> GetFilteredData(string searchField, string searchKeyword)
+        //{
+        //    var viewModelList = (from c in _context.Products
+        //                         join t in _context.ProductTypes on c.TypeId equals t.TypeId
+
+        //                         select new ProductViewModel
+
+        //                         {
+        //                             TypeId = t.TypeId,
+        //                             TypeName = t.TypeName, // 从 ProductTypes 表中获取 TypeName
+        //                             ProductId = c.ProductId,
+        //                             ProductName = c.ProductName,
+        //                             ProductDescription = c.ProductDescription,
+        //                             Photo = c.Photo,
+        //                             Price = c.Price,
+        //                             ProductInventory = c.ProductInventory,
+        //                             Approved = c.Approved,
+        //                             Status = c.Status
+        //                         }).ToList();
+
+        //    if (!string.IsNullOrEmpty(searchField) && !string.IsNullOrEmpty(searchKeyword))
+        //    {
+        //        switch (searchField)
+        //        {
+        //            case "TypeName":
+        //                viewModelList = viewModelList.Where(vm => vm.TypeName.Contains(searchKeyword));
+        //                break;
+        //        }
+        //    }
+        //    return viewModelList;
+        //}
+
         //***篩選功能***
 
-        //取得商品管理頁面  ***上架狀態要修***圖片未抓取***
-        public IActionResult List(CKeywordViewModel vm, int currentPage = 1)
+        //取得商品管理頁面  ***圖片未抓取***
+        public IActionResult List(string searchField, string searchKeyword, CKeywordViewModel vm, int currentPage = 1)
         {
+
             FitMatchDbContext db = new FitMatchDbContext();
             IEnumerable<Product> datas = db.Products;
 
@@ -79,6 +115,10 @@ namespace FitMatch_BackEnd.Controllers
                 datas = from p in db.Products
                         select p;
             }
+
+            //跨TABLE
+            //var viewModelList = GetFilteredData(searchField, searchKeyword);
+
 
             int itemsPerPage = 8;
 
@@ -142,7 +182,6 @@ namespace FitMatch_BackEnd.Controllers
                 return RedirectToAction("List");
 
             return View(prod);
-
         }
         [HttpPost]
         public IActionResult Edit(Product prodIn)

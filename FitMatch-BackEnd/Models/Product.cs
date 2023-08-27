@@ -24,6 +24,9 @@ public partial class Product
     [DisplayName("商品類別編號")]
     public int? TypeId { get; set; }//商品類別編號
 
+    //[DisplayName("商品類別名稱")]
+    //public string? TypeName { get; set; }
+
     [DisplayName("商品庫存")]
     public int? ProductInventory { get; set; }//商品庫存
 
@@ -32,6 +35,7 @@ public partial class Product
 
     [DisplayName("狀態")]
     public bool? Status { get; set; }
+
 
     public virtual ICollection<MemberFavorite> MemberFavorites { get; set; } = new List<MemberFavorite>();
 
