@@ -13,56 +13,81 @@ namespace FitMatch_BackEnd.Controllers
 {
     public class MemberController : SuperController
     {
-        // GET: /<controller>/  預設先註解掉
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
-
-
         private readonly FitMatchDbContext _context;
 
-        //連結DB
-        //public MemberController(FitMatchDbContext context)
-        //{
-        //    _context = context;
-        //}
-
-
+        //讀取web根目錄
         public IWebHostEnvironment _enviro = null;
-        public MemberController(IWebHostEnvironment p)
+        public MemberController(IWebHostEnvironment enviro, FitMatchDbContext context)
         {
-            _enviro = p;
+            _enviro = enviro;
+            //連結DB
+            _context = context;
         }
-
+    
+       
 
         //@@@@ ---- 進入Member Menagement View 1---- @@@@@@
 
         //--------- M-0:欣彤試連，純出現會員DB資料連結
-        public IActionResult Member(int currentPage = 1)
+        //public IActionResult Member(int currentPage = 1)
+        //{
+        //    //資料庫連接 =>實體化DB
+        //    FitMatchDbContext db = new FitMatchDbContext();
+
+        //    //資料定義與處理
+        //    //- Member Model(定義資料類型):Member class 
+        //    //- FitMAtchDBContext(操作資料表):public virtual DbSet<Member> Members { get; set; } //Members 集合實體
+        //    IEnumerable<Member> datas = from d in db.Members select d;
+
+        //    //頁換碼start
+        //    int itemsPerPage = 8;// 根據當下頁碼獲取數據
+        //    datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+        //    int totalDataCount = db.Robots.Count();
+        //    int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+
+        //    ViewBag.TotalPages = totalPages;
+        //    ViewBag.CurrentPage = currentPage;
+        //    //頁換碼end
+
+
+        //    return View(datas);
+        //}
+
+
+        //-----Member List 2 更新keyword 功能版本-----
+       
+        //跟員工資料連結然後呈現出views
+        public IActionResult Member(int currentPage = 1, string txtKeyword = null, bool? memberStatus = null)
         {
-            //資料庫連接 =>實體化DB
-            FitMatchDbContext db = new FitMatchDbContext();
+            int itemsPerPage = 8;
+            IEnumerable<Member> datas = from p in _context.Members select p;
+            // 如果有搜尋關鍵字
+            if (!string.IsNullOrWhiteSpace(txtKeyword))
+            {
+                datas = datas.Where(p => p.MemberName.Contains(txtKeyword) || p.Email.Contains(txtKeyword));
+            }
+            // 如果Status有值
+            if (memberStatus.HasValue)
+            {
+                datas = datas.Where(p => p.Status == memberStatus.Value);
+            }
+            //把選擇的狀態存進來
+            ViewBag.MemberStatus = memberStatus;
 
-            //資料定義與處理
-            //- Member Model(定義資料類型):Member class 
-            //- FitMAtchDBContext(操作資料表):public virtual DbSet<Member> Members { get; set; } //Members 集合實體
-            IEnumerable<Member> datas = from d in db.Members select d;
-
-            //頁換碼start
-            int itemsPerPage = 8;// 根據當下頁碼獲取數據
+            // 根據當下頁碼獲取數據
             datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
 
-            int totalDataCount = db.Robots.Count();
+            int totalDataCount = _context.Employees.Count();
             int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
 
             ViewBag.TotalPages = totalPages;
             ViewBag.CurrentPage = currentPage;
-            //頁換碼end
-
-
+            ViewBag.Keyword = txtKeyword;  // 將關鍵字存入ViewBag，以便在View中使用
             return View(datas);
         }
+
+
 
 
         //--------- M-1:會員管理列表（檢視搜尋KeyWord List）

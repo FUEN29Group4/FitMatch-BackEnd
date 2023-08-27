@@ -15,51 +15,15 @@
         <a href="#" class="sidebar-toggler flex-shrink-0">
             <i class="fa fa-bars"></i>
         </a>
-        <form class="d-none d-md-flex ms-4">
-            <h4 class="m-auto">機器人管理</h4>
+        <form class="d-none d-md-flex ms-4 align-items-center">
+            <h4 class="m-auto">員工管理</h4>
         </form>
         <div class="navbar-nav align-items-center ms-auto">
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <i class="fa fa-envelope me-lg-2"></i>
-                    <span class="d-none d-lg-inline-flex">Message</span>
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-gear"></i>
+                    <span class="d-none d-lg-inline-flex">設定</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item text-center">See all message</a>
-                </div>
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -87,9 +51,9 @@
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
+                    <img class="rounded-circle me-lg-2" src="~/img/員工/02627af6-2503-42cc-8ea7-5a69773dadd6.jpg" alt=""
                          style="width: 40px; height: 40px;">
-                    <span class="d-none d-lg-inline-flex">John Doe</span>
+                    <span class="d-none d-lg-inline-flex">揚庭</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                     <a href="#" class="dropdown-item">My Profile</a>
@@ -113,7 +77,7 @@
                                 問題類型:
                                 <div class="mx-1 flex-grow-1 ps-1">
 
-                                    <select class="form-select" name="Type"
+                                    <select class="form-select" name="Type" id="Type"
                                             aria-label="">
                                         <option selected disabled value="">請選擇</option>
                                         @foreach (var Option in new List<string> { "系統預設", "媒合", "教練", "課程", "訂單", "其他" })
@@ -244,10 +208,17 @@
                         }
                     </tbody>
                 </table>
+            </div>
 
 
-                <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;"> </div>
+            <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
                 <!-- 換頁區塊開始 -->
+                <div class="d-flex justify-content-between">
+                    <div class="form-check d-flex align-items-center">
+                    </div>
+                    <!-- Pagination goes here -->
+                </div>
+                <!-- 全選區塊END-->
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item">
@@ -271,38 +242,28 @@
                     </ul>
                 </nav>
                 <!-- 換頁區塊END -->
-
             </div>
+
         </div>
     </div>
 </div>
 
-</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
-
-
-
-
-
-
 
 
 <script>
     // 清空功能
     $(document).ready(function () {
         $('#clearSearch').click(function () {
-            window.location.href = '@Url.Action("List", "Restaurant")';
+            window.location.href = '@Url.Action("Robot", "Robot")';
         });
-    });
-    //種類篩選
-    
 
+        // 種類篩選
         $('select[name="Type"]').on('change', function () {
             // 直接提交表單進行篩選
             $(this).closest('form').submit();
         });
     });
-
 </script>

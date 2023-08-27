@@ -302,22 +302,20 @@
             </div>
 
             <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
-                <!-- 全選區塊開始 -->
+                <!-- 換頁區塊開始 -->
                 <div class="d-flex justify-content-between">
                     <div class="form-check d-flex align-items-center">
                     </div>
                     <!-- Pagination goes here -->
                 </div>
                 <!-- 全選區塊END-->
-                <!-- 換頁區塊開始 -->
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
-                            <a class="page-link previous-page" data-page-type="previous" href="@Url.Action("List", new { currentPage = ViewBag.CurrentPage - 1 })">
+                        <li class="page-item">
+                            <a class="page-link previous-page" data-page-type="previous" href="#">
                                 <i class="fa-solid fa-chevron-left"></i>
                             </a>
                         </li>
-
                         @for (int i = 1; i <= ViewBag.TotalPages; i++)
                         {
                             <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
@@ -326,9 +324,8 @@
                                 </a>
                             </li>
                         }
-
-                        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
-                            <a class="page-link next-page" data-page-type="next" href="@Url.Action("List", new { currentPage = ViewBag.CurrentPage + 1 })">
+                        <li class="page-item">
+                            <a class="page-link next-page" data-page-type="next" href="#">
                                 <i class="fa-solid fa-chevron-right"></i>
                             </a>
                         </li>
@@ -336,6 +333,7 @@
                 </nav>
                 <!-- 換頁區塊END -->
             </div>
+
         </div>
     </div>
 </div>
