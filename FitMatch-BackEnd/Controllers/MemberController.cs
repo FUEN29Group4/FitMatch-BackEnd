@@ -60,8 +60,9 @@ namespace FitMatch_BackEnd.Controllers
         //跟員工資料連結然後呈現出views
         public IActionResult Member(int currentPage = 1, string txtKeyword = null, bool? memberStatus = null)
         {
-            //預設一頁只能有8筆資料
+            //預設這頁只能放8筆資料
             int itemsPerPage = 8;
+
             IEnumerable<Member> datas = from p in _context.Members select p;
             // 如果有搜尋關鍵字
             if (!string.IsNullOrWhiteSpace(txtKeyword))
@@ -154,37 +155,50 @@ namespace FitMatch_BackEnd.Controllers
         }
 
         [HttpPost]
-        public IActionResult MemberEdit(MemberWarap custIn)
+        public async Task<IActionResult> MemberEdit(MemberWarap custIn)
         {
-            FitMatchDbContext db = new FitMatchDbContext();
-            Member custDb = db.Members.FirstOrDefault(t => t.MemberId== custIn.MemberId);
+            //FitMatchDbContext db = new FitMatchDbContext();
+            //Member custDb = db.Members.FirstOrDefault(t => t.MemberId== custIn.MemberId);
+            Member m = _context.Members.FirstOrDefault(t => t.MemberId == custIn.MemberId);
 
-            if (custDb != null)
+            if (custIn != null)
             {
-
-                if (custIn.photo != null)
+                if (custIn.photo != null && custIn.photo.Length > 0)
                 {
+                    // 如果之前有舊圖片，先刪除
+                    if (!string.IsNullOrEmpty(m.Photo))
+                    {
+                        var oldPath = Path.Combine(_enviro.WebRootPath, "img", "會員", m.Photo);
+                        if (System.IO.File.Exists(oldPath))
+                        {
+                            System.IO.File.Delete(oldPath);
+                        }
+                    }
                     string photoName = Guid.NewGuid().ToString() + ".jpg";
                     string path = _enviro.WebRootPath + "/img/會員/" + photoName;
-                    custIn.photo.CopyTo(new FileStream(path, FileMode.Create));
-                    custDb.Photo = photoName;
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await custIn.photo.CopyToAsync(fileStream);
+                    }
+                    //prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
+                    m.Photo = photoName;
                 }
+
 
 
                 // 更新 Approved 狀態
                 //custDb.Status = string.IsNullOrEmpty(Request.Form["Status"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Status"]);
 
-                custDb.MemberName = custIn.MemberName;
-                custDb.Phone = custIn.Phone;
-                custDb.Email = custIn.Email;
-                custDb.Address = custIn.Address;
-                custDb.Password = custIn.Password;
-                custDb.Gender = custIn.Gender;
-                custDb.CreatedAt = custIn.CreatedAt;
-                custDb.Photo = custIn.Photo;
-                custDb.Birth = custIn.Birth;
-                custDb.Status = custIn.Status;
-                db.SaveChanges();
+                m.MemberName = custIn.MemberName;
+                m.Phone = custIn.Phone;
+                m.Email = custIn.Email;
+                m.Address = custIn.Address;
+                m.Password = custIn.Password;
+                m.Gender = custIn.Gender;
+                m.CreatedAt = custIn.CreatedAt;
+                m.Birth = custIn.Birth;
+                m.Status = custIn.Status;
+                await _context.SaveChangesAsync();
             }
             return RedirectToAction("Member");
         }
