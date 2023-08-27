@@ -20,7 +20,7 @@ public partial class Class
 
     public DateTime? EndTime { get; set; }
     
-    public bool? Approved { get; set; }
+    public bool Approved { get; set; }
     public DateTime? BuildTime { get; set; }
     public string? CourseStatus { get; set; }
     [DisplayName("課程狀態")]

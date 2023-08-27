@@ -1,4 +1,5 @@
-﻿using FitMatch_BackEnd.Models;
+﻿using System;
+using FitMatch_BackEnd.Models;
 using FitMatch_BackEnd.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -6,20 +7,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class RobotController : Controller
+    public class RobotController : SuperController
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-
+        //注入DB 可以在很多方法用他來連結資料庫
+        private readonly FitMatchDbContext _context;
 
         private IWebHostEnvironment _enviro = null;
-        public RobotController(IWebHostEnvironment p)
+        public RobotController(IWebHostEnvironment enviro, FitMatchDbContext context)
         {
-            _enviro = p;
+            _enviro = enviro;
+            _context = context;
         }
+
+
+        //-----Robot List 1------
         public IActionResult Robot(int currentPage = 1)
         {
 
@@ -39,6 +40,43 @@ namespace FitMatch_BackEnd.Controllers
 
             return View(datas);
         }
+
+
+
+        //-----Robot List 2------
+        //跟資料連結然後呈現出views
+        //public IActionResult Robot(int currentPage = 1, string txtKeyword = null)
+        //{
+        //    //預設一頁只能有8筆資料
+        //    int itemsPerPage = 8;
+        //    IEnumerable<Robot> datas = from p in _context.Robots select p;
+        //    // 如果有搜尋關鍵字 預設問題或預設回答有包括關鍵字
+
+        //    //Todo: 搜尋一直出錯啊啊啊ＱＱ
+        //    //if (datas != null || txtKeyword != null)
+        //    //{
+        //    //    datas = datas.Where(p => p.DefaultQuestion.Contains(txtKeyword) || p.DefaultResponse.Contains(txtKeyword));
+        //    //}
+
+           
+
+        //    // 根據當下頁碼獲取datas
+        //    datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+        //    int totalDataCount = _context.Trainers.Count();
+        //    int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+
+        //    ViewBag.TotalPages = totalPages;
+        //    ViewBag.CurrentPage = currentPage;
+        //    ViewBag.Keyword = txtKeyword;  // 將關鍵字存入ViewBag，以便在View中使用
+
+        //    return View(datas);
+        //}
+
+
+
+
+
 
 
         public IActionResult RobotCreate()

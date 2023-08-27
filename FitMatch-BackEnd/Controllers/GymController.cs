@@ -21,10 +21,12 @@ namespace FitMatch_BackEnd.Controllers
         }
 
         //跟場館資料連結然後呈現出views
-        public IActionResult Gym(CKeywordViewModel vm, int currentPage = 1)
+        public IActionResult Gym(CKeywordViewModel vm, int currentPage = 1 )
         {
             IQueryable<Gym> gyms = _context.Gyms;
 
+            ViewBag.RegionFilter = vm?.RegionFilter;
+            ViewBag.StatusFilter = vm?.StatusFilter;
             // Search and filter logic
             if (!string.IsNullOrEmpty(vm?.txtKeyword))
             {
