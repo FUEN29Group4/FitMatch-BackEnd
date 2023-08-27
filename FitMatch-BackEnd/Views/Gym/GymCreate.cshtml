@@ -66,46 +66,10 @@
         </form>
         <div class="navbar-nav align-items-center ms-auto">
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <i class="fa-solid fa-gear"></i>
+                <a href="#" class="nav-link">
+                    <i class="fa fa-envelope me-lg-2"></i>
                     <span class="d-none d-lg-inline-flex">設定</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item text-center">See all message</a>
-                </div>
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -133,9 +97,9 @@
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
+                    <img class="rounded-circle me-lg-2" src="~/img/員工/02627af6-2503-42cc-8ea7-5a69773dadd6.jpg" alt=""
                          style="width: 40px; height: 40px;">
-                    <span class="d-none d-lg-inline-flex">John Doe</span>
+                    <span class="d-none d-lg-inline-flex">揚庭</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                     <a href="#" class="dropdown-item">My Profile</a>
@@ -162,6 +126,9 @@
                                 <input asp-for="GymName" data-validate="gymName" data-error-message="場館名稱是必填的"
                                        class="form-control mb-3" type="text" placeholder="請輸入場館名稱" aria-label="請輸入場館名稱" id="inputGymName">
                                 <span asp-validation-for="GymName" class="text-danger"></span>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-primary" onclick="fillVenueInfo()">demo展示用</button>
                             </div>
                         </div>
 
@@ -356,7 +323,7 @@
 
         if (validateRule === 'gymDescription') {
             if (element.value.length < 20 || element.value.length > 500) {
-                showErrorMessage(element, "場館簡介是必填的，並且長度不應超過500個字");
+                showErrorMessage(element, "場館簡介至少需要20個字");
                 return false;
             }
         }
@@ -414,6 +381,22 @@
         });
     });
 
+
+
+    //demo展示 快速填值
+    function fillVenueInfo() {
+        
+        document.getElementById("inputGymName").value = "場館名稱5個字";
+
+        
+        document.getElementById("inputPhone").value = "02-2012345";
+
+        
+        document.getElementById("inputAddress").value = "台南市東區大學路100號";
+
+        
+        document.getElementById("floatingTextarea").value = "現代化健身場所，提供專業教練指導，多元課程滿足您的健康需求。加入我們，啟動健康生活！";
+    }
 
 </script>
 
