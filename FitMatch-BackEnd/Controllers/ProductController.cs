@@ -107,7 +107,7 @@ namespace FitMatch_BackEnd.Controllers
 
 
 
-        //新增商品  ***圖片未寫入***
+        //新增商品  
 
         public IActionResult Create()
         {
@@ -144,8 +144,7 @@ namespace FitMatch_BackEnd.Controllers
                 db.SaveChanges();
             }
 
-            //db.Restaurants.Add(p);
-            //db.SaveChanges();
+          
             return RedirectToAction("List");
         }
 
@@ -177,8 +176,6 @@ namespace FitMatch_BackEnd.Controllers
             if (prod == null)
                 return RedirectToAction("List");
 
-            //return View(prod);
-
             CProductWrap prodWp = new CProductWrap();
             prodWp.product = prod;
             return View(prodWp.product);
@@ -187,32 +184,26 @@ namespace FitMatch_BackEnd.Controllers
         public IActionResult Edit(CProductWrap prodIn)
         {
             FitMatchDbContext db = new FitMatchDbContext();
-            Product prodDb = db.Products.FirstOrDefault(t => t.ProductId == prodIn.ProductId);
+            Product custDb = db.Products.FirstOrDefault(t => t.ProductId == prodIn.ProductId);
 
             if (prodIn != null)
             {
                 if (prodIn.photo != null)
                 {
                     string photoName = Guid.NewGuid().ToString() + ".jpg";
-
-                    //string path = Path.Combine(_enviro.WebRootPath , "/images/" , photoName);
-                    //using (var stream = new FileStream(path, mode: FileMode.Create))
-                    //{
-                    //    custIn.photo = photoName;
-                    //}
+                                      
                     string path = _enviro.WebRootPath + "/img/商城/" + photoName;
                     prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
-                    prodDb.Photo = photoName;
+                    custDb.Photo = photoName;
                 }
 
                 // 更新其他屬性
-                prodDb.ProductName = prodIn.ProductName;
-                prodDb.Photo = prodIn.Photo;
-                prodDb.ProductDescription = prodIn.ProductDescription;
-                prodDb.Price = prodIn.Price;
-                prodDb.ProductInventory = prodIn.ProductInventory;
-                prodDb.Status = prodIn.Status;
-                prodDb.TypeId = prodIn.TypeId;
+                custDb.ProductName = prodIn.ProductName;
+                custDb.ProductDescription = prodIn.ProductDescription;
+                custDb.Price = prodIn.Price;
+                custDb.ProductInventory = prodIn.ProductInventory;
+                custDb.Status = prodIn.Status;
+                custDb.TypeId = prodIn.TypeId;
                 
                 db.SaveChanges();
             }

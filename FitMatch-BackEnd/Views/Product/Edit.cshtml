@@ -1,8 +1,8 @@
 ﻿@model FitMatch_BackEnd.Models.Product
-
+@*
 @{
     ViewData["Title"] = "Edit";
-}
+}*@
 <style>
     /* 上傳照片 */
     .upload-container {
@@ -196,12 +196,14 @@
                                 <div class="upload-container">
                                     <label for="upload" class="label-upload">
                                         <div class="icon">+</div>
-                                        <input type="file" id="upload" class="upload-input" accept="image/*">
+                                        <input type="file" name="photo" id="upload" class="upload-input">
                                     </label>
                                     <img id="preview" src="" alt="Image Preview">
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
                                 <label asp-for="ProductDescription" for="inputdescription" class="col-form-label">商品描述</label>
@@ -261,7 +263,6 @@
                             <a asp-action="List" class="btn btn-outline-success ">取消</a>
                         </div>
                     </form>
-
                 </div>
             </div>
 
