@@ -112,7 +112,6 @@
                     <i class="fa-solid fa-gear"></i>
                     <span class="d-none d-lg-inline-flex">設定</span>
                 </a>
-
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -156,15 +155,13 @@
     <!-- 篩選列開始 -->
     <div class="container-fluid pt-4 px-4">
         <nav class="navbar navbar-expand-lg bg-white rounded">
-            <!-- 課程日期 -->
-            <div class=" col-4 d-flex align-items-center p-4">
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            @*<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
-            </button>
+            </button>*@
 
-           
+            <!-- 課程日期 -->
+            <div class="col-4 d-flex align-items-center me-4" style="margin-left: 25px;">
                 <span style="margin-right: 10px; text-align: center;">課程日期:</span>
                 <input class="form-select me-2" style="background-color:#fff;" type="date" name="start" id="start"
                        value="@ViewBag.StartDate"> <!-- 使用 ViewBag 中的 StartDate 值 -->
@@ -185,30 +182,24 @@
             </div>
 
             <!-- 篩選條件 -->
-            <div class="col-4 d-flex align-items-center justify-content-end">
-                <form id="searchForm" method="get" action="List" class="d-flex" style="width:80%;">
-                    <div class="row d-flex align-items-center">
-                        <div class="input-group" >
-                            <select name="input-group-text" style="color:#696969">
-                                <option value="ClassName">課程名稱</option>
-                                <option value="MemberName">會員名稱</option>
-                                <option value="TrainerName">教練名稱</option>
-                                <option value="GymName">健身房名稱</option>
-                            </select>
-                            <input id="searchInput" type="text" name="searchKeyword" class="form-control" style="border-radius:0 5px 5px 0">
-                       
-                        <button type="button" id="combinedSearchButton" class="btn">
-                            <i class="fa-solid fa-magnifying-glass fa-xl"></i>
-                        </button>
-                        </div>
+            <div class="col-4 d-flex align-items-center ms-4" style="margin-right: 25px;">
+                <form class="custom-select input-group" id="searchForm" method="get" action="List">
+                    
+                    <select name="searchField" class="input-group-text" style="color:#696969">
+                        <option value="ClassName">課程名稱</option>
+                        <option value="MemberName">會員名稱</option>
+                        <option value="TrainerName">教練名稱</option>
+                        <option value="GymName">健身房名稱</option>
+                    </select>
+                    <input id="searchInput" type="text" name="searchKeyword" class="form-control" style="border-radius:0 5px 5px 0">
+                    <button type="button" id="combinedSearchButton" class="btn p-0 ps-2 me-2">
+                        <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                    </button>
+                    <div>
+                    <button type="reset" class="btn btn-outline-success">清空</button>
                     </div>
                 </form>
             </div>
-            <div class="col-1">
-                <button type="reset" class="btn btn-outline-success">清空</button>
-            </div>
-
-
         </nav>
     </div>
 
@@ -266,7 +257,7 @@
                                         <a asp-action="Edit" asp-route-id="@item.ClassId" class="btn btn-sm btn-secondary me-2" style="background-color: aliceblue; color: black;margin-left: 10px">
                                             <i class="fa-regular fa-pen-to-square"> 編輯</i>
                                         </a>
-                                        <a asp-action="Delete" asp-route-id="@item.ClassId" class="btn btn-primary" onclick="return confirm('確定要刪除這個項目嗎？');" style="font-size: smaller;">
+                                        <a asp-action="Delete" asp-route-id="@item.ClassId" class="btn btn-primary" onclick="return confirm('確定要刪除這個項目嗎？');" style="font-size: smaller;;">
                                             <i class="fa-solid fa-trash-can"></i> 刪除
                                         </a>
                                     </div>
@@ -429,7 +420,9 @@
     clearButton.addEventListener('click', function () {
         const searchFieldSelect = document.querySelector('select[name="searchField"]');
         const searchInput = document.getElementById('searchInput');
-
+        // 重置日期輸入
+        startDateInput.value = '';
+        endDateInput.value = '';
         // 重置篩選條件
         courseStatusFilter.value = '';
         searchFieldSelect.value = 'ClassName';
