@@ -11,7 +11,7 @@ public partial class OrderDetail
     public int OrderDetailId { get; set; }//訂單明細編號
 
     [DisplayName("訂單編號")]
-    public int? OrderId { get; set; }//訂單編號
+    public int OrderId { get; set; }//訂單編號
 
     [DisplayName("產品編號")]
     public int? ProductId { get; set; }//產品編號

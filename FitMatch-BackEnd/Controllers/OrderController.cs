@@ -100,18 +100,18 @@ namespace FitMatch_BackEnd.Controllers
         //訂單明細
         public IActionResult OrderDetails(int id)
         {
-               var viewModelList = (from c in _db.OrderDetails
+            var viewModelList = (from c in _db.OrderDetails
                                  join m in _db.Orders on c.OrderId equals m.OrderId
                                  join h in _db.Members on m.MemberId equals h.MemberId
                                  join t in _db.Products on c.ProductId equals t.ProductId
                                  join g in _db.ProductTypes on t.TypeId equals g.TypeId
-                       
 
+     
                                  select new OrderViewModel
                                  {
                                      OrderId = (int)c.OrderId,
                                      MemberId = (int)m.MemberId,
-                                     TypeId= (int)g.TypeId,
+                                     TypeId = (int)g.TypeId,
                                      TypeName = g.TypeName,
                                      Phone = h.Phone,
                                      Address = h.Address,
@@ -124,9 +124,13 @@ namespace FitMatch_BackEnd.Controllers
                                      MemberName = h.MemberName,
                                      Quantity = (int)c.Quantity,
                                      price = (int)t.Price
+
+
                                  }).ToList();
 
-            return View(viewModelList);
+            var selectviewmodelList=viewModelList.Where(c=>c.OrderId== id).ToList();
+
+            return View(selectviewmodelList);
         }
     }
 }
