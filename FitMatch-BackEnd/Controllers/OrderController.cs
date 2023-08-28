@@ -36,7 +36,8 @@ namespace FitMatch_BackEnd.Controllers
                                           PayTime = (DateTime)O.PayTime,
                                           ShippingMethod = O.ShippingMethod,
                                           PaymentMethod = O.PaymentMethod,
-                                          MemberName = M.MemberName
+                                          MemberName = M.MemberName,
+                                          OrderTime = (DateTime)O.OrderTime
                                       });
             return OrderViewModelList;
         }
