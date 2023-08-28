@@ -121,7 +121,7 @@
                                 <label asp-for="RestaurantsName" for="inputname" class="col-form-label">餐廳名稱</label>
                             </div>
                             <div class="col-4">
-                                <input asp-for="RestaurantsName" class="form-control mb-3" type="text" placeholder="請輸入餐廳名稱"
+                                <input asp-for="RestaurantsName" data-validate="RestaurantName" data-error-message="餐廳名稱是必填的" class="form-control mb-3" type="text" placeholder="請輸入餐廳名稱"
                                        aria-label="請輸入餐廳名稱" id="inputname">
                                 <span asp-validation-for="RestaurantsName" class="text-danger"></span>
                             </div>
@@ -132,7 +132,7 @@
                                 <label asp-for="Address" for="inputname" class="col-form-label">餐廳地址</label>
                             </div>
                             <div class="col-4">
-                                <input asp-for="Address" class="form-control mb-3" type="text" placeholder="請輸入餐廳地址"
+                                <input asp-for="Address" class="form-control mb-3" data-validate="Address" data-error-message="地址是必填的" type="text" placeholder="請輸入餐廳地址"
                                        aria-label="請輸入餐廳地址" id="inputname">
                                 <span asp-validation-for="RestaurantsName" class="text-danger"></span>
                             </div>
@@ -143,26 +143,84 @@
                                 <label asp-for="Phone" for="inputname" class="col-form-label">餐廳電話</label>
                             </div>
                             <div class="col-4">
-                                <input asp-for="Phone" class="form-control mb-3" type="text" placeholder="請輸入餐廳電話"
+                                <input asp-for="Phone" class="form-control mb-3" data-validate="Phone" data-error-message="電話是必填的" type="text" placeholder="請輸入餐廳電話"
                                        aria-label="請輸入餐廳電話" id="inputname">
                                 <span asp-validation-for="RestaurantsName" class="text-danger"></span>
                             </div>
                         </div>
 
-                        <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
-                            <div class="col-1">
-                                <label for="inputname" class="col-form-label">餐廳封面</label>
-                            </div>
-                            <div class="col-4">
-                                <div class="upload-container">
-                                    <label for="upload" class="label-upload">
-                                        <div class="icon">+</div>
-                                        <input type="file" name="photo" id="upload" class="upload-input">
-                                    </label>
-                                    <img id="preview" src="" alt="Image Preview">
+
+
+
+                        @if (Model.Photo != null)
+                        {
+                            <!-- 現有照片預覽 -->
+                            <div class="col-sm-12 col-xl-6 mb-3">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-center">
+                                        現有封面照片
+                                    </div>
+                                    <div class="card-body d-flex justify-content-center">
+                                        <img id="existingPreview" src="@Url.Content($"~/img/健康餐/{Model.Photo}")" alt="Existing Image Preview" width="330" height="210">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+
+                            <!-- 新照片上傳和預覽 -->
+                            <div class="col-sm-12 col-xl-6 mb-3">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-center">
+                                        新封面照片
+                                    </div>
+                                    <div class="card-body d-flex flex-column align-items-center">
+                                        <!-- 預覽新上傳的照片 -->
+                                        <div class="d-flex justify-content-center">
+                                            <img id="newPreview" src="" alt="New Image Preview" style="display:none;" width="330" height="210">
+                                        </div>
+                                        <!-- 上傳按鈕 -->
+                                        <div class="d-flex justify-content-center mt-3 w-100">
+                                            <input type="file" id="FileToUpload" name="photo" accept="image/*" onchange="previewNewImage(event)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
+                                <div class="col-1">
+                                    <label for="inputname" class="col-form-label">餐廳封面</label>
+                                </div>
+                                <div class="col-4">
+                                    <div class="upload-container">
+                                        <label for="upload" class="label-upload">
+                                            <div class="icon">+</div>
+                                            <input type="file" name="photo" id="upload" class="upload-input">
+                                        </label>
+                                        <img id="preview" src="" alt="Image Preview">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -199,7 +257,7 @@
                                 <legend class="col-form-label pt-3 pe-4">餐廳簡介</legend>
                             </div>
                             <div class="col-4 form-floating pt-1">
-                                <textarea asp-for="RestaurantsDescription" class="form-control" placeholder="Leave a comment here"
+                                <textarea asp-for="RestaurantsDescription" data-validate="RestaurantsDescription" data-error-message="餐廳簡介是必填的" class="form-control" placeholder="Leave a comment here"
                                           id="floatingTextarea" style="height: 200px;"></textarea>
                                 <label for="floatingTextarea">請輸入餐廳簡介</label>
                             </div>
@@ -249,6 +307,112 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
+<script>
+
+    function previewNewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('newPreview');
+            output.src = reader.result;
+            output.style.display = 'block'; // 顯示新的預覽圖片
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    //以下是表單驗證
+    //以下是表單驗證
+    //以下是表單驗證
+
+    // 顯示錯誤訊息
+    function showErrorMessage(element, message) {
+        let errorMessageElement = element.parentNode.querySelector('.error-message');
+        if (!errorMessageElement) {
+            errorMessageElement = document.createElement('span');
+            errorMessageElement.className = 'error-message text-danger';
+            element.parentNode.appendChild(errorMessageElement);
+        }
+        errorMessageElement.textContent = message;
+    }
+
+    // 清除錯誤訊息
+    function clearErrorMessage(element) {
+        const errorMessageElement = element.parentNode.querySelector('.error-message');
+        if (errorMessageElement) {
+            errorMessageElement.remove();
+        }
+    }
+
+
+    // 驗證函數
+    function validate(element) {
+        const validateRule = element.getAttribute('data-validate');
+        const errorMessage = element.getAttribute('data-error-message');
+
+        if (validateRule === 'required') {
+            if (element.value === '') {
+                showErrorMessage(element, errorMessage);
+                return false;
+            }
+        }
+
+        if (validateRule === 'RestaurantName') {
+            if (element.value.length < 5 || element.value.length > 50) {
+                showErrorMessage(element, "餐廳名稱應在5到50個字之間");
+                return false;
+            }
+        }
+
+        if (validateRule === 'Phone') {
+            const regex = /^[0-9]{2}-[0-9]{7}$/;
+            if (!regex.test(element.value)) {
+                showErrorMessage(element, "電話號碼格式不正確 正確格式為##-#######(前兩碼為區碼)");
+                return false;
+            }
+        }
+
+        if (validateRule === 'Address') {
+            if (element.value.length < 10 || element.value.length > 100) {
+                showErrorMessage(element, "地址應在10到100個字之間");
+                return false;
+            }
+        }
+
+        if (validateRule === 'RestaurantsDescription') {
+            if (element.value.length < 20 || element.value.length > 500) {
+                showErrorMessage(element, "餐廳簡介是必填的，並且長度不應超過500個字");
+                return false;
+            }
+        }
+
+
+        clearErrorMessage(element);
+        return true;
+    }
+
+    // 在輸入或失去焦點時觸發驗證
+    const elementsToValidate = document.querySelectorAll('[data-validate]');
+    elementsToValidate.forEach(function (element) {
+        element.addEventListener('keyup', function () {
+            clearBackendErrorMessage(this);
+            validate(this);
+        });
+        element.addEventListener('blur', function () {
+            clearBackendErrorMessage(this);
+            validate(this);
+        });
+    });
+
+    // 清除後端錯誤訊息
+    function clearBackendErrorMessage(element) {
+        const backendErrorMessageElement = element.parentNode.querySelector('.text-danger');
+        if (backendErrorMessageElement) {
+            backendErrorMessageElement.textContent = '';
+        }
+    }
+
+
+</script>
 
 
 
