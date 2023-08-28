@@ -177,7 +177,7 @@
                                         <label for="inputname" class="col-form-label">姓名</label>
                                     </div>
                                     <div class="col-8 ps-3">
-                                        <input asp-for="MemberName" class="form-control mb-2" placeholder="請輸入姓名" />
+                                        <input asp-for="MemberName" data-validate="memberName" data-error-message="姓名必填的" class="form-control mb-2" placeholder="請輸入姓名" />
                                         <span asp-validation-for="MemberName" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -219,7 +219,7 @@
                                         <label for="inputname" class="col-form-label">電話號碼</label>
                                     </div>
                                     <div class="col-8 ps-3">
-                                        <input asp-for="Phone" class="form-control mb-2" placeholder="請輸入電話號碼" />
+                                        <input asp-for="Phone" data-validate="phone" data-error-message="電話號碼格式不正確 正確格式為09#######" class="form-control mb-2" placeholder="請輸入電話號碼" />
                                         <span asp-validation-for="Phone" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -229,17 +229,17 @@
                                         <label for="inputname" class="col-form-label">地址</label>
                                     </div>
                                     <div class="col-8 ps-3">
-                                        <input asp-for="Address" class="form-control mb-2" placeholder="請輸入地址" />
+                                        <input asp-for="Address" data-validate="address" data-error-message="地址應在5到100個字之間" class="form-control mb-2" placeholder="請輸入地址" />
                                         <span asp-validation-for="Address" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <!-- 電子信箱 -->
                                 <div class="row-sm-12 row-lg-6 mb-3 d-flex">
                                     <div class="col-2">
-                                        <label for="inputname" class="col-form-label">電子信箱</label>
+                                        <label for="inputname"  class="col-form-label">電子信箱</label>
                                     </div>
                                     <div class="col-8 ps-3">
-                                        <input asp-for="Email" class="form-control mb-3" placeholder="請輸入電子信箱" />
+                                        <input asp-for="Email" data-validate="email" data-error-message="信箱格式不正確"  class="form-control mb-3" placeholder="請輸入電子信箱" />
                                         <span asp-validation-for="Email" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -249,7 +249,7 @@
                                         <label for="inputname" class="col-form-label">密碼</label>
                                     </div>
                                     <div class="col-8 ps-3">
-                                        <input asp-for="Password" class="form-control mb-2" placeholder="請輸入密碼" />
+                                        <input asp-for="Password" data-validate="password" data-error-message="密碼至少需要4個字，只能包含英文和數字" class="form-control mb-2" placeholder="請輸入密碼" />
                                         <span asp-validation-for="Password" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -312,6 +312,147 @@
         }
         reader.readAsDataURL(e.target.files[0]);
     });
+
+
+
+
+    //以下是表單驗證
+    //以下是表單驗證
+    //以下是表單驗證
+
+    // 顯示錯誤訊息
+    function showErrorMessage(element, message) {
+        let errorMessageElement = element.parentNode.querySelector('.error-message');
+        if (!errorMessageElement) {
+            errorMessageElement = document.createElement('span');
+            errorMessageElement.className = 'error-message text-danger';
+            element.parentNode.appendChild(errorMessageElement);
+        }
+        errorMessageElement.textContent = message;
+    }
+
+    // 清除錯誤訊息
+    function clearErrorMessage(element) {
+        const errorMessageElement = element.parentNode.querySelector('.error-message');
+        if (errorMessageElement) {
+            errorMessageElement.remove();
+        }
+    }
+
+
+    // 驗證函數
+    function validate(element) {
+        const validateRule = element.getAttribute('data-validate');
+        const errorMessage = element.getAttribute('data-error-message');
+
+        if (validateRule === 'required') {
+            if (element.value === '') {
+                showErrorMessage(element, errorMessage);
+                return false;
+            }
+        }
+
+        // 驗證姓名 =>>  data-validate="memberName" data-error-message="姓名必填的"
+
+        if (validateRule === 'memberName') {
+            if (element.value.length < 3 || element.value.length > 50) {
+                showErrorMessage(element, "姓名必填");
+                return false;
+            }
+        }
+
+
+
+        // 驗證電話=>>  data-validate="phone" data-error-message= "電話號碼格式不正確 正確格式為09#######"
+        if (validateRule === 'phone') {
+            const regex = /^09\d{8}$/;
+            if (!regex.test(element.value)) {
+                showErrorMessage(element, "電話號碼格式不正確 正確格式為09########");
+                return false;
+            }
+        }
+
+        // 驗證地址=>>  data-validate="address" data-error-message="地址應在5到100個字之間"
+        if (validateRule === 'address') {
+            if (element.value.length < 5 || element.value.length > 100) {
+                showErrorMessage(element, "地址應在5到100個字之間");
+                return false;
+            }
+        }
+
+
+        // 驗證信箱=>>  data-validate="email" data-error-message="信箱格式不正確"
+        if (validateRule === 'email') {
+            if (element.value.length < 20 || element.value.length > 500) {
+                showErrorMessage(element, "信箱格式不正確");
+                return false;
+            }
+        }
+
+        // 驗證密碼=>>  data-validate="password" data-error-message="密碼至少需要4個字，只能包含英文和數字"
+        if (validateRule === 'password') {
+            const regex = /^[a-zA-Z0-9]+$/;
+            if (element.value.length < 20 || element.value.length > 500) {
+                showErrorMessage(element, "密碼至少需要4個字，只能包含英文和數字");
+                return false;
+            }
+        }
+
+
+        // if (validateRule === 'startTime' || validateRule === 'endTime') {
+        //     const startTimeElement = document.querySelector('[data-validate="startTime"]');
+        //     const endTimeElement = document.querySelector('[data-validate="endTime"]');
+        //     const startTime = startTimeElement.value;
+        //     const endTime = endTimeElement.value;
+
+        //     if (parseInt(startTime) >= parseInt(endTime)) {
+        //         showErrorMessage(startTimeElement, "開始時間必須早於結束時間");
+        //         showErrorMessage(endTimeElement, "結束時間必須晚於開始時間");
+        //         return false;
+        //     }
+        // }
+
+
+        clearErrorMessage(element);
+        return true;
+    }
+
+    // 在輸入或失去焦點時觸發驗證
+    const elementsToValidate = document.querySelectorAll('[data-validate]');
+    elementsToValidate.forEach(function (element) {
+        element.addEventListener('keyup', function () {
+            clearBackendErrorMessage(this);
+            validate(this);
+        });
+        element.addEventListener('blur', function () {
+            clearBackendErrorMessage(this);
+            validate(this);
+        });
+    });
+
+    // 清除後端錯誤訊息
+    function clearBackendErrorMessage(element) {
+        const backendErrorMessageElement = element.parentNode.querySelector('.text-danger');
+        if (backendErrorMessageElement) {
+            backendErrorMessageElement.textContent = '';
+        }
+    }
+
+    //(時間)下拉選單改變時觸發驗證
+    document.addEventListener("DOMContentLoaded", function () {
+        const startTimeElement = document.querySelector('[data-validate="startTime"]');
+        const endTimeElement = document.querySelector('[data-validate="endTime"]');
+
+        startTimeElement.addEventListener('change', function () {
+            validate(this);
+        });
+
+        endTimeElement.addEventListener('change', function () {
+            validate(this);
+        });
+    });
+
+
 </script>
 
 
