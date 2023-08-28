@@ -10,7 +10,7 @@ using System.Drawing.Printing;
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class OrderController : Controller
+    public class OrderController : SuperController
     {
         private readonly FitMatchDbContext _db;
 
