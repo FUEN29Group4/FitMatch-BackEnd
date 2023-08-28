@@ -1,7 +1,11 @@
-﻿@model IEnumerable<FitMatch_BackEnd.ViewModel.OrderViewModel>
-
+﻿@model X.PagedList.IPagedList<FitMatch_BackEnd.ViewModel.OrderViewModel>
+@using X.PagedList.Mvc;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
 @{
     ViewData["Title"] = "List";
+    int currentPage = ViewBag.CurrentPage;
+    int totalPages = ViewBag.TotalPages;
 }
 
 <style>
@@ -106,6 +110,64 @@
         </div>
     </nav>
     <!-- Navbar End -->
+    <!-- 篩選列開始 -->
+    <div class="container-fluid pt-4 px-4">
+        <nav class="navbar navbar-expand-lg bg-white rounded">
+            @*<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            </button>*@
+
+            <!-- 課程日期 -->
+            <div class="col-4 d-flex align-items-center me-4" style="margin-left: 25px;">
+                <span style="margin-right: 10px; text-align: center;">付款日期:</span>
+                <input class="form-select me-2" style="background-color:#fff;" type="date" name="start" id="start"
+                       value="@ViewBag.StartDate"> <!-- 使用 ViewBag 中的 StartDate 值 -->
+                <span style="text-align: center;">至</span>
+                <input class="form-select" style="background-color:#fff; margin-left: 10px;" type="date"
+                       name="end" id="end" value="@ViewBag.EndDate"> <!-- 使用 ViewBag 中的 EndDate 值 -->
+            </div>
+
+            <!-- 運送方式 -->
+            <div class="col-2 d-flex align-items-center ms-4">
+                <span style="margin-right: 10px; text-align: center;">運送方式</span>
+                <select id="ShippingMethodFilter" class="form-select" style="background-color: #fff;" aria-label="課程狀態">
+
+                    <option value="">全部</option>
+                    <option value="宅配">宅配</option>
+                    <option value="7-11">7-11</option>
+                </select>
+            </div>
+            <!-- 運送方式 -->
+            <div class="col-2 d-flex align-items-center ms-4">
+                <span style="margin-right: 10px; text-align: center;">付款方式</span>
+                <select id="ShippingMethodFilter" class="form-select" style="background-color: #fff;" aria-label="課程狀態">
+
+                    <option value="">全部</option>
+                    <option value="線上支付">線上支付</option>
+                    <option value="到貨付款">到貨付款</option>
+                </select>
+            </div>
+
+            <!-- 篩選條件 -->
+            <div class="col-3 d-flex align-items-center ms-4" style="margin-right: 25px;">
+                <form class="custom-select input-group" id="searchForm" method="get" action="List">
+
+                    <select name="searchField" class="input-group-text" style="color:#696969">
+                        <option value="OrderId">訂單編號</option>
+                        <option value="MemberName">會員名稱</option>
+                    </select>
+                    <input id="searchInput" type="text" name="searchKeyword" class="form-control" style="border-radius:0 5px 5px 0">
+                    <button type="button" id="combinedSearchButton" class="btn p-0 ps-2 me-2">
+                        <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                    </button>
+                    <div>
+                        <button type="reset" class="btn btn-outline-success">清空</button>
+                    </div>
+                </form>
+            </div>
+        </nav>
+    </div>
     
     <!-- 管理列表開始 -->
     <div class="container-fluid pt-4 px-4">
@@ -130,14 +192,12 @@
                     </thead>
                     <tbody>
                         @{
-                            int count = 0;
+                           
                             foreach (var item in Model)
                             {
-                                count++;
-
+                                
                                 <tr class="data-row">
-                                    <td>@count</td>
-
+                                    <td>@item.OrderId</td>
                                     <td>@item.MemberId</td>
                                     <td>@item.MemberName</td>
                                     <td>@item.TotalPrice</td>
@@ -166,13 +226,12 @@
                 </table>
             </div>
 
-            <div class="d-flex justify-content-between pt-4" style="margin-left: 3px;margin-top: 10px;">
-               
+            <div class="d-flex justify-content-end pt-4">
                 <!-- 換頁區塊開始 -->
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
-                            <a class="page-link previous-page" data-page-type="previous" href="@Url.Action("Trainer", new { currentPage = ViewBag.CurrentPage - 1 })">
+                            <a class="page-link previous-page" data-page-type="previous" href="@Url.Action("List", new { currentPage = ViewBag.CurrentPage - 1 })">
                                 <i class="fa-solid fa-chevron-left"></i>
                             </a>
                         </li>
@@ -180,14 +239,14 @@
                         @for (int i = 1; i <= ViewBag.TotalPages; i++)
                         {
                             <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                                <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("Trainer", new { currentPage = i })">
+                                <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("List", new { currentPage = i })">
                                     @i
                                 </a>
                             </li>
                         }
 
                         <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
-                            <a class="page-link next-page" data-page-type="next" href="@Url.Action("Trainer", new { currentPage = ViewBag.CurrentPage + 1 })">
+                            <a class="page-link next-page" data-page-type="next" href="@Url.Action("List", new { currentPage = ViewBag.CurrentPage + 1 })">
                                 <i class="fa-solid fa-chevron-right"></i>
                             </a>
                         </li>
@@ -205,7 +264,7 @@
 <!-- JQ -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
+@*<script>
 
   
 
@@ -269,4 +328,4 @@
     });
 
 
-</script>
+</script>*@

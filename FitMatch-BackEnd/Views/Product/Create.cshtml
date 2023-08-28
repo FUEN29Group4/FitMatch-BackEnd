@@ -59,50 +59,15 @@
             <i class="fa fa-bars"></i>
         </a>
         <form class="d-none d-md-flex ms-4">
-            <h4 class="m-auto">商品管理</h4>
+            <h4 class="m-auto">商品管理 / 新增商品</h4>
         </form>
         <div class="navbar-nav align-items-center ms-auto">
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                <a href="#" class="nav-link">
                     <i class="fa-solid fa-gear"></i>
                     <span class="d-none d-lg-inline-flex">設定</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded-circle" src="img/user.jpg" alt=""
-                                 style="width: 40px; height: 40px;">
-                            <div class="ms-2">
-                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item text-center">See all message</a>
-                </div>
+                
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -173,8 +138,8 @@
                                 <label asp-for="ProductName" for="inputname" class="col-form-label">商品名稱</label>
                             </div>
                             <div class="col-4">
-                                <input asp-for="ProductName" class="form-control mb-3" type="text" placeholder="這裡會帶入商品名稱"
-                                       aria-label="這裡會帶入商品名稱" id="inputname">
+                                <input asp-for="ProductName" class="form-control mb-3" type="text" placeholder="請輸入商品名稱"
+                                       aria-label="請輸入商品名稱" id="inputname">
                                 <span asp-validation-for="ProductName" class="text-danger"></span>
                             </div>
                         </div>
@@ -203,10 +168,10 @@
                             <div class="col-1">
                                 <label asp-for="ProductDescription" for="inputname" class="col-form-label">商品描述</label>
                             </div>
-                            <div class="col-4">
-                                <input asp-for="ProductDescription" class="form-control mb-3" type="text" placeholder="這裡會帶入商品描述"
-                                       aria-label="這裡會帶入商品描述" id="inputProductDescription">
-                                <span asp-validation-for="ProductDescription" class="text-danger"></span>
+                            <div class="col-4 form-floating pt-1">
+                                <textarea asp-for="ProductDescription" data-validate="ProductDescription" data-error-message="商品描述必填" class="form-control" placeholder="請輸入商品描述"
+                                          id="inputProductDescription" style="height: 200px;"></textarea>
+                                <label for="floatingTextarea">請輸入商品描述</label>
                             </div>
                         </div>
 
@@ -215,7 +180,7 @@
                                 <label asp-for="Price" for="inputname" class="col-form-label">價格</label>
                             </div>
                             <div class="col-4">
-                                <input asp-for="Price" class="form-control mb-3" type="text" placeholder="這裡會帶入價格" aria-label="這裡會帶入價格"
+                                <input asp-for="Price" class="form-control mb-3" type="text" placeholder="請輸入價格" aria-label="請輸入價格"
                                        id="inputPrice">
                                 <span asp-validation-for="Price" class="text-danger"></span>
                             </div>
@@ -225,8 +190,8 @@
                                 <label asp-for="ProductInventory" for="inputname" class="col-form-label">商品庫存</label>
                             </div>
                             <div class="col-4">
-                                <input asp-for="ProductInventory" class="form-control mb-3" type="text" placeholder="這裡會帶入商品庫存"
-                                       aria-label="這裡會帶入商品庫存" id="inputProductInventory">
+                                <input asp-for="ProductInventory" class="form-control mb-3" type="text" placeholder="請輸入商品庫存"
+                                       aria-label="請輸入商品庫存" id="inputProductInventory">
                                 <span asp-validation-for="ProductInventory" class="text-danger"></span>
                             </div>
                         </div>

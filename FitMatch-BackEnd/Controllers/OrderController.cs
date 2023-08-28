@@ -1,8 +1,12 @@
 ﻿using FitMatch_BackEnd.Models;
 using FitMatch_BackEnd.ViewModel;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using X.PagedList;
+using X.PagedList.Mvc.Core;
+using System.Drawing.Printing;
 
 namespace FitMatch_BackEnd.Controllers
 {
@@ -20,19 +24,8 @@ namespace FitMatch_BackEnd.Controllers
 
         //}
         //取得訂單管理頁面
-        public IActionResult List()
+        private IQueryable<OrderViewModel> GetFilteredData(int searchField, string SeachKeyWprd, string ShippingMethod ,string PatmentMethod,DateTime?Start,DateTime?End)
         {
-            int itemsPerPage = 5;
-
-            //var viewModelList = GetFilteredData(searchField, searchKeyword, start, end, CourseStatus);
-
-            //int totalDataCount = viewModelList.Count();
-            //int totalPages = (int)Math.Ceiling((double)totalDataCount / itemsPerPage);
-            //int validCurrentPage = Math.Max(1, Math.Min(currentPage, totalPages));
-
-            //viewModelList = viewModelList.Skip((validCurrentPage - 1) * itemsPerPage).Take(itemsPerPage);
-
-            //IPagedList<MatchViewModel> pagedData = new StaticPagedList<MatchViewModel>(viewModelList, validCurrentPage, itemsPerPage, totalDataCount);
             var OrderViewModelList = (from O in _db.Orders
                                       join M in _db.Members on O.MemberId equals M.MemberId
                                       select new OrderViewModel
@@ -45,8 +38,30 @@ namespace FitMatch_BackEnd.Controllers
                                           PaymentMethod = O.PaymentMethod,
                                           MemberName = M.MemberName
                                       });
-            return View(OrderViewModelList);
+            return OrderViewModelList;
+        }
+        public IActionResult List(int searchField, string searchKeyword, DateTime? start, DateTime? end, int currentPage, string ShippingMethod, string PatmentMethod)
+        {
+            int itemsPerPage = 5;
 
+            var viewModelList = GetFilteredData(searchField, searchKeyword, ShippingMethod, PatmentMethod, start, end);
+
+            int totalDataCount = viewModelList.Count();
+            int totalPages = (int)Math.Ceiling((double)totalDataCount / itemsPerPage);
+            int validCurrentPage = Math.Max(1, Math.Min(currentPage, totalPages));
+
+            viewModelList = viewModelList.Skip((validCurrentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+            IPagedList<OrderViewModel> pagedData = new StaticPagedList<OrderViewModel>(viewModelList, validCurrentPage, itemsPerPage, totalDataCount);
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = validCurrentPage;
+            ViewBag.SearchField = searchField;
+            ViewBag.SearchKeyword = searchKeyword;
+            ViewBag.StartDate = start;
+            ViewBag.EndDate = end;
+            ViewBag.ShippingMethod = ShippingMethod;
+            ViewBag.Paymenthod = PatmentMethod;
+            return View(pagedData);
         }
 
         //刪除商品 
