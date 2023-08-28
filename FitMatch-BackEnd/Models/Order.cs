@@ -17,7 +17,6 @@ public partial class Order
 
     public string? ShippingMethod { get; set; }//運送方式
 
-    public string? MemberName { get; set; }//會員姓名
 
     public DateTime? PayTime { get; set; }//付款時間
 

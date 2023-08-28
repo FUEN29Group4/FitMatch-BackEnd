@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FitMatch_BackEnd.Models.Order>
+﻿@model IEnumerable<FitMatch_BackEnd.ViewModel.OrderViewModel>
 
 @{
     ViewData["Title"] = "List";
@@ -138,12 +138,12 @@
                                 <tr class="data-row">
                                     <td>@count</td>
 
-                                    <td>@Html.DisplayFor(modelItem => item.MemberId)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.MemberName)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.TotalPrice)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.PaymentMethod)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.ShippingMethod)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.OrderTime)</td>
+                                    <td>@item.MemberId</td>
+                                    <td>@item.MemberName</td>
+                                    <td>@item.TotalPrice</td>
+                                    <td>@item.PaymentMethod</td>
+                                    <td>@item.ShippingMethod</td>
+                                    <td>@item.OrderTime</td>
 
                                     <td>
                                         <a href="@Url.Action("OrderDetails", "Order", new { id = item.OrderId })" class="btn btn-sm btn-secondary"
