@@ -112,7 +112,7 @@
             <div class="col-sm-12">
                 <div class="bg-secondary rounded h-100 p-4">
 
-                    <form asp-controller="Robot" asp-action="RobotCreate" method="post" class="" style="padding: 50px;" enctype="multipart/form-data">
+                    <form asp-controller="Robot" asp-action="RobotCreate" id="RobotForm" method="post" class="" style="padding: 50px;" enctype="multipart/form-data">
 
 
                         @* ------radio start------ *@
@@ -196,6 +196,7 @@
 <!-- Content End -->
 
 
+
 <script>
     const uploadInput = document.getElementById('upload');
     const preview = document.getElementById('preview');
@@ -238,6 +239,68 @@
  
     }
 
+
+
+    // 確認按鈕的驗證
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("RobotForm");
+
+        form.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            // Validate all input fields
+            let allValid = true;
+            const elementsToValidate = document.querySelectorAll('[data-validate]');
+            elementsToValidate.forEach(function (element) {
+                if (!validate(element)) {
+                    allValid = false;
+                }
+            });
+
+            // If any validation failed, stop the form submission
+            if (!allValid) {
+                await Swal.fire({
+                    icon: "error",
+                    title: "驗證錯誤",
+                    text: "請確認欄位是否符合正確格式",
+                    confirmButtonText: "OK"
+                });
+                return;
+            }
+
+            // Perform form submission using AJAX or fetch
+            try {
+                const response = await fetch('/Robot/RobotCreate', {
+                    method: "POST",
+                    body: new FormData(form)
+                });
+
+                if (response.ok) {
+                    // Show success message with confirm button
+                    await Swal.fire({
+                        icon: "success",
+                        title: "新增成功",
+                        text: "已成功建立一筆員工資料",
+                        showConfirmButton: true,
+                        confirmButtonText: "確認"
+                    }).then(() => {
+                        window.location.href = "/Robot/Robot";
+                    });
+                } else {
+                    throw new Error("表單提交失敗");
+                }
+            } catch (error) {
+                // Show error message
+                await Swal.fire({
+                    icon: "error",
+                    title: "錯誤",
+                    text: error.message,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    });
 
 
 </script>

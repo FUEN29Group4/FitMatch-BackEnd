@@ -67,7 +67,7 @@ namespace FitMatch_BackEnd.Controllers
         public IActionResult Member(int currentPage = 1, string txtKeyword = null, bool? memberStatus = null)
         {
             //預設這頁只能放8筆資料
-            int itemsPerPage = 8;
+            int itemsPerPage =8;
 
             IEnumerable<Member> datas = from p in _context.Members select p;
             // 如果有搜尋關鍵字
