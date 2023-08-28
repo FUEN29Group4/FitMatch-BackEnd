@@ -181,12 +181,12 @@
                 <table class="table text-center align-middle table-bordered table-hover mb-0">
                     <thead style="background-color: #74ffba;">
                         <tr class=" text-dark">
-                            <th scope="col" style="min-width: 80px;">產品編號</th>
-                            <th scope="col" style="min-width: 80px;">產品類別</th>
-                            <th scope="col" style="min-width: 80px;">產品名稱</th>
+                            <th scope="col">產品編號</th>
+                            <th scope="col">產品類別</th>
+                            <th scope="col">產品名稱</th>
                             <th scope="col">產品照片</th>
-                            <th scope="col" style="min-width: 80px;">數量</th>
-                            <th scope="col" style="min-width: 80px;">小計</th>
+                            <th scope="col">數量</th>
+                            <th scope="col">小計</th>
 
                         </tr>
                     </thead>
@@ -200,7 +200,7 @@
                                 <td>@item.TypeName</td>
                                 <td>@item.ProductName</td>
                                 <td>
-                                    <img src="~/img/商城/@item.Photo" width="110" height="70" />
+                                    <img src="~/img/商城/@item.Photo" width="110" height="110" />
                                 </td>
                                 <td>@item.Quantity</td>
                                 <td>@item.小計</td>
@@ -215,19 +215,18 @@
 
 
             <div class="container-fluid pt-4 px-4">
-                <div class="rounded-top p-4">
+                <div class="rounded-top">
                     <div class="Oredercontainer">
-                        <div class="d-flex align-items-end justify-content-center">
-                            <ul class="Orderaddress"
-                                style="list-style-type: none; padding-left: 0; text-align: left;margin-top: -10px;margin-left: -1210px;">
+                        <div class="d-flex align-items-end justify-content-start">
+                            <ul class="Orderaddress">
                                 @if (Model.Count > 0)
                                 {
                                     var firstorder = Model[0];
-                                    <li>訂單時間:@firstorder.OrderTime</li>
-                                    <li>付款時間:@firstorder.PayTime</li>
-                                    <li>收件人:@firstorder.MemberName</li>
-                                    <li>收件電話:@firstorder.Phone</li>
-                                    <li>收件地址:@firstorder.Address</li>
+                                    <li class="pb-1">訂單時間:@firstorder.OrderTime</li>
+                                    <li class="pb-1">付款時間:@firstorder.PayTime</li>
+                                    <li class="pb-1">收件人:@firstorder.MemberName</li>
+                                    <li class="pb-1">收件電話:@firstorder.Phone</li>
+                                    <li class="pb-1">收件地址:@firstorder.Address</li>
                                     <li>訂單總金額:@firstorder.TotalPrice</li>
                                 }
 
