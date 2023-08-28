@@ -4,6 +4,7 @@
     ViewData["Title"] = "GymCreate";
 }
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
     /* 上傳照片 */
@@ -115,7 +116,7 @@
         <div class="row g-4">
             <div class="col-sm-12">
                 <div class="bg-secondary rounded h-100 p-4">
-                    <form asp-action="GymCreate" enctype="multipart/form-data" class="" style="padding: 50px;">
+                    <form asp-action="GymCreate" enctype="multipart/form-data" id="GymForm" class="" style="padding: 50px;">
 
 
                         <div class="col-sm-12 col-xl-6 mb-3 d-flex ps">
@@ -261,6 +262,67 @@
 
             reader.readAsDataURL(file);
         }
+    });
+
+    // 確認按鈕的驗證
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("GymForm");
+
+        form.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            // Validate all input fields
+            let allValid = true;
+            const elementsToValidate = document.querySelectorAll('[data-validate]');
+            elementsToValidate.forEach(function (element) {
+                if (!validate(element)) {
+                    allValid = false;
+                }
+            });
+
+            // If any validation failed, stop the form submission
+            if (!allValid) {
+                await Swal.fire({
+                    icon: "error",
+                    title: "驗證錯誤",
+                    text: "請確認欄位是否符合正確格式",
+                    confirmButtonText: "OK"
+                });
+                return;
+            }
+
+            // Perform form submission using AJAX or fetch
+            try {
+                const response = await fetch('/Gym/GymCreate', {
+                    method: "POST",
+                    body: new FormData(form)
+                });
+
+                if (response.ok) {
+                    // Show success message with confirm button
+                    await Swal.fire({
+                        icon: "success",
+                        title: "新增成功",
+                        text: "已成功建立一筆場館資料",
+                        showConfirmButton: true,
+                        confirmButtonText: "確認"
+                    }).then(() => {
+                        window.location.href = "/Gym/Gym";
+                    });
+                } else {
+                    throw new Error("表單提交失敗");
+                }
+            } catch (error) {
+                // Show error message
+                await Swal.fire({
+                    icon: "error",
+                    title: "錯誤",
+                    text: error.message,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
     });
 
     //以下是表單驗證
