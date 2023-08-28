@@ -5,6 +5,8 @@
     ViewData["Title"] = "Create";
 }
 *@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <style>
     /* 上傳照片 */
     .upload-container {
@@ -67,7 +69,7 @@
                     <i class="fa-solid fa-gear"></i>
                     <span class="d-none d-lg-inline-flex">設定</span>
                 </a>
-                
+
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -116,14 +118,13 @@
                 <div class="bg-secondary rounded h-100 p-4">
 
                     <form asp-action="Create" class="" method="post" style="padding: 50px;"
-                          enctype="multipart/form-data">
-                       
+                          enctype="multipart/form-data" id="CreateForm">
+
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <label asp-for="TypeId" class="col-sm-1 col-form-label-ADD">商品類別</label>
                             <div class="col-4">
                                 <select class="form-control mb-3" id="1"
-                                        required aria-label="select example" asp-for="TypeId" style="background-color:#fff"
-                                >
+                                        required aria-label="select example" asp-for="TypeId" style="background-color:#fff">
                                     <option value="1">雞胸肉</option>
                                     <option value="2">保健品</option>
                                     <option value="3">乳清蛋白</option>
@@ -138,13 +139,14 @@
                                 <label asp-for="ProductName" for="inputname" class="col-form-label">商品名稱</label>
                             </div>
                             <div class="col-4">
-                                <input asp-for="ProductName" class="form-control mb-3" type="text" placeholder="請輸入商品名稱"
-                                       aria-label="請輸入商品名稱" id="inputname">
+                                <input asp-for="ProductName" data-validate="ProductName" class="form-control mb-3" type="text" placeholder="請輸入商品名稱"
+                                       aria-label="請輸入商品名稱" id="inputProductName">
                                 <span asp-validation-for="ProductName" class="text-danger"></span>
                             </div>
+                            <div>
+                                <button type="button" class="btn btn-outline-info " onclick="fillVenueInfo()" style="margin-left: 50px;">demo展示用</button>
+                            </div>
                         </div>
-
-
 
 
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
@@ -203,13 +205,13 @@
                             </div>
                             <div class="col-10 d-flex justify-content-start">
                                 <div class="form-check me-3">
-                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios1" value="true" >
+                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios1" value="true">
                                     <label class="form-check-label" for="gridRadios1">
                                         上架
                                     </label>
                                 </div>
                                 <div class="form-check me-3">
-                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios2" value="false" >
+                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios2" value="false">
                                     <label class="form-check-label" for="gridRadios2">
                                         下架
                                     </label>
@@ -224,7 +226,8 @@
                         <div class="col-8 d-flex text-center mx-auto pt-5">
                             <button type="submit" class="btn btn-primary me-5">新增</button>
                             <a asp-action="List" class="btn btn-outline-success ">取消</a>
-                            <button type="button" id="demoButton" class="btn btn-outline-info " style="margin-left: 50px;">DEMO</button>
+                          
+                           
                         </div>
 
                     </form>
@@ -258,22 +261,77 @@
             reader.readAsDataURL(file);
         }
     });
+</script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+    
 
 
-    // DEMO按钮
+<script>
+
+    // 確認按鈕的驗證
+
     document.addEventListener("DOMContentLoaded", function () {
-        var demoButton = document.getElementById("demoButton");
-        if (demoButton) {
-            demoButton.addEventListener("click", function () {
-                document.getElementById("inputname").value = "黑胡椒雞胸肉";
-                document.getElementById("inputProductDescription").value = "鮮嫩多汁，外酥裡嫩";
-                document.getElementById("inputPrice").value = "300";
-                document.getElementById("inputProductInventory").value = "50";
-                document.getElementById("gridRadios1").checked = true;
-            });
-        }
-    });
+        const form = document.getElementById("CreateForm");
 
+        form.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            // Validate all input fields
+            let allValid = true;
+            const elementsToValidate = document.querySelectorAll('[data-validate]');
+            elementsToValidate.forEach(function (element) {
+                if (!validate(element)) {
+                    allValid = false;
+                }
+            });
+
+            // If any validation failed, stop the form submission
+            if (!allValid) {
+                await Swal.fire({
+                    icon: "error",
+                    title: "驗證錯誤",
+                    text: "請確認欄位是否符合正確格式",
+                    confirmButtonText: "OK"
+                });
+                return;
+            }
+
+            // Perform form submission using AJAX or fetch
+            try {
+                const response = await fetch('/Product/Create', {
+                    method: "POST",
+                    body: new FormData(form)
+                });
+
+                if (response.ok) {
+                    // Show success message with confirm button
+                    await Swal.fire({
+                        icon: "success",
+                        title: "新增成功",
+                        text: "已成功建立一筆商品資料",
+                        showConfirmButton: true,
+                        confirmButtonText: "確認"
+                    }).then(() => {
+                        window.location.href = "/Product/List";
+                    });
+                } else {
+                    throw new Error("表單提交失敗");
+                }
+            } catch (error) {
+                // Show error message
+                await Swal.fire({
+                    icon: "error",
+                    title: "錯誤",
+                    text: error.message,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    });
     //以下是表單驗證
     //以下是表單驗證
     //以下是表單驗證
@@ -310,14 +368,14 @@
             }
         }
 
-        if (validateRule === 'inputname') {
+        if (validateRule === 'ProductName') {
             if (element.value.length < 1 || element.value.length > 50) {
                 showErrorMessage(element, "商品名稱應在1到50個字之間");
                 return false;
             }
         }
 
-        if (validateRule === 'inputProductDescription') {
+        if (validateRule === 'ProductDescription') {
             if (element.value.length < 5 || element.value.length > 100) {
                 showErrorMessage(element, "商品描述應在5到100個字之間");
                 return false;
@@ -348,11 +406,15 @@
             backendErrorMessageElement.textContent = '';
         }
     }
+// DEMO按钮
+
+    function fillVenueInfo() {
+        document.getElementById("inputProductName").value = "黑胡椒雞胸肉";
+        document.getElementById("inputProductDescription").value = "鮮嫩多汁，外酥裡嫩";
+        document.getElementById("inputPrice").value = "300";
+        document.getElementById("inputProductInventory").value = "50";
+        document.getElementById("gridRadios1").checked = true;
+
+    }
 
 </script>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
