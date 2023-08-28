@@ -150,7 +150,8 @@
             <div class="col-sm-12">
                 <div class="bg-secondary rounded h-100 p-4">
 
-                    <form asp-action="Create" class="" style="padding: 50px;">
+                    <form asp-action="Create" class="" method="post" style="padding: 50px;"
+                          enctype="multipart/form-data">
                        
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <label asp-for="TypeId" class="col-sm-1 col-form-label-ADD">商品類別</label>
@@ -183,7 +184,7 @@
 
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
-                                <label for="inputname" class="col-form-label">商品封面</label>
+                                <label for="inputPrice" class="col-form-label">商品封面</label>
                             </div>
                             <div class="col-4">
                                 <div class="upload-container">

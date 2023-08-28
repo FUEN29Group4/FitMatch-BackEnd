@@ -2,30 +2,51 @@
 using FitMatch_BackEnd.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using X.PagedList;
 
 namespace FitMatch_BackEnd.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly FitMatchDbContext _context;
+        private readonly FitMatchDbContext _db;
 
         //連結DB
-        public OrderController(FitMatchDbContext context)
+        public OrderController(FitMatchDbContext db)
         {
-            _context = context;
+            _db = db;
         }
+        //public IActionResult<OrderViewModel> GetFilteredData(string)
+        //{
 
+        //}
         //取得訂單管理頁面
-        public IActionResult List(CKeywordViewModel vm)
+        public IActionResult List()
         {
-            FitMatchDbContext db = new FitMatchDbContext();
-            IEnumerable<Order> datas = null;
-            if (string.IsNullOrEmpty(vm.txtKeyword))
-                datas = from p in db.Orders
-                        select p;
-            else
-                datas = db.Orders.Where(t => t.MemberId.ToString().Contains(vm.txtKeyword));
-            return View(datas);
+            int itemsPerPage = 5;
+
+            //var viewModelList = GetFilteredData(searchField, searchKeyword, start, end, CourseStatus);
+
+            //int totalDataCount = viewModelList.Count();
+            //int totalPages = (int)Math.Ceiling((double)totalDataCount / itemsPerPage);
+            //int validCurrentPage = Math.Max(1, Math.Min(currentPage, totalPages));
+
+            //viewModelList = viewModelList.Skip((validCurrentPage - 1) * itemsPerPage).Take(itemsPerPage);
+
+            //IPagedList<MatchViewModel> pagedData = new StaticPagedList<MatchViewModel>(viewModelList, validCurrentPage, itemsPerPage, totalDataCount);
+            var OrderViewModelList = (from O in _db.Orders
+                                      join M in _db.Members on O.MemberId equals M.MemberId
+                                      select new OrderViewModel
+                                      {
+                                          OrderId = O.OrderId,
+                                          MemberId = M.MemberId,
+                                          TotalPrice = O.TotalPrice,
+                                          PayTime = (DateTime)O.PayTime,
+                                          ShippingMethod = O.ShippingMethod,
+                                          PaymentMethod = O.PaymentMethod,
+                                          MemberName = M.MemberName
+                                      });
+            return View(OrderViewModelList);
+
         }
 
         //刪除商品 
@@ -66,7 +87,6 @@ namespace FitMatch_BackEnd.Controllers
             {
                 // 更新其他屬性
                 prodDb.MemberId = prodIn.MemberId;
-                prodDb.MemberName = prodIn.MemberName;
                 prodDb.TotalPrice = prodIn.TotalPrice;
                 prodDb.PaymentMethod = prodIn.PaymentMethod;
                 prodDb.ShippingMethod = prodIn.ShippingMethod;
@@ -80,11 +100,11 @@ namespace FitMatch_BackEnd.Controllers
         //訂單明細
         public IActionResult OrderDetails(int id)
         {
-               var viewModelList = (from c in _context.OrderDetails
-                                 join m in _context.Orders on c.OrderId equals m.OrderId
-                                 join h in _context.Members on m.MemberId equals h.MemberId
-                                 join t in _context.Products on c.ProductId equals t.ProductId
-                                 join g in _context.ProductTypes on t.TypeId equals g.TypeId
+               var viewModelList = (from c in _db.OrderDetails
+                                 join m in _db.Orders on c.OrderId equals m.OrderId
+                                 join h in _db.Members on m.MemberId equals h.MemberId
+                                 join t in _db.Products on c.ProductId equals t.ProductId
+                                 join g in _db.ProductTypes on t.TypeId equals g.TypeId
                        
 
                                  select new OrderViewModel
@@ -101,7 +121,7 @@ namespace FitMatch_BackEnd.Controllers
                                      ProductName = t.ProductName,
                                      OrderTime = (DateTime)m.OrderTime,
                                      PayTime = (DateTime)m.PayTime,
-                                     MemberName = m.MemberName,
+                                     MemberName = h.MemberName,
                                      Quantity = (int)c.Quantity,
                                      price = (int)t.Price
                                  }).ToList();

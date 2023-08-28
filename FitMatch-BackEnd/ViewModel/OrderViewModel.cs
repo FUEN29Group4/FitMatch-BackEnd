@@ -37,6 +37,8 @@ namespace FitMatch_BackEnd.ViewModel
         public string? Phone { get; set; }
         public string? Address { get; set; }
         public int? TotalPrice { get; set; }
+        public string ShippingMethod {get ; set; }
+        public string PaymentMethod { get; set;}
 
 
     }

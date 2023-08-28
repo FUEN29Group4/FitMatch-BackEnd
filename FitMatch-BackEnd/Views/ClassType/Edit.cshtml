@@ -157,13 +157,52 @@
                                 <label asp-for="ClassName" for="inputname" class="col-form-label">課程名稱</label>
                             </div>
                             <div class="col-4">
-                                <input asp-for="ClassName" class="form-control mb-3" type="text" placeholder="請輸入課程名稱"
+                                <input asp-for="ClassName" data-validate="ClassName" data-error-message="課程名稱是必填的" class="form-control mb-3" type="text" placeholder="請輸入課程名稱"
                                        aria-label="這裡會帶入課程名稱" id="inputname">
                                 <span asp-validation-for="ClassName" class="text-danger"></span>
                             </div>
                         </div>
 
-                        <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
+                      
+
+
+
+                        @if (Model.Photo != null)
+                        {
+                               <!-- 現有照片預覽 -->
+                        <div class="col-sm-12 col-xl-6 mb-3">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-center">
+                                    現有封面照片
+                                </div>
+                                <div class="card-body d-flex justify-content-center">
+                                    <img id="existingPreview" src="@Url.Content($"~/img/課程/{Model.Photo}")" alt="Existing Image Preview" width="330" height="210">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 新照片上傳和預覽 -->
+                        <div class="col-sm-12 col-xl-6 mb-3">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-center">
+                                    新封面照片
+                                </div>
+                                <div class="card-body d-flex flex-column align-items-center">
+                                    <!-- 預覽新上傳的照片 -->
+                                    <div class="d-flex justify-content-center">
+                                        <img id="newPreview" src="" alt="New Image Preview" style="display:none;" width="330" height="210">
+                                    </div>
+                                    <!-- 上傳按鈕 -->
+                                    <div class="d-flex justify-content-center mt-3 w-100">
+                                        <input type="file" id="FileToUpload" name="photo" accept="image/*" onchange="previewNewImage(event)">
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        }
+                        else
+                        {
+                              <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
                                 <label for="inputname" class="col-form-label">課程照片</label>
                             </div>
@@ -177,6 +216,8 @@
                                 </div>
                             </div>
                         </div>
+                        }
+
 
 
                         <fieldset class="col-sm-12 col-xl-6 mb-3 d-flex">
@@ -212,7 +253,7 @@
                                 <legend class="col-form-label pt-3 pe-4">課程簡介</legend>
                             </div>
                             <div class="col-4 form-floating pt-1">
-                                <textarea asp-for="Introduction" class="form-control p-3" placeholder="Leave a comment here"
+                                <textarea asp-for="Introduction" data-validate="Introduction" data-error-message="課程簡介是必填的" class="form-control p-3" placeholder="Leave a comment here"
                                           id="floatingTextarea" style="height: 150px;"></textarea>
                                 <label aria-label="請輸入課程簡介"></label>
                             </div>
@@ -266,4 +307,95 @@
 
 
 
+
+<script>
+
+    function previewNewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('newPreview');
+            output.src = reader.result;
+            output.style.display = 'block'; // 顯示新的預覽圖片
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    //以下是表單驗證
+    //以下是表單驗證
+    //以下是表單驗證
+
+    // 顯示錯誤訊息
+    function showErrorMessage(element, message) {
+        let errorMessageElement = element.parentNode.querySelector('.error-message');
+        if (!errorMessageElement) {
+            errorMessageElement = document.createElement('span');
+            errorMessageElement.className = 'error-message text-danger';
+            element.parentNode.appendChild(errorMessageElement);
+        }
+        errorMessageElement.textContent = message;
+    }
+
+    // 清除錯誤訊息
+    function clearErrorMessage(element) {
+        const errorMessageElement = element.parentNode.querySelector('.error-message');
+        if (errorMessageElement) {
+            errorMessageElement.remove();
+        }
+    }
+
+
+    // 驗證函數
+    function validate(element) {
+        const validateRule = element.getAttribute('data-validate');
+        const errorMessage = element.getAttribute('data-error-message');
+
+        if (validateRule === 'required') {
+            if (element.value === '') {
+                showErrorMessage(element, errorMessage);
+                return false;
+            }
+        }
+
+        if (validateRule === 'ClassName') {
+            if (element.value.length < 5 || element.value.length > 50) {
+                showErrorMessage(element, "課程名稱應在1到30個字之間");
+                return false;
+            }
+        }
+
+        if (validateRule === 'Introduction') {
+            if (element.value.length < 20 || element.value.length > 500) {
+                showErrorMessage(element, "課程簡介是必填的，並且長度不應超過500個字");
+                return false;
+            }
+        }
+
+
+        clearErrorMessage(element);
+        return true;
+    }
+
+    // 在輸入或失去焦點時觸發驗證
+    const elementsToValidate = document.querySelectorAll('[data-validate]');
+    elementsToValidate.forEach(function (element) {
+        element.addEventListener('keyup', function () {
+            clearBackendErrorMessage(this);
+            validate(this);
+        });
+        element.addEventListener('blur', function () {
+            clearBackendErrorMessage(this);
+            validate(this);
+        });
+    });
+
+    // 清除後端錯誤訊息
+    function clearBackendErrorMessage(element) {
+        const backendErrorMessageElement = element.parentNode.querySelector('.text-danger');
+        if (backendErrorMessageElement) {
+            backendErrorMessageElement.textContent = '';
+        }
+    }
+
+
+</script>
 
