@@ -289,7 +289,7 @@
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
                             <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
-                                <a class="page-link previous-page" data-page-type="previous" href="@Url.Action("Trainer", new { currentPage = ViewBag.CurrentPage - 1 })">
+                                <a class="page-link previous-page" data-page-type="previous" href="@Url.Action("Member", new { currentPage = ViewBag.CurrentPage - 1 })">
                                     <i class="fa-solid fa-chevron-left"></i>
                                 </a>
                             </li>
@@ -297,14 +297,14 @@
                             @for (int i = 1; i <= ViewBag.TotalPages; i++)
                             {
                                 <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                                    <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("Trainer", new { currentPage = i })">
+                                    <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("Member", new { currentPage = i })">
                                         @i
                                     </a>
                                 </li>
                             }
 
                             <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
-                                <a class="page-link next-page" data-page-type="next" href="@Url.Action("Trainer", new { currentPage = ViewBag.CurrentPage + 1 })">
+                                <a class="page-link next-page" data-page-type="next" href="@Url.Action("Member", new { currentPage = ViewBag.CurrentPage + 1 })">
                                     <i class="fa-solid fa-chevron-right"></i>
                                 </a>
                             </li>
