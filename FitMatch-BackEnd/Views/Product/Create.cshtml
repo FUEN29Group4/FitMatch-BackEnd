@@ -203,10 +203,10 @@
                             <div class="col-1">
                                 <label asp-for="ProductDescription" for="inputname" class="col-form-label">商品描述</label>
                             </div>
-                            <div class="col-4">
-                                <input asp-for="ProductDescription" class="form-control mb-3" type="text" placeholder="這裡會帶入商品描述"
-                                       aria-label="這裡會帶入商品描述" id="inputProductDescription">
-                                <span asp-validation-for="ProductDescription" class="text-danger"></span>
+                            <div class="col-4 form-floating pt-1">
+                                <textarea asp-for="ProductDescription" data-validate="ProductDescription" data-error-message="商品描述是必填的" class="form-control" placeholder="請輸入商品描述"
+                                          id="floatingTextarea" style="height: 200px;"></textarea>
+                                <label for="floatingTextarea">請輸入商品描述</label>
                             </div>
                         </div>
 
