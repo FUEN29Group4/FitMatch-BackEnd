@@ -166,7 +166,7 @@
 
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
-                                <label asp-for="ProductDescription" for="inputname" class="col-form-label">商品描述</label>
+                                <label asp-for="ProductDescription" for="inputProductDescription" class="col-form-label">商品描述</label>
                             </div>
                             <div class="col-4 form-floating pt-1">
                                 <textarea asp-for="ProductDescription" data-validate="ProductDescription" data-error-message="商品描述必填" class="form-control" placeholder="請輸入商品描述"
@@ -177,7 +177,7 @@
 
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
-                                <label asp-for="Price" for="inputname" class="col-form-label">價格</label>
+                                <label asp-for="Price" for="inputPrice" class="col-form-label">價格</label>
                             </div>
                             <div class="col-4">
                                 <input asp-for="Price" class="form-control mb-3" type="text" placeholder="請輸入價格" aria-label="請輸入價格"
@@ -187,7 +187,7 @@
                         </div>
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
-                                <label asp-for="ProductInventory" for="inputname" class="col-form-label">商品庫存</label>
+                                <label asp-for="ProductInventory" for="inputProductInventory" class="col-form-label">商品庫存</label>
                             </div>
                             <div class="col-4">
                                 <input asp-for="ProductInventory" class="form-control mb-3" type="text" placeholder="請輸入商品庫存"
@@ -273,6 +273,81 @@
             });
         }
     });
+
+    //以下是表單驗證
+    //以下是表單驗證
+    //以下是表單驗證
+
+    // 顯示錯誤訊息
+    function showErrorMessage(element, message) {
+        let errorMessageElement = element.parentNode.querySelector('.error-message');
+        if (!errorMessageElement) {
+            errorMessageElement = document.createElement('span');
+            errorMessageElement.className = 'error-message text-danger';
+            element.parentNode.appendChild(errorMessageElement);
+        }
+        errorMessageElement.textContent = message;
+    }
+
+    // 清除錯誤訊息
+    function clearErrorMessage(element) {
+        const errorMessageElement = element.parentNode.querySelector('.error-message');
+        if (errorMessageElement) {
+            errorMessageElement.remove();
+        }
+    }
+
+
+    // 驗證函數
+    function validate(element) {
+        const validateRule = element.getAttribute('data-validate');
+        const errorMessage = element.getAttribute('data-error-message');
+
+        if (validateRule === 'required') {
+            if (element.value === '') {
+                showErrorMessage(element, errorMessage);
+                return false;
+            }
+        }
+
+        if (validateRule === 'inputname') {
+            if (element.value.length < 1 || element.value.length > 50) {
+                showErrorMessage(element, "商品名稱應在1到50個字之間");
+                return false;
+            }
+        }
+
+        if (validateRule === 'inputProductDescription') {
+            if (element.value.length < 5 || element.value.length > 100) {
+                showErrorMessage(element, "商品描述應在5到100個字之間");
+                return false;
+            }
+        }
+
+        clearErrorMessage(element);
+        return true;
+    }
+
+    // 在輸入或失去焦點時觸發驗證
+    const elementsToValidate = document.querySelectorAll('[data-validate]');
+    elementsToValidate.forEach(function (element) {
+        element.addEventListener('keyup', function () {
+            clearBackendErrorMessage(this);
+            validate(this);
+        });
+        element.addEventListener('blur', function () {
+            clearBackendErrorMessage(this);
+            validate(this);
+        });
+    });
+
+    // 清除後端錯誤訊息
+    function clearBackendErrorMessage(element) {
+        const backendErrorMessageElement = element.parentNode.querySelector('.text-danger');
+        if (backendErrorMessageElement) {
+            backendErrorMessageElement.textContent = '';
+        }
+    }
 
 </script>
 

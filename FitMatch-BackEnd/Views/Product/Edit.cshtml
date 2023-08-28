@@ -141,7 +141,6 @@
                             </div>
                         </div>
 
-
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
                                 <label asp-for="ProductName" for="inputname" class="col-form-label">商品名稱</label>
@@ -153,20 +152,58 @@
                             </div>
                         </div>
 
-                        <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
-                            <div class="col-1">
-                                <label for="inputname" class="col-form-label">商品封面</label>
-                            </div>
-                            <div class="col-4">
-                                <div class="upload-container">
-                                    <label for="upload" class="label-upload">
-                                        <div class="icon">+</div>
-                                        <input type="file" name="photo" id="upload" class="upload-input">
-                                    </label>
-                                    <img id="preview" src="" alt="Image Preview">
+
+                        @if (Model.Photo != null)
+                        {
+                            <!-- 現有照片預覽 -->
+                            <div class="col-sm-12 col-xl-6 mb-3">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-center">
+                                        現有封面照片
+                                    </div>
+                                    <div class="card-body d-flex justify-content-center">
+                                        <img id="existingPreview" src="@Url.Content($"~/img/商城/{Model.Photo}")" alt="Existing Image Preview" width="330" height="210">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+
+                            <!-- 新照片上傳和預覽 -->
+                            <div class="col-sm-12 col-xl-6 mb-3">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-center">
+                                        新封面照片
+                                    </div>
+                                    <div class="card-body d-flex flex-column align-items-center">
+                                        <!-- 預覽新上傳的照片 -->
+                                        <div class="d-flex justify-content-center">
+                                            <img id="newPreview" src="" alt="New Image Preview" style="display:none;" width="330" height="210">
+                                        </div>
+                                        <!-- 上傳按鈕 -->
+                                        <div class="d-flex justify-content-center mt-3 w-100">
+                                            <input type="file" id="FileToUpload" name="photo" accept="image/*" onchange="previewNewImage(event)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
+                                <div class="col-1">
+                                    <label for="inputname" class="col-form-label">商品封面</label>
+                                </div>
+                                <div class="col-4">
+                                    <div class="upload-container">
+                                        <label for="upload" class="label-upload">
+                                            <div class="icon">+</div>
+                                            <input type="file" name="photo" id="upload" class="upload-input">
+                                        </label>
+                                        <img id="preview" src="" alt="Image Preview">
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
 
 
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
