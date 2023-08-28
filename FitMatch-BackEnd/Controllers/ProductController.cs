@@ -31,7 +31,7 @@ namespace FitMatch_BackEnd.Controllers
 
         //***篩選功能***
 
-        //取得商品管理頁面  ***圖片未抓取***
+        //取得商品管理頁面
         public IActionResult List(string searchField, string searchKeyword, CKeywordViewModel vm, int currentPage = 1)
         {
 
@@ -91,7 +91,7 @@ namespace FitMatch_BackEnd.Controllers
             //var viewModelList = GetFilteredData(searchField, searchKeyword);
 
 
-            int itemsPerPage = 8;
+            int itemsPerPage = 5;
 
             // 根據當下頁碼獲取datas
             datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
@@ -107,7 +107,7 @@ namespace FitMatch_BackEnd.Controllers
 
 
 
-        //新增商品  ***圖片未寫入，商品類別無法寫入***
+        //新增商品  ***圖片未寫入***
 
         public IActionResult Create()
         {
@@ -167,7 +167,7 @@ namespace FitMatch_BackEnd.Controllers
             return RedirectToAction("List");
         }
 
-        //修改   ***圖片未寫入，商品類別無法寫入***
+        //修改   ***圖片未寫入***
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -212,7 +212,8 @@ namespace FitMatch_BackEnd.Controllers
                 prodDb.Price = prodIn.Price;
                 prodDb.ProductInventory = prodIn.ProductInventory;
                 prodDb.Status = prodIn.Status;
-
+                prodDb.TypeId = prodIn.TypeId;
+                
                 db.SaveChanges();
             }
             return RedirectToAction("List");

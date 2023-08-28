@@ -166,12 +166,12 @@
                                 <label for="TypeId" class="me-2">商品類別:</label>
                             </div>
                             <div class="col-4">
-                                <select asp-for="TypeId" name="ProductFilter" class="form-select" style="background-color: #fff;" aria-label="商品類別">
+                                <select asp-for="TypeId" class="form-select" style="background-color: #fff;" aria-label="商品類別">
                                     <option value="" selected disabled hidden>請選擇商品類別</option>
-                                    <option value="1">雞胸肉</option>
-                                    <option value="2">保健品</option>
-                                    <option value="3">乳清蛋白</option>
-                                    <option value="4">補劑</option>
+                                    <option value="1" >雞胸肉</option>
+                                    <option value="2" >保健品</option>
+                                    <option value="3" >乳清蛋白</option>
+                                    <option value="4" >補劑</option>
                                 </select>
                             </div>
                         </div>
@@ -260,9 +260,6 @@
                             <button type="submit" class="btn btn-primary me-5">修改</button>
                             <a asp-action="List" class="btn btn-outline-success ">取消</a>
                         </div>
-                        <div class="col-8 d-flex text-center mx-auto pt-5">
-                            <button class="btn btn-primary me-5">DEMO</button>
-                        </div>
                     </form>
 
                 </div>
@@ -296,21 +293,7 @@
         }
     });
 
-    // DEMO按钮
-    document.addEventListener("DOMContentLoaded", function () {
-        var demoButton = document.getElementById("demoButton");
-        if (demoButton) {
-            demoButton.addEventListener("click", function () {
-                document.getElementById("inputname").value = "XXX";
-                document.getElementById("FemaleRadio").checked = true;
-                document.getElementById("inputBirth").value = "2004-05-07";
-                document.getElementById("inputPhone").value = "0944265810";
-                document.getElementById("inputAddress").value = "XXXXXXXXXXXXX";
-                document.getElementById("inputEmail").value = "XXXXXX@XXXXX";
-                document.getElementById("inputPassword").value = "12345";
-            });
-        }
-    });
+   
 </script>
 
 @section Scripts {

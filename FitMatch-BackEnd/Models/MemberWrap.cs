@@ -1,5 +1,7 @@
 ﻿using FitMatch_BackEnd.Models;
 using Newtonsoft.Json.Linq;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FitMatch_BackEnd.Controllers
 {
@@ -22,6 +24,8 @@ namespace FitMatch_BackEnd.Controllers
             set { _Member.MemberId = value; }
         }
 
+
+        [Required(ErrorMessage = "姓名必填")]
         public string? MemberName
         {
             get { return _Member.MemberName; }

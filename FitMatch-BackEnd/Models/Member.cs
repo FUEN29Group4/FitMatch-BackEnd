@@ -11,10 +11,13 @@ public partial class Member
 {
     public int MemberId { get; set; }
 
-    
+
+
+   
     public string? MemberName { get; set; }
 
    
+
     public bool? Gender { get; set; }
 
     public DateTime? Birth { get; set; }
