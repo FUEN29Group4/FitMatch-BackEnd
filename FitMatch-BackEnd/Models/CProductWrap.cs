@@ -63,6 +63,5 @@
         }
   
         public IFormFile photo { get; set; }
-        //    public int ProductId { get; internal set; }
     }
 }
