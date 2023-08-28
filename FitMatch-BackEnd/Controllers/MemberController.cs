@@ -165,6 +165,20 @@ namespace FitMatch_BackEnd.Controllers
         {
             //FitMatchDbContext db = new FitMatchDbContext();
             //Member custDb = db.Members.FirstOrDefault(t => t.MemberId== custIn.MemberId);
+
+            //增加驗證: 讓null值也可以被判斷
+            if (custIn == null ||
+      string.IsNullOrEmpty(custIn.MemberName) ||
+      string.IsNullOrEmpty(custIn.Phone) ||
+      string.IsNullOrEmpty(custIn.Address) ||
+      string.IsNullOrEmpty(custIn.Email) ||
+      string.IsNullOrEmpty(custIn.Password))
+            {
+                ModelState.AddModelError("", "所有欄位都是必填的");
+                return View(custIn);
+            }
+
+
             Member m = _context.Members.FirstOrDefault(t => t.MemberId == custIn.MemberId);
 
             if (custIn != null)
@@ -238,11 +252,7 @@ namespace FitMatch_BackEnd.Controllers
         }
 
 
-        //public IActionResult MemberCancel()
-        //{
-        //    return View("Member");
-        //}
-
+      
 
 
         ////--------- M-4:會員刪除（Delete）
@@ -263,42 +273,7 @@ namespace FitMatch_BackEnd.Controllers
 
 
 
-        //-----參考彥儀Trianer-----
-
-
-        ////審核通過
-        //public IActionResult Approve(int id)
-        //{
-        //    var trainer = _context.Trainers.Find(id);
-        //    //檢查教練是否存在
-        //    if (trainer == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    //有教練就審核通過
-        //    trainer.Approved = CApprovalStatus.Approved;
-        //    //保存到資料庫
-        //    _context.SaveChanges();
-        //    //返回教練列表
-        //    return RedirectToAction("Trainer");
-        //}
-        //////退回申請
-        //public IActionResult Reject(int id)
-        //{
-        //    var trainer = _context.Trainers.Find(id);
-        //    //檢查教練是否存在
-        //    if (trainer == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    //教練的申請拒絕
-        //    trainer.Approved = CApprovalStatus.Rejected;
-        //    _context.SaveChanges();
-
-        //    return RedirectToAction("Trainer");
-        //}
-        ////代辦事項: 要做確認按鈕!!!!!!!!!!!!!!!
-
+      
 
 
 
