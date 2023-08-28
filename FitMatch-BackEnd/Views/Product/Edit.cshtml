@@ -1,8 +1,8 @@
 ﻿@model FitMatch_BackEnd.Models.Product
-
+@*
 @{
     ViewData["Title"] = "Edit";
-}
+}*@
 <style>
     /* 上傳照片 */
     .upload-container {
@@ -196,12 +196,14 @@
                                 <div class="upload-container">
                                     <label for="upload" class="label-upload">
                                         <div class="icon">+</div>
-                                        <input type="file" id="upload" class="upload-input" accept="image/*">
+                                        <input type="file" name="photo" id="upload" class="upload-input">
                                     </label>
                                     <img id="preview" src="" alt="Image Preview">
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
                                 <label asp-for="ProductDescription" for="inputdescription" class="col-form-label">商品描述</label>
@@ -242,13 +244,13 @@
                             </div>
                             <div class="col-10 d-flex justify-content-start">
                                 <div class="form-check me-3">
-                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios1" value="true">
+                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios1" value="true" @(Model.Status == true ? "checked" : "")>
                                     <label class="form-check-label" for="gridRadios1">
                                         上架
                                     </label>
                                 </div>
                                 <div class="form-check me-3">
-                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios2" value="false">
+                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios2" value="false" @(Model.Status == false ? "checked" : "")>
                                     <label class="form-check-label" for="gridRadios2">
                                         下架
                                     </label>
@@ -261,7 +263,6 @@
                             <a asp-action="List" class="btn btn-outline-success ">取消</a>
                         </div>
                     </form>
-
                 </div>
             </div>
 

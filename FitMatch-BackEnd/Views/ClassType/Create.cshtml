@@ -63,7 +63,7 @@
         </form>
         <div class="navbar-nav align-items-center ms-auto">
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                <a href="#" class="nav-link">
                     <i class="fa-solid fa-gear"></i>
                     <span class="d-none d-lg-inline-flex">設定</span>
                 </a>
@@ -156,9 +156,12 @@
                                 <label asp-for="ClassName" for="inputname" class="col-form-label">課程名稱</label>
                             </div>
                             <div class="col-4">
-                                <input asp-for="ClassName" class="form-control mb-3" type="text" placeholder="請輸入課程名稱"
+                                <input asp-for="ClassName" data-validate="ClassName" data-error-message="課程名稱是必填的" class="form-control mb-3" type="text" placeholder="請輸入課程名稱"
                                        aria-label="請輸入課程名稱" id="inputname">
                                 <span asp-validation-for="ClassName" class="text-danger"></span>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-primary" onclick="fillVenueInfo()">demo展示用</button>
                             </div>
                         </div>
 
@@ -212,7 +215,7 @@
                                 <legend class="col-form-label pt-3 pe-4">課程簡介</legend>
                             </div>
                             <div class="col-4 form-floating pt-1">
-                                <textarea asp-for="Introduction" class="form-control" placeholder="Leave a comment here"
+                                <textarea asp-for="Introduction" data-validate="Introduction" data-error-message="課程簡介是必填的" class="form-control" placeholder="Leave a comment here"
                                           id="floatingTextarea" style="height: 150px;"></textarea>
                                 <label aria-label="請輸入課程簡介" placeholder="請輸入課程簡介"></label>
                             </div>
@@ -264,6 +267,106 @@
     }
 }
 
+
+
+
+<script>
+
+    function previewNewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('newPreview');
+            output.src = reader.result;
+            output.style.display = 'block'; // 顯示新的預覽圖片
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    //以下是表單驗證
+    //以下是表單驗證
+    //以下是表單驗證
+
+    // 顯示錯誤訊息
+    function showErrorMessage(element, message) {
+        let errorMessageElement = element.parentNode.querySelector('.error-message');
+        if (!errorMessageElement) {
+            errorMessageElement = document.createElement('span');
+            errorMessageElement.className = 'error-message text-danger';
+            element.parentNode.appendChild(errorMessageElement);
+        }
+        errorMessageElement.textContent = message;
+    }
+
+    // 清除錯誤訊息
+    function clearErrorMessage(element) {
+        const errorMessageElement = element.parentNode.querySelector('.error-message');
+        if (errorMessageElement) {
+            errorMessageElement.remove();
+        }
+    }
+
+
+    // 驗證函數
+    function validate(element) {
+        const validateRule = element.getAttribute('data-validate');
+        const errorMessage = element.getAttribute('data-error-message');
+
+        if (validateRule === 'required') {
+            if (element.value === '') {
+                showErrorMessage(element, errorMessage);
+                return false;
+            }
+        }
+
+        if (validateRule === 'ClassName') {
+            if (element.value.length < 5 || element.value.length > 50) {
+                showErrorMessage(element, "課程名稱應在1到30個字之間");
+                return false;
+            }
+        }
+
+        if (validateRule === 'Introduction') {
+            if (element.value.length < 20 || element.value.length > 500) {
+                showErrorMessage(element, "課程簡介是必填的，並且長度不應超過500個字");
+                return false;
+            }
+        }
+
+
+        clearErrorMessage(element);
+        return true;
+    }
+
+    // 在輸入或失去焦點時觸發驗證
+    const elementsToValidate = document.querySelectorAll('[data-validate]');
+    elementsToValidate.forEach(function (element) {
+        element.addEventListener('keyup', function () {
+            clearBackendErrorMessage(this);
+            validate(this);
+        });
+        element.addEventListener('blur', function () {
+            clearBackendErrorMessage(this);
+            validate(this);
+        });
+    });
+
+    // 清除後端錯誤訊息
+    function clearBackendErrorMessage(element) {
+        const backendErrorMessageElement = element.parentNode.querySelector('.text-danger');
+        if (backendErrorMessageElement) {
+            backendErrorMessageElement.textContent = '';
+        }
+    }
+
+    //demo展示 快速填值
+    function fillVenueInfo() {
+
+        document.getElementById("inputname").value = "皮拉提斯";
+
+
+        document.getElementById("floatingTextarea").value = "皮拉提斯主要整合有氧、柔軟度及肌肉伸展，不論透過徒手訓練還是機器輔助，都能幫助訓練者取得身體的和諧與平衡。";
+    }
+</script>
 
 
 
