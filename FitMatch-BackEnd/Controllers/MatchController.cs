@@ -87,7 +87,7 @@ namespace FitMatch_BackEnd.Controllers
 
         public IActionResult List(string searchField, string searchKeyword, DateTime? start, DateTime? end, string CourseStatus, int currentPage)
         {
-            int itemsPerPage = 10;
+            int itemsPerPage = 5;
 
             var viewModelList = GetFilteredData(searchField, searchKeyword, start, end, CourseStatus);
 
