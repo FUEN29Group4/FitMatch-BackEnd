@@ -92,6 +92,10 @@
         color: #696969; /* 修改选项的字体颜色 */
     }
 
+    .btn-secondary {
+        background-color: aliceblue;
+        color: black;
+    }
 </style>
 <!-- Content Start -->
 <div class="content">
@@ -156,8 +160,8 @@
     <div class="container-fluid pt-4 px-4">
         <nav class="navbar navbar-expand-lg bg-white rounded">
             @*<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
             </button>*@
 
             <!-- 課程日期 -->
@@ -184,7 +188,7 @@
             <!-- 篩選條件 -->
             <div class="col-4 d-flex align-items-center ms-4" style="margin-right: 25px;">
                 <form class="custom-select input-group" id="searchForm" method="get" action="List">
-                    
+
                     <select name="searchField" class="input-group-text" style="color:#696969">
                         <option value="ClassName">課程名稱</option>
                         <option value="MemberName">會員名稱</option>
@@ -196,7 +200,7 @@
                         <i class="fa-solid fa-magnifying-glass fa-xl"></i>
                     </button>
                     <div>
-                    <button type="reset" class="btn btn-outline-success">清空</button>
+                        <button type="reset" class="btn btn-outline-success">清空</button>
                     </div>
                 </form>
             </div>
@@ -214,17 +218,17 @@
                     <!-- 表頭開始 -->
                     <thead style="background-color: #74ffba;">
                         <tr class="text-dark">
-                            <th scope="col">預約編號</th>
-                            <th scope="col">課程名稱</th>
-                            <th scope="col">教練</th>
-                            <th scope="col">會員</th>
-                            <th scope="col">場館</th>
-                            <th scope="col">課程狀態</th>
-                            <th scope="col">審核通過與否</th>
-                            <th scope="col">建立時間</th>
-                            <th scope="col">開始時間</th>
-                            <th scope="col">結束時間</th>
-                            <th scope="col">操作</th>
+                            <th scope="col" class="align-middle">預約編號</th>
+                            <th scope="col" class="align-middle">課程名稱</th>
+                            <th scope="col" class="align-middle">教練</th>
+                            <th scope="col" class="align-middle">會員</th>
+                            <th scope="col" class="align-middle">場館</th>
+                            <th scope="col" class="align-middle">課程狀態</th>
+                            <th scope="col" class="align-middle">審核通過與否</th>
+                            <th scope="col" class="align-middle">建立時間</th>
+                            <th scope="col" class="align-middle">開始時間</th>
+                            <th scope="col" class="align-middle">結束時間</th>
+                            <th scope="col" class="align-middle">操作</th>
                         </tr>
                     </thead>
                     <!-- 表頭結束 -->
@@ -253,14 +257,14 @@
                                 <td>@item.StartTime</td>
                                 <td>@item.EndTime</td>
                                 <td>
-                                    <div class="d-flex justify-content-center">
-                                        <a asp-action="Edit" asp-route-id="@item.ClassId" class="btn btn-sm btn-secondary me-2" style="background-color: aliceblue; color: black;margin-left: 10px">
-                                            <i class="fa-regular fa-pen-to-square"> 編輯</i>
-                                        </a>
-                                        <a asp-action="Delete" asp-route-id="@item.ClassId" class="btn btn-primary" onclick="return confirm('確定要刪除這個項目嗎？');" style="font-size: smaller;;">
-                                            <i class="fa-solid fa-trash-can"></i> 刪除
-                                        </a>
-                                    </div>
+
+                                    <a asp-action="Edit" asp-route-id="@item.ClassId" class="btn btn-sm btn-secondary me-2">
+                                        <i class="fa-regular fa-pen-to-square">編輯</i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.ClassId" class="btn  btn-sm btn-primary" onclick="return confirm('確定要刪除這個項目嗎？');">
+                                        <i class="fa-solid fa-trash-can"></i>刪除
+                                    </a>
+
                                 </td>
                             </tr>
                         }
