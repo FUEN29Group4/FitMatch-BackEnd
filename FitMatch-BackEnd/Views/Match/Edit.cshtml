@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Edit";
 }
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
     /* 上傳照片 */
     .upload-container {
@@ -111,7 +112,7 @@
         <div class="row g-4">
             <div class="col-sm-12">
                 <div class="bg-secondary rounded h-100 p-4 ps-5">
-                    <form asp-action="Edit" class="col-6">
+                    <form asp-action="Edit" id="MatchEdit" class="col-6">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group pb-3">
                             <label asp-for="ClassId" class="control-label pb-1">預約編號</label>
@@ -197,6 +198,66 @@
 
             const formattedEndTime = `${endTimeYear}-${endTimeMonth}-${endTimeDate}T${endTimeHours}:${endTimeMinutes}`;
             endTimeInput.value = formattedEndTime;
+        });
+    });
+    // 確認按鈕的驗證
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("MatchEdit");
+
+        form.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            // Validate all input fields
+            let allValid = true;
+            const elementsToValidate = document.querySelectorAll('[data-validate]');
+            elementsToValidate.forEach(function (element) {
+                if (!validate(element)) {
+                    allValid = false;
+                }
+            });
+
+            // If any validation failed, stop the form submission
+            if (!allValid) {
+                await Swal.fire({
+                    icon: "error",
+                    title: "驗證錯誤",
+                    text: "請確認欄位是否符合正確格式",
+                    confirmButtonText: "OK"
+                });
+                return;
+            }
+
+            // Perform form submission using AJAX or fetch
+            try {
+                const response = await fetch('/Match/Edit', {
+                    method: "POST",
+                    body: new FormData(form)
+                });
+
+                if (response.ok) {
+                    // Show success message with confirm button
+                    await Swal.fire({
+                        icon: "success",
+                        title: "修改成功",
+                        text: "已成功修改場館資料",
+                        showConfirmButton: true,
+                        confirmButtonText: "確認"
+                    }).then(() => {
+                        window.location.href = "/Match/List";
+                    });
+                } else {
+                    throw new Error("表單提交失敗");
+                }
+            } catch (error) {
+                // Show error message
+                await Swal.fire({
+                    icon: "error",
+                    title: "錯誤",
+                    text: error.message,
+                    confirmButtonText: "OK"
+                });
+            }
         });
     });
 </script>
