@@ -2,6 +2,8 @@
 using FitMatch_BackEnd.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Text.Json;
 
 namespace FitMatch_BackEnd.Controllers
 {
@@ -12,7 +14,7 @@ namespace FitMatch_BackEnd.Controllers
         {
             _enviro = p;
         }
-
+        CUserViewModel userViewModel = new CUserViewModel();
 
         public IActionResult List(int currentPage = 1, string txtKeyword = null, int? RestaurantStatus = null, string? city = "", int? Status = null)
         {
@@ -50,7 +52,17 @@ namespace FitMatch_BackEnd.Controllers
             ViewBag.CurrentPage = currentPage;
             ViewBag.Keyword = txtKeyword;  // 將關鍵字存入ViewBag，以便在View中使用
 
-            return View(datas);
+
+            string userid = HttpContext.Session.GetString("User");
+            CUserViewModel user = JsonSerializer.Deserialize<CUserViewModel>(userid);
+
+            var viewModel = new CListViewModel
+            {
+                RestaurantDatas = datas,
+                User = user
+            };
+
+            return View(viewModel);
 
         }
 
@@ -70,12 +82,19 @@ namespace FitMatch_BackEnd.Controllers
 
         public IActionResult Create()
         {
-            CRestaurantWrap prodWp = new CRestaurantWrap();
-            return View(prodWp.restaurant);
-            //return View();
+            string userid = HttpContext.Session.GetString("User");
+            CUserViewModel user = JsonSerializer.Deserialize<CUserViewModel>(userid);
+
+            var viewModel = new CListViewModel
+            {
+                RestaurantWrap = new CRestaurantWrap(),
+                User = user
+            };
+
+            return View(viewModel);
         }
         [HttpPost]
-        public IActionResult Create(CRestaurantWrap p)
+        public IActionResult Create(CListViewModel p)
         {
             FitMatchDbContext db = new FitMatchDbContext();
             Restaurant custDb = new Restaurant();
@@ -83,7 +102,7 @@ namespace FitMatch_BackEnd.Controllers
 
             if (p != null)
             {
-                if (p.photo != null)
+                if (p.RestaurantWrap.photo != null)
                 {
                     string photoName = Guid.NewGuid().ToString() + ".jpg";
 
@@ -93,15 +112,15 @@ namespace FitMatch_BackEnd.Controllers
                     //    custDb.Photo = photoName;
                     //}
                     string path = _enviro.WebRootPath + "/img/健康餐/" + photoName;
-                    p.photo.CopyTo(new FileStream(path, FileMode.Create));
+                    p.RestaurantWrap.photo.CopyTo(new FileStream(path, FileMode.Create));
                     custDb.Photo = photoName;
                 }
                 // 更新 Approved 狀態
-                custDb.Status = p.Status;
-                custDb.RestaurantsName = p.RestaurantsName;
-                custDb.Phone = p.Phone;
-                custDb.Address = p.Address;
-                custDb.RestaurantsDescription = p.RestaurantsDescription;
+                custDb.Status = p.RestaurantWrap.Status;
+                custDb.RestaurantsName = p.RestaurantWrap.RestaurantsName;
+                custDb.Phone = p.RestaurantWrap.Phone;
+                custDb.Address = p.RestaurantWrap.Address;
+                custDb.RestaurantsDescription = p.RestaurantWrap.RestaurantsDescription;
                 custDb.CreateAt = dateTime;
 
                 db.Restaurants.Add(custDb);
@@ -128,6 +147,8 @@ namespace FitMatch_BackEnd.Controllers
 
         public IActionResult Edit(int? id)
         {
+
+
             if (id == null)
                 return RedirectToAction("List");
             FitMatchDbContext db = new FitMatchDbContext();
@@ -135,20 +156,30 @@ namespace FitMatch_BackEnd.Controllers
             if (prod == null)
                 return RedirectToAction("List");
 
-            CRestaurantWrap prodWp = new CRestaurantWrap();
-            prodWp.restaurant = prod;
-            return View(prodWp.restaurant);
+            string userid = HttpContext.Session.GetString("User");
+            CUserViewModel user = JsonSerializer.Deserialize<CUserViewModel>(userid);
+
+            var viewModel = new CListViewModel
+            {
+                RestaurantWrap = new CRestaurantWrap
+                {
+                    restaurant = prod
+                },                 
+                User = user
+            };
+
+            return View(viewModel);
         }
         [HttpPost]
-        public IActionResult Edit(CRestaurantWrap prodIn)
+        public IActionResult Edit(CListViewModel prodIn)
         {
             FitMatchDbContext db = new FitMatchDbContext();
-            Restaurant custDb = db.Restaurants.FirstOrDefault(t => t.RestaurantsId == prodIn.RestaurantsId);
+            Restaurant custDb = db.Restaurants.FirstOrDefault(t => t.RestaurantsId == prodIn.RestaurantWrap.RestaurantsId);
 
 
             if (prodIn != null)
             {
-                if (prodIn.photo != null)
+                if (prodIn.RestaurantWrap.photo != null)
                 {
                     string photoName = Guid.NewGuid().ToString() + ".jpg";
 
@@ -158,16 +189,16 @@ namespace FitMatch_BackEnd.Controllers
                     //    custIn.photo = photoName;
                     //}
                     string path = _enviro.WebRootPath + "/img/健康餐/" + photoName;
-                    prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
+                    prodIn.RestaurantWrap.photo.CopyTo(new FileStream(path, FileMode.Create));
                     custDb.Photo = photoName;
                 }
 
                 // 更新 Approved 狀態
-                custDb.Status = prodIn.Status;
-                custDb.RestaurantsName = prodIn.RestaurantsName;
-                custDb.Phone = prodIn.Phone;
-                custDb.Address = prodIn.Address;
-                custDb.RestaurantsDescription = prodIn.RestaurantsDescription;
+                custDb.Status = prodIn.RestaurantWrap.Status;
+                custDb.RestaurantsName = prodIn.RestaurantWrap.RestaurantsName;
+                custDb.Phone = prodIn.RestaurantWrap.Phone;
+                custDb.Address = prodIn.RestaurantWrap.Address;
+                custDb.RestaurantsDescription = prodIn.RestaurantWrap.RestaurantsDescription;
 
                 db.SaveChanges();
             }

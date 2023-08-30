@@ -20,7 +20,15 @@ namespace FitMatch_BackEnd.Controllers
         {
             if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGINED_USER))
             {
-                return View();
+                string userid = HttpContext.Session.GetString("User");
+                CUserViewModel user = JsonSerializer.Deserialize<CUserViewModel>(userid);
+
+                var viewModel = new CListViewModel
+                {
+                    User = user
+                };
+
+                return View(viewModel);
             }
             return RedirectToAction("Login");
         }
@@ -36,12 +44,28 @@ namespace FitMatch_BackEnd.Controllers
             Employee user = (new FitMatchDbContext()).Employees.FirstOrDefault(t => t.Email.Equals(vm.txtAccount) && t.Password.Equals(vm.txtPassword));
             if (user != null && user.Password.Equals(vm.txtPassword))
             {
-                string json = JsonSerializer.Serialize(user);
-                HttpContext.Session.SetString(CDictionary.SK_LOGINED_USER, json);
-                return RedirectToAction("Index");
+                if (user == null)
+                {
+                    return RedirectToAction("Login");
+                }
+                string json = "";
+                CUserViewModel userviewModel = new CUserViewModel();
+
+                userviewModel.UserId = user.EmployeeId;
+                userviewModel.UserName = user.EmployeeName;
+                userviewModel.UserPhoto = user.Photo;
+
+                json = JsonSerializer.Serialize(userviewModel);
+                HttpContext.Session.SetString("User", json);
+
+                string jsonlogin = JsonSerializer.Serialize(user);
+                HttpContext.Session.SetString(CDictionary.SK_LOGINED_USER, jsonlogin);
+
+
+                return RedirectToAction("Index", user);
             }
             ModelState.AddModelError("", "");
-            return PartialView("Login",ModelState);
+            return PartialView("Login", ModelState);
         }
 
 
