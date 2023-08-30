@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using X.PagedList;
 using X.PagedList.Mvc.Core;
 using System.Drawing.Printing;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FitMatch_BackEnd.Controllers
 {
@@ -24,7 +25,7 @@ namespace FitMatch_BackEnd.Controllers
 
         //}
         //取得訂單管理頁面
-        private IQueryable<OrderViewModel> GetFilteredData(int searchField, string SeachKeyWprd, string ShippingMethod ,string PatmentMethod,DateTime?Start,DateTime?End)
+        private IQueryable<OrderViewModel> GetFilteredData(string searchField, string searchKeyword, string ShippingMethod ,string PaymentMethod,DateTime?Start,DateTime?End)
         {
             var OrderViewModelList = (from O in _db.Orders
                                       join M in _db.Members on O.MemberId equals M.MemberId
@@ -39,13 +40,49 @@ namespace FitMatch_BackEnd.Controllers
                                           MemberName = M.MemberName,
                                           OrderTime = (DateTime)O.OrderTime
                                       });
+            if (Start.HasValue && End.HasValue)
+            {
+                DateTime adjustedEndDate = End.Value.AddDays(1).Date; // 设置为当天的00:00:00
+                OrderViewModelList = OrderViewModelList.Where(vm => vm.OrderTime >= Start.Value && vm.OrderTime < adjustedEndDate);
+            }
+
+            if (!string.IsNullOrEmpty(searchField) && !string.IsNullOrEmpty(searchKeyword))
+            {
+                switch (searchField)
+                {
+                    case "OrderId":
+                        if (int.TryParse(searchKeyword, out int orderId))
+                        {
+                            // Search by OrderId as integer
+                            OrderViewModelList = OrderViewModelList.Where(vm => vm.OrderId == orderId);
+                        }
+
+                        break;
+                    case "MemberName":
+                        OrderViewModelList = OrderViewModelList.Where(vm => vm.MemberName.Contains(searchKeyword));
+                        break;
+                    default:
+                        // 默认处理
+                        break;
+                }
+            }
+
+
+            if (!string.IsNullOrEmpty(ShippingMethod))
+            {
+                OrderViewModelList = OrderViewModelList.Where(vm => vm.ShippingMethod == ShippingMethod);
+            }
+            if (!string.IsNullOrEmpty(PaymentMethod))
+            {
+                OrderViewModelList = OrderViewModelList.Where(vm => vm.PaymentMethod == PaymentMethod);
+            }
             return OrderViewModelList;
         }
-        public IActionResult List(int searchField, string searchKeyword, DateTime? start, DateTime? end, int currentPage, string ShippingMethod, string PatmentMethod)
+        public IActionResult List(string searchField, string searchKeyword, DateTime? start, DateTime? end, int currentPage, string ShippingMethod, string PaymentMethod)
         {
             int itemsPerPage = 5;
 
-            var viewModelList = GetFilteredData(searchField, searchKeyword, ShippingMethod, PatmentMethod, start, end);
+            var viewModelList = GetFilteredData(searchField, searchKeyword, ShippingMethod, PaymentMethod, start, end);
 
             int totalDataCount = viewModelList.Count();
             int totalPages = (int)Math.Ceiling((double)totalDataCount / itemsPerPage);
@@ -61,7 +98,7 @@ namespace FitMatch_BackEnd.Controllers
             ViewBag.StartDate = start;
             ViewBag.EndDate = end;
             ViewBag.ShippingMethod = ShippingMethod;
-            ViewBag.Paymenthod = PatmentMethod;
+            ViewBag.PaymentMethod = PaymentMethod;
             return View(pagedData);
         }
 

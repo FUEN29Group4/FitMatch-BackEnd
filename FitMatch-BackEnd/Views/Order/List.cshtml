@@ -100,17 +100,20 @@
 
                     <option value="">全部</option>
                     <option value="宅配">宅配</option>
-                    <option value="7-11">7-11</option>
+                    <option value="超商">超商</option>
                 </select>
             </div>
             <!-- 運送方式 -->
             <div class="col-2 d-flex align-items-center ms-4">
                 <span style="margin-right: 10px; text-align: center;">付款方式</span>
-                <select id="ShippingMethodFilter" class="form-select" style="background-color: #fff;" aria-label="課程狀態">
+                <select id="PaymentMethodFilter" class="form-select" style="background-color: #fff;" aria-label="課程狀態">
 
                     <option value="">全部</option>
-                    <option value="線上支付">線上支付</option>
+                    <option value="信用卡">信用卡</option>
                     <option value="到貨付款">到貨付款</option>
+                    <option value="LinePay">LinePay</option>
+                    <option value="PayPal">PayPal</option>
+
                 </select>
             </div>
 
@@ -227,6 +230,180 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    // 篩選選項和按鈕的 DOM 元素
+    const ShippingMethodFilter = document.getElementById('ShippingMethodFilter');
+    const PaymentMethodFilter = document.getElementById('PaymentMethodFilter');
+    const searchForm = document.getElementById('searchForm');
+    const pageLinks = document.querySelectorAll('.page-link'); // 所有分頁按鈕的 DOM 元素
+    const startDateInput = document.querySelector('input[name="start"]');
+    const endDateInput = document.querySelector('input[name="end"]');
+
+    // 初始化篩選條件
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('ShippingMethod')) {
+        const ShippingMethod = params.get('ShippingMethod');
+        ShippingMethodFilter.value = ShippingMethod;
+    }
+    if (params.has('PaymentMethod')) {
+        const PaymentMethod = params.get('PaymentMethod');
+        PaymentMethodFilter.value = PaymentMethod;
+    }
+
+
+    // 監聽篩選選項的變化
+    ShippingMethodFilter.addEventListener('change', function () {
+        updateFiltersAndPage(1); // 將當前頁碼設為 1
+    });
+    // 監聽篩選選項的變化
+    PaymentMethodFilter.addEventListener('change', function () {
+        updateFiltersAndPage(1); // 將當前頁碼設為 1
+    });
+
+    // 監聽表單的提交事件，避免頁面重新加載
+    searchForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        updateFiltersAndPage(1); // 將當前頁碼設為 1
+    });
+
+    // 監聽分頁按鈕的點擊事件
+    pageLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const newPage = parseInt(this.getAttribute('data-page'));
+            updateFiltersAndPage(newPage);
+        });
+    });
+
+    // 初始化日期選擇器的值
+    const startDateParam = params.get('start');
+    const endDateParam = params.get('end');
+    if (startDateParam !== null) {
+        startDateInput.value = startDateParam;
+    }
+    if (endDateParam !== null) {
+        endDateInput.value = endDateParam;
+    }
+
+    // 當兩個日期選擇器的值都改變時，觸發篩選
+    startDateInput.addEventListener('change', handleDateChange);
+    endDateInput.addEventListener('change', handleDateChange);
+
+    function handleDateChange() {
+        if (startDateInput.value && endDateInput.value) {
+            updateFiltersAndPage(getCurrentPage());
+        }
+    }
+
+    // 更新篩選條件並修改 URL，然後換頁
+    function updateFiltersAndPage(pageNumber) {
+        const startValue = startDateInput.value; // 開始日期值
+        const endValue = endDateInput.value;     // 結束日期值
+
+        const selectedShippingMethod = ShippingMethodFilter.value;
+        const selectedPaymentMethod = PaymentMethodFilter.value;
+        const searchField = document.querySelector('select[name="searchField"]').value;
+        const searchKeyword = document.getElementById('searchInput').value;
+
+        const currentParams = new URLSearchParams(window.location.search);
+
+        // 更新篩選條件參數
+        currentParams.set('ShippingMethod', selectedShippingMethod);
+        currentParams.set('PaymentMethod', selectedPaymentMethod);
+        currentParams.set('searchField', searchField);
+        currentParams.set('searchKeyword', searchKeyword);
+        currentParams.set('start', startValue); // 更新開始日期
+        currentParams.set('end', endValue);     // 更新結束日期
+
+        // 保留原有的分頁參數
+        currentParams.set('currentPage', pageNumber);
+
+        const currentUrl = new URL(window.location);
+        currentUrl.search = currentParams.toString();
+
+        // 將更新的 URL 設置為新的頁面位置
+        window.location.href = currentUrl.toString();
+    }
+
+    // 在页面加载时设置 select 的选中值和输入框的值
+    window.addEventListener('load', function () {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('searchField')) {
+            const searchField = params.get('searchField');
+            const searchFieldSelect = document.querySelector('select[name="searchField"]');
+            searchFieldSelect.value = searchField;
+        }
+
+        if (params.has('searchKeyword')) {
+            const searchKeyword = params.get('searchKeyword');
+            const searchInput = document.getElementById('searchInput');
+            searchInput.value = searchKeyword;
+        }
+    });
+
+
+    // 獲取當前分頁參數
+    function getCurrentPage() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('currentPage')) {
+            return params.get('currentPage');
+        }
+        return 1; // 如果沒有分頁參數，預設為第 1 頁
+    }
+
+    // 監聽清空按鈕的點擊事件
+    const clearButton = document.querySelector('#searchForm button[type="reset"]');
+    clearButton.addEventListener('click', function () {
+        const searchFieldSelect = document.querySelector('select[name="searchField"]');
+        const searchInput = document.getElementById('searchInput');
+        // 重置日期輸入
+        startDateInput.value = '';
+        endDateInput.value = '';
+        // 重置篩選條件
+        ShippingMethodFilter.value = '';
+        PaymentMethodFilter.value = '';
+        searchFieldSelect.value = 'OrderId';
+        searchInput.value = '';
+
+        // 觸發篩選並跳轉到第一頁
+        updateFiltersAndPage(1);
+    });
+
+    // 監聽另一個按鈕的點擊事件
+    const combinedSearchButton = document.getElementById('combinedSearchButton');
+    combinedSearchButton.addEventListener('click', function () {
+        const searchFieldSelect = document.querySelector('select[name="searchField"]');
+        const searchInput = document.getElementById('searchInput');
+        const startInput = document.getElementById('start');
+        const endInput = document.getElementById('end');
+
+        // 獲取選擇的日期值
+        const startValue = startInput.value;
+        const endValue = endInput.value;
+
+        // 獲取其他篩選條件值
+        const selectedShippingMethod = ShippingMethodFilter.value;
+        const selectedPaymentMethod = PaymentMethodFilter.value;
+        const searchField = searchFieldSelect.value;
+        const searchKeyword = searchInput.value;
+
+        // 更新 URL 參數並進行篩選
+        const currentParams = new URLSearchParams(window.location.search);
+        currentParams.set('ShippingMethod', selectedShippingMethod);
+        currentParams.set('PaymentMethod', selectedPaymentMethod);
+        currentParams.set('searchField', searchField);
+        currentParams.set('searchKeyword', searchKeyword);
+        currentParams.set('start', startValue);
+        currentParams.set('end', endValue);
+
+        const currentUrl = new URL(window.location);
+        currentUrl.search = currentParams.toString();
+
+        // 將更新的 URL 設置為新的頁面位置，並跳轉到第一頁
+        window.location.href = currentUrl.toString() + '&currentPage=1';
+    });
+
+</script>
 @*<script>
 
   
