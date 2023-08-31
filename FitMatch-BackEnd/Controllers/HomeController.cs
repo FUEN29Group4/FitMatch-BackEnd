@@ -42,7 +42,7 @@ namespace FitMatch_BackEnd.Controllers
         [HttpPost]
         public ActionResult Login(CLoginViewModel vm)
         {
-            string result256 = Get_SHA256_Hash(vm.txtPassword);
+            string result256 = Get_SHA256_Hash(vm.txtPassword).ToUpper();
             vm.txtPassword = result256.PadRight(16);
 
 
