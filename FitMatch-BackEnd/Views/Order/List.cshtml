@@ -15,66 +15,6 @@
     }
 </style>
 
-<!-- Content Start -->
-<div class="content">
-    <!-- Navbar Start -->
-    <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
-        <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-            <h1 class="pt-2" style="color: #F24B88!important;">M</h1>
-        </a>
-        <a href="#" class="sidebar-toggler flex-shrink-0">
-            <i class="fa fa-bars"></i>
-        </a>
-        <form class="d-none d-md-flex ms-4">
-            <h4 class="m-auto">訂單管理</h4>
-        </form>
-        <div class="navbar-nav align-items-center ms-auto">
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link">
-                    <i class="fa-solid fa-gear"></i>
-                    <span class="d-none d-lg-inline-flex">設定</span>
-                </a>
-                
-            </div>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <i class="fa fa-bell me-lg-2"></i>
-                    <span class="d-none d-lg-inline-flex">通知</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                    <a href="#" class="dropdown-item">
-                        <h6 class="fw-normal mb-0">Profile updated</h6>
-                        <small>15 minutes ago</small>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <h6 class="fw-normal mb-0">New user added</h6>
-                        <small>15 minutes ago</small>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <h6 class="fw-normal mb-0">Password changed</h6>
-                        <small>15 minutes ago</small>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item text-center">See all notifications</a>
-                </div>
-            </div>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img class="rounded-circle me-lg-2" src="~/img/員工/02627af6-2503-42cc-8ea7-5a69773dadd6.jpg" alt=""
-                         style="width: 40px; height: 40px;">
-                    <span class="d-none d-lg-inline-flex">揚庭</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                    <a href="#" class="dropdown-item">My Profile</a>
-                    <a href="#" class="dropdown-item">Settings</a>
-                    <a href="#" class="dropdown-item">Log Out</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <!-- Navbar End -->
     <!-- 篩選列開始 -->
     <div class="container-fluid pt-4 px-4">
         <nav class="navbar navbar-expand-lg bg-white rounded py-4 px-2">
@@ -224,13 +164,16 @@
 
     </div>
     <!-- 管理列表結束 -->
-</div>
-<!-- Content End -->
 <!-- JQ -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+    //放置標題
+    document.addEventListener('DOMContentLoaded', function () {
+        var textElement = document.getElementById('TitleName');
+        textElement.innerHTML = '訂單管理';
+    });
     // 篩選選項和按鈕的 DOM 元素
     const ShippingMethodFilter = document.getElementById('ShippingMethodFilter');
     const PaymentMethodFilter = document.getElementById('PaymentMethodFilter');
