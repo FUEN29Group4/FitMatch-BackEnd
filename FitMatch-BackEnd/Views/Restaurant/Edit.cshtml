@@ -119,7 +119,7 @@
 
                     <form method="post" asp-action="Edit" class="" style="padding: 50px;" enctype="multipart/form-data" id="EditForm">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input type="hidden" name="RestaurantsId" value="@Model.RestaurantWrap.RestaurantsId" />
+                        <input asp-for="RestaurantWrap.RestaurantsId" type="hidden" name="RestaurantsId" value="@Model.RestaurantWrap.RestaurantsId" />
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
                                 <label asp-for="RestaurantWrap.RestaurantsName" for="inputname" class="col-form-label">餐廳名稱</label>
@@ -264,6 +264,11 @@
 </div>
 <!-- Content End -->
 
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
 
 <script>
     const uploadInput = document.getElementById('upload');
@@ -287,11 +292,7 @@
 
 </script>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+
 
 <script>
 

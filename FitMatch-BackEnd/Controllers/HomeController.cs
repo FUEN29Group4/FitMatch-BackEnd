@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using FitMatch_BackEnd.ViewModel;
 using System.Text.Json;
-
+using System.Security.Cryptography;
+using System.Text;
 
 namespace FitMatch_BackEnd.Controllers
 {
@@ -41,6 +42,10 @@ namespace FitMatch_BackEnd.Controllers
         [HttpPost]
         public ActionResult Login(CLoginViewModel vm)
         {
+            string result256 = Get_SHA256_Hash(vm.txtPassword);
+            vm.txtPassword = result256.PadRight(16);
+
+
             Employee user = (new FitMatchDbContext()).Employees.FirstOrDefault(t => t.Email.Equals(vm.txtAccount) && t.Password.Equals(vm.txtPassword));
             if (user != null && user.Password.Equals(vm.txtPassword))
             {
@@ -68,6 +73,13 @@ namespace FitMatch_BackEnd.Controllers
             return PartialView("Login", ModelState);
         }
 
+
+        public static string Get_SHA256_Hash(string value)
+        {
+            using var hash = SHA256.Create();
+            var byteArray = hash.ComputeHash(Encoding.UTF8.GetBytes(value));
+            return Convert.ToHexString(byteArray).ToLower();
+        }
 
 
 
