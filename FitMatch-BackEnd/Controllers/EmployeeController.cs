@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Security.Cryptography;
 
 namespace FitMatch_BackEnd.Controllers
 {
@@ -86,14 +87,24 @@ namespace FitMatch_BackEnd.Controllers
                     // 保存新照片名存到DB
                     e.Photo = photoName;
                 }
-               
+                string result256 = Get_SHA256_Hash(e.Password).ToUpper();
+                e.Password = result256.PadRight(16);
+
                 e.CreatedAt = DateTime.Now; // 設置當前的日期和時間
                 e.Status = true; // 新增時在職狀況預設為在職中
+                
                 _context.Employees.Add(e);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Employee");
             }
             return View(e);
+        }
+
+        public static string Get_SHA256_Hash(string value)
+        {
+            using var hash = SHA256.Create();
+            var byteArray = hash.ComputeHash(Encoding.UTF8.GetBytes(value));
+            return Convert.ToHexString(byteArray).ToLower();
         }
 
 
@@ -173,8 +184,11 @@ namespace FitMatch_BackEnd.Controllers
                 e.Address = prodIn.Address;
                 e.Email = prodIn.Email;
                 e.Position = prodIn.Position;
-                e.Password = prodIn.Password;
                 e.Status = prodIn.Status;
+
+                string result256 = Get_SHA256_Hash(prodIn.Password).ToUpper();
+                e.Password = result256.PadRight(16);
+
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Employee");
