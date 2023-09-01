@@ -47,7 +47,7 @@ namespace FitMatch_BackEnd.Controllers
 
 
             Employee user = (new FitMatchDbContext()).Employees.FirstOrDefault(t => t.Email.Equals(vm.txtAccount) && t.Password.Equals(vm.txtPassword));
-            if (user != null && user.Password.Equals(vm.txtPassword))
+            if (user != null && user.Password.Equals(vm.txtPassword) && user.Status == true)
             {
                 if (user == null)
                 {
