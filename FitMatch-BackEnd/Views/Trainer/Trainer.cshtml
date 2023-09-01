@@ -1,7 +1,14 @@
-﻿@model IEnumerable<FitMatch_BackEnd.Models.Trainer>
+﻿@model X.PagedList.IPagedList<FitMatch_BackEnd.Models.Trainer>
+<!-- 显示分页控件 -->
+<!-- 在视图中使用 pagedData 模型来显示数据和分页控件 -->
+@using X.PagedList.Mvc;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
 
 @{
     ViewData["Title"] = "Trainer";
+    int currentPage = ViewBag.CurrentPage;
+    int totalPages = ViewBag.TotalPages;
 
 }
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -17,7 +24,6 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">*@
         <div class="row g-4">
-            <form method="GET" action="@Url.Action("Trainer")">
 
                 <div class="col">
                     <div class="bg-white rounded h-100 p-4">
@@ -28,7 +34,7 @@
                             <div class="col-3 d-flex align-items-center justify-content-center">
                                 所在城市:
                                 <div class="mx-1 flex-grow-1 ps-1">
-                                    <select class="form-select" name="city"
+                                <select id="CityFilter" class="form-select" name="city"
                                             aria-label="所在城市">
                                         <option selected disabled value="">請選擇城市</option>
                                         @foreach (var cityOption in new List<string> { "臺北市", "新北市", "新竹市", "臺中市", "臺南市", "高雄市" })
@@ -47,20 +53,12 @@
                                 </div>
                             </div>
 
-                            @*@{
-                            var statuses = new Dictionary<int, string>
-                            {
-                            { 0, "審核通過" },
-                            { 1, "審核中" },
-                            { 2, "退回審核" }
-                            };
-                            }*@
-                            <!-- 第二區塊 -->
+
 
                             <div class="col-3 d-flex align-items-center justify-content-center">
                                 審核狀態:
                                 <div class="mx-1 flex-grow-1 ps-2">
-                                    <select class="form-select" name="approved"
+                                <select id="ApprovalStatusFilter" class="form-select" name="approved"
                                             aria-label="Floating label select example">
                                         <option selected disabled value="">請選擇</option>
                                         <option value="0">審核中</option>
@@ -70,70 +68,36 @@
                                 </div>
                             </div>
 
-                            <!-- 第三區塊 -->
-                            @*<div class="col-3 d-flex align-items-center">
-                            希望待遇:
-                            <div class="mx-1 flex-grow-1">
-                            <select class="form-select" id="statusSelect"
-                            aria-label="Floating label select example">
-                            <option selected disabled>請選擇</option>
-                            <option value="1">0~1000</option>
-                            <option value="2">1000~2000</option>
-                            <option value="3">2000以上</option>
-                            </select>
-                            </div>
-                            </div>*@
-                            <!-- 第四區塊 -->
-                            @*<div class="col-4 d-flex align-items-center justify-content-end">
-
-                            <div class="col-1 p-0">
-                            搜尋:
-                            </div>
-                            <div class="col-9 ps-2">
-                            <div class="mx-10 flex-grow-1">
-                            <input class=" form-control" type="text" placeholder="請輸入關鍵字"
-                            aria-label="請輸入關鍵字" id="searchInput">
-                            </div>
-                            </div>
-                            <div class="col-1 d-flex align-items-center p-0 ps-2">
-                            <a href="">
-                            <i class="fa-solid fa-magnifying-glass fa-xl"></i>
-                            </a>
-                            </div>*@
-
-                            @*</div>*@
 
 
-                            <form method="get" action="@Url.Action("Trainer", "Trainer")">
-                                <div class="col-5 d-flex align-items-center justify-content-end">
-                                    <div class="col-1 p-0">
-                                        搜尋:
-                                    </div>
-                                    <div class="col-9 ps-2">
-                                        <div class="mx-10 flex-grow-1">
-                                            @*<input class=" form-control" type="text" placeholder="請輸入關鍵字"
-                                            aria-label="請輸入關鍵字" id="searchInput">*@
-                                            @Html.TextBox("txtKeyword", ViewBag.Keyword as string, new { @class = "form-control", @placeholder = "請輸入關鍵字", @aria_label = "請輸入關鍵字", @id = "searchInput" })
-                                        </div>
-                                    </div>
-                                    <div class="col-1 d-flex align-items-center p-0  ps-2">
-                                        <button type="submit" class="btn">
-                                            <i class="fa-solid fa-magnifying-glass fa-xl"></i>
-                                        </button>
+
+                        <form method="get" id="searchForm" method="get" action="List">
+                            <div class="col-5 d-flex align-items-center justify-content-end">
+                                <div class="col-1 p-0">
+                                    搜尋:
+                                </div>
+                                <div class="col-9 ps-2">
+                                    <div class="mx-10 flex-grow-1">
+                                        <input id="searchInput" type="text" name="txtKeyword" class="form-control"  placeholder="請輸入關鍵字">
+                                        <!-- 將 id 改成 txtKeyword -->
                                     </div>
                                 </div>
-                            </form>
-                            <!-- 清空區塊 -->
-                            <div class="col-1 d-flex  align-items-center justify-content-end">
-                                <button class="btn btn-outline-success" type="button" id="clearSearch">
-                                    清空
-                                </button>
-
+                                <div class="col-1 d-flex align-items-center p-0 ps-2">
+                                    <button type="submit" class="btn">
+                                        <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                                    </button>
+                                </div>
                             </div>
+                        </form>
+                        <!-- 清空區塊 -->
+                        <div class="col-1 d-flex align-items-center justify-content-end">
+                            <button class="btn btn-outline-success" type="button" id="clearSearch">
+                                清空
+                            </button>
+                        </div>
                         </div>
                     </div>
                 </div>
-            </form>
         </div>
         @*</div>
         </nav>*@
@@ -245,32 +209,32 @@
                         <!-- Pagination goes here -->
                     </div>
                     <!-- 全選區塊END-->
-                    <!-- 換頁區塊開始 -->
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
-                                <a class="page-link previous-page" data-page-type="previous" href="@Url.Action("Trainer", new { currentPage = ViewBag.CurrentPage - 1 })">
-                                    <i class="fa-solid fa-chevron-left"></i>
+                <!-- 換頁區塊開始 -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                            <a class="page-link previous-page" data-page-type="previous" href="@Url.Action("Trainer", new { currentPage = ViewBag.CurrentPage - 1 })">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </a>
+                        </li>
+
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("Trainer", new { currentPage = i })">
+                                    @i
                                 </a>
                             </li>
+                        }
 
-                            @for (int i = 1; i <= ViewBag.TotalPages; i++)
-                            {
-                                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                                    <a class="page-link" id="@("page-" + i)" data-page="@i" data-page-type="number" href="@Url.Action("Trainer", new { currentPage = i })">
-                                        @i
-                                    </a>
-                                </li>
-                            }
-
-                            <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
-                                <a class="page-link next-page" data-page-type="next" href="@Url.Action("Trainer", new { currentPage = ViewBag.CurrentPage + 1 })">
-                                    <i class="fa-solid fa-chevron-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <!-- 換頁區塊END -->
+                        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                            <a class="page-link next-page" data-page-type="next" href="@Url.Action("Trainer", new { currentPage = ViewBag.CurrentPage + 1 })">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- 換頁區塊END -->
                 </div>
             </div>
         </div>
@@ -280,8 +244,95 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 
-
 <script>
+    // 放置標題
+    document.addEventListener('DOMContentLoaded', function () {
+        var textElement = document.getElementById('TitleName');
+        textElement.innerHTML = '教練管理';
+    });
+
+    // 篩選選項和按鈕的 DOM 元素
+    const cityFilter = document.getElementById('CityFilter');
+    const approvalStatusFilter = document.getElementById('ApprovalStatusFilter');
+    const searchForm = document.getElementById('searchForm'); // 修改這裡的 ID
+    const clearButton = document.getElementById('clearSearch');
+    const pageLinks = document.querySelectorAll('.page-link'); // 所有分頁按鈕的 DOM 元素
+
+    // 初始化篩選條件
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('city')) {
+        const selectedCity = params.get('city');
+        cityFilter.value = selectedCity;
+    }
+    if (params.has('approved')) {
+        const selectedApprovalStatus = params.get('approved');
+        approvalStatusFilter.value = selectedApprovalStatus;
+    }
+
+    // 監聽篩選選項的變化
+    cityFilter.addEventListener('change', function () {
+        updateFiltersAndPage(1); // 將當前頁碼設為 1
+    });
+
+    approvalStatusFilter.addEventListener('change', function () {
+        updateFiltersAndPage(1); // 將當前頁碼設為 1
+    });
+
+    // 監聽表單的提交事件，避免頁面重新加載
+    searchForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        updateFiltersAndPage(1); // 將當前頁碼設為 1
+    });
+
+    // 監聽清空按鈕的點擊事件
+    clearButton.addEventListener('click', function () {
+        // 清空關鍵字搜尋
+        const searchInput = document.getElementById('searchInput');
+        searchInput.value = '';
+        // 重置篩選條件
+        CityFilter.value = '';
+        ApprovalStatusFilter.value = '';
+
+
+        // 觸發篩選並跳轉到第一頁
+        updateFiltersAndPage(1);
+    });
+
+    // 在页面加载时设置输入框的值
+    window.addEventListener('load', function () {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('txtKeyword')) { // 使用 txtKeyword
+            const searchKeyword = params.get('txtKeyword'); // 使用 txtKeyword
+            const searchInput = document.getElementById('searchInput');
+            searchInput.value = searchKeyword;
+        }
+    });
+
+    // 更新篩選條件並修改 URL，然後換頁
+    function updateFiltersAndPage(pageNumber) {
+        const selectedCity = cityFilter.value;
+        const selectedApprovalStatus = approvalStatusFilter.value;
+        const txtKeyword = document.getElementById('searchInput').value;
+
+        const currentParams = new URLSearchParams(window.location.search);
+
+        // 更新篩選條件參數
+        currentParams.set('city', selectedCity);
+        currentParams.set('approved', selectedApprovalStatus);
+        currentParams.set('txtKeyword', txtKeyword); // 使用 txtKeyword
+        currentParams.set('currentPage', pageNumber);
+
+        const currentUrl = new URL(window.location);
+        currentUrl.search = currentParams.toString();
+
+        // 將更新的 URL 設置為新的頁面位置
+        window.location.href = currentUrl.toString();
+    }
+
+</script>
+
+
+@*<script>
     //放置標題
     document.addEventListener('DOMContentLoaded', function () {
         var textElement = document.getElementById('TitleName');
@@ -324,4 +375,4 @@
         });
     });
 
-</script>
+</script>*@

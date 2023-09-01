@@ -3,10 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using X.PagedList;
+using X.PagedList.Mvc.Core;
+using System.Drawing.Printing;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
+
+
 
 namespace FitMatch_BackEnd.Controllers
 {
-    public class TrainerController : SuperController
+    public class TrainerController : Controller
     {
         //注入DB 可以在很多方法用他來連結資料庫
         private readonly FitMatchDbContext _context;
@@ -17,42 +25,41 @@ namespace FitMatch_BackEnd.Controllers
             _context = context;
         }
         //跟教練資料連結然後呈現出views
-        public IActionResult Trainer(int currentPage = 1, string txtKeyword = null, int? trainerApproved = null, string? city = "", int? approved = null)
+        public IActionResult Trainer(int currentPage, string txtKeyword, int? trainerApproved = null, string? city = "", int? approved = null)
         {
-            //預設一頁只能有8筆資料
-            int itemsPerPage = 8;
-            IEnumerable<Trainer> datas = from p in _context.Trainers select p;
-            // 如果有搜尋關鍵字
+            int itemsPerPage = 4;
+            IQueryable<Trainer> datas = from p in _context.Trainers select p;
+
             if (!string.IsNullOrWhiteSpace(txtKeyword))
             {
                 datas = datas.Where(p => p.TrainerName.Contains(txtKeyword));
             }
 
-            // 如果City有值
             if (!string.IsNullOrEmpty(city))
             {
                 datas = datas.Where(p => p.Address.StartsWith(city));
             }
-            ViewBag.City = city;
 
-            //審核篩選:如果Approved有值
             if (approved.HasValue)
             {
                 datas = datas.Where(p => p.Approved == approved.Value);
             }
 
-            // 根據當下頁碼獲取datas
-            datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
-
-            int totalDataCount = _context.Trainers.Count();
+            int totalDataCount = datas.Count(); // 使用篩選後的資料計算總數
             int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
+            int validCurrentPage = Math.Max(1, Math.Min(currentPage, totalPages));
+
+            // 在這裡將篩選後的資料進行分頁
+            IPagedList<Trainer> pagedData = datas.ToPagedList(validCurrentPage, itemsPerPage);
 
             ViewBag.TotalPages = totalPages;
-            ViewBag.CurrentPage = currentPage;
-            ViewBag.Keyword = txtKeyword;  // 將關鍵字存入ViewBag，以便在View中使用
+            ViewBag.CurrentPage = validCurrentPage;
+            ViewBag.Keyword = txtKeyword;
+            ViewBag.City = city;
 
-            return View(datas);
+            return View(pagedData);
         }
+
 
         //審核通過
         public async Task<IActionResult> Approve(int id)
