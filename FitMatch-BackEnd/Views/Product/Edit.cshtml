@@ -281,7 +281,7 @@
 
             // Perform form submission using AJAX or fetch
             try {
-                const response = await fetch('/Product/Create', {
+                const response = await fetch('/Product/Edit', {
                     method: "POST",
                     body: new FormData(form)
                 });
@@ -290,8 +290,8 @@
                     // Show success message with confirm button
                     await Swal.fire({
                         icon: "success",
-                        title: "新增成功",
-                        text: "已成功建立一筆商品資料",
+                        title: "修改成功",
+                        text: "已成功修改一筆商品資料",
                         showConfirmButton: true,
                         confirmButtonText: "確認"
                     }).then(() => {
