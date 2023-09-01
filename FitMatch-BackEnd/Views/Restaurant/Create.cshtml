@@ -1,5 +1,4 @@
-﻿@using FitMatch_BackEnd.ViewModel;
-@model CListViewModel
+﻿@model FitMatch_BackEnd.Models.CRestaurantWrap
 
 @* @{
     ViewData["Title"] = "Create";
@@ -62,12 +61,12 @@
 
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
-                                <label asp-for="RestaurantWrap.RestaurantsName" for="inputname" class="col-form-label">餐廳名稱</label>
+                                <label asp-for="RestaurantsName" for="inputname" class="col-form-label">餐廳名稱</label>
                             </div>
                             <div class="col-4">
-                                <input asp-for="RestaurantWrap.RestaurantsName" data-validate="RestaurantName" data-error-message="餐廳名稱是必填的" class="form-control mb-3" type="text" placeholder="請輸入餐廳名稱"
+                                <input asp-for="RestaurantsName" data-validate="RestaurantName" data-error-message="餐廳名稱是必填的" class="form-control mb-3" type="text" placeholder="請輸入餐廳名稱"
                                        aria-label="請輸入餐廳名稱" id="inputname">
-                                <span asp-validation-for="RestaurantWrap.RestaurantsName" class="text-danger"></span>
+                                <span asp-validation-for="RestaurantsName" class="text-danger"></span>
                             </div>
                             <div class="col-2">
                                 <button type="button" class="btn btn-primary" onclick="fillVenueInfo()">demo展示用</button>
@@ -76,23 +75,23 @@
 
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
-                                <label asp-for="RestaurantWrap.Address" for="inputname" class="col-form-label">餐廳地址</label>
+                                <label asp-for="Address" for="inputname" class="col-form-label">餐廳地址</label>
                             </div>
                             <div class="col-4">
-                                <input asp-for="RestaurantWrap.Address" data-validate="Address" data-error-message="地址是必填的" class="form-control mb-3" type="text" placeholder="請輸入餐廳地址"
+                                <input asp-for="Address" data-validate="Address" data-error-message="地址是必填的" class="form-control mb-3" type="text" placeholder="請輸入餐廳地址"
                                        aria-label="請輸入餐廳地址" id="inputaddress">
-                                <span asp-validation-for="RestaurantWrap.Address" class="text-danger"></span>
+                                <span asp-validation-for="Address" class="text-danger"></span>
                             </div>
                         </div>
 
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                             <div class="col-1">
-                                <label asp-for="RestaurantWrap.Phone" for="inputname" class="col-form-label">餐廳電話</label>
+                                <label asp-for="Phone" for="inputname" class="col-form-label">餐廳電話</label>
                             </div>
                             <div class="col-4">
-                                <input asp-for="RestaurantWrap.Phone" data-validate="Phone" data-error-message="電話是必填的" class="form-control mb-3" type="text" placeholder="請輸入餐廳電話"
+                                <input asp-for="Phone" data-validate="Phone" data-error-message="電話是必填的" class="form-control mb-3" type="text" placeholder="請輸入餐廳電話"
                                        aria-label="請輸入餐廳電話" id="inputphone">
-                                <span asp-validation-for="RestaurantWrap.Phone" class="text-danger"></span>
+                                <span asp-validation-for="Phone" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -118,13 +117,13 @@
                             </div>
                             <div class="col-10 d-flex justify-content-start">
                                 <div class="form-check me-3">
-                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios1" value="0" @(Model.RestaurantWrap.Status == 0 ? "checked" : "")>
+                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios1" value="0" @(Model.Status == 0 ? "checked" : "")>
                                     <label class="form-check-label" for="gridRadios1">
                                         上架
                                     </label>
                                 </div>
                                 <div class="form-check me-3">
-                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios2" value="1" @(Model.RestaurantWrap.Status == 1 ? "checked" : "")>
+                                    <input class="form-check-input" type="radio" name="Status" id="gridRadios2" value="1" @(Model.Status == 1 ? "checked" : "")>
                                     <label class="form-check-label" for="gridRadios2">
                                         下架
                                     </label>
@@ -138,7 +137,7 @@
                                 <legend class="col-form-label pt-3 pe-4">餐廳簡介</legend>
                             </div>
                             <div class="col-4 form-floating pt-1">
-                                <textarea asp-for="RestaurantWrap.RestaurantsDescription" data-validate="RestaurantsDescription" data-error-message="餐廳簡介是必填的" class="form-control" placeholder="請輸入餐廳簡介"
+                                <textarea asp-for="RestaurantsDescription" data-validate="RestaurantsDescription" data-error-message="餐廳簡介是必填的" class="form-control" placeholder="請輸入餐廳簡介"
                                           id="floatingTextarea" style="height: 200px;"></textarea>
                                 <label for="floatingTextarea">請輸入餐廳簡介</label>
                             </div>

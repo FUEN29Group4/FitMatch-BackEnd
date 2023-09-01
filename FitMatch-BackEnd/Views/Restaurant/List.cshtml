@@ -1,6 +1,5 @@
-﻿@* @model IEnumerable<FitMatch_BackEnd.Models.Restaurant> *@
-@using FitMatch_BackEnd.ViewModel;
-@model CListViewModel
+﻿@model IEnumerable<FitMatch_BackEnd.Models.Restaurant>
+
 
 
 @{
@@ -136,7 +135,7 @@
                     <tbody>
                         @{
                             int count = 0;
-                            foreach (var item in Model.RestaurantDatas)
+                            foreach (var item in Model)
                             {
                                 count++;
 

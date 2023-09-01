@@ -53,16 +53,7 @@ namespace FitMatch_BackEnd.Controllers
             ViewBag.Keyword = txtKeyword;  // 將關鍵字存入ViewBag，以便在View中使用
 
 
-            string userid = HttpContext.Session.GetString("User");
-            CUserViewModel user = JsonSerializer.Deserialize<CUserViewModel>(userid);
-
-            var viewModel = new CListViewModel
-            {
-                RestaurantDatas = datas,
-                User = user
-            };
-
-            return View(viewModel);
+            return View(datas);
 
         }
 
@@ -82,19 +73,11 @@ namespace FitMatch_BackEnd.Controllers
 
         public IActionResult Create()
         {
-            string userid = HttpContext.Session.GetString("User");
-            CUserViewModel user = JsonSerializer.Deserialize<CUserViewModel>(userid);
-
-            var viewModel = new CListViewModel
-            {
-                RestaurantWrap = new CRestaurantWrap(),
-                User = user
-            };
-
-            return View(viewModel);
+            CRestaurantWrap prodWp = new CRestaurantWrap();
+            return View(prodWp);
         }
         [HttpPost]
-        public IActionResult Create(CListViewModel p)
+        public IActionResult Create(CRestaurantWrap p)
         {
             FitMatchDbContext db = new FitMatchDbContext();
             Restaurant custDb = new Restaurant();
@@ -102,7 +85,7 @@ namespace FitMatch_BackEnd.Controllers
 
             if (p != null)
             {
-                if (p.RestaurantWrap.photo != null)
+                if (p.photo != null)
                 {
                     string photoName = Guid.NewGuid().ToString() + ".jpg";
 
@@ -112,15 +95,15 @@ namespace FitMatch_BackEnd.Controllers
                     //    custDb.Photo = photoName;
                     //}
                     string path = _enviro.WebRootPath + "/img/健康餐/" + photoName;
-                    p.RestaurantWrap.photo.CopyTo(new FileStream(path, FileMode.Create));
+                    p.photo.CopyTo(new FileStream(path, FileMode.Create));
                     custDb.Photo = photoName;
                 }
                 // 更新 Approved 狀態
-                custDb.Status = p.RestaurantWrap.Status;
-                custDb.RestaurantsName = p.RestaurantWrap.RestaurantsName;
-                custDb.Phone = p.RestaurantWrap.Phone;
-                custDb.Address = p.RestaurantWrap.Address;
-                custDb.RestaurantsDescription = p.RestaurantWrap.RestaurantsDescription;
+                custDb.Status = p.Status;
+                custDb.RestaurantsName = p.RestaurantsName;
+                custDb.Phone = p.Phone;
+                custDb.Address = p.Address;
+                custDb.RestaurantsDescription = p.RestaurantsDescription;
                 custDb.CreateAt = dateTime;
 
                 db.Restaurants.Add(custDb);
@@ -147,8 +130,6 @@ namespace FitMatch_BackEnd.Controllers
 
         public IActionResult Edit(int? id)
         {
-
-
             if (id == null)
                 return RedirectToAction("List");
             FitMatchDbContext db = new FitMatchDbContext();
@@ -156,30 +137,19 @@ namespace FitMatch_BackEnd.Controllers
             if (prod == null)
                 return RedirectToAction("List");
 
-            string userid = HttpContext.Session.GetString("User");
-            CUserViewModel user = JsonSerializer.Deserialize<CUserViewModel>(userid);
-
-            var viewModel = new CListViewModel
-            {
-                RestaurantWrap = new CRestaurantWrap
-                {
-                    restaurant = prod
-                },                 
-                User = user
-            };
-
-            return View(viewModel);
+            CRestaurantWrap prodWp = new CRestaurantWrap();
+            prodWp.restaurant = prod;
+            return View(prodWp);
         }
         [HttpPost]
-        public IActionResult Edit(CListViewModel prodIn)
+        public IActionResult Edit(CRestaurantWrap prodIn)
         {
             FitMatchDbContext db = new FitMatchDbContext();
-            Restaurant custDb = db.Restaurants.FirstOrDefault(t => t.RestaurantsId == prodIn.RestaurantWrap.RestaurantsId);
-
+            Restaurant custDb = db.Restaurants.FirstOrDefault(t => t.RestaurantsId == prodIn.RestaurantsId);
 
             if (prodIn != null)
             {
-                if (prodIn.RestaurantWrap.photo != null)
+                if (prodIn.photo != null)
                 {
                     string photoName = Guid.NewGuid().ToString() + ".jpg";
 
@@ -189,16 +159,16 @@ namespace FitMatch_BackEnd.Controllers
                     //    custIn.photo = photoName;
                     //}
                     string path = _enviro.WebRootPath + "/img/健康餐/" + photoName;
-                    prodIn.RestaurantWrap.photo.CopyTo(new FileStream(path, FileMode.Create));
+                    prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
                     custDb.Photo = photoName;
                 }
 
                 // 更新 Approved 狀態
-                custDb.Status = prodIn.RestaurantWrap.Status;
-                custDb.RestaurantsName = prodIn.RestaurantWrap.RestaurantsName;
-                custDb.Phone = prodIn.RestaurantWrap.Phone;
-                custDb.Address = prodIn.RestaurantWrap.Address;
-                custDb.RestaurantsDescription = prodIn.RestaurantWrap.RestaurantsDescription;
+                custDb.Status = prodIn.Status;
+                custDb.RestaurantsName = prodIn.RestaurantsName;
+                custDb.Phone = prodIn.Phone;
+                custDb.Address = prodIn.Address;
+                custDb.RestaurantsDescription = prodIn.RestaurantsDescription;
 
                 db.SaveChanges();
             }
