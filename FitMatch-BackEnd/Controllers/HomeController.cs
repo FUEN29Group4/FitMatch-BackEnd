@@ -49,10 +49,10 @@ namespace FitMatch_BackEnd.Controllers
             Employee user = (new FitMatchDbContext()).Employees.FirstOrDefault(t => t.Email.Equals(vm.txtAccount) && t.Password.Equals(vm.txtPassword));
             if (user != null && user.Password.Equals(vm.txtPassword) && user.Status == true)
             {
-                if (user == null)
-                {
-                    return RedirectToAction("Login");
-                }
+                //if (user == null)
+                //{
+                //    return RedirectToAction("Login");
+                //}
                 string json = "";
                 CUserViewModel userviewModel = new CUserViewModel();
 
@@ -67,7 +67,9 @@ namespace FitMatch_BackEnd.Controllers
                 HttpContext.Session.SetString(CDictionary.SK_LOGINED_USER, jsonlogin);
 
 
-                return RedirectToAction("Index", user);
+                //return RedirectToAction("Index", user);
+                _logger.LogInformation("Redirecting to Index");
+                return RedirectToAction("Index");
             }
             ModelState.AddModelError("", "");
             return PartialView("Login", ModelState);

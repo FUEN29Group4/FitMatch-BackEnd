@@ -68,6 +68,7 @@ namespace FitMatch_BackEnd.Controllers
             get { return _employee.Password; }
             set { _employee.Password = value; }
         }
+        public string NewPassword { get; set; } // 新密码
 
         public DateTime? CreatedAt
         {

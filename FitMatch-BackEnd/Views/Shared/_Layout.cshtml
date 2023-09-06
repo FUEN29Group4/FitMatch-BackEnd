@@ -182,9 +182,11 @@
                             var userJson = Context.Session.GetString("User");
                             var user = JsonConvert.DeserializeObject<CUserViewModel>(userJson);
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <img class="rounded-circle me-lg-2" src="~/img/員工/@user.UserPhoto" alt="" style="width: 40px; height: 40px;">
+                                <img class="rounded-circle me-lg-2" src="data:image/jpeg;base64, @user.UserPhoto" alt="" style="width: 40px; height: 40px;">
                                 <span class="d-none d-lg-inline-flex">@user.UserName</span>
                             </a>
+
+
                         }
                         else
                         {

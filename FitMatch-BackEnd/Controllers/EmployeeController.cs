@@ -22,7 +22,7 @@ namespace FitMatch_BackEnd.Controllers
             //連結DB
             _context = context;
         }
-        
+
         //public EmployeeController(FitMatchDbContext context)
         //{
         //    _context = context;
@@ -75,24 +75,39 @@ namespace FitMatch_BackEnd.Controllers
             if (ModelState.IsValid)
             {
 
+                //if (e.FileToUpload != null)
+                //{
+                //    string photoName = Guid.NewGuid().ToString() + ".jpg";
+                //    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/員工", photoName);
+                //    // 保存照片
+                //    using (var stream = new FileStream(path, FileMode.Create))
+                //    {
+                //        await e.FileToUpload.CopyToAsync(stream);
+                //    }
+                //    // 保存新照片名存到DB
+                //    e.Photo = photoName;
+                //}
+
                 if (e.FileToUpload != null)
                 {
-                    string photoName = Guid.NewGuid().ToString() + ".jpg";
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/員工", photoName);
-                    // 保存照片
-                    using (var stream = new FileStream(path, FileMode.Create))
+                    using (var memoryStream = new MemoryStream())
                     {
-                        await e.FileToUpload.CopyToAsync(stream);
+                        await e.FileToUpload.CopyToAsync(memoryStream);
+                        byte[] imageBytes = memoryStream.ToArray();
+
+                        // 將圖片轉換為Base64
+                        string base64String = Convert.ToBase64String(imageBytes);
+                        // 將Base64儲存在DB中
+                        e.Photo = base64String;
                     }
-                    // 保存新照片名存到DB
-                    e.Photo = photoName;
                 }
+
                 string result256 = Get_SHA256_Hash(e.Password).ToUpper();
                 e.Password = result256.PadRight(16);
 
                 e.CreatedAt = DateTime.Now; // 設置當前的日期和時間
                 e.Status = true; // 新增時在職狀況預設為在職中
-                
+
                 _context.Employees.Add(e);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Employee");
@@ -134,7 +149,7 @@ namespace FitMatch_BackEnd.Controllers
 
             return RedirectToAction("Employee");
         }
-       
+
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -146,7 +161,7 @@ namespace FitMatch_BackEnd.Controllers
         }
 
         [HttpPost]
-       
+
         public async Task<IActionResult> Edit(CEmployeeWrap prodIn)
         {
             Employee e = await _context.Employees.FirstOrDefaultAsync(t => t.EmployeeId == prodIn.EmployeeID);
@@ -168,14 +183,25 @@ namespace FitMatch_BackEnd.Controllers
                             System.IO.File.Delete(oldPath);
                         }
                     }
-                    string photoName = Guid.NewGuid().ToString() + ".jpg";
-                    string path = _enviro.WebRootPath + "/img/員工/" + photoName;
-                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    //string photoName = Guid.NewGuid().ToString() + ".jpg";
+                    //string path = _enviro.WebRootPath + "/img/員工/" + photoName;
+                    //using (var fileStream = new FileStream(path, FileMode.Create))
+                    //{
+                    //    await prodIn.photo.CopyToAsync(fileStream);
+                    //}
+                    ////prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
+                    //e.Photo = photoName;
+                    // 將新上傳的照片轉換成 Base64
+                    using (var memoryStream = new MemoryStream())
                     {
-                        await prodIn.photo.CopyToAsync(fileStream);
+                        await prodIn.photo.CopyToAsync(memoryStream);
+                        byte[] imageBytes = memoryStream.ToArray();
+
+                        // 將圖片轉換為Base64
+                        string base64String = Convert.ToBase64String(imageBytes);
+
+                        e.Photo = base64String;
                     }
-                    //prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
-                    e.Photo = photoName;
                 }
                 e.EmployeeName = prodIn.EmployeeName;
                 e.Gender = prodIn.Gender;
@@ -186,8 +212,14 @@ namespace FitMatch_BackEnd.Controllers
                 e.Position = prodIn.Position;
                 e.Status = prodIn.Status;
 
-                string result256 = Get_SHA256_Hash(prodIn.Password).ToUpper();
-                e.Password = result256.PadRight(16);
+                // 檢查是否提供了新密碼
+                if (!string.IsNullOrEmpty(prodIn.NewPassword))
+                {
+                    string result256 = Get_SHA256_Hash(prodIn.NewPassword).ToUpper();
+                    e.Password = result256.PadRight(16);
+                }
+                //string result256 = Get_SHA256_Hash(prodIn.Password).ToUpper();
+                //e.Password = result256.PadRight(16);
 
                 await _context.SaveChangesAsync();
             }
