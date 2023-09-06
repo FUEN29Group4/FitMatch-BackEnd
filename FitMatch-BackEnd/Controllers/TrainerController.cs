@@ -27,7 +27,7 @@ namespace FitMatch_BackEnd.Controllers
         //跟教練資料連結然後呈現出views
         public IActionResult Trainer(int currentPage, string txtKeyword, int? trainerApproved = null, string? city = "", int? approved = null)
         {
-            int itemsPerPage = 4;
+            int itemsPerPage = 8;
             IQueryable<Trainer> datas = from p in _context.Trainers select p;
 
             if (!string.IsNullOrWhiteSpace(txtKeyword))
