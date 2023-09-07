@@ -92,38 +92,18 @@ namespace FitMatch_BackEnd.Controllers
 
                 if (p.FileToUpload != null)
                 {
-                    // 檢查 MIME 類型
-                    var allowedMimeTypes = new[] { "image/jpeg", "image/png", "image/gif" };
-                    if (!allowedMimeTypes.Contains(p.FileToUpload.ContentType))
+                    // 使用 MemoryStream 讀取檔案
+                    using (var memoryStream = new MemoryStream())
                     {
-                        ModelState.AddModelError("FileToUpload", "只允許 JPEG, PNG 或 GIF 格式的文件");
-                        return View(p);
+                        await p.FileToUpload.CopyToAsync(memoryStream);
+                        byte[] imageBytes = memoryStream.ToArray();
+
+                        // 將圖片轉換為Base64
+                        string base64String = Convert.ToBase64String(imageBytes);
+                        // 將Base64儲存在DB中
+                        p.Photo = base64String;
                     }
-
-                    // 檢查文件大小
-                    if (p.FileToUpload.Length > 10 * 1024 * 1024)  // 10 MB
-                    {
-                        ModelState.AddModelError("FileToUpload", "文件大小不能超過 10 MB");
-                        return View(p);
-                    }
-
-
-                    // 生成一個唯一的文件名（這裡使用了 Guid，您也可以使用其他方式）
-                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + p.FileToUpload.FileName;
-
-                    // 確定保存位置
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/gym", uniqueFileName);
-
-                    // 保存文件
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        await p.FileToUpload.CopyToAsync(stream);
-                    }
-
-                    // 保存新文件名到數據庫
-                    p.Photo = uniqueFileName;
                 }
-
 
                 // 讀取表單中的 "Approved" 值
                 string approvedValue = Request.Form["Approved"].ToString();
@@ -217,10 +197,10 @@ namespace FitMatch_BackEnd.Controllers
         public async Task<IActionResult> GymEdit(Gym custIn)
         {
             if (custIn == null ||
-       string.IsNullOrEmpty(custIn.GymName) ||
-       string.IsNullOrEmpty(custIn.Phone) ||
-       string.IsNullOrEmpty(custIn.Address) ||
-       string.IsNullOrEmpty(custIn.GymDescription))
+                string.IsNullOrEmpty(custIn.GymName) ||
+                string.IsNullOrEmpty(custIn.Phone) ||
+                string.IsNullOrEmpty(custIn.Address) ||
+                string.IsNullOrEmpty(custIn.GymDescription))
             {
                 ModelState.AddModelError("", "所有欄位都是必填的");
                 return View(custIn);
@@ -233,14 +213,9 @@ namespace FitMatch_BackEnd.Controllers
                 custDb.GymName = custIn.GymName;
                 custDb.Phone = custIn.Phone;
                 custDb.Address = custIn.Address;
-
-                // 更新 Approved 狀態
                 custDb.Approved = string.IsNullOrEmpty(Request.Form["Approved"].ToString()) ? (bool?)null : Convert.ToBoolean(Request.Form["Approved"]);
-
-                // 更新 GymDescription
                 custDb.GymDescription = custIn.GymDescription;
 
-                // 更新 OpentimeStart 和 OpentimeEnd
                 if (int.TryParse(Request.Form["OpentimeStart"], out int opentimeStartHour))
                 {
                     custDb.OpentimeStart = custDb.OpentimeStart.HasValue
@@ -265,48 +240,27 @@ namespace FitMatch_BackEnd.Controllers
 
                 if (custIn.FileToUpload != null)
                 {
-                    // 檢查文件大小（以字節為單位，這裡限制為 5MB）
-                    if (custIn.FileToUpload.Length > 10 * 1024 * 1024)
+                    using (var memoryStream = new MemoryStream())
                     {
-                        // 文件過大
-                        ModelState.AddModelError("FileToUpload", "文件大小不能超過 10 MB.");
-                        return View(custIn);
+                        await custIn.FileToUpload.CopyToAsync(memoryStream);
+                        byte[] imageBytes = memoryStream.ToArray();
+                        string base64String = Convert.ToBase64String(imageBytes);
+                        custDb.Photo = base64String;
                     }
-
-                    // 檢查MIME類型
-                    string[] permittedExtensions = { ".jpg", ".jpeg", ".png", ".gif" };
-                    string fileExtension = Path.GetExtension(custIn.FileToUpload.FileName).ToLowerInvariant();
-                    if (string.IsNullOrEmpty(fileExtension) || !permittedExtensions.Contains(fileExtension))
-                    {
-                        // 非法文件類型
-                        ModelState.AddModelError("FileToUpload", "只允許 JPEG, PNG 或 GIF 格式的文件");
-                        return View(custIn);
-                    }
-
-                    // 生成一個唯一的檔名
-                    string uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
-
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/gym", uniqueFileName);
-
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        await custIn.FileToUpload.CopyToAsync(stream);
-                    }
-
-                    // 刪除舊照片（如果需要）
-                    if (!string.IsNullOrEmpty(custDb.Photo))
-                    {
-                        var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/gym", custDb.Photo);
-                        System.IO.File.Delete(oldPath);
-                    }
-
-                    custDb.Photo = uniqueFileName;
                 }
 
+                // 在這裡保存所有更改，而不只是照片
                 await _context.SaveChangesAsync();
+
+                return RedirectToAction("Gym");
             }
-            return RedirectToAction("Gym");
+            else
+            {
+                ModelState.AddModelError("", "找不到相對應的 Gym 資料");
+                return View(custIn);
+            }
         }
+
 
 
 

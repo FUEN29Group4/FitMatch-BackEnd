@@ -130,7 +130,7 @@
                                     <td>@Html.DisplayFor(modelItem => item.Address)</td>
                                     <td>@(item.OpentimeStart.HasValue ? item.OpentimeStart.Value.ToString("HH:mm") : "未設定")</td>
                                     <td>@(item.OpentimeEnd.HasValue ? item.OpentimeEnd.Value.ToString("HH:mm") : "未設定")</td>
-                                    <td><img src="@("/img/gym/" + item.Photo)" width="110" height="70" /></td>
+                                    <td><img id="previewImage" src="data:image/jpeg;base64, @item.Photo" width="110" height="70" /></td>
                                     <td>
                                         <a class="btn btn-secondary" href="@Url.Action("GymEdit", "Gym", new { id = item.GymId })"
                                            style="background-color: aliceblue; color: black;">
