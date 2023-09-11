@@ -165,7 +165,7 @@
                             <th scope="col" class="align-middle">會員</th>
                             <th scope="col" class="align-middle">場館</th>
                             <th scope="col" class="align-middle">課程狀態</th>
-                            <th scope="col" class="align-middle">審核通過與否</th>
+                            @*<th scope="col" class="align-middle">審核通過與否</th>*@
                             <th scope="col" class="align-middle">建立時間</th>
                             <th scope="col" class="align-middle">開始時間</th>
                             <th scope="col" class="align-middle">結束時間</th>
@@ -184,7 +184,7 @@
                                 <td>@item.MemberName</td>
                                 <td>@item.GymName</td>
                                 <td>@item.CourseStatus</td>
-                                <td>
+                               @* <td>
                                     @if (item.Approved)
                                     {
                                         <span>已通過</span>
@@ -193,7 +193,7 @@
                                     {
                                         <span>未通過</span>
                                     }
-                                </td>
+                                </td>*@
                                 <td>@item.BuildTime</td>
                                 <td>@item.StartTime</td>
                                 <td>@item.EndTime</td>

@@ -24,8 +24,8 @@ namespace FitMatch_BackEnd.ViewModel
         public string CourseStatus { get; set; }
         public int GymId { get; set; }
 
-        [DisplayName("審核通過與否")]
-        public bool Approved { get; set; }
+        //[DisplayName("審核通過與否")]
+        //public bool Approved { get; set; }
 
         public int ClassTypeId { get; set; }
         public List<SelectListItem> AvailableGyms { get; set; } // 新添加的属性
