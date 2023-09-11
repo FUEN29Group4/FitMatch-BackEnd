@@ -121,10 +121,13 @@
                                         <div class="d-flex justify-content-center">
                                             <img id="newPreview" src="" alt="New Image Preview" style="display:none;" width="330" height="210">
                                         </div>
-                                        <!-- 上傳按鈕 -->
-                                        <div class="d-flex justify-content-center mt-3 w-100">
-                                            <input type="file" id="FileToUpload" name="photo" accept="image/*" onchange="previewNewImage(event)">
-                                        </div>
+                                    <!-- 上傳按鈕 -->
+                                    <div class="d-flex justify-content-center mt-3 w-100">
+                                        <input type="file" id="FileToUpload" name="photo" accept="image/*" onchange="previewNewImage(event)">
+                                    </div>
+                                    <!-- 用於存放Base64字串的隱藏輸入框 -->
+                                    <input type="hidden" id="base64Image" name="base64Image">
+
                                     </div>
                                 </div>
                             </div>
@@ -250,6 +253,22 @@
 
 
 <script>
+    function previewNewImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                // Set the image src for preview
+                document.getElementById('newPreview').style.display = 'block';
+                document.getElementById('newPreview').src = e.target.result;
+
+                // Store the base64 encoded image string in hidden input field
+                document.getElementById('base64Image').value = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
 
     // 確認按鈕的驗證
 
@@ -395,5 +414,32 @@
         document.getElementById("gridRadios1").checked = true;
 
     } *@
+        const uploadInput = document.getElementById('upload'); // 確保你有一個id為'upload'的input元素
+
+    uploadInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.addEventListener('load', function () {
+                const base64String = this.result;
+
+                // 儲存base64String到隱藏的input元素中
+                const hiddenInputElement = document.getElementById('base64Image');
+                hiddenInputElement.value = base64String;
+
+                // 顯示圖片
+                const preview = document.getElementById('preview'); // 確保你有一個id為'preview'的img元素
+                preview.src = base64String;
+            });
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+
+    const base64FromDatabase = "..."; // 這應該是從資料庫中讀取的值
+    const imageElement = document.getElementById('yourImageElementId'); // 用你的img元素的ID替換
+    imageElement.src = base64FromDatabase;
 
 </script>
