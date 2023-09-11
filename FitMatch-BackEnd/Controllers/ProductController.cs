@@ -29,81 +29,43 @@ namespace FitMatch_BackEnd.Controllers
 
 
 
-        //***篩選功能***
-
-        //取得商品管理頁面
         public IActionResult List(string searchField, string searchKeyword, CKeywordViewModel vm, int currentPage = 1)
         {
-
+            // 應該使用依賴注入，而不是每次都新建一個實例
             FitMatchDbContext db = new FitMatchDbContext();
-            IEnumerable<Product> datas = db.Products;
 
+            var datas = db.Products.AsQueryable(); // 使用IQueryable以便後續操作
 
-            if (vm.txtKeyword != null || vm.StatusFilter != null || vm.ProductFilter != null)
+            if (!string.IsNullOrEmpty(vm?.StatusFilter))
             {
-                if (!string.IsNullOrEmpty(vm?.StatusFilter))
-                {
-                    switch (vm.StatusFilter)
-                    {
-                        case "上架":
-                            datas = db.Products.Where(t => t.Status == true);
-                            break;
-                        case "下架":
-                            datas = db.Products.Where(t => t.Status == false);
-                            break;
-                    }
-                    if (!string.IsNullOrEmpty(vm?.ProductFilter))
-                    {
-                        datas = datas.Where(t => t.TypeId.ToString().Contains(vm.ProductFilter));
-                    }
-                    if (!string.IsNullOrEmpty(vm?.txtKeyword))
-                    {
-                        datas = datas.Where(t => t.ProductName.Contains(vm.txtKeyword));
-                    }
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(vm?.ProductFilter))
-                    {
-                        datas = db.Products.Where(t => t.TypeId.ToString().Contains(vm.ProductFilter));
-                        if (!string.IsNullOrEmpty(vm?.txtKeyword))
-                        {
-                            datas = datas.Where(t => t.ProductName.Contains(vm.txtKeyword));
-                        }
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(vm?.txtKeyword))
-                        {
-                            datas = db.Products.Where(t => t.ProductName.Contains(vm.txtKeyword));
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                datas = from p in db.Products
-                        select p;
+                bool status = vm.StatusFilter == "上架";
+                datas = datas.Where(t => t.Status == status);
             }
 
-            //跨TABLE
-            //var viewModelList = GetFilteredData(searchField, searchKeyword);
+            if (!string.IsNullOrEmpty(vm?.ProductFilter))
+            {
+                datas = datas.Where(t => t.TypeId.ToString().Contains(vm.ProductFilter));
+            }
 
+            if (!string.IsNullOrEmpty(vm?.txtKeyword))
+            {
+                datas = datas.Where(t => t.ProductName.Contains(vm.txtKeyword));
+            }
+
+            //計算總數量在過濾後，不是在所有產品上。
+            int totalDataCount = datas.Count();
 
             int itemsPerPage = 5;
-
-            // 根據當下頁碼獲取datas
             datas = datas.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage);
 
-            int totalDataCount = _context.Products.Count();
             int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
 
             ViewBag.TotalPages = totalPages;
             ViewBag.CurrentPage = currentPage;
-            return View(datas);
 
+            return View(datas);
         }
+
 
 
 
@@ -125,14 +87,18 @@ namespace FitMatch_BackEnd.Controllers
             {
                 if (p.photo != null)
                 {
-                    string photoName = Guid.NewGuid().ToString() + ".jpg";
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        p.photo.CopyTo(memoryStream);
+                        byte[] imageBytes = memoryStream.ToArray();
 
-                    string path = _enviro.WebRootPath + "/img/商城/" + photoName;
-                    p.photo.CopyTo(new FileStream(path, FileMode.Create));
-                    custDb.Photo = photoName;
+                        // Convert image to Base64
+                        string base64Image = Convert.ToBase64String(imageBytes);
+                        custDb.Photo = base64Image;
+                    }
                 }
 
-                // 更新 Status 狀態
+                // Update other properties
                 custDb.Status = p.Status;
                 custDb.ProductName = p.ProductName;
                 custDb.ProductDescription = p.ProductDescription;
@@ -144,7 +110,6 @@ namespace FitMatch_BackEnd.Controllers
                 db.SaveChanges();
             }
 
-          
             return RedirectToAction("List");
         }
 
@@ -156,44 +121,68 @@ namespace FitMatch_BackEnd.Controllers
         {
             if (id == null)
                 return RedirectToAction("List");
-            FitMatchDbContext db = new FitMatchDbContext();
-            Product cust = db.Products.FirstOrDefault(t => t.ProductId == id);
-            if (cust != null)
+
+            using (var db = new FitMatchDbContext())
             {
-                db.Products.Remove(cust);
-                db.SaveChanges();
+                Product cust = db.Products.FirstOrDefault(t => t.ProductId == id);
+                if (cust != null)
+                {
+                    db.Products.Remove(cust);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    return NotFound("The product was not found.");
+                }
             }
+
             return RedirectToAction("List");
         }
 
-        //修改   ***圖片未寫入***
+
         public IActionResult Edit(int? id)
         {
             if (id == null)
                 return RedirectToAction("List");
-            FitMatchDbContext db = new FitMatchDbContext();
-            Product prod = db.Products.FirstOrDefault(t => t.ProductId == id);
-            if (prod == null)
-                return RedirectToAction("List");
 
-            CProductWrap prodWp = new CProductWrap();
-            prodWp.product = prod;
-            return View(prodWp.product);
+            using (var db = new FitMatchDbContext()) // 使用 using 語句
+            {
+                Product prod = db.Products.FirstOrDefault(t => t.ProductId == id);
+                if (prod == null)
+                    return RedirectToAction("List");
+                CProductWrap prodWp = new CProductWrap();
+                prodWp.product = prod;
+                return View(prodWp.product);
+            }
         }
+
         [HttpPost]
         public IActionResult Edit(CProductWrap prodIn)
         {
-            FitMatchDbContext db = new FitMatchDbContext();
-            Product custDb = db.Products.FirstOrDefault(t => t.ProductId == prodIn.ProductId);
+            if (prodIn == null || prodIn.ProductId <= 0)
+                return BadRequest("Invalid product data."); // 更好的錯誤處理
 
-            if (prodIn != null)
+            using (var db = new FitMatchDbContext()) // 使用 using 語句
             {
+                Product custDb = db.Products.FirstOrDefault(t => t.ProductId == prodIn.ProductId);
+
+                if (custDb == null)
+                    return NotFound("Product not found.");
+
                 if (prodIn.photo != null)
                 {
-                    string photoName = Guid.NewGuid().ToString() + ".jpg";
-                                      
-                    string path = _enviro.WebRootPath + "/img/商城/" + photoName;
-                    prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
+                    string fileExtension = Path.GetExtension(prodIn.photo.FileName);
+                    if (fileExtension != ".jpg") // 確保正確的圖片格式
+                        return BadRequest("Invalid image format.");
+
+                    string photoName = Guid.NewGuid().ToString() + fileExtension;
+
+                    string path = Path.Combine(_enviro.WebRootPath, "img/商城", photoName);
+
+                    using (var fileStream = new FileStream(path, FileMode.Create)) // 使用 using 語句
+                    {
+                        prodIn.photo.CopyTo(fileStream);
+                    }
                     custDb.Photo = photoName;
                 }
 
@@ -204,11 +193,12 @@ namespace FitMatch_BackEnd.Controllers
                 custDb.ProductInventory = prodIn.ProductInventory;
                 custDb.Status = prodIn.Status;
                 custDb.TypeId = prodIn.TypeId;
-                
+
                 db.SaveChanges();
             }
             return RedirectToAction("List");
         }
+
         public class CKeywordViewModel
         {
             public string txtKeyword { get; set; }
