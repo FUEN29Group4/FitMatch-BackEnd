@@ -155,14 +155,13 @@ namespace FitMatch_BackEnd.Controllers
                 return View(prodWp.product);
             }
         }
-
         [HttpPost]
         public IActionResult Edit(CProductWrap prodIn)
         {
             if (prodIn == null || prodIn.ProductId <= 0)
-                return BadRequest("Invalid product data."); // 更好的錯誤處理
+                return BadRequest("Invalid product data.");
 
-            using (var db = new FitMatchDbContext()) // 使用 using 語句
+            using (var db = new FitMatchDbContext())
             {
                 Product custDb = db.Products.FirstOrDefault(t => t.ProductId == prodIn.ProductId);
 
@@ -175,15 +174,15 @@ namespace FitMatch_BackEnd.Controllers
                     if (fileExtension != ".jpg") // 確保正確的圖片格式
                         return BadRequest("Invalid image format.");
 
-                    string photoName = Guid.NewGuid().ToString() + fileExtension;
-
-                    string path = Path.Combine(_enviro.WebRootPath, "img/商城", photoName);
-
-                    using (var fileStream = new FileStream(path, FileMode.Create)) // 使用 using 語句
+                    // 將上傳的圖片轉換為 Base64 格式
+                    byte[] photoBytes;
+                    using (var ms = new MemoryStream())
                     {
-                        prodIn.photo.CopyTo(fileStream);
+                        prodIn.photo.CopyTo(ms);
+                        photoBytes = ms.ToArray();
                     }
-                    custDb.Photo = photoName;
+                    string base64Photo = Convert.ToBase64String(photoBytes);
+                    custDb.Photo = base64Photo;
                 }
 
                 // 更新其他屬性
@@ -198,6 +197,49 @@ namespace FitMatch_BackEnd.Controllers
             }
             return RedirectToAction("List");
         }
+
+        //[HttpPost]
+        //public IActionResult Edit(CProductWrap prodIn)
+        //{
+        //    if (prodIn == null || prodIn.ProductId <= 0)
+        //        return BadRequest("Invalid product data."); // 更好的錯誤處理
+
+        //    using (var db = new FitMatchDbContext()) // 使用 using 語句
+        //    {
+        //        Product custDb = db.Products.FirstOrDefault(t => t.ProductId == prodIn.ProductId);
+
+        //        if (custDb == null)
+        //            return NotFound("Product not found.");
+
+        //        if (prodIn.photo != null)
+        //        {
+        //            string fileExtension = Path.GetExtension(prodIn.photo.FileName);
+        //            if (fileExtension != ".jpg") // 確保正確的圖片格式
+        //                return BadRequest("Invalid image format.");
+
+        //            string photoName = Guid.NewGuid().ToString() + fileExtension;
+
+        //            string path = Path.Combine(_enviro.WebRootPath, "img/商城", photoName);
+
+        //            using (var fileStream = new FileStream(path, FileMode.Create)) // 使用 using 語句
+        //            {
+        //                prodIn.photo.CopyTo(fileStream);
+        //            }
+        //            custDb.Photo = photoName;
+        //        }
+
+        //        // 更新其他屬性
+        //        custDb.ProductName = prodIn.ProductName;
+        //        custDb.ProductDescription = prodIn.ProductDescription;
+        //        custDb.Price = prodIn.Price;
+        //        custDb.ProductInventory = prodIn.ProductInventory;
+        //        custDb.Status = prodIn.Status;
+        //        custDb.TypeId = prodIn.TypeId;
+
+        //        db.SaveChanges();
+        //    }
+        //    return RedirectToAction("List");
+        //}
 
         public class CKeywordViewModel
         {
