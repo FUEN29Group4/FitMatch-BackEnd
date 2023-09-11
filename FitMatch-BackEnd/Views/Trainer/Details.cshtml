@@ -65,7 +65,8 @@
                         <div class="rounded-circle ms-5" style="height: 200px;width: 200px; overflow:hidden;">
                             @*<img src="./img/教練/team-1.jpg" style="width:100%;" alt="">*@
                             @*@Html.DisplayNameFor(model => model.Photo)*@
-                            <img src="~/img/教練/@Model.Photo" style="width:100%;" alt="Photo">
+                        <img id="previewImage" src="data:image/jpeg;base64, @Model.Photo" style="width:100%;" />
+                            @*<img src="~/img/教練/@Model.Photo" style="width:100%;" alt="Photo">*@
                             @*<img src="~/images/@item.FImagePath" width="110" height="70" />*@
                         </div>
                         <!-- </div> -->

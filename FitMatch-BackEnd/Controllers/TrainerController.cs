@@ -18,6 +18,8 @@ namespace FitMatch_BackEnd.Controllers
     {
         //注入DB 可以在很多方法用他來連結資料庫
         private readonly FitMatchDbContext _context;
+        public IWebHostEnvironment _enviro = null;
+
 
         //連結DB
         public TrainerController(FitMatchDbContext context)
@@ -109,5 +111,44 @@ namespace FitMatch_BackEnd.Controllers
             return View(trainer);
         }
 
+        //暫放 讓照片變成base64吃進資料庫
+
+        public IActionResult Edit()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int trainerId, IFormFile photo)
+        {
+            if (ModelState.IsValid)
+            {
+                Trainer e = await _context.Trainers.FirstOrDefaultAsync(t => t.TrainerId == trainerId);
+                if (e == null)
+                {
+                    return NotFound(); // 返回404 Not Found
+                }
+
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await photo.CopyToAsync(memoryStream);
+                        byte[] imageBytes = memoryStream.ToArray();
+                        string base64String = Convert.ToBase64String(imageBytes);
+                        e.Photo = base64String;
+                    }
+
+                // 保存更改
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Trainer");
+        }
+
+
+        public class CTrainer
+        {
+            public int TrainerId { get; set; }
+            public string? Photo { get; set; }
+            public IFormFile photo { get; set; }
+        }
     }
 }

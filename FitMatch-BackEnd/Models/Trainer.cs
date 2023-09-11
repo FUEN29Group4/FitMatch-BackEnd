@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using FitMatch_BackEnd.Models;
 using static FitMatch_BackEnd.Controllers.TrainerController;
 
@@ -41,4 +42,5 @@ public partial class Trainer
     public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
 
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
+
 }
