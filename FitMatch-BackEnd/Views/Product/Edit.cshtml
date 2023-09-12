@@ -1,9 +1,10 @@
 ﻿@model FitMatch_BackEnd.Models.Product
-@*
-@{
-    ViewData["Title"] = "Edit";
-}*@
 
+@{
+ViewData["Title"] = "Edit";
+}
+
+<link rel="stylesheet" href="css/personnel/revise.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
@@ -54,7 +55,8 @@
         <div class="col-sm-12">
             <div class="bg-secondary rounded h-100 p-4">
 
-                <form method="post" asp-action="Edit" class="" style="padding: 50px;" enctype="multipart/form-data" id="EditForm">
+                <form method="post" asp-action="Edit" class="" style="padding: 50px;" enctype="multipart/form-data"
+                    id="EditForm">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <input type="hidden" name="ProductId" value="@Model.ProductId">
@@ -64,7 +66,8 @@
                             <label asp-for="ProductId" class="col-form-label" t1>商品編號</label>
                         </div>
                         <div class="col-10">
-                            <label asp-for="ProductId" class="col-form-label  t1" value="ProductId"> @Model.ProductId</label>
+                            <label asp-for="ProductId" class="col-form-label  t1" value="ProductId">
+                                @Model.ProductId</label>
                         </div>
                     </div>
 
@@ -74,7 +77,8 @@
                             <label for="TypeId" class="me-2">商品類別:</label>
                         </div>
                         <div class="col-4">
-                            <select asp-for="TypeId" class="form-select" style="background-color: #fff;" aria-label="商品類別">
+                            <select asp-for="TypeId" class="form-select" style="background-color: #fff;"
+                                aria-label="商品類別">
                                 <option value="" selected disabled hidden>請選擇商品類別</option>
                                 <option value="1">雞胸肉</option>
                                 <option value="2">保健品</option>
@@ -89,75 +93,61 @@
                             <label asp-for="ProductName" for="inputname" class="col-form-label">商品名稱</label>
                         </div>
                         <div class="col-4">
-                            <input asp-for="ProductName" data-validate="ProductName" class="form-control mb-3" type="text" placeholder="這裡會帶入商品名稱"
-                                   aria-label="這裡會帶入商品名稱" id="inputProductName">
+                            <input asp-for="ProductName" data-validate="ProductName" class="form-control mb-3"
+                                type="text" placeholder="這裡會帶入商品名稱" aria-label="這裡會帶入商品名稱" id="inputProductName">
                             <span asp-validation-for="ProductName" class="text-danger"></span>
                         </div>
                     </div>
 
-                    @if (Model.Photo != null)
-                    {
-                        <!-- 現有照片預覽 -->
-                        <div class="col-sm-12 col-xl-6 mb-3">
-                            <div class="card">
-                                <div class="card-header d-flex justify-content-center">
-                                    現有封面照片
-                                </div>
-                                <div class="card-body d-flex justify-content-center">
-                                    <img id="existingPreview" src="data:image/jpeg;base64,@Model.Photo" alt="Existing Image Preview" width="330" height="210">
-                                </div>
+                    <!-- 現有照片預覽 -->
+                    <div class="col-sm-12 col-xl-6 mb-3">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-center">
+                                現有封面照片
+                            </div>
+                            <div class="card-body d-flex justify-content-center">
+                                <img id="existingPreview" src="data:image/jpeg;base64,@Model.Photo"
+                                    alt="Existing Image Preview" width="330" height="210">
                             </div>
                         </div>
+                    </div>
 
-                        <!-- 新照片上傳和預覽 -->
-                        <div class="col-sm-12 col-xl-6 mb-3">
-                            <div class="card">
-                                <div class="card-header d-flex justify-content-center">
-                                    新封面照片
+                    <!-- 新照片上傳和預覽 -->
+                    <div class="col-sm-12 col-xl-6 mb-3">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-center">
+                                新封面照片
+                            </div>
+                            <div class="card-body d-flex flex-column align-items-center">
+                                <!-- 預覽新上傳的照片 -->
+                                <div class="d-flex justify-content-center">
+                                    <img id="newPreview" src="" alt="New Image Preview" style="display:none;"
+                                        width="330" height="210">
                                 </div>
-                                <div class="card-body d-flex flex-column align-items-center">
-                                    <!-- 預覽新上傳的照片 -->
-                                    <div class="d-flex justify-content-center">
-                                        <img id="newPreview" src="" alt="New Image Preview" style="display:none;" width="330" height="210">
-                                    </div>
-                                    <!-- 上傳按鈕 -->
-                                    <div class="d-flex justify-content-center mt-3 w-100">
-                                        <input type="file" id="FileToUpload" name="photo" accept="image/*" onchange="previewImage(event, 'newPreview', 'base64Image')">
-                                    </div>
-                                    <!-- 用於存放Base64字串的隱藏輸入框 -->
-                                    <input type="hidden" id="base64Image" name="base64Image">
+                                <!-- 上傳按鈕 -->
+                                <div class="d-flex justify-content-center mt-3 w-100">
+                                    <input type="file" id="FileToUpload" name="FileToUpload" accept="image/*"
+                                        onchange="previewNewImage(event)">
                                 </div>
+                                <!-- 用於存放Base64字串的隱藏輸入框 -->
+                                <input type="hidden" id="base64Image" name="base64Image">
                             </div>
                         </div>
-                    }
-                    else
-                    {
-                        <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
-                            <div class="col-1">
-                                <label for="inputname" class="col-form-label">商品封面</label>
-                            </div>
-                            <div class="col-4">
-                                <div class="upload-container">
-                                    <label for="upload" class="label-upload">
-                                        <div class="icon">+</div>
-                                        <input type="file" name="photo" id="upload" class="upload-input" onchange="previewImage(event, 'preview')">
-                                    </label>
-                                    <img id="preview" src="" alt="Image Preview">
-                                </div>
-                            </div>
-                        </div>
-                    }
+                    </div>
+
 
 
 
 
                     <div class="row-sm-12 row-lg-6 mb-3 d-flex ps">
                         <div class="col-1">
-                            <label asp-for="ProductDescription" for="inputProductDescription" class="col-form-label">商品描述</label>
+                            <label asp-for="ProductDescription" for="inputProductDescription"
+                                class="col-form-label">商品描述</label>
                         </div>
                         <div class="col-4">
-                            <textarea asp-for="ProductDescription" data-validate="ProductDescription" data-error-message="商品描述是必填的" class="form-control" placeholder="Leave a comment here"
-                                      id="inputProductDescription" style="height: 200px;"></textarea>
+                            <textarea asp-for="ProductDescription" data-validate="ProductDescription"
+                                data-error-message="商品描述是必填的" class="form-control" placeholder="Leave a comment here"
+                                id="inputProductDescription" style="height: 200px;"></textarea>
                         </div>
                     </div>
 
@@ -167,7 +157,7 @@
                         </div>
                         <div class="col-4">
                             <input asp-for="Price" class="form-control mb-3" type="text" placeholder="這裡會帶入價格"
-                                   aria-label="這裡會帶入價格" id="inputprice">
+                                aria-label="這裡會帶入價格" id="inputprice">
                             <span asp-validation-for="Price" class="text-danger"></span>
                         </div>
                     </div>
@@ -177,8 +167,8 @@
                             <label asp-for="ProductInventory" for="inputinventory" class="col-form-label">商品庫存</label>
                         </div>
                         <div class="col-4">
-                            <input asp-for="ProductInventory" class="form-control mb-3" type="text" placeholder="這裡會帶入商品庫存"
-                                   aria-label="這裡會帶入商品庫存" id="inputinventory">
+                            <input asp-for="ProductInventory" class="form-control mb-3" type="text"
+                                placeholder="這裡會帶入商品庫存" aria-label="這裡會帶入商品庫存" id="inputinventory">
                             <span asp-validation-for="ProductInventory" class="text-danger"></span>
                         </div>
                     </div>
@@ -190,13 +180,15 @@
                         </div>
                         <div class="col-10 d-flex justify-content-start">
                             <div class="form-check me-3">
-                                <input class="form-check-input" type="radio" name="Status" id="gridRadios1" value="true" @(Model.Status == true ? "checked" : "")>
+                                <input class="form-check-input" type="radio" name="Status" id="gridRadios1" value="true"
+                                    @(Model.Status==true ? "checked" : "" )>
                                 <label class="form-check-label" for="gridRadios1">
                                     上架
                                 </label>
                             </div>
                             <div class="form-check me-3">
-                                <input class="form-check-input" type="radio" name="Status" id="gridRadios2" value="false" @(Model.Status == false ? "checked" : "")>
+                                <input class="form-check-input" type="radio" name="Status" id="gridRadios2"
+                                    value="false" @(Model.Status==false ? "checked" : "" )>
                                 <label class="form-check-label" for="gridRadios2">
                                     下架
                                 </label>
@@ -215,28 +207,30 @@
     </div>
 </div>
 <!-- Form End -->
-
-
+@section Scripts {
+@{
+await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 <script>
+
     //處理圖片上傳
 
-    function previewImage(event, previewElementId, hiddenInputId) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                // Set the image src for preview
-                document.getElementById(previewElementId).src = e.target.result;
+    // function previewImage(event, previewElementId, hiddenInputId) {
+    //     const file = event.target.files[0];
+    //     if (file) {
+    //         const reader = new FileReader();
+    //         reader.onload = function (e) {
+    //             // Set the image src for preview
+    //             document.getElementById(previewElementId).src = e.target.result;
 
-                // Store the base64 encoded image string in hidden input field
-                if (hiddenInputId) {
-                    document.getElementById(hiddenInputId).value = e.target.result;
-                }
-            }
-            reader.readAsDataURL(file);
-        }
-    }
-
+    //             // Store the base64 encoded image string in hidden input field
+    //             if (hiddenInputId) {
+    //                 document.getElementById(hiddenInputId).value = e.target.result;
+    //             }
+    //         }
+    //         reader.readAsDataURL(file);
+    //     }
+    // }
 
 
     //放置標題
@@ -245,111 +239,76 @@
         textElement.innerHTML = '商品管理 / 編輯商品';
     });
     //
-    const uploadInput = document.getElementById('upload');
-    const preview = document.getElementById('preview');
-    const icon = document.querySelector('.icon');
+    function previewNewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('newPreview');
+            output.src = reader.result;
+            output.style.display = 'block'; // 顯示新的預覽圖片
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
 
-    uploadInput.addEventListener('change', function () {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
+    // 確認按鈕的驗證
 
-            reader.addEventListener('load', function () {
-                preview.src = this.result;
-                preview.style.display = 'block';
-                icon.style.display = 'none';
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("EditForm");
+
+        form.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            // Validate all input fields
+            let allValid = true;
+            const elementsToValidate = document.querySelectorAll('[data-validate]');
+            elementsToValidate.forEach(function (element) {
+                if (!validate(element)) {
+                    allValid = false;
+                }
             });
 
-            reader.readAsDataURL(file);
-        }
-    });
-</script>
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+            // If any validation failed, stop the form submission
+            if (!allValid) {
+                await Swal.fire({
+                    icon: "error",
+                    title: "驗證錯誤",
+                    text: "請確認欄位是否符合正確格式",
+                    confirmButtonText: "OK"
+                });
+                return;
+            }
 
-
-
-<script>
-    @*     function previewNewImage(event) {
-        const file = event.target.files[0];
-        if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-        // Set the image src for preview
-        document.getElementById('newPreview').style.display = 'block';
-        document.getElementById('newPreview').src = e.target.result;
-
-        // Store the base64 encoded image string in hidden input field
-        document.getElementById('base64Image').value = e.target.result;
-        }
-        reader.readAsDataURL(file);
-        }
-        } *@
-
-
-        // 確認按鈕的驗證
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const form = document.getElementById("EditForm");
-
-            form.addEventListener("submit", async function (event) {
-                event.preventDefault();
-
-                // Validate all input fields
-                let allValid = true;
-                const elementsToValidate = document.querySelectorAll('[data-validate]');
-                elementsToValidate.forEach(function (element) {
-                    if (!validate(element)) {
-                        allValid = false;
-                    }
+            // Perform form submission using AJAX or fetch
+            try {
+                const response = await fetch('/Product/Edit', {
+                    method: "POST",
+                    body: new FormData(form)
                 });
 
-                // If any validation failed, stop the form submission
-                if (!allValid) {
+                if (response.ok) {
+                    // Show success message with confirm button
                     await Swal.fire({
-                        icon: "error",
-                        title: "驗證錯誤",
-                        text: "請確認欄位是否符合正確格式",
-                        confirmButtonText: "OK"
+                        icon: "success",
+                        title: "修改成功",
+                        text: "已成功修改一筆商品資料",
+                        showConfirmButton: true,
+                        confirmButtonText: "確認"
+                    }).then(() => {
+                        window.location.href = "/Product/List";
                     });
-                    return;
+                } else {
+                    throw new Error("表單提交失敗");
                 }
-
-                // Perform form submission using AJAX or fetch
-                try {
-                    const response = await fetch('/Product/Edit', {
-                        method: "POST",
-                        body: new FormData(form)
-                    });
-
-                    if (response.ok) {
-                        // Show success message with confirm button
-                        await Swal.fire({
-                            icon: "success",
-                            title: "修改成功",
-                            text: "已成功修改一筆商品資料",
-                            showConfirmButton: true,
-                            confirmButtonText: "確認"
-                        }).then(() => {
-                            window.location.href = "/Product/List";
-                        });
-                    } else {
-                        throw new Error("表單提交失敗");
-                    }
-                } catch (error) {
-                    // Show error message
-                    await Swal.fire({
-                        icon: "error",
-                        title: "錯誤",
-                        text: error.message,
-                        confirmButtonText: "OK"
-                    });
-                }
-            });
+            } catch (error) {
+                // Show error message
+                await Swal.fire({
+                    icon: "error",
+                    title: "錯誤",
+                    text: error.message,
+                    confirmButtonText: "OK"
+                });
+            }
         });
+    });
     //以下是表單驗證
     //以下是表單驗證
     //以下是表單驗證
@@ -374,7 +333,7 @@
     }
 
 
-    // 驗證函數
+    //驗證函數
     function validate(element) {
         const validateRule = element.getAttribute('data-validate');
         const errorMessage = element.getAttribute('data-error-message');
@@ -400,6 +359,23 @@
             }
         }
 
+        if (validateRule === 'ProductInventory') {
+            const regex = /^\d+$/;
+            if (!regex.test(element.value) || parseInt(element.value) <= 0) {
+                showErrorMessage(element, "數字不得小於等於0");
+                return false;
+            }
+        }
+
+
+        if (validateRule === 'Price') {
+            const regex = /^\d+$/;
+
+            if (!regex.test(element.value) || parseInt(element.value) <= 0) {
+                showErrorMessage(element, "數字不得小於0");
+                return false;
+            }
+        }
         clearErrorMessage(element);
         return true;
     }
@@ -424,17 +400,8 @@
             backendErrorMessageElement.textContent = '';
         }
     }
-    @*   // DEMO按钮
 
-        function fillVenueInfo() {
-        document.getElementById("inputProductName").value = "黑胡椒雞胸肉";
-        document.getElementById("inputProductDescription").value = "鮮嫩多汁，外酥裡嫩";
-        document.getElementById("inputPrice").value = "300";
-        document.getElementById("inputProductInventory").value = "50";
-        document.getElementById("gridRadios1").checked = true;
-
-        } *@
-                    const uploadInput = document.getElementById('upload'); // 確保你有一個id為'upload'的input元素
+    const uploadInput = document.getElementById('upload'); // 確保你有一個id為'upload'的input元素
 
     uploadInput.addEventListener('change', function () {
         const file = this.files[0];
@@ -463,3 +430,4 @@
     imageElement.src = base64FromDatabase;
 
 </script>
+}
