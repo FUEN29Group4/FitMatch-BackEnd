@@ -87,16 +87,25 @@ namespace FitMatch_BackEnd.Controllers
             {
                 if (p.photo != null)
                 {
-                    string photoName = Guid.NewGuid().ToString() + ".jpg";
+                    //string photoName = Guid.NewGuid().ToString() + ".jpg";
 
-                    //string path = Path.Combine(_enviro.WebRootPath, "/img/健康餐/", photoName);
-                    //using (var stream = new FileStream(path, mode: FileMode.Create))
-                    //{
-                    //    custDb.Photo = photoName;
-                    //}
-                    string path = _enviro.WebRootPath + "/img/健康餐/" + photoName;
-                    p.photo.CopyTo(new FileStream(path, FileMode.Create));
-                    custDb.Photo = photoName;
+                    //string path = _enviro.WebRootPath + "/img/健康餐/" + photoName;
+                    //p.photo.CopyTo(new FileStream(path, FileMode.Create));
+                    //custDb.Photo = photoName;
+
+
+                    // 使用 MemoryStream 讀取檔案
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        p.photo.CopyTo(memoryStream);
+                        byte[] imageBytes = memoryStream.ToArray();
+
+                        // Convert image to Base64
+                        string base64Image = Convert.ToBase64String(imageBytes);
+                        custDb.Photo = base64Image;
+                    }
+
+
                 }
                 // 更新 Approved 狀態
                 custDb.Status = p.Status;
@@ -151,16 +160,23 @@ namespace FitMatch_BackEnd.Controllers
             {
                 if (prodIn.photo != null)
                 {
-                    string photoName = Guid.NewGuid().ToString() + ".jpg";
+                    //string photoName = Guid.NewGuid().ToString() + ".jpg";
+                    //string path = _enviro.WebRootPath + "/img/健康餐/" + photoName;
+                    //prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
+                    //custDb.Photo = photoName;
 
-                    //string path = Path.Combine(_enviro.WebRootPath , "/images/" , photoName);
-                    //using (var stream = new FileStream(path, mode: FileMode.Create))
-                    //{
-                    //    custIn.photo = photoName;
-                    //}
-                    string path = _enviro.WebRootPath + "/img/健康餐/" + photoName;
-                    prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
-                    custDb.Photo = photoName;
+
+                    // 使用 MemoryStream 讀取檔案
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        prodIn.photo.CopyTo(memoryStream);
+                        byte[] imageBytes = memoryStream.ToArray();
+
+                        // Convert image to Base64
+                        string base64Image = Convert.ToBase64String(imageBytes);
+                        custDb.Photo = base64Image;
+                    }
+
                 }
 
                 // 更新 Approved 狀態

@@ -1,4 +1,9 @@
-﻿namespace FitMatch_BackEnd.Models
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace FitMatch_BackEnd.Models
 {
     public class CClassTypeWrap
     {
@@ -43,6 +48,6 @@
         }
 
         public IFormFile photo { get; set; }
-
+        public object FileToUpload { get; internal set; }
     }
 }

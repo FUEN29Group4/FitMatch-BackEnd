@@ -144,7 +144,7 @@
                                     <td>@Html.DisplayFor(modelItem => item.RestaurantsId)</td>
                                     <td>@Html.DisplayFor(modelItem => item.RestaurantsName)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Address)</td>
-                                    <td><img src="~/img/健康餐/@item.Photo" width="110" height="70" /></td>
+                                <td><img src="data:image/jpeg;base64, @item.Photo" width="110" height="70" /></td>
                                     <td>
                                         @{
                                             string reviewStatus = string.Empty;

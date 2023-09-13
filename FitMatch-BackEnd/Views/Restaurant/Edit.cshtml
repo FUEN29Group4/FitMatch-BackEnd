@@ -346,8 +346,8 @@
         }
 
         if (validateRule === 'RestaurantName') {
-            if (element.value.length < 5 || element.value.length > 50) {
-                showErrorMessage(element, "餐廳名稱應在5到50個字之間");
+            if (element.value.length < 2 || element.value.length > 50) {
+                showErrorMessage(element, "餐廳名稱應在2到50個字之間");
                 return false;
             }
         }
