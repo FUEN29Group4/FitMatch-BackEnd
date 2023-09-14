@@ -236,12 +236,11 @@
                                         </div>
                                         <div class="col-8">
                                             <div class="upload-container">
-                                                <label asp-for="Photo" for="upload" class="label-upload">
-                                                    <div class="icon">+</div>
-                                                    <input type="file" id="upload" class="upload-input"
-                                                           accept="image/*">
-                                                </label>
-                                                <img id="preview" src="" alt="Image Preview">
+                                            <label asp-for="Photo" for="upload" class="label-upload">
+                                                <div class="icon">+</div>
+                                                <input type="file" name="FileToUpload" id="upload" class="upload-input" accept="image/*">
+                                            </label>
+                                            <img id="preview" src="" alt="Image Preview">
                                             </div>
                                         </div>
                                     </div>
@@ -270,6 +269,18 @@
 
 @*JS區*@
 <script>
+
+    $(document).ready(function () {
+        $('#upload').on('change', function () {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#previewImage').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(this.files[0]);
+        });
+    });
     //放置標題
     document.addEventListener('DOMContentLoaded', function () {
         var textElement = document.getElementById('TitleName');

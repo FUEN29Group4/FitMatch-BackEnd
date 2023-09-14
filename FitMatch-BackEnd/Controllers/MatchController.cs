@@ -28,12 +28,11 @@ namespace FitMatch_BackEnd.Controllers
                                  join m in _db.Members on c.MemberId equals m.MemberId
                                  join t in _db.Trainers on c.TrainerId equals t.TrainerId
                                  join g in _db.Gyms on c.GymId equals g.GymId
-                                 join h in _db.ClassTypes on c.ClassTypeId equals h.ClassTypeId
                                  select new MatchViewModel
                                  {
                                      ClassId = c.ClassId,
                                      MemberId = c.MemberId,
-                                     ClassName = h.ClassName,
+                                     
                                      BuildTime = (DateTime)c.BuildTime,
                                      StartTime = (DateTime)c.StartTime,
                                      EndTime = (DateTime)c.EndTime,
@@ -43,7 +42,6 @@ namespace FitMatch_BackEnd.Controllers
                                      GymName = g.GymName,
                                      CourseStatus = c.CourseStatus,
                                      TrainerId = t.TrainerId,
-                                     ClassTypeId = h.ClassTypeId,
                                     
                                  });
 
@@ -87,7 +85,7 @@ namespace FitMatch_BackEnd.Controllers
 
         public IActionResult List(string searchField, string searchKeyword, DateTime? start, DateTime? end, string CourseStatus, int currentPage)
         {
-            int itemsPerPage = 5;
+            int itemsPerPage = 11;
 
             var viewModelList = GetFilteredData(searchField, searchKeyword, start, end, CourseStatus);
 
@@ -125,7 +123,6 @@ namespace FitMatch_BackEnd.Controllers
             }
 
             var viewModel = (from c in _db.Classes
-                             join ct in _db.ClassTypes on c.ClassTypeId equals ct.ClassTypeId
                              join m in _db.Members on c.MemberId equals m.MemberId
                              join t in _db.Trainers on c.TrainerId equals t.TrainerId
                              join g in _db.Gyms on c.GymId equals g.GymId
@@ -133,7 +130,6 @@ namespace FitMatch_BackEnd.Controllers
                              select new MatchViewModel
                              {
                                  ClassId = c.ClassId,
-                                 ClassName = ct.ClassName,
                                  BuildTime = (DateTime)c.BuildTime,
                                  StartTime = (DateTime)c.StartTime,
                                  EndTime = (DateTime)c.EndTime,
@@ -145,7 +141,6 @@ namespace FitMatch_BackEnd.Controllers
                                  //Approved = c.Approved,
                                  MemberId = m.MemberId,
                                  GymId = g.GymId,
-                                 ClassTypeId = (int)ct.ClassTypeId,
                                 
                              }).FirstOrDefault();
 
@@ -157,10 +152,7 @@ namespace FitMatch_BackEnd.Controllers
             var availableGyms = _db.Gyms.ToList();
             viewModel.AvailableGyms = availableGyms.Select(g => new SelectListItem { Text = g.GymName, Value = g.GymId.ToString() }).ToList();
             viewModel.SelectedGymId = viewModel.GymId; // 设置默认选择的 GymId
-            //ClassType設定
-            var availableClassType = _db.ClassTypes.ToList();
-            viewModel.AvailableClassType = availableClassType.Select(ct => new SelectListItem {Text = ct.ClassName, Value = ct.ClassTypeId.ToString() }).ToList();
-            viewModel.SelectedClassTypeId = viewModel.ClassTypeId; // 设置默认选择的 classTypeId
+
             //Member設定
             var availableMember = _db.Members.ToList();
             viewModel.AvailableMember = availableMember.Select(m => new SelectListItem { Text = m.MemberName, Value = m.MemberId.ToString() }).ToList();

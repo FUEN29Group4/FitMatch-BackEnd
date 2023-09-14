@@ -213,7 +213,9 @@
                         <!-- 照片 -->
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex justify-content-center">
                             <div class="upload-container">
-                                <img id="previewImage" src="~/img/會員/@Model.Photo" style="width:100%;" />
+@*                                <img id="previewImage" src="~/img/會員/@Model.Photo" style="width:100%;" />
+*@                            <img id="previewImage" src="data:image/jpeg;base64, @Model.Photo" style="width:100%;" />
+
                             </div>
                         </div>
                         <div class="row-sm-12 row-lg-6 mb-3 d-flex justify-content-center">
@@ -241,6 +243,18 @@
     }
 }
 <script>
+    $(document).ready(function () {
+        $('#upload').on('change', function () {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#previewImage').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(this.files[0]);
+        });
+    });
+
     //放置標題
     document.addEventListener('DOMContentLoaded', function () {
         var textElement = document.getElementById('TitleName');

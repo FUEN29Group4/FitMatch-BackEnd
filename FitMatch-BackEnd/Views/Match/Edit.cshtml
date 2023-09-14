@@ -73,11 +73,6 @@
                         </div>
 
                         <div class="form-group pb-3">
-                            <label asp-for="SelectedClassTypeId" class="control-label pb-1"></label>
-                            <select asp-for="SelectedClassTypeId" asp-items="Model.AvailableClassType" class="form-control"></select>
-                            <span asp-validation-for="SelectedClassTypeId" class="text-danger"></span>
-                        </div>
-                        <div class="form-group pb-3">
                             <label asp-for="SelectedTrainerId" class="control-label pb-1"></label>
                             <select asp-for="SelectedTrainerId" asp-items="Model.AvailableTrainer" class="form-control"></select>
                             <span asp-validation-for="SelectedTrainerId" class="text-danger"></span>
@@ -104,7 +99,9 @@
                             <label asp-for="CourseStatus" class="control-label pb-1"></label>
                             <select asp-for="CourseStatus" class="form-control">
                                 <option value="進行中">進行中</option>
+                                <option value="已過期">已過期</option>
                                 <option value="已完成">已完成</option>
+
                             </select>
                             <span asp-validation-for="CourseStatus" class="text-danger"></span>
                         </div>

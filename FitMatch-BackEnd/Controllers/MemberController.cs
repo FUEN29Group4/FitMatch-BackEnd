@@ -122,14 +122,24 @@ namespace FitMatch_BackEnd.Controllers
         }
 
         [HttpPost]
-        public IActionResult MemberCreate(Member m)
+        public async Task<IActionResult> MemberCreate(Member m, IFormFile profilePicture)
         {
-            FitMatchDbContext db = new FitMatchDbContext();
-            db.Members.Add(m);
-            db.SaveChanges();
-            return RedirectToAction("Member");
+            if (profilePicture != null && profilePicture.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await profilePicture.CopyToAsync(memoryStream);
+                    byte[] imageBytes = memoryStream.ToArray();
+                    string base64Image = Convert.ToBase64String(imageBytes);
+                    m.Photo = base64Image;
+                }
+            }
 
+            _context.Members.Add(m);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Member");
         }
+
 
         //判斷性別布林值 （要修修）
         //public IActionResult GenderType(bool? gendertype)
@@ -163,60 +173,45 @@ namespace FitMatch_BackEnd.Controllers
         [HttpPost]
         public async Task<IActionResult> MemberEdit(MemberWarap custIn)
         {
-            //FitMatchDbContext db = new FitMatchDbContext();
-            //Member custDb = db.Members.FirstOrDefault(t => t.MemberId== custIn.MemberId);
-
-            //增加驗證: 讓null值也可以被判斷
             if (custIn == null ||
-      string.IsNullOrEmpty(custIn.MemberName) ||
-      string.IsNullOrEmpty(custIn.Phone) ||
-      string.IsNullOrEmpty(custIn.Address) ||
-      string.IsNullOrEmpty(custIn.Email) ||
-      string.IsNullOrEmpty(custIn.Password))
+                string.IsNullOrEmpty(custIn.MemberName) ||
+                string.IsNullOrEmpty(custIn.Phone) ||
+                string.IsNullOrEmpty(custIn.Address) ||
+                string.IsNullOrEmpty(custIn.Email) ||
+                string.IsNullOrEmpty(custIn.Password))
             {
                 ModelState.AddModelError("", "所有欄位都是必填的");
                 return View(custIn);
             }
 
-
             Member m = _context.Members.FirstOrDefault(t => t.MemberId == custIn.MemberId);
 
-            if (custIn != null)
+            if (custIn.photo != null && custIn.photo.Length > 0)
             {
-                if (custIn.photo != null && custIn.photo.Length > 0)
+                using (var memoryStream = new MemoryStream())
                 {
-                    // 如果之前有舊圖片，先刪除
-                    if (!string.IsNullOrEmpty(m.Photo))
-                    {
-                        var oldPath = Path.Combine(_enviro.WebRootPath, "img", "會員", m.Photo);
-                        if (System.IO.File.Exists(oldPath))
-                        {
-                            System.IO.File.Delete(oldPath);
-                        }
-                    }
-                    string photoName = Guid.NewGuid().ToString() + ".jpg";
-                    string path = _enviro.WebRootPath + "/img/會員/" + photoName;
-                    using (var fileStream = new FileStream(path, FileMode.Create))
-                    {
-                        await custIn.photo.CopyToAsync(fileStream);
-                    }
-                    //prodIn.photo.CopyTo(new FileStream(path, FileMode.Create));
-                    m.Photo = photoName;
+                    await custIn.photo.CopyToAsync(memoryStream);
+                    byte[] imageBytes = memoryStream.ToArray();
+                    string base64String = Convert.ToBase64String(imageBytes);
+                    m.Photo = base64String;
                 }
-
-                m.MemberName = custIn.MemberName;
-                m.Phone = custIn.Phone;
-                m.Email = custIn.Email;
-                m.Address = custIn.Address;
-                m.Password = custIn.Password;
-                m.Gender = custIn.Gender;
-                m.CreatedAt = custIn.CreatedAt;
-                m.Birth = custIn.Birth;
-                m.Status = custIn.Status;
-                await _context.SaveChangesAsync();
             }
+
+            m.MemberName = custIn.MemberName;
+            m.Phone = custIn.Phone;
+            m.Email = custIn.Email;
+            m.Address = custIn.Address;
+            m.Password = custIn.Password;
+            m.Gender = custIn.Gender;
+            m.CreatedAt = custIn.CreatedAt;
+            m.Birth = custIn.Birth;
+            m.Status = custIn.Status;
+
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("Member");
         }
+
 
 
         public IActionResult MemberEditTest(int? id)
@@ -230,7 +225,7 @@ namespace FitMatch_BackEnd.Controllers
             return View(cust);
         }
         [HttpPost]
-        public IActionResult MemberEditTest(Member custIn)
+        public async Task<IActionResult> MemberEditTest(Member custIn, IFormFile photo)
         {
             FitMatchDbContext db = new FitMatchDbContext();
             Member custDb = db.Members.FirstOrDefault(t => t.MemberId == custIn.MemberId);
@@ -244,15 +239,25 @@ namespace FitMatch_BackEnd.Controllers
                 custDb.Password = custIn.Password;
                 custDb.Gender = custIn.Gender;
                 custDb.CreatedAt = custIn.CreatedAt;
-                custDb.Photo = custIn.Photo;
                 custDb.Birth = custIn.Birth;
+                if (photo != null && photo.Length > 0)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await photo.CopyToAsync(memoryStream);
+                        byte[] imageBytes = memoryStream.ToArray();
+                        string base64String = Convert.ToBase64String(imageBytes);
+                        custDb.Photo = base64String;
+                    }
+                }
                 db.SaveChanges();
             }
             return RedirectToAction("Member");
         }
 
 
-      
+
+
 
 
         ////--------- M-4:會員刪除（Delete）
@@ -273,7 +278,12 @@ namespace FitMatch_BackEnd.Controllers
 
 
 
-      
+        public class CMember
+        {
+            public int MemberId { get; set; }
+            public string? Photo { get; set; }
+            public IFormFile photo { get; set; }
+        }
 
 
 
