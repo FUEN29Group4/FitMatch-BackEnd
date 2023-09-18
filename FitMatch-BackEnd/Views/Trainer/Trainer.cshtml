@@ -330,6 +330,22 @@
         // 將更新的 URL 設置為新的頁面位置
         window.location.href = currentUrl.toString();
     }
+    //確認通過審核
+    const check = () => {
+        Swal.fire({
+            icon: 'success',
+            timer: 3000,
+            title: '審核通過',
+        })
+    }
+    //確認退回審核
+    const error = () => {
+        Swal.fire({
+            icon: 'error',
+            timer: 3000,
+            title: '退回審核',
+        })
+    }
 
 </script>
 
