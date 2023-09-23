@@ -189,7 +189,9 @@
                                     <label class="col-form-label">密碼</label>
                                 </div>
                                 <div class="col-8 ps-3">
-                                    <input asp-for="Password" data-validate="Password" data-error-message="密碼格式不正確" class="form-control mb-2" placeholder="請輸入密碼" />
+                                    @*<input asp-for="Password" data-validate="Password" data-error-message="密碼格式不正確" class="form-control mb-2" placeholder="請輸入密碼" />*@
+                                    <input type="text" value="●●●●●●" class="form-control mb-2" placeholder="請輸入密碼" />
+
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                 </div>
                             </div>

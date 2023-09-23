@@ -47,6 +47,7 @@ namespace FitMatch_BackEnd.Controllers
                 datas = datas.Where(p => p.Approved == approved.Value);
             }
 
+
             int totalDataCount = datas.Count(); // 使用篩選後的資料計算總數
             int totalPages = (totalDataCount + itemsPerPage - 1) / itemsPerPage;
             int validCurrentPage = Math.Max(1, Math.Min(currentPage, totalPages));

@@ -35,8 +35,10 @@ public partial class Trainer
     public int? Approved { get; set; }
     //public CApprovalStatus? Approved { get; set; }    //判斷審核通過與否
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
     [DisplayName("申請時間")]
+    public string CreatedAtFormatted => CreatedAt.ToString("yyyy-MM-dd HH:mm:ss");
+
     public string? Introduce { get; set; }
     [DisplayName("介紹")]
     public virtual ICollection<Class> Classes { get; set; } = new List<Class>();

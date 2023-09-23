@@ -184,7 +184,7 @@
                                     }
 
                                 </td>
-                                <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+                            <td>@Html.DisplayFor(modelItem => item.CreatedAtFormatted)</td>
                                 <td>
                                     <a href="@Url.Action("Details", "Trainer", new { id = item.TrainerId })" class="btn  btn-light text-white">
                                         查看履歷
