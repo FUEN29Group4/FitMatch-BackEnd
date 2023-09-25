@@ -57,9 +57,9 @@
 
                                     <option value="" selected disabled hidden>請選擇商品類別</option>
                                     <option value="1">雞胸肉</option>
-                                    <option value="2">保健品</option>
+                                    <option value="2">保健品/營養品</option>
                                     <option value="3">乳清蛋白</option>
-                                    <option value="4">補劑</option>
+                                    <option value="4">配件</option>
                                 </select>
                             </div>
                         </div>
@@ -143,9 +143,9 @@
                                 <td>@Html.DisplayFor(modelItem => item.ProductId)</td>
                                 <td>
                                     @(item.TypeId == 1 ? "雞胸肉" :
-                                    item.TypeId == 2 ? "保健品" :
+                                    item.TypeId == 2 ? "保健品/營養品" :
                                     item.TypeId == 3 ? "乳清蛋白" :
-                                    item.TypeId == 4 ? "補劑" :
+                                    item.TypeId == 4 ? "配件" :
                                     "未知類別")
                                 </td>
 
@@ -155,7 +155,7 @@
                                     <img src="data:image/jpeg;base64,@item.Photo" width="80" height="110" />
 
                                 </td>
-                                <td class="box">@Html.DisplayFor(modelItem => item.ProductDescription)</td>
+                                <td class="box" style="width:300px">@Html.DisplayFor(modelItem => item.ProductDescription)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Price)</td>
                                 <td>@Html.DisplayFor(modelItem => item.ProductInventory)</td>
                                 <td>@(item.Status == true ? "上架" : (item.Status == false ? "下架" : "待審核"))</td>
