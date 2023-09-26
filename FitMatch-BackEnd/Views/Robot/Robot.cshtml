@@ -11,9 +11,9 @@
         <div class="row g-4">-->
     @*關鍵的一個form*@
     <!--<form>
-        <div class="col">
+      @*  <div class="col">
             <div class="bg-white rounded h-100 p-4">
-                <div class="row pr-1">
+                <div class="row pr-1">*@
                     <!-- 第一區塊 -->
     <!--@*<div class="col-4 d-flex align-items-center justify-content-center">
             問題類型:
@@ -82,7 +82,7 @@
         <div class="bg-white text-center  rounded p-4">
 
             <div class="d-flex align-items-center justify-content-between mb-4">
-                <h5 class="mb-0 text-dark">問題管理列表</h5>
+                <h5 class="mb-0 text-dark">訊息管理列表</h5>
 
                 <a href="@Url.Action("RobotCreate", "Robot")" class="btn btn-primary  custom-purple">新增問題</a>
             </div>
@@ -189,7 +189,7 @@
 
         </div>
     </div>
-</div>
+@*</div>*@
 
 
 
@@ -200,7 +200,7 @@
     //放置標題
     document.addEventListener('DOMContentLoaded', function () {
         var textElement = document.getElementById('TitleName');
-        textElement.innerHTML = '機器人訊息管理';
+        textElement.innerHTML = '客服訊息管理';
     });
 // 清空功能
     $(document).ready(function () {

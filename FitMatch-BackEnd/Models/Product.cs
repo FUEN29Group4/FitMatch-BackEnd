@@ -31,8 +31,6 @@ public partial class Product
     [DisplayName("商品庫存")]
     public int? ProductInventory { get; set; }//商品庫存
 
-    [DisplayName("審核通過與否")]
-    public bool? Approved { get; set; }//審核通過與否
 
     [DisplayName("狀態")]
     public bool? Status { get; set; }

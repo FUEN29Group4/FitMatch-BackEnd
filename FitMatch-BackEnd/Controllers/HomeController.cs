@@ -42,35 +42,39 @@ namespace FitMatch_BackEnd.Controllers
         [HttpPost]
         public ActionResult Login(CLoginViewModel vm)
         {
-            string result256 = Get_SHA256_Hash(vm.txtPassword).ToUpper();
-            vm.txtPassword = result256.PadRight(16);
-
-
-            Employee user = (new FitMatchDbContext()).Employees.FirstOrDefault(t => t.Email.Equals(vm.txtAccount) && t.Password.Equals(vm.txtPassword));
-            if (user != null && user.Password.Equals(vm.txtPassword) && user.Status == true)
+            if (vm.txtAccount != null && vm.txtPassword != null)
             {
-                //if (user == null)
-                //{
-                //    return RedirectToAction("Login");
-                //}
-                string json = "";
-                CUserViewModel userviewModel = new CUserViewModel();
-
-                userviewModel.UserId = user.EmployeeId;
-                userviewModel.UserName = user.EmployeeName;
-                userviewModel.UserPhoto = user.Photo;
-
-                json = JsonSerializer.Serialize(userviewModel);
-                HttpContext.Session.SetString("User", json);
-
-                string jsonlogin = JsonSerializer.Serialize(user);
-                HttpContext.Session.SetString(CDictionary.SK_LOGINED_USER, jsonlogin);
+                string result256 = Get_SHA256_Hash(vm.txtPassword).ToUpper();
+                vm.txtPassword = result256.PadRight(16);
 
 
-                //return RedirectToAction("Index", user);
-                _logger.LogInformation("Redirecting to Index");
-                return RedirectToAction("Index");
+                Employee user = (new FitMatchDbContext()).Employees.FirstOrDefault(t => t.Email.Equals(vm.txtAccount) && t.Password.Equals(vm.txtPassword));
+                if (user != null && user.Password.Equals(vm.txtPassword) && user.Status == true)
+                {
+                    //if (user == null)
+                    //{
+                    //    return RedirectToAction("Login");
+                    //}
+                    string json = "";
+                    CUserViewModel userviewModel = new CUserViewModel();
+
+                    userviewModel.UserId = user.EmployeeId;
+                    userviewModel.UserName = user.EmployeeName;
+                    userviewModel.UserPhoto = user.Photo;
+
+                    json = JsonSerializer.Serialize(userviewModel);
+                    HttpContext.Session.SetString("User", json);
+
+                    string jsonlogin = JsonSerializer.Serialize(user);
+                    HttpContext.Session.SetString(CDictionary.SK_LOGINED_USER, jsonlogin);
+
+
+                    //return RedirectToAction("Index", user);
+                    _logger.LogInformation("Redirecting to Index");
+                    return RedirectToAction("Index");
+                }
             }
+
             ModelState.AddModelError("", "");
             return PartialView("Login", ModelState);
         }

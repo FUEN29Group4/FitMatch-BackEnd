@@ -35,7 +35,7 @@ namespace FitMatch_BackEnd.ViewModel
         public List<SelectListItem> AvailableMember { get; set; } // 新添加的属性
         public List<SelectListItem> AvailableTrainer { get; set; } // 新添加的属性
         
-        [DisplayName("健身房名稱")]
+        [DisplayName("場館名稱")]
 
         public int SelectedGymId { get; set; } // 用户选择的 GymId
         [DisplayName("課程名稱")]
