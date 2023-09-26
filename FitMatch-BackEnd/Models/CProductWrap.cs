@@ -44,11 +44,6 @@
             get { return _product.TypeId; }
             set { _product.TypeId = value; }
         }
-        public bool? Approved
-        {
-            get { return _product.Approved; }
-            set { _product.Approved = value; }
-        }
 
         public int? ProductInventory
         {
