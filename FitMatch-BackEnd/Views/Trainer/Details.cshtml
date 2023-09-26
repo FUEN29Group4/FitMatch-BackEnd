@@ -50,202 +50,203 @@
 
 
 @*放內容哩*@
-    <!-- Form Start -->
-    <div class="container-fluid pt-4 px-4">
-        <form>
-            <div class="bg-secondary rounded h-100 p-4">
-                <div class="row pb-2">
-                    <div class="col-4 ">
-                        <a asp-controller="Trainer" asp-action="Trainer" class="btn btn-outline-success">返回</a>
+<!-- Form Start -->
+<div class="container-fluid pt-4 px-4">
+    <form>
+        <div class="bg-secondary rounded h-100 p-4">
+            <div class="row pb-2">
+                <div class="col-4 ">
+                    <a asp-controller="Trainer" asp-action="Trainer" class="btn btn-outline-success">返回</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-4 col-xs-12">
+                    <!-- <div class="row-6"> -->
+                    <div class="rounded-circle ms-5" style="height: 200px;width: 200px; overflow:hidden;">
+                        @*<img src="./img/教練/team-1.jpg" style="width:100%;" alt="">*@
+                        @*@Html.DisplayNameFor(model => model.Photo)*@
+                        <img id="previewImage" src="data:image/jpeg;base64, @Model.Photo" style="width:100%;" />
+                        @*<img src="~/img/教練/@Model.Photo" style="width:100%;" alt="Photo">*@
+                        @*<img src="~/images/@item.FImagePath" width="110" height="70" />*@
+                    </div>
+                    <!-- </div> -->
+                </div>
+                <div class="col-xl-4 col-xs-12">
+                    <div class="row">
+                        <div class="col-4">
+                            <label id="inputname" class="col-form-label fw-bold">姓名</label>
+                        </div>
+                        <div class="col-8">
+                            <label id="inputcname" class="col-form-label" disabled>@Model.TrainerName</label>
+                        </div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4">
+                            <label id="inputname" class="col-form-label fw-bold">性別</label>
+                        </div>
+                        <div class="col-8">
+                            <label id="inputename" class="col-form-label" disabled>
+                                @if (Model.Gender.HasValue)
+                                {
+                                    @(Model.Gender.Value ? "女" : "男")
+                                }
+                                else
+                                {
+                                    @: 未知
+                                }
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4">
+                            <label id="inputname" class="col-form-label fw-bold">電話號碼</label>
+                        </div>
+                        <div class="col-8">
+                            <label id="inputphone" class="col-form-label" disabled>@Model.Phone</label>
+                        </div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4">
+                            <label id="inputemail" class="col-form-label fw-bold">Email</label>
+                        </div>
+                        <div class="col-8">
+                            <label id="inputemail" class="col-form-label" disabled>@Model.Email</label>
+                        </div>
+                    </div>
+
+                    <div class="row pt-1">
+                        <div class="col-4">
+                            <label id="inputname" class="col-form-label fw-bold">居住地址</label>
+                        </div>
+                        <div class="col-8">
+                            <label id="inputadd" class="col-form-label" disabled>@Model.Address</label>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xl-4 col-xs-12">
-                        <!-- <div class="row-6"> -->
-                        <div class="rounded-circle ms-5" style="height: 200px;width: 200px; overflow:hidden;">
-                            @*<img src="./img/教練/team-1.jpg" style="width:100%;" alt="">*@
-                            @*@Html.DisplayNameFor(model => model.Photo)*@
-                        <img id="previewImage" src="data:image/jpeg;base64, @Model.Photo" style="width:100%;" />
-                            @*<img src="~/img/教練/@Model.Photo" style="width:100%;" alt="Photo">*@
-                            @*<img src="~/images/@item.FImagePath" width="110" height="70" />*@
-                        </div>
-                        <!-- </div> -->
-                    </div>
-                    <div class="col-xl-4 col-xs-12">
-                        <div class="row">
-                            <div class="col-4">
-                                <label id="inputname" class="col-form-label fw-bold">姓名</label>
-                            </div>
-                            <div class="col-8">
-                                <label id="inputcname" class="col-form-label" disabled>@Model.TrainerName</label>
-                            </div>
-                        </div>
-                        <div class="row pt-1">
-                            <div class="col-4">
-                                <label id="inputname" class="col-form-label fw-bold">性別</label>
-                            </div>
-                            <div class="col-8">
-                                <label id="inputename" class="col-form-label" disabled>
-                                    @if (Model.Gender.HasValue)
-                                    {
-                                        @(Model.Gender.Value ? "女" : "男")
-                                    }
-                                    else
-                                    {
-                                        @: 未知
-                                    }
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row pt-1">
-                            <div class="col-4">
-                                <label id="inputname" class="col-form-label fw-bold">電話號碼</label>
-                            </div>
-                            <div class="col-8">
-                                <label id="inputphone" class="col-form-label" disabled>@Model.Phone</label>
-                            </div>
-                        </div>
-                        <div class="row pt-1">
-                            <div class="col-4">
-                                <label id="inputemail" class="col-form-label fw-bold">Email</label>
-                            </div>
-                            <div class="col-8">
-                                <label id="inputemail" class="col-form-label" disabled>@Model.Email</label>
-                            </div>
-                        </div>
 
-                        <div class="row pt-1">
-                            <div class="col-4">
-                                <label id="inputname" class="col-form-label fw-bold">居住地址</label>
-                            </div>
-                            <div class="col-8">
-                                <label id="inputadd" class="col-form-label" disabled>@Model.Address</label>
-                            </div>
+
+
+                <div class="col-xl-4 col-xs-12">
+                    <div class="row">
+                        <div class="col-4">
+                            <label id="inputname" class="col-form-label fw-bold">教練編號</label>
+                        </div>
+                        <div class="col-8">
+                            <label id="inputid" class="col-form-label" disabled>@Model.TrainerId</label>
+                        </div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4">
+                            <label for="inputname" class="col-form-label fw-bold">
+                                審核狀態
+                            </label>
+                        </div>
+                        <div class="col-8">
+                            <label id="inputgym2" class="col-form-label" disabled>
+                                @if (Model.Approved.HasValue)
+                                {
+                                    switch ((CApprovalStatus)Model.Approved.Value)
+                                    {
+                                        case CApprovalStatus.UnderReview:
+                                            @: 審核中
+                                            break;
+                                        case CApprovalStatus.Approved:
+                                            @: 審核通過
+                                            break;
+                                        case CApprovalStatus.Rejected:
+                                            @: 退回審核
+                                            break;
+                                        default:
+                                            @: 未知
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    @: 未知
+                                }
+                            </label>
                         </div>
                     </div>
 
-
-
-                    <div class="col-xl-4 col-xs-12">
-                        <div class="row">
-                            <div class="col-4">
-                                <label id="inputname" class="col-form-label fw-bold">教練編號</label>
-                            </div>
-                            <div class="col-8">
-                                <label id="inputid" class="col-form-label" disabled>@Model.TrainerId</label>
-                            </div>
+                    <div class="row pt-1">
+                        <div class="col-4">
+                            <label for="inputname" class="col-form-label fw-bold">希望待遇</label>
                         </div>
-                        <div class="row pt-1">
-                            <div class="col-4">
-                                <label for="inputname" class="col-form-label fw-bold">
-                                    審核狀態
-                                </label>
-                            </div>
-                            <div class="col-8">
-                                <label id="inputgym2" class="col-form-label" disabled>
-                                    @if (Model.Approved.HasValue)
-                                    {
-                                        switch ((CApprovalStatus)Model.Approved.Value)
-                                        {
-                                            case CApprovalStatus.UnderReview:
-                                                @: 審核中
-                                                break;
-                                            case CApprovalStatus.Approved:
-                                                @: 審核通過
-                                                break;
-                                            case CApprovalStatus.Rejected:
-                                                @: 退回審核
-                                                break;
-                                            default:
-                                                @: 未知
-                                                break;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        @: 未知
-                                    }
-                                </label>
-                            </div>
+                        <div class="col-8">
+                            <label id="inputgym2" class="col-form-label" disabled>
+                                @Model.CourseFee
+                            </label>
                         </div>
-
-                        <div class="row pt-1">
-                            <div class="col-4">
-                                <label for="inputname" class="col-form-label fw-bold">希望待遇</label>
-                            </div>
-                            <div class="col-8">
-                                <label id="inputgym2" class="col-form-label" disabled>
-                                    @Model.CourseFee
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row pt-1 pb-5">
-                            <div class="col-4">
-                                <label for="inputname" class="col-form-label fw-bold">申請時間</label>
-                            </div>
-                            <div class="col-8">
-                                <label id="inputgym2" class="col-form-label" disabled>
-                                    @Model.CreatedAt
-                                </label>
-                            </div>
-                        </div>
-
                     </div>
-                    <hr>
-                    <!-- ---------------- -->
-                    @*<div class="row mx-5">*@
-                        @*<div class="row pt-3">
+                    <div class="row pt-1 pb-5">
+                        <div class="col-4">
+                            <label for="inputname" class="col-form-label fw-bold">申請時間</label>
+                        </div>
+                        <div class="col-8">
+                            <label id="inputgym2" class="col-form-label" disabled>
+                                @Model.CreatedAt
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+                <hr>
+                <!-- ---------------- -->
+                <div class="row mx-5">
+                    @*<div class="row pt-3">
+                    <div class="col-2">
+                    <label id="inputname" class="col-form-label fw-bold">配合場館</label>
+                    </div>
+                    <div class="col-8">
+                    <div class="row-6 pb-2">
+                    <label id="inputgym1" class="col-form-label" disabled>新莊運動中心、北投運動中心</label>
+                    </div>
+                    </div>
+                    </div>*@
+                    <div class="col-6">
+                        <div class="row pt-3">
                             <div class="col-2">
-                                <label id="inputname" class="col-form-label fw-bold">配合場館</label>
+                                <label for="inputname" class="col-form-label fw-bold" disabled>專長</label>
                             </div>
                             <div class="col-8">
-                                <div class="row-6 pb-2">
-                                    <label id="inputgym1" class="col-form-label" disabled>新莊運動中心、北投運動中心</label>
-                                </div>
+                                <ul>
+                                    @foreach (var expertise in Model.Expertise.Split(','))
+                                    {
+                                        <li>@expertise.Trim()</li>
+                                    }
+                                </ul>
                             </div>
-                        </div>*@
-
-                    <div class="row pt-3">
-                        <div class="col-2">
-                            <label for="inputname" class="col-form-label fw-bold" disabled>專長</label>
                         </div>
-                        <div class="col-8">
-                            <ul>
-                                @foreach (var expertise in Model.Expertise.Split(','))
-                                {
-                                    <li>@expertise.Trim()</li>
-                                }
-                            </ul>
+
+                        <div class="row pt-3">
+                            <div class="col-2">
+                                <label for="inputname" class="col-form-label fw-bold">專業證照</label>
+                            </div>
+                            <div class="col-8">
+                                <ul>
+                                    @foreach (var certificate in Model.Certificate.Split(','))
+                                    {
+                                        <li>@certificate.Trim()</li>
+                                    }
+                                </ul>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="row pt-3">
-                        <div class="col-2">
-                            <label for="inputname" class="col-form-label fw-bold">專業證照</label>
+                    <div class="col-6">
+                        <div class="row pt-3">
+                            <div class="col-2">
+                                <label for="inputname" class="col-form-label fw-bold">經歷</label>
+                            </div>
+                            <div class="col-8">
+                                <ul>
+                                    @foreach (var experience in Model.Experience.Split(','))
+                                    {
+                                        <li>@experience.Trim()</li>
+                                    }
+                                </ul>
+                            </div>
                         </div>
-                        <div class="col-8">
-                            <ul>
-                                @foreach (var certificate in Model.Certificate.Split(','))
-                                {
-                                    <li>@certificate.Trim()</li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="row pt-3">
-                        <div class="col-2">
-                            <label for="inputname" class="col-form-label fw-bold">經歷</label>
-                        </div>
-                        <div class="col-8">
-                            <ul>
-                                @foreach (var experience in Model.Experience.Split(','))
-                                {
-                                    <li>@experience.Trim()</li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
                         <div class="row pt-3">
                             <div class="col-2">
                                 <label for="inputname" class="col-form-label fw-bold">自我介紹</label>
@@ -259,10 +260,11 @@
                     </div>
                 </div>
             </div>
-        </form>
-        <!-- Form End -->
-    </div>
-    <!-- Content End -->
+        </div>
+    </form>
+    <!-- Form End -->
+</div>
+<!-- Content End -->
 <!-- Content END -->
 @*內容結束*@
 

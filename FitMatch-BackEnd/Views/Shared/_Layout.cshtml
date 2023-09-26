@@ -63,7 +63,7 @@
 
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="fa-solid fa-user-group me-2"></i>人員管理
+                                <i class="fa-solid fa-user-group me-2"></i>身份管理
                             </a>
                             <div class="dropdown-menu bg-transparent border-0">
                             <a asp-controller="Employee" asp-action="Employee" class="dropdown-item">員工管理</a>
@@ -77,13 +77,13 @@
                                 <i class="fa-solid fa-calendar-check me-2"></i>媒合作業管理
                             </a>
                             <div class="dropdown-menu bg-transparent border-0">
+                            <a class="dropdown-item" asp-controller="Match" asp-action="List">媒合預約管理</a>
                             <a class="dropdown-item" asp-controller="ClassType" asp-action="List">課程管理</a>
                             <a class="dropdown-item" asp-controller="Gym" asp-action="Gym">場館管理</a>
-                            <a class="dropdown-item" asp-controller="Match" asp-action="List">媒合管理</a>
                         </div>
                         </div>
 
-                        <div class="nav-item dropdown">
+                       @* <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                                 <i class="fa fa-laptop me-2"></i>專欄管理
                             </a>
@@ -91,7 +91,7 @@
                             <a class="dropdown-item" asp-controller="Article" asp-action="Article">相關新聞管理</a>
                             <a class="dropdown-item" asp-controller="Article" asp-action="Article">系統公告管理</a>
                             </div>
-                        </div>
+                        </div>*@
 
 
                         <div class="nav-item dropdown">
@@ -109,20 +109,23 @@
                     <a class="nav-item nav-link" asp-controller="Restaurant" asp-action="List">
                         <i class="fa-solid fa-utensils me-2"></i>健康餐管理
                     </a>
+                    <a class="nav-item nav-link" asp-controller="Robot" asp-action="Robot">
+                        <i class="far fa-file-alt me-2"></i>客服訊息管理
+                    </a>
 
 
-                        <div class="nav-item dropdown">
+                      @*  <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                                 <i class="far fa-file-alt me-2"></i>客服管理
                             </a>
                             <div class="dropdown-menu bg-transparent border-0">
 
-                                <a asp-controller="Robot" asp-action="Robot" class="dropdown-item">機器人訊息</a>
+                                <a asp-controller="Robot" asp-action="Robot" class="dropdown-item">客服訊息</a>*@
                                 @*<a href="Backstage_Perset_Question.html" class="dropdown-item">預設問題</a>
                                 <a href="Backstage_Customer_Servies.html" class="dropdown-item">所有客訴單</a>
                                 <a href="Backstage_Customer_Message_Management.html" class="dropdown-item">訊息管理</a>*@
-                            </div>
-                        </div>
+                           @* </div>
+                        </div>*@
 
                     </div>
                 </nav>
