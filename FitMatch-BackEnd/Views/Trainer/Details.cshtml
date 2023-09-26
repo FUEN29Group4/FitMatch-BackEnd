@@ -193,8 +193,8 @@
                     </div>
                     <hr>
                     <!-- ---------------- -->
-                    <div class="row mx-5">
-                        <div class="row pt-3">
+                    @*<div class="row mx-5">*@
+                        @*<div class="row pt-3">
                             <div class="col-2">
                                 <label id="inputname" class="col-form-label fw-bold">配合場館</label>
                             </div>
@@ -203,41 +203,49 @@
                                     <label id="inputgym1" class="col-form-label" disabled>新莊運動中心、北投運動中心</label>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
-                        <div class="row pt-3">
-                            <div class="col-2">
-                                <label for="inputname" class="col-form-label fw-bold" disabled>專長</label>
-                            </div>
-                            <div class="col-8">
-                                <div class="row">
-                                    <label id="inputgym2" class="col-form-label"
-                                           disabled>
-                                        @Model.Expertise
-                                    </label>
-                                </div>
-                            </div>
+                    <div class="row pt-3">
+                        <div class="col-2">
+                            <label for="inputname" class="col-form-label fw-bold" disabled>專長</label>
                         </div>
-                        <div class="row pt-3">
-                            <div class="col-2">
-                                <label for="inputname" class="col-form-label fw-bold">專業證照</label>
-                            </div>
-                            <div class="col-8">
-                                <label class="col-form-label" id="inputgym2" name="mytext">
-                                    @Model.Certificate
-                                </label>
-                            </div>
+                        <div class="col-8">
+                            <ul>
+                                @foreach (var expertise in Model.Expertise.Split(','))
+                                {
+                                    <li>@expertise.Trim()</li>
+                                }
+                            </ul>
                         </div>
-                        <div class="row pt-3">
-                            <div class="col-2 pt-2">
-                                <label for="inputname" class="col-form-label fw-bold">經歷</label>
-                            </div>
-                            <div class="col-8">
-                                <label id="inputgym2" class="col-form-label">
-                                    @Model.Experience
-                                </label>
-                            </div>
+                    </div>
+
+                    <div class="row pt-3">
+                        <div class="col-2">
+                            <label for="inputname" class="col-form-label fw-bold">專業證照</label>
                         </div>
+                        <div class="col-8">
+                            <ul>
+                                @foreach (var certificate in Model.Certificate.Split(','))
+                                {
+                                    <li>@certificate.Trim()</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="row pt-3">
+                        <div class="col-2">
+                            <label for="inputname" class="col-form-label fw-bold">經歷</label>
+                        </div>
+                        <div class="col-8">
+                            <ul>
+                                @foreach (var experience in Model.Experience.Split(','))
+                                {
+                                    <li>@experience.Trim()</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
                         <div class="row pt-3">
                             <div class="col-2">
                                 <label for="inputname" class="col-form-label fw-bold">自我介紹</label>
