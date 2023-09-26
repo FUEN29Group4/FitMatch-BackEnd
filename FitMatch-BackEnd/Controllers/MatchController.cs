@@ -171,43 +171,41 @@ namespace FitMatch_BackEnd.Controllers
         [HttpPost]
         public IActionResult Edit(MatchViewModel editedViewModel)
         {
+            // 获取要编辑的 Class 实体对象
+            Class classData = _db.Classes.FirstOrDefault(c => c.ClassId == editedViewModel.ClassId);
 
-                // 获取要编辑的 Class 实体对象
-                Class classData = _db.Classes.FirstOrDefault(c => c.ClassId == editedViewModel.ClassId);
+            if (classData != null)
+            {
+                Gym gymData = _db.Gyms.FirstOrDefault(g => g.GymId == editedViewModel.SelectedGymId);
+                Member member = _db.Members.FirstOrDefault(m => m.MemberId == editedViewModel.SelectedMemberId);
+                Trainer trainer = _db.Trainers.FirstOrDefault(t => t.TrainerId == editedViewModel.SelectedTrainerId);
 
-                if (classData != null)
+                if (gymData != null && member != null && trainer != null)
                 {
-                    // 根据编辑视图模型中的 ClassName 查询数据库，查找对应的 ClassType 实体对象
-                    ClassType classTypeData = _db.ClassTypes.FirstOrDefault(ct => ct.ClassTypeId == editedViewModel.SelectedClassTypeId);
-                    Gym gymData = _db.Gyms.FirstOrDefault(g => g.GymId == editedViewModel.SelectedGymId);
-                    Member member = _db.Members.FirstOrDefault(m=>m.MemberId == editedViewModel.SelectedMemberId);
-                    Trainer trainer = _db.Trainers.FirstOrDefault(t=>t.TrainerId == editedViewModel.SelectedTrainerId);
-                    if (classTypeData != null)
-                    {
-                        // 更新 Class 实体对象的 ClassTypeId 为选定的 ClassType 的 ClassTypeId
-                        classData.ClassTypeId = classTypeData.ClassTypeId;
-                        classData.GymId = gymData.GymId;
-                        classData.MemberId = member.MemberId;
-                        classData.TrainerId = trainer.TrainerId;
-                        classData.CourseStatus = editedViewModel.CourseStatus;
-                        // 更新其他属性的修改
-                        classData.StartTime = editedViewModel.StartTime;
+                    // 更新 Class 实体对象的相关属性
+                    classData.GymId = gymData.GymId;
+                    classData.MemberId = member.MemberId;
+                    classData.TrainerId = trainer.TrainerId;
+                    classData.CourseStatus = editedViewModel.CourseStatus;
+
+                    // 更新其他属性的修改
+                    classData.StartTime = editedViewModel.StartTime;
                     classData.EndTime = editedViewModel.StartTime.AddHours(1);
                     classData.BuildTime = DateTime.Now;
+
                     // ... 根据需要应用其他属性的修改
 
                     // 保存更改到数据库
                     _db.SaveChanges();
 
-                        return RedirectToAction("List"); // 重定向到列表视图
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "无法找到匹配的 ClassType，请选择有效的 ClassName。");
-                        // 返回编辑视图，显示错误消息
-                        return View(editedViewModel);
-                    }
-                
+                    return RedirectToAction("List"); // 重定向到列表视图
+                }
+                else
+                {
+                    ModelState.AddModelError("", "无法找到匹配的数据，请确保选择了有效的 Gym, Member 和 Trainer。");
+                    // 返回编辑视图，显示错误消息
+                    return View(editedViewModel);
+                }
             }
 
             return View(editedViewModel); // 如果 ModelState 无效或编辑失败，显示编辑视图
