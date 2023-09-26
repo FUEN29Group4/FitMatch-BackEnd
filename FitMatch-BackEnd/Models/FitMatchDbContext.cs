@@ -77,16 +77,13 @@ public partial class FitMatchDbContext : DbContext
             entity.Property(e => e.ClassId)
                 .ValueGeneratedNever()
                 .HasColumnName("ClassID");
-            entity.Property(e => e.ClassTypeId).HasColumnName("ClassTypeID");
             entity.Property(e => e.EndTime).HasColumnType("datetime");
             entity.Property(e => e.GymId).HasColumnName("GymID");
             entity.Property(e => e.MemberId).HasColumnName("MemberID");
             entity.Property(e => e.StartTime).HasColumnType("datetime");
             entity.Property(e => e.TrainerId).HasColumnName("TrainerID");
 
-            entity.HasOne(d => d.ClassType).WithMany(p => p.Classes)
-                .HasForeignKey(d => d.ClassTypeId)
-                .HasConstraintName("FK_Class_ClassTypes");
+
 
             entity.HasOne(d => d.Trainer).WithMany(p => p.Classes)
                 .HasForeignKey(d => d.TrainerId)

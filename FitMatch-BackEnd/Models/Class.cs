@@ -8,7 +8,6 @@ public partial class Class
 {
     public int ClassId { get; set; }
 
-    public int? ClassTypeId { get; set; }
 
     public int? TrainerId { get; set; }
 
@@ -19,14 +18,13 @@ public partial class Class
     public DateTime? StartTime { get; set; }
 
     public DateTime? EndTime { get; set; }
-    
-    public bool Approved { get; set; }
+    public int? CourseUnitPrice { get; set; }
+    public int? VenueReservationID { get; set; }
     public DateTime? BuildTime { get; set; }
     public string? CourseStatus { get; set; }
     [DisplayName("課程狀態")]
 
 
-    public virtual ClassType? ClassType { get; set; }
 
     public virtual ICollection<MemberFavorite> MemberFavorites { get; set; } = new List<MemberFavorite>();
 

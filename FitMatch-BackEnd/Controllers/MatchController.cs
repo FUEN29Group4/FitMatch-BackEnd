@@ -55,9 +55,7 @@ namespace FitMatch_BackEnd.Controllers
             {
                 switch (searchField)
                 {
-                    case "ClassName":
-                        viewModelList = viewModelList.Where(vm => vm.ClassName.Contains(searchKeyword));
-                        break;
+
                     case "MemberName":
                         viewModelList = viewModelList.Where(vm => vm.MemberName.Contains(searchKeyword));
                         break;

@@ -15,5 +15,4 @@ public partial class ClassType
 
     public int? Status { get; set; }
 
-    public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
 }
