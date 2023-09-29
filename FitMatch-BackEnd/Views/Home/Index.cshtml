@@ -5,7 +5,7 @@
     ViewData["Title"] = "Home Page";
 }
 
-    <!-- Sale & Revenue Start -->
+   @*  <!-- Sale & Revenue Start -->
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
             <div class="col-sm-6 col-xl-3">
@@ -70,11 +70,42 @@
             </div>
         </div>
     </div>
-    <!-- Sales Chart End -->
+    <!-- Sales Chart End --> *@
+
+    <div>
+
+
+    <iframe title="01" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=80465535-de30-4614-8405-a84ffda1f77c&autoAuth=true&ctid=84efb004-f1d0-470d-b650-eb39069d10fe" frameborder="0" allowFullScreen="true"></iframe>
+    
+
+
+</div>
+
+
+
 <script>
     //放置標題
     document.addEventListener('DOMContentLoaded', function () {
         var textElement = document.getElementById('TitleName');
         textElement.innerHTML = '首頁';
     });
+
+
+    function show(pageName, filterValue) {
+
+        var newUrl = baseUrl + "&pageName=" + pageName;
+
+        if (null != filterValue && "" != filterValue) {
+
+            newUrl += "&$filter=Industries/Industry eq '" + filterValue + "'";
+
+        }
+
+        //Assumes there's an iFrame on the page with id="iFrame"
+
+        var report = document.getElementById("iFrame")
+
+        report.src = newUrl;
+
+    }
 </script>
