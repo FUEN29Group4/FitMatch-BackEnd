@@ -30,7 +30,9 @@ namespace FitMatch_BackEnd.Controllers
         public IActionResult Trainer(int currentPage, string txtKeyword, int? trainerApproved = null, string? city = "", int? approved = null)
         {
             int itemsPerPage = 8;
-            IQueryable<Trainer> datas = from p in _context.Trainers select p;
+            //IQueryable<Trainer> datas = from p in _context.Trainers select p;
+            //倒序
+            IQueryable<Trainer> datas = from p in _context.Trainers orderby p.TrainerId descending select p; // Step 2
 
             if (!string.IsNullOrWhiteSpace(txtKeyword))
             {
